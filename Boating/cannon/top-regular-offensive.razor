@@ -20,6 +20,11 @@ hotkey '> Interrupt'
 hotkey "Cancel Current Target"
 say "[RegularAbility"
 getlabel backpack ping
+
+if tallis_Ocean_UsingSPK = 1
+    
+endif
+
 if insysmsg "fire its cannons again"
     overhead "Cannons Cooling..." 38
     hotkey "Play Script: Automation\PoonerBot\master"
