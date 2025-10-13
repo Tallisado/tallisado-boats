@@ -1,0 +1,40 @@
+# Bapeths Smart Disembark and Recall Boarding
+#
+# Script will loop into 'Master Background' if you have it in your script library
+#
+# This script acts as both an embark and disembark hotkey
+#
+# Script starts here
+overhead "Disembark All"
+pause 50
+clearsysmsg 
+say '[Embark'
+getlabel backpack ping
+warmode off
+if insysmsg 'That is not a valid location'
+    overhead 'Try Again...' 45
+    replay
+elseif insysmsg 'That is too far away'
+    overhead 'Try Again...' 45
+    replay
+elseif insysmsg 'Target cannot be seen'
+    overhead 'Try Again...' 45
+    replay
+elseif insysmsg 'The requested target is out of range'
+    overhead 'Try Again...' 45
+    replay
+endif
+
+if insysmsg "You do not have any valid at the moment"
+    hotkey "Play Script: Automation\PoonerBot\master"
+    stop
+endif
+
+if insysmsg "you are already"
+    say "[disembark"
+    wft 500
+    while targetexists 
+        //do nothing
+    endwhile
+endif
+hotkey "Play Script: Automation\PoonerBot\master"

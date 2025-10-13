@@ -1,0 +1,180 @@
+# Bapeths Ship Launcher
+#
+# Updated March 30th 2025
+# 
+#
+# Script will loop into 'Master Background' if you have it in your script library
+# Run this script near any friendly boats to add any and all friendly crew to the ignore list
+#
+# This script will launch your ship, ready crew, and load cannons
+#
+# Script starts here
+
+clearsysmsg 
+overhead 'Launch sequence initiated...' 45
+if cooldown 'launch' > 0
+    overhead "Launch timer to wait .."
+endif
+while cooldown 'launch' > 0
+    pause 1000 // Optional: pause to reduce CPU usage
+endwhile
+if not findtype 5365 backpack
+    overhead 'I forgot a Spyglass...' 38
+    overhead 'Launch Aborted' 38
+    stop
+endif
+if not findtype "aspect crystal" backpack
+    overhead "I could use Aspect Crystals..." 78
+    pause 400
+endif
+if skill "Magery" >= 80 and followers = 0
+    overhead "I should get some followers..." 45
+    pause 400
+endif
+
+if skill "Arms Lore" >= 80 and not timerexists disarmcheck
+    createtimer disarmcheck
+    settimer disarmcheck 90000
+elseif skill "Arms Lore" >= 80 and timerexists disarmcheck
+    clearsysmsg 
+    for 4
+        if timer disarmcheck >= 90000
+            say "[Disarm" 
+            getlabel backpack ping
+            if insysmsg "You will now attempt to disarm your opponents."
+                settimer disarmcheck 0
+                break
+            endif
+        endif
+    endfor
+endif
+
+if skill "Arcane" >= 80 and not gumpexists 3954121934
+    say '[abilityhotbar'
+    waitforgump 3954121934 500
+endif
+
+if skill "Chivalry" >= 80 and not gumpexists 3954121934
+    say '[abilityhotbar'
+    waitforgump 3954121934 500
+endif
+
+if findtype 3763|3762|3740|3742|10245|20008|20006|20014|20016|20012|20010 backpack as instrument
+    @ignore instrument
+endif
+if findtype 3834 backpack 0 as bbook
+    @ignore bbook
+endif
+
+pause 500
+
+for 25
+    hotkey "Next Monster Target"
+    @setvar bdockmaster lasttarget
+    if noto bdockmaster = "invulnerable"
+        getlabel bdockmaster desc
+        if "dockmaster" in desc
+            menu bdockmaster 1
+            getlabel backpack ping
+            if gumpexists 3287496917
+                overhead "Which ship shall I captain?" 88
+                while not targetexists 
+                    //donothing
+                endwhile
+                getlabel backpack ping
+                if insysmsg 'You have traveled'
+                    overhead 'Travel cooldown...' 38
+                    overhead 'Launch Aborted' 38
+                    gumpclose 3287496917
+                    stop
+                elseif insysmsg 'You have been onboard'
+                    overhead 'Onboard cooldown...' 38
+                    overhead 'Launch Aborted' 38
+                    hotkey "Cancel Current Target"
+                    gumpclose 3287496917
+                    stop
+                endif
+                wft 500
+                overhead "Select Launch Location" 88
+                while targetexists 
+                    //donothing
+                endwhile
+                getlabel backpack ping
+                gumpclose 3287496917
+                break
+            endif
+        endif
+    endif
+endfor
+
+if insysmsg 'A ship cannot be placed'
+    overhead 'Cannot place there...' 38
+    overhead 'Try again...' 38
+    gumpclose 3287496917
+    replay
+elseif insysmsg 'That location is too far away'
+    overhead 'Cannot place there...' 38
+    overhead 'Try again...' 38
+    gumpclose 3287496917
+    replay
+elseif insysmsg 'You have been onboard'
+    overhead 'Onboard cooldown...' 38
+    overhead 'Launch Aborted' 38
+    hotkey "Cancel Current Target"
+    gumpclose 3287496917
+    stop
+elseif insysmsg "while on a house"
+    overhead "I cannot place that from inside this house..." 38
+    overhead "Launch Aborted..." 38
+    gumpclose 3287496917
+    gumpclose 4216593270
+    stop
+endif
+while not dead
+    clearsysmsg 
+    say "[Embark" 45
+    getlabel backpack ping
+    say "[EmbarkFollowers" 45
+    getlabel backpack ping
+    say "[Reload" 88
+    overhead '*Reloading*' 45
+    getlabel backpack ping
+    say "[ReadyCrew" 45
+    getlabel backpack ping
+    if insysmsg "may ready the crew"
+        overhead "Crew is not ready..." 38
+        pause 600
+    endif
+    while not gumpexists 3329337894
+        say "[TargetingMode" 45
+        getlabel backpack ping
+    endwhile
+    if gumpexists 4216593270
+        gumpclose 4216593270
+    endif
+    overhead "Set my Hatch..." 77
+    setlasttarget 
+    wft 500
+    while targetexists 
+        //donothing
+    endwhile
+    @setvar "shiphold" lasttarget 
+    if not find "shiphold" ground -1 -1 22
+        overhead "Error, launch code resetting..." 38
+        replay
+    endif
+    if not gumpexists 4216593270
+        say "[ship"
+        waitforgump 4216593270 500
+    endif
+    say "[shiphotbars"
+    say "[targetingmode"
+    if skill "Necromancy" >= 50 and not gumpexists 622436516
+        say [necromancyhotbar
+        pause 250
+    endif
+    hotkey "Cancel Current Target"
+    overhead "Launch Sequence Complete..." 88
+    warmode off
+    stop
+endwhile

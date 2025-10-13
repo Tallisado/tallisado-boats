@@ -1,0 +1,2036 @@
+#####################################
+### You should not have to edit this file ever.
+#####
+# 11/11/2024 stream - 1.10
+# 11/11/2024 stream - 1.9
+# 11/08/2024 stream - 1.8
+# 11/08/2024 stream - 1.7
+# 11/06/2024 stream - 1.6
+# 11/06/2024 stream - 1.5
+# 11/04/2024 stream - 1.4
+# 11/04/2024 stream - 1.3
+# 11/02/2024 stream - 1.2
+# 11/01/2024 stream - 1.1
+# 10/31/2024 stream - 1.0
+#####################################
+if jaseowns_ShowVersion = 1
+    overhead "Dexxer Bot Base 1.10" 76
+endif
+
+# Premium Dexxer Bot- BASE
+
+settimer baseInitTimerExample 0
+
+#  Auto Target (options)
+#   - Allow old style targetting (peace mode is auto attack)
+#   - [x] Let the user select
+#   - [x] Range checks based on Archery 
+#   - Range check Longshot / Harpooner
+#   - [x] Automatically Select
+#   - [x] Switch as needed (LOS)
+#   - [x] WAR is fighting, PEACE is not
+#   - [x] Handle line of sight
+
+#  Bard abilities
+#   - [x] Use bard ability for LOS instead of armslore
+#   - [x] fix archery range
+#   - if in peace mode and low health, auto aoe peace
+#   - Allow a person to choose what goes first
+#   - [x] Peacemaking  
+#   - [x] Discordance
+#   - Provo (maybe?)
+
+#  Handle world saves
+#   - [x] Handle PVP (pvp cooldown or something) avoid targetting mobs
+#  Stop/drop gold if over weight
+#  Arrows/Bolts overhead?
+
+#  Healing
+#   - [x] Bandages (make more dynamic)
+#   - [x] Potions
+#   - [x] Chiv heal - Holy Light
+#   - [x] Chiv heal - Noble Sac
+#   - cleansing brew
+#   - overhead for less than bandaid count
+
+# Chiv
+#   - Potentially allow order priority
+#   - Divine Fury didnt go off when i thought it should (reserve might be it)
+
+#  Alchemy
+#   - [x] Explosion potions
+#   - [x] Pancea 
+#   - Freeedom - test in Kraul (tar guy), wildwood (knock down?), petram 1, giant black widows
+
+#  Poisoning
+#   - [x] Poison Weapon
+#   - [x] Bane (fencing codex)
+
+#  Codex weapon abilities
+#  Wrestling Codex (or others)
+
+#  Animal Taming
+#   - Vet - single target 
+#   - Vet - supplies aoe
+#   - Setting tank pet or multiple pets
+#   - Pet commands
+
+#  Handle disarm
+
+#  Maybe Pile
+#  - Make this work for a boat (maybe)
+#  - Adding in stealther build backstabber (maybe)
+#  - skinning even blue corpse
+#  - handle kegs?
+
+#  11/08/2024
+# Bard stuff
+
+#  11/06/2024
+#  Potions
+#   - explosion
+#   - [x] refresh
+#   - [x] str/dex/resist
+#   - [x] overheads if needed -- THIS SUCKS COUNTS SUCK we are going to fix this outside the game
+#   - [x] handle heal potion correctly
+
+#  11/04/2024
+#  Parrying
+#   - [x] Auto Taunt on/off
+#   - [x] Taunt aoe / Taunt target
+#   - [x] Stance codex options
+
+#  11/02/2024
+#  - [x] AOE Taunt
+#  - [x] Added all the chiv abilities
+
+#  11/01/2024
+#  - [x] Cleansebyfire
+#  - [x] CloseWounds
+#  - [x] Food Buff
+#  - [x] Taunting
+
+#  10/31/2024
+#  - [x] Tracking
+#  - [x] Skinning (self)
+
+@setvar! jaseowns_CurrentBotTarget 0
+@setvar! jaseowns_FightingRangeCheck 12
+
+if not varexist jaseowns_CurrentBotTargetOverheadTimerCD
+    @setvar! jaseowns_CurrentBotTargetOverheadTimerCD 2000
+endif
+
+if not varexist jaseowns_CurrentBotTargetUnableToAttackOverheadTimerCD
+    @setvar! jaseowns_CurrentBotTargetUnableToAttackOverheadTimerCD 2000
+endif
+
+if not varexist jaseowns_IgnoreMobOverheadTimerCD
+    @setvar! jaseowns_IgnoreMobOverheadTimerCD 2000
+endif
+
+settimer jaseowns_CurrentBotTargetOverheadTimer jaseowns_CurrentBotTargetOverheadTimerCD
+settimer jaseowns_CurrentBotTargetUnableToAttackOverheadTimer jaseowns_CurrentBotTargetUnableToAttackOverheadTimerCD
+settimer jaseowns_IgnoreMobOverheadTimer jaseowns_IgnoreMobOverheadTimerCD
+
+@setvar! jaseowns_HolyLightTimerCD 30000
+if not timerexists jaseowns_HolyLightTimer
+    settimer jaseowns_HolyLightTimer jaseowns_HolyLightTimerCD
+endif
+@setvar! jaseowns_NobleSacrificeTimerCD 30000
+if not timerexists jaseowns_NobleSacrificeTimer
+    settimer jaseowns_NobleSacrificeTimer jaseowns_NobleSacrificeTimerCD
+endif
+@setvar! jaseowns_DivineFuryTimerCD 30000
+if not timerexists jaseowns_DivineFuryTimer
+    settimer jaseowns_DivineFuryTimer jaseowns_DivineFuryTimerCD
+endif
+@setvar! jaseowns_ConsecrateWeaponTimerCD 30000
+if not timerexists jaseowns_ConsecrateWeaponTimer
+    settimer jaseowns_ConsecrateWeaponTimer jaseowns_ConsecrateWeaponTimerCD
+endif
+@setvar! jaseowns_CleanseByFireTimerCD 30000
+if not timerexists jaseowns_CleanseByFireTimer
+    settimer jaseowns_CleanseByFireTimer jaseowns_CleanseByFireTimerCD
+endif
+@setvar! jaseowns_CloseWoundsTimerCD 30000
+if not timerexists jaseowns_CloseWoundsTimer
+    settimer jaseowns_CloseWoundsTimer jaseowns_CloseWoundsTimerCD
+endif
+@setvar! jaseowns_EnemyOfOneTimerCD 30000
+if not timerexists jaseowns_EnemyOfOneTimer
+    settimer jaseowns_EnemyOfOneTimer jaseowns_EnemyOfOneTimerCD
+endif
+
+@setvar! jaseowns_UseItemTimerCD 650
+settimer jaseowns_UseItemTimer jaseowns_UseItemTimerCD
+
+if not varexist jaseowns_Potion_HealHpDiffTrigger
+    @setvar! jaseowns_Potion_HealHpDiffTrigger 40
+endif
+if not varexist jaseowns_Potion_CureHpDiffTrigger
+    @setvar! jaseowns_Potion_CureHpDiffTrigger 0
+endif
+
+if jaseowns_Potion_ShowOverheads = 1
+    if not varexist jaseowns_Potion_Cure_Overhead_IfCountIsLessThan
+        @setvar! jaseowns_Potion_Cure_Overhead_IfCountIsLessThan 5
+    endif
+    if not varexist jaseowns_Potion_Cure_Overhead_IfCountIsLessThan_TimerCD
+        @setvar! jaseowns_Potion_Cure_Overhead_IfCountIsLessThan_TimerCD 5000
+    endif
+    settimer jaseowns_Potion_Cure_Overhead_IfCountIsLessThan_Timer jaseowns_Potion_Cure_Overhead_IfCountIsLessThan_TimerCD
+    if not varexist jaseowns_Potion_Heal_Overhead_IfCountIsLessThan
+        @setvar! jaseowns_Potion_Heal_Overhead_IfCountIsLessThan 5
+    endif
+    if not varexist jaseowns_Potion_Heal_Overhead_IfCountIsLessThan_TimerCD
+        @setvar! jaseowns_Potion_Heal_Overhead_IfCountIsLessThan_TimerCD 5000
+    endif
+    settimer jaseowns_Potion_Heal_Overhead_IfCountIsLessThan_Timer jaseowns_Potion_Heal_Overhead_IfCountIsLessThan_TimerCD
+
+    if not varexist jaseowns_Potion_Explosion_Overhead_IfCountIsLessThan
+        @setvar! jaseowns_Potion_Explosion_Overhead_IfCountIsLessThan 5
+    endif
+    if not varexist jaseowns_Potion_Explosion_Overhead_IfCountIsLessThan_TimerCD
+        @setvar! jaseowns_Potion_Explosion_Overhead_IfCountIsLessThan_TimerCD 5000
+    endif
+    settimer jaseowns_Potion_Explosion_Overhead_IfCountIsLessThan_Timer jaseowns_Potion_Explosion_Overhead_IfCountIsLessThan_TimerCD
+    
+endif
+
+cooldown "Moving" 5000
+if not cooldown "Moving"
+    overhead "We do not have the cooldown..." 34
+    overhead "Moving" 79
+else
+    cooldown "Moving" 0
+endif
+
+if skill "Parrying" < 80
+    @setvar! jaseowns_AutoTaunting 0
+    @setvar! jaseowns_AutoAOETaunting 0
+else
+
+    cooldown "Bulwark" 5000
+    if not cooldown "Bulwark"
+        overhead "We do not have the cooldown..." 34
+        overhead "Bulwark" 79
+    else
+        cooldown "Bulwark" 0
+    endif
+
+    if not varexist jaseowns_Parry_SwitchCodexTimerCD
+        @setvar! jaseowns_Parry_SwitchCodexTimerCD 1000
+    endif
+    
+    if not varexist jaseowns_Parry_CodexMinMana
+        @setvar! jaseowns_Parry_CodexMinMana 3
+    endif
+
+    if not varexist jaseowns_Parry_SwitchToWardingIfBleedingHpDiff
+        @setvar! jaseowns_Parry_SwitchToWardingIfBleedingHpDiff 0
+    endif
+    
+    if not varexist jaseowns_Parry_SwitchToWardingIfDiseaseHpDiff
+        @setvar! jaseowns_Parry_SwitchToWardingIfDiseaseHpDiff 0
+    endif
+    
+    if not varexist jaseowns_Parry_SwitchToWardingIfPoisonHpDiff
+        @setvar! jaseowns_Parry_SwitchToWardingIfPoisonHpDiff 0
+    endif
+
+    if not timerexists jaseowns_Parry_SwitchCodexTimer
+        settimer jaseowns_Parry_SwitchCodexTimer jaseowns_Parry_SwitchCodexTimerCD
+    endif
+
+    if not varexist jaseowns_TauntingTimerCD
+        @setvar! jaseowns_TauntingTimerCD 15000
+    endif
+    
+    if not timerexists jaseowns_TauntingTimer
+        settimer jaseowns_TauntingTimer jaseowns_TauntingTimerCD
+    endif
+endif
+
+if not varexist jaseowns_Potion_RefreshStamDiffTrigger
+    @setvar! jaseowns_Potion_RefreshStamDiffTrigger 5
+endif
+
+@setvar! jaseowns_PotionSatchel backpack
+if findlayer self Outerbody as jaseowns_MaybePotionSatchel
+    @setvar! jaseowns_PotionSatchel jaseowns_MaybePotionSatchel
+endif
+
+if skill "Discordance" >= 50 and jaseowns_Bard_DiscordAutomatically = 1
+    @setvar! jaseowns_Bard_CanDiscord 1
+else
+    @setvar! jaseowns_Bard_CanDiscord 0
+endif
+
+if skill "Peacemaking" >= 50 and jaseowns_Bard_PeaceAutomatically = 1
+    @setvar! jaseowns_Bard_CanPeacemake 1
+else
+    @setvar! jaseowns_Bard_CanPeacemake 0
+endif
+
+settimer jaseowns_BOT_BardBuffTimer 10000
+
+clearsysmsg 
+
+if jaseowns_AutoExplodePot = 1
+    @setvar! jaseowns_AutoExplodePotTimerCD 15000
+    settimer jaseowns_AutoExplodePotTimer jaseowns_AutoExplodePotTimerCD
+endif
+
+@setvar! jaseowns_UsedSkillTimerCD 10000
+settimer jaseowns_UsedSkillTimer jaseowns_UsedSkillTimerCD
+
+overhead "Base checks: {{baseInitTimerExample}}"
+
+@setvar! jaseowns_BOT_PoisonWeaponTimerCD 8000
+settimer jaseowns_BOT_PoisonWeaponTimer jaseowns_BOT_PoisonWeaponTimerCD
+
+if jaseowns_ForceAbilitiesHotBarToShow = 1 and not gumpexists 3954121934
+    say "[abilitieshotbar"
+    waitforgump 3954121934 1000
+endif
+
+if not varexist jaseowns_UseAbilityTimerCD
+    @setvar! jaseowns_UseAbilityTimerCD 30500
+endif
+settimer jaseowns_UseAbilityTimer jaseowns_UseAbilityTimerCD
+
+if skill "Alchemy" < 80
+    @setvar! jaseowns_HasPanacea 0
+endif
+
+if not varexist jaseowns_UsePanaceaTimerCD
+    @setvar! jaseowns_UsePanaceaTimerCD 30500
+endif
+if not timerexists jaseowns_UsePanaceaTimer
+    settimer jaseowns_UsePanaceaTimer jaseowns_UsePanaceaTimerCD
+endif
+
+@setvar! jaseowns_BOT_Poisoner_UseBane 0
+
+if not varexist jaseowns_BOT_CurrentRightHandWeapon
+    @setvar! jaseowns_BOT_CurrentRightHandWeapon 0
+endif
+if findlayer self righthand as jaseowns_RightHandWeapon
+    @setvar! jaseowns_BOT_CurrentRightHandWeapon jaseowns_RightHandWeapon
+endif
+
+if not varexist jaseowns_BOT_CurrentLeftHandWeapon
+    @setvar! jaseowns_BOT_CurrentLeftHandWeapon 0
+endif
+if findlayer self lefthand as jaseowns_LeftHandWeapon
+    @setvar! jaseowns_BOT_CurrentLeftHandWeapon jaseowns_LeftHandWeapon
+endif
+
+### OCEAN EDIT ###
+
+### Ocean: Begging Timer 
+if not varexist undead_Ocean_UseBeggingTimerCD
+    @setvar! undead_Ocean_UseBeggingTimerCD 20000
+endif
+if not timerexists undead_Ocean_UseBeggingTimer
+    settimer undead_Ocean_UseBeggingTimer undead_Ocean_UseBeggingTimerCD
+endif
+
+## Ocean: Crew Healing Timer
+if not varexist undead_Ocean_CrewHealBandages_TimerCD
+    @setvar! undead_Ocean_CrewHealBandages_TimerCD 5000
+endif
+if not timerexists undead_Ocean_CrewHealBandages_Timer
+    settimer undead_Ocean_CrewHealBandages_Timer undead_Ocean_CrewHealBandages_TimerCD
+endif
+
+## Ocean: Crew Attack Timer
+if not varexist undead_Ocean_CrewAttackTimerCD
+    @setvar! undead_Ocean_CrewAttackTimerCD 15000
+endif
+if not timerexists undead_Ocean_CrewAttackTimer
+    settimer undead_Ocean_CrewAttackTimer undead_Ocean_CrewAttackTimerCD
+endif
+
+if not varexist undead_Ocean_CrewAttackEnable
+    @setvar! undead_Ocean_CrewAttackEnable 1
+endif
+
+if not varexist undead_Ocean_FrostRescue
+    @setvar! undead_Ocean_FrostRescue 1
+endif
+
+if not varexist undead_Ocean_FrostRescue_hp_trigger
+    @setvar! undead_Ocean_FrostRescue_hp_trigger 25
+endif
+
+if not varexist undead_Ocean_Switch_Warmode_If_CannonsCD
+    @setvar! undead_Ocean_Switch_Warmode_If_CannonsCD 1
+endif
+
+if not varexist undead_Ocean_Switch_Warmode_If_CannonsCD_TimerCD
+    @setvar! undead_Ocean_Switch_Warmode_If_CannonsCD_TimerCD 15000
+endif
+if not timerexists undead_Ocean__Switch_Warmode_If_CannonsCD_Timer
+    settimer undead_Ocean_Switch_Warmode_If_CannonsCD_Timer undead_Ocean_Switch_Warmode_If_CannonsCD_TimerCD
+endif
+
+
+
+
+### /OCEAN EDIT ###
+
+while not dead
+
+### OCEAN EDIT ###
+    ### Ocean: Rearm Harpoons maybe no more needed, check jaseowns_BOT_CurrentRightHandWeapon
+    if lhandempty and skill 'fishing' >= 80 and findtype 31169|31172 as weapon
+       overhead 'weapon rearmed'
+       dclick weapon
+       wait 500
+    endif
+            
+
+    ## Ocean: Find Bombs on Deck
+    if findtype "5188" ground -1 -1 22 as bomb
+        overhead "***BOMB***" 34 bomb
+    endif
+
+    ## Ocean: Begging
+    if skill "Begging" > 0 and timer undead_Ocean_UseBeggingTimer >= undead_Ocean_UseBeggingTimerCD
+        skill 'begging'
+        overhead "Crew Motivated" undead_overhead_ocean
+        cooldown "Begging" undead_Ocean_UseBeggingTimerCD
+        settimer undead_Ocean_UseBeggingTimer 0
+    endif
+
+### /OCEAN EDIT ###
+    
+    if casting 
+        settimer jaseowns_UseItemTimer 0
+    endif
+
+    if not queued and find jaseowns_BOT_CurrentRightHandWeapon backpack and timer jaseowns_UseItemTimer >= jaseowns_UseItemTimerCD
+        dclick jaseowns_BOT_CurrentRightHandWeapon
+        settimer jaseowns_UseItemTimer 0
+    elseif not queued and find jaseowns_BOT_CurrentLeftHandWeapon backpack and timer jaseowns_UseItemTimer >= jaseowns_UseItemTimerCD
+        dclick jaseowns_BOT_CurrentLeftHandWeapon
+        settimer jaseowns_UseItemTimer 0
+    endif
+    
+
+    if jaseowns_Poison_AutomaticallyApply = 1 and skill "Poisoning" >= 50 and timer jaseowns_BOT_PoisonWeaponTimer >= jaseowns_BOT_PoisonWeaponTimerCD
+        if counttype 3850 jaseowns_PotionSatchel or counttype 3850 backpack
+            @setvar! jaseowns_BOT_CurrentWeapon 0
+            if findlayer self righthand as jaseowns_RightHandWeapon
+                @setvar! jaseowns_BOT_CurrentWeapon jaseowns_RightHandWeapon
+            elseif findlayer self lefthand as jaseowns_LeftHandWeapon
+                @setvar! jaseowns_BOT_CurrentWeapon jaseowns_LeftHandWeapon
+            endif
+            if jaseowns_BOT_CurrentWeapon != 0
+                getlabel jaseowns_BOT_CurrentWeapon jaseowns_BOT_CurrentWeaponDesc
+                if "poison charge" in jaseowns_BOT_CurrentWeaponDesc
+                    @setvar! jaseowns_BOT_Poisoner_UseBane 1
+                    settimer jaseowns_BOT_PoisonWeaponTimer 4000
+                    if jaseowns_Poison_AutomaticallyApplyAtSingleCharge = 1 
+                       if "(1 lethal" in jaseowns_BOT_CurrentWeaponDesc or "(1 deadly" in jaseowns_BOT_CurrentWeaponDesc or "(1 greater" in jaseowns_BOT_CurrentWeaponDesc
+                            menu jaseowns_BOT_CurrentWeapon 0
+                            settimer jaseowns_BOT_PoisonWeaponTimer 0
+                        endif
+                    endif
+                    // do nothing (add a timer to avoid checking this nonstop)
+                else
+                    menu jaseowns_BOT_CurrentWeapon 0
+                    settimer jaseowns_BOT_PoisonWeaponTimer 0
+                endif
+            endif
+        endif
+    endif
+
+# Potions remaining
+# Out of potions
+# only x amount of warnings per run
+
+#@setvar! jaseowns_Potion_Cure_Overhead_IfCountIsLessThan 5
+
+    #settimer DebugTimer 0
+
+    if jaseowns_Potion_ShowOverheads = 1
+    
+        if timer jaseowns_Potion_Cure_Overhead_IfCountIsLessThan_Timer >= jaseowns_Potion_Cure_Overhead_IfCountIsLessThan_TimerCD
+            @setvar! jaseowns_BOT_CurePotionCount 0
+            if counttype 3847 jaseowns_PotionSatchel as jaseowns_TempPotionCount
+                @setvar! jaseowns_BOT_CurePotionCount jaseowns_TempPotionCount
+            elseif counttype 3847 backpack as jaseowns_TempPotionCount
+                @setvar! jaseowns_BOT_CurePotionCount jaseowns_TempPotionCount
+            endif
+            if jaseowns_BOT_CurePotionCount < jaseowns_Potion_Cure_Overhead_IfCountIsLessThan
+                if jaseowns_BOT_CurePotionCount = 0
+                    overhead "Cure: Out of cures" 34
+                else
+                    overhead "Cures Remaining: {{jaseowns_BOT_CurePotionCount}}"
+                endif
+            endif
+            settimer jaseowns_Potion_Cure_Overhead_IfCountIsLessThan_Timer 0
+        endif
+        
+        if timer jaseowns_Potion_Heal_Overhead_IfCountIsLessThan_Timer >= jaseowns_Potion_Heal_Overhead_IfCountIsLessThan_TimerCD
+            @setvar! jaseowns_BOT_HealPotionCount 0
+            if counttype 3852 jaseowns_PotionSatchel as jaseowns_TempPotionCount
+                @setvar! jaseowns_BOT_HealPotionCount jaseowns_TempPotionCount
+            elseif counttype 3852 backpack as jaseowns_TempPotionCount
+                @setvar! jaseowns_BOT_HealPotionCount jaseowns_TempPotionCount
+            endif
+            if jaseowns_BOT_HealPotionCount < jaseowns_Potion_Heal_Overhead_IfCountIsLessThan
+                if jaseowns_BOT_HealPotionCount = 0
+                    overhead "Heal: Out of heals" 34
+                else
+                    overhead "Heal Remaining: {{jaseowns_BOT_HealPotionCount}}"
+                endif
+            endif
+            settimer jaseowns_Potion_Heal_Overhead_IfCountIsLessThan_Timer 0
+        endif
+        
+        if timer jaseowns_Potion_Explosion_Overhead_IfCountIsLessThan_Timer >= jaseowns_Potion_Explosion_Overhead_IfCountIsLessThan_TimerCD
+            @setvar! jaseowns_BOT_ExplosionPotionCount 0
+            if counttype 3853 jaseowns_PotionSatchel as jaseowns_TempPotionCount
+                @setvar! jaseowns_BOT_ExplosionPotionCount jaseowns_TempPotionCount
+            elseif counttype 3853 backpack as jaseowns_TempPotionCount
+                @setvar! jaseowns_BOT_ExplosionPotionCount jaseowns_TempPotionCount
+            endif
+            if jaseowns_BOT_ExplosionPotionCount < jaseowns_Potion_Explosion_Overhead_IfCountIsLessThan
+                if jaseowns_BOT_ExplosionPotionCount = 0
+                    overhead "Explosion: Out of explosions" 34
+                else
+                    overhead "Explosion Remaining: {{jaseowns_BOT_ExplosionPotionCount}}"
+                endif
+            endif
+            settimer jaseowns_Potion_Explosion_Overhead_IfCountIsLessThan_Timer 0
+        endif
+        
+    endif
+
+    #overhead "Potion logic: {{DebugTimer}}"
+    
+    # Potion Overheads
+
+    //findtype 3847 self
+
+    if not queued and not findbuff "food" and findtype "tray" backpack as jaseowns_FoodItem
+        if timer jaseowns_UseItemTimer >= jaseowns_UseItemTimerCD
+            dclick jaseowns_FoodItem
+            settimer jaseowns_UseItemTimer 0
+        endif
+    endif
+    
+    if jaseowns_HasPanacea = 1 and timer jaseowns_UsePanaceaTimer >= jaseowns_UsePanaceaTimerCD
+        if findbuff "bleed" or findbuff "disease"
+            if findtype 3847 self 0 as jaseowns_UseItem
+                dclick jaseowns_UseItem
+                cooldown "Panacea" jaseowns_UsePanaceaTimerCD
+                settimer jaseowns_UsePanaceaTimer 0
+            endif
+        endif
+    endif
+    
+    # Potions
+    if not queued and jaseowns_Potion_UseCureAutomatically = 1 and poisoned and diffhits >= jaseowns_Potion_CureHpDiffTrigger and findtype 3847 self as jaseowns_Potion
+        if timer jaseowns_UseItemTimer >= jaseowns_UseItemTimerCD
+            dclick jaseowns_Potion
+            settimer jaseowns_UseItemTimer 0
+        endif
+    endif
+    
+    if jaseowns_Potion_UseHealAutomatically = 1 and diffhits >= jaseowns_Potion_HealHpDiffTrigger and findtype 3852 self as jaseowns_Potion
+        if timer jaseowns_UseItemTimer >= jaseowns_UseItemTimerCD
+            getlabel jaseowns_Potion jaseowns_PotionDesc
+            if "next usable in" in jaseowns_PotionDesc
+                // do nothing
+            else
+                dclick jaseowns_Potion
+                settimer jaseowns_UseItemTimer 0
+            endif
+        endif
+    endif
+
+    if not queued and jaseowns_Potion_UseRefreshAutomatically = 1 and diffstam >= jaseowns_Potion_RefreshStamDiffTrigger and findtype 3851 self as jaseowns_Potion
+        if timer jaseowns_UseItemTimer >= jaseowns_UseItemTimerCD
+            dclick jaseowns_Potion
+            settimer jaseowns_UseItemTimer 0
+        endif
+    endif
+    
+    // Trapped
+    if paralyzed and not queued 
+        if findtype "pouch" backpack 38 
+            yell "[pouch"
+            getlabel backpack jaseowns_PingCheck
+        else
+            overhead "Out of Pouches!" 34
+        endif
+    endif
+
+    if not queued and jaseowns_UseSkinningKnifeAutomatically = 1 and findtype 11552 backpack as jaseowns_SkinningKnife
+        if findbuff "Actively Meditating"
+            //do nothing
+        elseif findtype 8198 ground -1 -1 2 as jaseowns_Corpse
+            while not targetexists 
+                dclick jaseowns_SkinningKnife
+                wft 500
+            endwhile
+            while targetexists 
+                hotkey "Target Self"
+                getlabel backpack jaseowns_PingCheck
+            endwhile
+            @ignore jaseowns_Corpse
+        endif
+    endif
+    
+    if skill "Tracking" > 0
+        if not findbuff "tracking"
+            clearsysmsg
+            while not gumpexists 4267467659
+                useskill 'tracking'
+                getlabel backpack jaseowns_PingCheck
+            endwhile
+            if gumpexists 4267467659
+                while not insysmsg "You will now hunt all hostile players."
+                    gumpresponse 8 4267467659
+                    waitforgump 4267467659 5000
+                endwhile
+                gumpresponse 6 4267467659
+                getlabel backpack jaseowns_PingCheck
+            endif
+            gumpclose 4267467659
+        endif
+    endif
+    if skill "Healing" > 0 and findtype 3617 self and not bandaging    
+        if skill "Healing" > 0 and findtype 3617 self and not bandaging 
+            if findbuff "bleed" or findbuff "disease" or poisoned
+                hotkey "Bandage Self"
+            elseif not varexist jaseowns_AutoBandageHpDiffTrigger
+                if hp < maxhp
+                    hotkey "Bandage Self"
+                endif
+            elseif diffhits > jaseowns_AutoBandageHpDiffTrigger 
+                hotkey "Bandage Self"
+            endif
+         endif
+         
+         if varexist manualCrewHeal and timer undead_Ocean_CrewHealBandages_Timer >= undead_Ocean_CrewHealBandages_TimerCD and findtype 3617 backpack as baids
+            overhead "Focus Healing" lasttarget
+            hotkey "Bandage LastTarget"
+            cooldown 'Crew Heal' undead_Ocean_CrewHealBandages_TimerCD
+         elseif timer undead_Ocean_CrewHealBandages_Timer >= undead_Ocean_CrewHealBandages_TimerCD 
+            if not gumpexists 1722920179
+                overhead 'We need to open the Crew Gump' 
+                say "[ShipHotbars"
+            endif
+            waitforgump 1722920179
+            if not bandaging and gumpexists 1722920179 
+                gumpresponse 20 1722920179
+                cooldown 'Crew Heal' undead_Ocean_CrewHealBandages_TimerCD
+            endif
+            if not bandaging and gumpexists 1722920179
+                gumpresponse 21 1722920179
+                cooldown 'Crew Heal' undead_Ocean_CrewHealBandages_TimerCD
+            endif
+            if not bandaging and gumpexists 1722920179 
+                gumpresponse 22 1722920179
+                cooldown 'Crew Heal' undead_Ocean_CrewHealBandages_TimerCD
+            endif
+            if not bandaging and gumpexists 1722920179 
+                gumpresponse 23 1722920179
+                cooldown 'Crew Heal' undead_Ocean_CrewHealBandages_TimerCD
+            endif
+            if not bandaging and gumpexists 1722920179 
+                gumpresponse 24 1722920179
+                cooldown 'Crew Heal' undead_Ocean_CrewHealBandages_TimerCD
+            endif
+            if not bandaging and gumpexists 1722920179
+                gumpresponse 25 1722920179
+                cooldown 'Crew Heal' undead_Ocean_CrewHealBandages_TimerCD
+            endif
+            if not bandaging and gumpexists 1722920179 
+                gumpresponse 26 1722920179
+                cooldown 'Crew Heal' undead_Ocean_CrewHealBandages_TimerCD
+            endif
+            if not bandaging and gumpexists 1722920179 
+                gumpresponse 27 1722920179
+                cooldown 'Crew Heal' undead_Ocean_CrewHealBandages_TimerCD
+            endif
+            if not bandaging //and not queued
+                settimer undead_Ocean_CrewHealBandages_Timer 0
+            endif
+        endif
+    endif
+    
+ 
+    # Chivalry
+    # [chivalryshowsymbolmessages
+    
+    # [RemoveCurse - 1 - 50 - not gonna use 
+    # [DispelEvil - 1 - 55 - not gonna use
+    
+    if not gumpexists 1387930325 and skill "chivalry" >= 50
+        say '[chivalryhotbar'
+        waitforgump 1387930325 500
+    endif
+    if gumpexists 1387930325
+        @setvar! jaseowns_HolySymbols_HasEnoughFor_HolyLightHeal 0
+        @setvar! jaseowns_HolySymbols_HasEnoughFor_NobleSacrificeHeal 0
+        if cooldown PVP
+            unsetvar jaseowns_HolySymbols
+        elseif ingump "15/" 1387930325
+            @setvar! jaseowns_HolySymbols 15
+            @setvar! jaseowns_HolySymbols_HasEnoughFor_HolyLightHeal 1
+            @setvar! jaseowns_HolySymbols_HasEnoughFor_NobleSacrificeHeal 1
+            if jaseowns_Chiv_ReserveSymbols = 15
+                @setvar! jaseowns_HolySymbols 0
+            elseif jaseowns_Chiv_ReserveSymbols = 14
+                @setvar! jaseowns_HolySymbols 1
+            elseif jaseowns_Chiv_ReserveSymbols = 13
+                @setvar! jaseowns_HolySymbols 2
+            elseif jaseowns_Chiv_ReserveSymbols = 12
+                @setvar! jaseowns_HolySymbols 3
+            elseif jaseowns_Chiv_ReserveSymbols = 11
+                @setvar! jaseowns_HolySymbols 4
+            elseif jaseowns_Chiv_ReserveSymbols = 10
+                @setvar! jaseowns_HolySymbols 5
+            elseif jaseowns_Chiv_ReserveSymbols = 9
+                @setvar! jaseowns_HolySymbols 6
+            elseif jaseowns_Chiv_ReserveSymbols = 8
+                @setvar! jaseowns_HolySymbols 7
+            elseif jaseowns_Chiv_ReserveSymbols = 7
+                @setvar! jaseowns_HolySymbols 8
+            elseif jaseowns_Chiv_ReserveSymbols = 6
+                @setvar! jaseowns_HolySymbols 9
+            elseif jaseowns_Chiv_ReserveSymbols = 5
+                @setvar! jaseowns_HolySymbols 10
+            elseif jaseowns_Chiv_ReserveSymbols = 4
+                @setvar! jaseowns_HolySymbols 11
+            elseif jaseowns_Chiv_ReserveSymbols = 3
+                @setvar! jaseowns_HolySymbols 12
+            elseif jaseowns_Chiv_ReserveSymbols = 2
+                @setvar! jaseowns_HolySymbols 13
+            elseif jaseowns_Chiv_ReserveSymbols = 1
+                @setvar! jaseowns_HolySymbols 14
+            elseif jaseowns_Chiv_ReserveSymbols = 0
+                @setvar! jaseowns_HolySymbols 15
+            else
+                @setvar! jaseowns_HolySymbols 0
+            endif
+        elseif ingump "14/" 1387930325
+            @setvar! jaseowns_HolySymbols 14
+            @setvar! jaseowns_HolySymbols_HasEnoughFor_HolyLightHeal 1
+            @setvar! jaseowns_HolySymbols_HasEnoughFor_NobleSacrificeHeal 1
+            if jaseowns_Chiv_ReserveSymbols = 14
+                @setvar! jaseowns_HolySymbols 0
+            elseif jaseowns_Chiv_ReserveSymbols = 13
+                @setvar! jaseowns_HolySymbols 1
+            elseif jaseowns_Chiv_ReserveSymbols = 12
+                @setvar! jaseowns_HolySymbols 2
+            elseif jaseowns_Chiv_ReserveSymbols = 11
+                @setvar! jaseowns_HolySymbols 3
+            elseif jaseowns_Chiv_ReserveSymbols = 10
+                @setvar! jaseowns_HolySymbols 4
+            elseif jaseowns_Chiv_ReserveSymbols = 9
+                @setvar! jaseowns_HolySymbols 5
+            elseif jaseowns_Chiv_ReserveSymbols = 8
+                @setvar! jaseowns_HolySymbols 6
+            elseif jaseowns_Chiv_ReserveSymbols = 7
+                @setvar! jaseowns_HolySymbols 7
+            elseif jaseowns_Chiv_ReserveSymbols = 6
+                @setvar! jaseowns_HolySymbols 8
+            elseif jaseowns_Chiv_ReserveSymbols = 5
+                @setvar! jaseowns_HolySymbols 9
+            elseif jaseowns_Chiv_ReserveSymbols = 4
+                @setvar! jaseowns_HolySymbols 10
+            elseif jaseowns_Chiv_ReserveSymbols = 3
+                @setvar! jaseowns_HolySymbols 11
+            elseif jaseowns_Chiv_ReserveSymbols = 2
+                @setvar! jaseowns_HolySymbols 12
+            elseif jaseowns_Chiv_ReserveSymbols = 1
+                @setvar! jaseowns_HolySymbols 13
+            elseif jaseowns_Chiv_ReserveSymbols = 0
+                @setvar! jaseowns_HolySymbols 14
+            else
+                @setvar! jaseowns_HolySymbols 0
+            endif
+        elseif ingump "13/" 1387930325
+            @setvar! jaseowns_HolySymbols 13
+            @setvar! jaseowns_HolySymbols_HasEnoughFor_HolyLightHeal 1
+            @setvar! jaseowns_HolySymbols_HasEnoughFor_NobleSacrificeHeal 1
+            if jaseowns_Chiv_ReserveSymbols = 13
+                @setvar! jaseowns_HolySymbols 0
+            elseif jaseowns_Chiv_ReserveSymbols = 12
+                @setvar! jaseowns_HolySymbols 1
+            elseif jaseowns_Chiv_ReserveSymbols = 11
+                @setvar! jaseowns_HolySymbols 2
+            elseif jaseowns_Chiv_ReserveSymbols = 10
+                @setvar! jaseowns_HolySymbols 3
+            elseif jaseowns_Chiv_ReserveSymbols = 9
+                @setvar! jaseowns_HolySymbols 4
+            elseif jaseowns_Chiv_ReserveSymbols = 8
+                @setvar! jaseowns_HolySymbols 5
+            elseif jaseowns_Chiv_ReserveSymbols = 7
+                @setvar! jaseowns_HolySymbols 6
+            elseif jaseowns_Chiv_ReserveSymbols = 6
+                @setvar! jaseowns_HolySymbols 7
+            elseif jaseowns_Chiv_ReserveSymbols = 5
+                @setvar! jaseowns_HolySymbols 8
+            elseif jaseowns_Chiv_ReserveSymbols = 4
+                @setvar! jaseowns_HolySymbols 9
+            elseif jaseowns_Chiv_ReserveSymbols = 3
+                @setvar! jaseowns_HolySymbols 10
+            elseif jaseowns_Chiv_ReserveSymbols = 2
+                @setvar! jaseowns_HolySymbols 11
+            elseif jaseowns_Chiv_ReserveSymbols = 1
+                @setvar! jaseowns_HolySymbols 12
+            elseif jaseowns_Chiv_ReserveSymbols = 0
+                @setvar! jaseowns_HolySymbols 13
+            else
+                @setvar! jaseowns_HolySymbols 0
+            endif
+        elseif ingump "12/" 1387930325
+            @setvar! jaseowns_HolySymbols 12
+            @setvar! jaseowns_HolySymbols_HasEnoughFor_HolyLightHeal 1
+            @setvar! jaseowns_HolySymbols_HasEnoughFor_NobleSacrificeHeal 1
+            if jaseowns_Chiv_ReserveSymbols = 12
+                @setvar! jaseowns_HolySymbols 0
+            elseif jaseowns_Chiv_ReserveSymbols = 11
+                @setvar! jaseowns_HolySymbols 1
+            elseif jaseowns_Chiv_ReserveSymbols = 10
+                @setvar! jaseowns_HolySymbols 2
+            elseif jaseowns_Chiv_ReserveSymbols = 9
+                @setvar! jaseowns_HolySymbols 3
+            elseif jaseowns_Chiv_ReserveSymbols = 8
+                @setvar! jaseowns_HolySymbols 4
+            elseif jaseowns_Chiv_ReserveSymbols = 7
+                @setvar! jaseowns_HolySymbols 5
+            elseif jaseowns_Chiv_ReserveSymbols = 6
+                @setvar! jaseowns_HolySymbols 6
+            elseif jaseowns_Chiv_ReserveSymbols = 5
+                @setvar! jaseowns_HolySymbols 7
+            elseif jaseowns_Chiv_ReserveSymbols = 4
+                @setvar! jaseowns_HolySymbols 8
+            elseif jaseowns_Chiv_ReserveSymbols = 3
+                @setvar! jaseowns_HolySymbols 9
+            elseif jaseowns_Chiv_ReserveSymbols = 2
+                @setvar! jaseowns_HolySymbols 10
+            elseif jaseowns_Chiv_ReserveSymbols = 1
+                @setvar! jaseowns_HolySymbols 11
+            elseif jaseowns_Chiv_ReserveSymbols = 0
+                @setvar! jaseowns_HolySymbols 12
+            else
+                @setvar! jaseowns_HolySymbols 0
+            endif
+        elseif ingump "11/" 1387930325
+            @setvar! jaseowns_HolySymbols 11
+            @setvar! jaseowns_HolySymbols_HasEnoughFor_HolyLightHeal 1
+            @setvar! jaseowns_HolySymbols_HasEnoughFor_NobleSacrificeHeal 1
+            if jaseowns_Chiv_ReserveSymbols = 11
+                @setvar! jaseowns_HolySymbols 0
+            elseif jaseowns_Chiv_ReserveSymbols = 10
+                @setvar! jaseowns_HolySymbols 1
+            elseif jaseowns_Chiv_ReserveSymbols = 9
+                @setvar! jaseowns_HolySymbols 2
+            elseif jaseowns_Chiv_ReserveSymbols = 8
+                @setvar! jaseowns_HolySymbols 3
+            elseif jaseowns_Chiv_ReserveSymbols = 7
+                @setvar! jaseowns_HolySymbols 4
+            elseif jaseowns_Chiv_ReserveSymbols = 6
+                @setvar! jaseowns_HolySymbols 5
+            elseif jaseowns_Chiv_ReserveSymbols = 5
+                @setvar! jaseowns_HolySymbols 6
+            elseif jaseowns_Chiv_ReserveSymbols = 4
+                @setvar! jaseowns_HolySymbols 7
+            elseif jaseowns_Chiv_ReserveSymbols = 3
+                @setvar! jaseowns_HolySymbols 8
+            elseif jaseowns_Chiv_ReserveSymbols = 2
+                @setvar! jaseowns_HolySymbols 9
+            elseif jaseowns_Chiv_ReserveSymbols = 1
+                @setvar! jaseowns_HolySymbols 10
+            elseif jaseowns_Chiv_ReserveSymbols = 0
+                @setvar! jaseowns_HolySymbols 11
+            else
+                @setvar! jaseowns_HolySymbols 0
+            endif
+        elseif ingump "10/" 1387930325
+            @setvar! jaseowns_HolySymbols 10
+            @setvar! jaseowns_HolySymbols_HasEnoughFor_HolyLightHeal 1
+            @setvar! jaseowns_HolySymbols_HasEnoughFor_NobleSacrificeHeal 1
+            if jaseowns_Chiv_ReserveSymbols = 10
+                @setvar! jaseowns_HolySymbols 0
+                @setvar! jaseowns_HolySymbols_HasEnoughForHeal 1
+            elseif jaseowns_Chiv_ReserveSymbols = 9
+                @setvar! jaseowns_HolySymbols 1
+            elseif jaseowns_Chiv_ReserveSymbols = 8
+                @setvar! jaseowns_HolySymbols 2
+            elseif jaseowns_Chiv_ReserveSymbols = 7
+                @setvar! jaseowns_HolySymbols 3
+            elseif jaseowns_Chiv_ReserveSymbols = 6
+                @setvar! jaseowns_HolySymbols 4
+            elseif jaseowns_Chiv_ReserveSymbols = 5
+                @setvar! jaseowns_HolySymbols 5
+            elseif jaseowns_Chiv_ReserveSymbols = 4
+                @setvar! jaseowns_HolySymbols 6
+            elseif jaseowns_Chiv_ReserveSymbols = 3
+                @setvar! jaseowns_HolySymbols 7
+            elseif jaseowns_Chiv_ReserveSymbols = 2
+                @setvar! jaseowns_HolySymbols 8
+            elseif jaseowns_Chiv_ReserveSymbols = 1
+                @setvar! jaseowns_HolySymbols 9
+            elseif jaseowns_Chiv_ReserveSymbols = 0
+                @setvar! jaseowns_HolySymbols 10
+            else
+                @setvar! jaseowns_HolySymbols 0
+            endif
+        elseif ingump "9/" 1387930325
+            @setvar! jaseowns_HolySymbols 9
+            @setvar! jaseowns_HolySymbols_HasEnoughFor_HolyLightHeal 1
+            @setvar! jaseowns_HolySymbols_HasEnoughFor_NobleSacrificeHeal 1
+            if jaseowns_Chiv_ReserveSymbols = 9
+                @setvar! jaseowns_HolySymbols 0
+            elseif jaseowns_Chiv_ReserveSymbols = 8
+                @setvar! jaseowns_HolySymbols 1
+            elseif jaseowns_Chiv_ReserveSymbols = 7
+                @setvar! jaseowns_HolySymbols 2
+            elseif jaseowns_Chiv_ReserveSymbols = 6
+                @setvar! jaseowns_HolySymbols 3
+            elseif jaseowns_Chiv_ReserveSymbols = 5
+                @setvar! jaseowns_HolySymbols 4
+            elseif jaseowns_Chiv_ReserveSymbols = 4
+                @setvar! jaseowns_HolySymbols 5
+            elseif jaseowns_Chiv_ReserveSymbols = 3
+                @setvar! jaseowns_HolySymbols 6
+            elseif jaseowns_Chiv_ReserveSymbols = 2
+                @setvar! jaseowns_HolySymbols 7
+            elseif jaseowns_Chiv_ReserveSymbols = 1
+                @setvar! jaseowns_HolySymbols 8
+            elseif jaseowns_Chiv_ReserveSymbols = 0
+                @setvar! jaseowns_HolySymbols 9
+            else
+                @setvar! jaseowns_HolySymbols 0
+            endif
+        elseif ingump "8/" 1387930325
+            @setvar! jaseowns_HolySymbols 8
+            @setvar! jaseowns_HolySymbols_HasEnoughFor_HolyLightHeal 1
+            @setvar! jaseowns_HolySymbols_HasEnoughFor_NobleSacrificeHeal 1
+            if jaseowns_Chiv_ReserveSymbols = 8
+                @setvar! jaseowns_HolySymbols 0
+            elseif jaseowns_Chiv_ReserveSymbols = 7
+                @setvar! jaseowns_HolySymbols 1
+            elseif jaseowns_Chiv_ReserveSymbols = 6
+                @setvar! jaseowns_HolySymbols 2
+            elseif jaseowns_Chiv_ReserveSymbols = 5
+                @setvar! jaseowns_HolySymbols 3
+            elseif jaseowns_Chiv_ReserveSymbols = 4
+                @setvar! jaseowns_HolySymbols 4
+            elseif jaseowns_Chiv_ReserveSymbols = 3
+                @setvar! jaseowns_HolySymbols 5
+            elseif jaseowns_Chiv_ReserveSymbols = 2
+                @setvar! jaseowns_HolySymbols 6
+            elseif jaseowns_Chiv_ReserveSymbols = 1
+                @setvar! jaseowns_HolySymbols 7
+            elseif jaseowns_Chiv_ReserveSymbols = 0
+                @setvar! jaseowns_HolySymbols 8
+            else
+                @setvar! jaseowns_HolySymbols 0
+            endif
+        elseif ingump "7/" 1387930325
+            @setvar! jaseowns_HolySymbols 7
+            @setvar! jaseowns_HolySymbols_HasEnoughFor_HolyLightHeal 1
+            @setvar! jaseowns_HolySymbols_HasEnoughFor_NobleSacrificeHeal 1
+            if jaseowns_Chiv_ReserveSymbols = 7
+                @setvar! jaseowns_HolySymbols 0
+            elseif jaseowns_Chiv_ReserveSymbols = 6
+                @setvar! jaseowns_HolySymbols 1
+            elseif jaseowns_Chiv_ReserveSymbols = 5
+                @setvar! jaseowns_HolySymbols 2
+            elseif jaseowns_Chiv_ReserveSymbols = 4
+                @setvar! jaseowns_HolySymbols 3
+            elseif jaseowns_Chiv_ReserveSymbols = 3
+                @setvar! jaseowns_HolySymbols 4
+            elseif jaseowns_Chiv_ReserveSymbols = 2
+                @setvar! jaseowns_HolySymbols 5
+            elseif jaseowns_Chiv_ReserveSymbols = 1
+                @setvar! jaseowns_HolySymbols 6
+            elseif jaseowns_Chiv_ReserveSymbols = 0
+                @setvar! jaseowns_HolySymbols 7
+            else
+                @setvar! jaseowns_HolySymbols 0
+            endif
+        elseif ingump "6/" 1387930325
+            @setvar! jaseowns_HolySymbols 6
+            @setvar! jaseowns_HolySymbols_HasEnoughFor_HolyLightHeal 1
+            @setvar! jaseowns_HolySymbols_HasEnoughFor_NobleSacrificeHeal 1
+            if jaseowns_Chiv_ReserveSymbols = 6
+                @setvar! jaseowns_HolySymbols 0
+            elseif jaseowns_Chiv_ReserveSymbols = 5
+                @setvar! jaseowns_HolySymbols 1
+            elseif jaseowns_Chiv_ReserveSymbols = 4
+                @setvar! jaseowns_HolySymbols 2
+            elseif jaseowns_Chiv_ReserveSymbols = 3
+                @setvar! jaseowns_HolySymbols 3
+            elseif jaseowns_Chiv_ReserveSymbols = 2
+                @setvar! jaseowns_HolySymbols 4
+            elseif jaseowns_Chiv_ReserveSymbols = 1
+                @setvar! jaseowns_HolySymbols 5
+            elseif jaseowns_Chiv_ReserveSymbols = 0
+                @setvar! jaseowns_HolySymbols 6
+            else
+                @setvar! jaseowns_HolySymbols 0
+            endif
+        elseif ingump "5/" 1387930325
+            @setvar! jaseowns_HolySymbols 5
+            @setvar! jaseowns_HolySymbols_HasEnoughFor_HolyLightHeal 1
+            @setvar! jaseowns_HolySymbols_HasEnoughFor_NobleSacrificeHeal 1
+            if jaseowns_Chiv_ReserveSymbols = 5
+                @setvar! jaseowns_HolySymbols 0
+            elseif jaseowns_Chiv_ReserveSymbols = 4
+                @setvar! jaseowns_HolySymbols 1
+            elseif jaseowns_Chiv_ReserveSymbols = 3
+                @setvar! jaseowns_HolySymbols 2
+            elseif jaseowns_Chiv_ReserveSymbols = 2
+                @setvar! jaseowns_HolySymbols 3
+            elseif jaseowns_Chiv_ReserveSymbols = 1
+                @setvar! jaseowns_HolySymbols 4
+            elseif jaseowns_Chiv_ReserveSymbols = 0
+                @setvar! jaseowns_HolySymbols 5
+            else
+                @setvar! jaseowns_HolySymbols 0
+            endif
+        elseif ingump "4/" 1387930325
+            @setvar! jaseowns_HolySymbols 4
+            @setvar! jaseowns_HolySymbols_HasEnoughFor_NobleSacrificeHeal 1
+            if jaseowns_Chiv_ReserveSymbols = 4
+                @setvar! jaseowns_HolySymbols 0
+            elseif jaseowns_Chiv_ReserveSymbols = 3
+                @setvar! jaseowns_HolySymbols 1
+            elseif jaseowns_Chiv_ReserveSymbols = 2
+                @setvar! jaseowns_HolySymbols 2
+            elseif jaseowns_Chiv_ReserveSymbols = 1
+                @setvar! jaseowns_HolySymbols 3
+            elseif jaseowns_Chiv_ReserveSymbols = 0
+                @setvar! jaseowns_HolySymbols 4
+            else
+                @setvar! jaseowns_HolySymbols 0
+            endif
+        elseif ingump "3/" 1387930325
+            @setvar! jaseowns_HolySymbols 3
+            if jaseowns_Chiv_ReserveSymbols = 3
+                @setvar! jaseowns_HolySymbols 0
+            elseif jaseowns_Chiv_ReserveSymbols = 2
+                @setvar! jaseowns_HolySymbols 1
+            elseif jaseowns_Chiv_ReserveSymbols = 1
+                @setvar! jaseowns_HolySymbols 2
+            elseif jaseowns_Chiv_ReserveSymbols = 0
+                @setvar! jaseowns_HolySymbols 3
+            else
+                @setvar! jaseowns_HolySymbols 0
+            endif
+        elseif ingump "2/" 1387930325
+            @setvar! jaseowns_HolySymbols 2
+            if jaseowns_Chiv_ReserveSymbols = 2
+                @setvar! jaseowns_HolySymbols 0
+            elseif jaseowns_Chiv_ReserveSymbols = 1
+                @setvar! jaseowns_HolySymbols 1
+            elseif jaseowns_Chiv_ReserveSymbols = 0
+                @setvar! jaseowns_HolySymbols 2
+            else
+                @setvar! jaseowns_HolySymbols 0
+            endif
+        elseif ingump "1/" 1387930325
+            @setvar! jaseowns_HolySymbols 1
+            if jaseowns_Chiv_ReserveSymbols = 1
+                @setvar! jaseowns_HolySymbols 0
+            elseif jaseowns_Chiv_ReserveSymbols = 0
+                @setvar! jaseowns_HolySymbols 1
+            else
+                @setvar! jaseowns_HolySymbols 0
+            endif
+        elseif ingump "0/" 1387930325
+            @setvar! jaseowns_HolySymbols 0
+        endif
+    endif
+
+    if varexist jaseowns_HolySymbols
+        
+        @setvar! jaseowns_BOT_UseHolyLight 0
+        if jaseowns_Chiv_UseHolyLightAutomatically = 1 and skill "chivalry" >= 95 and timer jaseowns_HolyLightTimer >= jaseowns_HolyLightTimerCD 
+            if jaseowns_HolySymbols_HasEnoughFor_HolyLightHeal = 1 or 5 <= jaseowns_HolySymbols
+                if not varexist jaseowns_Chiv_AutoHolyLightHpDiffTrigger
+                    if hp <= 20
+                        @setvar! jaseowns_BOT_UseHolyLight 1
+                    endif
+                elseif diffhits >= jaseowns_Chiv_AutoHolyLightHpDiffTrigger 
+                    @setvar! jaseowns_BOT_UseHolyLight 1
+                endif
+            endif
+        endif
+
+        @setvar! jaseowns_BOT_UseNobleSacrifice 0
+        if jaseowns_Chiv_UseNobleSacrificeAutomatically = 1 and skill "chivalry" >= 80 and timer jaseowns_NobleSacrificeTimer >= jaseowns_NobleSacrificeTimerCD
+            if jaseowns_HolySymbols_HasEnoughFor_NobleSacrificeHeal = 1 or 4 <= jaseowns_HolySymbols
+                if not varexist jaseowns_Chiv_AutoUseNobleSacrificeHpDiffTrigger
+                    if hp <= 20
+                        @setvar! jaseowns_BOT_UseNobleSacrifice 1
+                    endif
+                elseif diffhits >= jaseowns_Chiv_AutoUseNobleSacrificeHpDiffTrigger 
+                    @setvar! jaseowns_BOT_UseNobleSacrifice 1
+                endif
+            endif
+        endif
+
+        @setvar! jaseowns_BOT_UseCloseWounds 0
+        if findbuff "disease" or findbuff "bleed"
+            if jaseowns_Chiv_UseCloseWoundsAutomatically = 1 and 3 <= jaseowns_HolySymbols and skill "chivalry" >= 70 and timer jaseowns_CloseWoundsTimer >= jaseowns_CloseWoundsTimerCD
+                if not varexist jaseowns_Chiv_AutoCloseWoundHpDiffTrigger
+                    if diffhits >= 5
+                        @setvar! jaseowns_BOT_UseCloseWounds 1
+                    endif
+                elseif diffhits >= jaseowns_Chiv_AutoCloseWoundHpDiffTrigger 
+                    @setvar! jaseowns_BOT_UseCloseWounds 1
+                endif
+            endif
+        endif
+       
+        if jaseowns_BOT_UseNobleSacrifice = 1
+            say "[NobleSacrifice"
+            wft 500
+            if targetexists 
+                hotkey "Target Self"
+                getlabel backpack jaseowns_PingCheck
+                if not targetexists 
+                    if insysmsg "Holy symbols remaining" 
+                        cooldown "Noble Sacrifice" jaseowns_NobleSacrificeTimerCD
+                        settimer jaseowns_NobleSacrificeTimer 0
+                    endif
+                else
+                    hotkey "Cancel Current Target"
+                endif
+            endif
+        elseif jaseowns_BOT_UseHolyLight = 1
+            say "[HolyLight"
+            getlabel backpack jaseowns_PingCheck
+            if insysmsg "Holy symbols remaining" 
+                cooldown "Holy Light" jaseowns_HolyLightTimerCD
+                settimer jaseowns_HolyLightTimer 0
+            endif
+        elseif jaseowns_BOT_UseCloseWounds = 1
+            say "[CloseWounds"
+            getlabel backpack jaseowns_PingCheck
+            if insysmsg "Holy symbols remaining" 
+                cooldown "Close Wounds" jaseowns_CloseWoundsTimerCD
+                settimer jaseowns_CloseWoundsTimer 0
+            endif
+        endif
+        
+        if gumpexists 1387930325
+            if cooldown PVP
+                unsetvar jaseowns_HolySymbols
+            elseif ingump "15/" 1387930325
+                @setvar! jaseowns_HolySymbols 15
+                if jaseowns_Chiv_ReserveSymbols = 15
+                    @setvar! jaseowns_HolySymbols 0
+                elseif jaseowns_Chiv_ReserveSymbols = 14
+                    @setvar! jaseowns_HolySymbols 1
+                elseif jaseowns_Chiv_ReserveSymbols = 13
+                    @setvar! jaseowns_HolySymbols 2
+                elseif jaseowns_Chiv_ReserveSymbols = 12
+                    @setvar! jaseowns_HolySymbols 3
+                elseif jaseowns_Chiv_ReserveSymbols = 11
+                    @setvar! jaseowns_HolySymbols 4
+                elseif jaseowns_Chiv_ReserveSymbols = 10
+                    @setvar! jaseowns_HolySymbols 5
+                elseif jaseowns_Chiv_ReserveSymbols = 9
+                    @setvar! jaseowns_HolySymbols 6
+                elseif jaseowns_Chiv_ReserveSymbols = 8
+                    @setvar! jaseowns_HolySymbols 7
+                elseif jaseowns_Chiv_ReserveSymbols = 7
+                    @setvar! jaseowns_HolySymbols 8
+                elseif jaseowns_Chiv_ReserveSymbols = 6
+                    @setvar! jaseowns_HolySymbols 9
+                elseif jaseowns_Chiv_ReserveSymbols = 5
+                    @setvar! jaseowns_HolySymbols 10
+                elseif jaseowns_Chiv_ReserveSymbols = 4
+                    @setvar! jaseowns_HolySymbols 11
+                elseif jaseowns_Chiv_ReserveSymbols = 3
+                    @setvar! jaseowns_HolySymbols 12
+                elseif jaseowns_Chiv_ReserveSymbols = 2
+                    @setvar! jaseowns_HolySymbols 13
+                elseif jaseowns_Chiv_ReserveSymbols = 1
+                    @setvar! jaseowns_HolySymbols 14
+                elseif jaseowns_Chiv_ReserveSymbols = 0
+                    @setvar! jaseowns_HolySymbols 15
+                else
+                    @setvar! jaseowns_HolySymbols 0
+                endif
+            elseif ingump "14/" 1387930325
+                @setvar! jaseowns_HolySymbols 14
+                if jaseowns_Chiv_ReserveSymbols = 14
+                    @setvar! jaseowns_HolySymbols 0
+                elseif jaseowns_Chiv_ReserveSymbols = 13
+                    @setvar! jaseowns_HolySymbols 1
+                elseif jaseowns_Chiv_ReserveSymbols = 12
+                    @setvar! jaseowns_HolySymbols 2
+                elseif jaseowns_Chiv_ReserveSymbols = 11
+                    @setvar! jaseowns_HolySymbols 3
+                elseif jaseowns_Chiv_ReserveSymbols = 10
+                    @setvar! jaseowns_HolySymbols 4
+                elseif jaseowns_Chiv_ReserveSymbols = 9
+                    @setvar! jaseowns_HolySymbols 5
+                elseif jaseowns_Chiv_ReserveSymbols = 8
+                    @setvar! jaseowns_HolySymbols 6
+                elseif jaseowns_Chiv_ReserveSymbols = 7
+                    @setvar! jaseowns_HolySymbols 7
+                elseif jaseowns_Chiv_ReserveSymbols = 6
+                    @setvar! jaseowns_HolySymbols 8
+                elseif jaseowns_Chiv_ReserveSymbols = 5
+                    @setvar! jaseowns_HolySymbols 9
+                elseif jaseowns_Chiv_ReserveSymbols = 4
+                    @setvar! jaseowns_HolySymbols 10
+                elseif jaseowns_Chiv_ReserveSymbols = 3
+                    @setvar! jaseowns_HolySymbols 11
+                elseif jaseowns_Chiv_ReserveSymbols = 2
+                    @setvar! jaseowns_HolySymbols 12
+                elseif jaseowns_Chiv_ReserveSymbols = 1
+                    @setvar! jaseowns_HolySymbols 13
+                elseif jaseowns_Chiv_ReserveSymbols = 0
+                    @setvar! jaseowns_HolySymbols 14
+                else
+                    @setvar! jaseowns_HolySymbols 0
+                endif
+            elseif ingump "13/" 1387930325
+                @setvar! jaseowns_HolySymbols 13
+                if jaseowns_Chiv_ReserveSymbols = 13
+                    @setvar! jaseowns_HolySymbols 0
+                elseif jaseowns_Chiv_ReserveSymbols = 12
+                    @setvar! jaseowns_HolySymbols 1
+                elseif jaseowns_Chiv_ReserveSymbols = 11
+                    @setvar! jaseowns_HolySymbols 2
+                elseif jaseowns_Chiv_ReserveSymbols = 10
+                    @setvar! jaseowns_HolySymbols 3
+                elseif jaseowns_Chiv_ReserveSymbols = 9
+                    @setvar! jaseowns_HolySymbols 4
+                elseif jaseowns_Chiv_ReserveSymbols = 8
+                    @setvar! jaseowns_HolySymbols 5
+                elseif jaseowns_Chiv_ReserveSymbols = 7
+                    @setvar! jaseowns_HolySymbols 6
+                elseif jaseowns_Chiv_ReserveSymbols = 6
+                    @setvar! jaseowns_HolySymbols 7
+                elseif jaseowns_Chiv_ReserveSymbols = 5
+                    @setvar! jaseowns_HolySymbols 8
+                elseif jaseowns_Chiv_ReserveSymbols = 4
+                    @setvar! jaseowns_HolySymbols 9
+                elseif jaseowns_Chiv_ReserveSymbols = 3
+                    @setvar! jaseowns_HolySymbols 10
+                elseif jaseowns_Chiv_ReserveSymbols = 2
+                    @setvar! jaseowns_HolySymbols 11
+                elseif jaseowns_Chiv_ReserveSymbols = 1
+                    @setvar! jaseowns_HolySymbols 12
+                elseif jaseowns_Chiv_ReserveSymbols = 0
+                    @setvar! jaseowns_HolySymbols 13
+                else
+                    @setvar! jaseowns_HolySymbols 0
+                endif
+            elseif ingump "12/" 1387930325
+                @setvar! jaseowns_HolySymbols 12
+                if jaseowns_Chiv_ReserveSymbols = 12
+                    @setvar! jaseowns_HolySymbols 0
+                elseif jaseowns_Chiv_ReserveSymbols = 11
+                    @setvar! jaseowns_HolySymbols 1
+                elseif jaseowns_Chiv_ReserveSymbols = 10
+                    @setvar! jaseowns_HolySymbols 2
+                elseif jaseowns_Chiv_ReserveSymbols = 9
+                    @setvar! jaseowns_HolySymbols 3
+                elseif jaseowns_Chiv_ReserveSymbols = 8
+                    @setvar! jaseowns_HolySymbols 4
+                elseif jaseowns_Chiv_ReserveSymbols = 7
+                    @setvar! jaseowns_HolySymbols 5
+                elseif jaseowns_Chiv_ReserveSymbols = 6
+                    @setvar! jaseowns_HolySymbols 6
+                elseif jaseowns_Chiv_ReserveSymbols = 5
+                    @setvar! jaseowns_HolySymbols 7
+                elseif jaseowns_Chiv_ReserveSymbols = 4
+                    @setvar! jaseowns_HolySymbols 8
+                elseif jaseowns_Chiv_ReserveSymbols = 3
+                    @setvar! jaseowns_HolySymbols 9
+                elseif jaseowns_Chiv_ReserveSymbols = 2
+                    @setvar! jaseowns_HolySymbols 10
+                elseif jaseowns_Chiv_ReserveSymbols = 1
+                    @setvar! jaseowns_HolySymbols 11
+                elseif jaseowns_Chiv_ReserveSymbols = 0
+                    @setvar! jaseowns_HolySymbols 12
+                else
+                    @setvar! jaseowns_HolySymbols 0
+                endif
+            elseif ingump "11/" 1387930325
+                @setvar! jaseowns_HolySymbols 11
+                if jaseowns_Chiv_ReserveSymbols = 11
+                    @setvar! jaseowns_HolySymbols 0
+                elseif jaseowns_Chiv_ReserveSymbols = 10
+                    @setvar! jaseowns_HolySymbols 1
+                elseif jaseowns_Chiv_ReserveSymbols = 9
+                    @setvar! jaseowns_HolySymbols 2
+                elseif jaseowns_Chiv_ReserveSymbols = 8
+                    @setvar! jaseowns_HolySymbols 3
+                elseif jaseowns_Chiv_ReserveSymbols = 7
+                    @setvar! jaseowns_HolySymbols 4
+                elseif jaseowns_Chiv_ReserveSymbols = 6
+                    @setvar! jaseowns_HolySymbols 5
+                elseif jaseowns_Chiv_ReserveSymbols = 5
+                    @setvar! jaseowns_HolySymbols 6
+                elseif jaseowns_Chiv_ReserveSymbols = 4
+                    @setvar! jaseowns_HolySymbols 7
+                elseif jaseowns_Chiv_ReserveSymbols = 3
+                    @setvar! jaseowns_HolySymbols 8
+                elseif jaseowns_Chiv_ReserveSymbols = 2
+                    @setvar! jaseowns_HolySymbols 9
+                elseif jaseowns_Chiv_ReserveSymbols = 1
+                    @setvar! jaseowns_HolySymbols 10
+                elseif jaseowns_Chiv_ReserveSymbols = 0
+                    @setvar! jaseowns_HolySymbols 11
+                else
+                    @setvar! jaseowns_HolySymbols 0
+                endif
+            elseif ingump "10/" 1387930325
+                @setvar! jaseowns_HolySymbols 10
+                if jaseowns_Chiv_ReserveSymbols = 10
+                    @setvar! jaseowns_HolySymbols 0
+                elseif jaseowns_Chiv_ReserveSymbols = 9
+                    @setvar! jaseowns_HolySymbols 1
+                elseif jaseowns_Chiv_ReserveSymbols = 8
+                    @setvar! jaseowns_HolySymbols 2
+                elseif jaseowns_Chiv_ReserveSymbols = 7
+                    @setvar! jaseowns_HolySymbols 3
+                elseif jaseowns_Chiv_ReserveSymbols = 6
+                    @setvar! jaseowns_HolySymbols 4
+                elseif jaseowns_Chiv_ReserveSymbols = 5
+                    @setvar! jaseowns_HolySymbols 5
+                elseif jaseowns_Chiv_ReserveSymbols = 4
+                    @setvar! jaseowns_HolySymbols 6
+                elseif jaseowns_Chiv_ReserveSymbols = 3
+                    @setvar! jaseowns_HolySymbols 7
+                elseif jaseowns_Chiv_ReserveSymbols = 2
+                    @setvar! jaseowns_HolySymbols 8
+                elseif jaseowns_Chiv_ReserveSymbols = 1
+                    @setvar! jaseowns_HolySymbols 9
+                elseif jaseowns_Chiv_ReserveSymbols = 0
+                    @setvar! jaseowns_HolySymbols 10
+                else
+                    @setvar! jaseowns_HolySymbols 0
+                endif
+            elseif ingump "9/" 1387930325
+                @setvar! jaseowns_HolySymbols 9
+                if jaseowns_Chiv_ReserveSymbols = 9
+                    @setvar! jaseowns_HolySymbols 0
+                elseif jaseowns_Chiv_ReserveSymbols = 8
+                    @setvar! jaseowns_HolySymbols 1
+                elseif jaseowns_Chiv_ReserveSymbols = 7
+                    @setvar! jaseowns_HolySymbols 2
+                elseif jaseowns_Chiv_ReserveSymbols = 6
+                    @setvar! jaseowns_HolySymbols 3
+                elseif jaseowns_Chiv_ReserveSymbols = 5
+                    @setvar! jaseowns_HolySymbols 4
+                elseif jaseowns_Chiv_ReserveSymbols = 4
+                    @setvar! jaseowns_HolySymbols 5
+                elseif jaseowns_Chiv_ReserveSymbols = 3
+                    @setvar! jaseowns_HolySymbols 6
+                elseif jaseowns_Chiv_ReserveSymbols = 2
+                    @setvar! jaseowns_HolySymbols 7
+                elseif jaseowns_Chiv_ReserveSymbols = 1
+                    @setvar! jaseowns_HolySymbols 8
+                elseif jaseowns_Chiv_ReserveSymbols = 0
+                    @setvar! jaseowns_HolySymbols 9
+                else
+                    @setvar! jaseowns_HolySymbols 0
+                endif
+            elseif ingump "8/" 1387930325
+                @setvar! jaseowns_HolySymbols 8
+                if jaseowns_Chiv_ReserveSymbols = 8
+                    @setvar! jaseowns_HolySymbols 0
+                elseif jaseowns_Chiv_ReserveSymbols = 7
+                    @setvar! jaseowns_HolySymbols 1
+                elseif jaseowns_Chiv_ReserveSymbols = 6
+                    @setvar! jaseowns_HolySymbols 2
+                elseif jaseowns_Chiv_ReserveSymbols = 5
+                    @setvar! jaseowns_HolySymbols 3
+                elseif jaseowns_Chiv_ReserveSymbols = 4
+                    @setvar! jaseowns_HolySymbols 4
+                elseif jaseowns_Chiv_ReserveSymbols = 3
+                    @setvar! jaseowns_HolySymbols 5
+                elseif jaseowns_Chiv_ReserveSymbols = 2
+                    @setvar! jaseowns_HolySymbols 6
+                elseif jaseowns_Chiv_ReserveSymbols = 1
+                    @setvar! jaseowns_HolySymbols 7
+                elseif jaseowns_Chiv_ReserveSymbols = 0
+                    @setvar! jaseowns_HolySymbols 8
+                else
+                    @setvar! jaseowns_HolySymbols 0
+                endif
+            elseif ingump "7/" 1387930325
+                @setvar! jaseowns_HolySymbols 7
+                if jaseowns_Chiv_ReserveSymbols = 7
+                    @setvar! jaseowns_HolySymbols 0
+                elseif jaseowns_Chiv_ReserveSymbols = 6
+                    @setvar! jaseowns_HolySymbols 1
+                elseif jaseowns_Chiv_ReserveSymbols = 5
+                    @setvar! jaseowns_HolySymbols 2
+                elseif jaseowns_Chiv_ReserveSymbols = 4
+                    @setvar! jaseowns_HolySymbols 3
+                elseif jaseowns_Chiv_ReserveSymbols = 3
+                    @setvar! jaseowns_HolySymbols 4
+                elseif jaseowns_Chiv_ReserveSymbols = 2
+                    @setvar! jaseowns_HolySymbols 5
+                elseif jaseowns_Chiv_ReserveSymbols = 1
+                    @setvar! jaseowns_HolySymbols 6
+                elseif jaseowns_Chiv_ReserveSymbols = 0
+                    @setvar! jaseowns_HolySymbols 7
+                else
+                    @setvar! jaseowns_HolySymbols 0
+                endif
+            elseif ingump "6/" 1387930325
+                @setvar! jaseowns_HolySymbols 6
+                if jaseowns_Chiv_ReserveSymbols = 6
+                    @setvar! jaseowns_HolySymbols 0
+                elseif jaseowns_Chiv_ReserveSymbols = 5
+                    @setvar! jaseowns_HolySymbols 1
+                elseif jaseowns_Chiv_ReserveSymbols = 4
+                    @setvar! jaseowns_HolySymbols 2
+                elseif jaseowns_Chiv_ReserveSymbols = 3
+                    @setvar! jaseowns_HolySymbols 3
+                elseif jaseowns_Chiv_ReserveSymbols = 2
+                    @setvar! jaseowns_HolySymbols 4
+                elseif jaseowns_Chiv_ReserveSymbols = 1
+                    @setvar! jaseowns_HolySymbols 5
+                elseif jaseowns_Chiv_ReserveSymbols = 0
+                    @setvar! jaseowns_HolySymbols 6
+                else
+                    @setvar! jaseowns_HolySymbols 0
+                endif
+            elseif ingump "5/" 1387930325
+                @setvar! jaseowns_HolySymbols 5
+                if jaseowns_Chiv_ReserveSymbols = 5
+                    @setvar! jaseowns_HolySymbols 0
+                elseif jaseowns_Chiv_ReserveSymbols = 4
+                    @setvar! jaseowns_HolySymbols 1
+                elseif jaseowns_Chiv_ReserveSymbols = 3
+                    @setvar! jaseowns_HolySymbols 2
+                elseif jaseowns_Chiv_ReserveSymbols = 2
+                    @setvar! jaseowns_HolySymbols 3
+                elseif jaseowns_Chiv_ReserveSymbols = 1
+                    @setvar! jaseowns_HolySymbols 4
+                elseif jaseowns_Chiv_ReserveSymbols = 0
+                    @setvar! jaseowns_HolySymbols 5
+                else
+                    @setvar! jaseowns_HolySymbols 0
+                endif
+            elseif ingump "4/" 1387930325
+                @setvar! jaseowns_HolySymbols 4
+                if jaseowns_Chiv_ReserveSymbols = 4
+                    @setvar! jaseowns_HolySymbols 0
+                elseif jaseowns_Chiv_ReserveSymbols = 3
+                    @setvar! jaseowns_HolySymbols 1
+                elseif jaseowns_Chiv_ReserveSymbols = 2
+                    @setvar! jaseowns_HolySymbols 2
+                elseif jaseowns_Chiv_ReserveSymbols = 1
+                    @setvar! jaseowns_HolySymbols 3
+                elseif jaseowns_Chiv_ReserveSymbols = 0
+                    @setvar! jaseowns_HolySymbols 4
+                else
+                    @setvar! jaseowns_HolySymbols 0
+                endif
+            elseif ingump "3/" 1387930325
+                @setvar! jaseowns_HolySymbols 3
+                if jaseowns_Chiv_ReserveSymbols = 3
+                    @setvar! jaseowns_HolySymbols 0
+                elseif jaseowns_Chiv_ReserveSymbols = 2
+                    @setvar! jaseowns_HolySymbols 1
+                elseif jaseowns_Chiv_ReserveSymbols = 1
+                    @setvar! jaseowns_HolySymbols 2
+                elseif jaseowns_Chiv_ReserveSymbols = 0
+                    @setvar! jaseowns_HolySymbols 3
+                else
+                    @setvar! jaseowns_HolySymbols 0
+                endif
+            elseif ingump "2/" 1387930325
+                @setvar! jaseowns_HolySymbols 2
+                if jaseowns_Chiv_ReserveSymbols = 2
+                    @setvar! jaseowns_HolySymbols 0
+                elseif jaseowns_Chiv_ReserveSymbols = 1
+                    @setvar! jaseowns_HolySymbols 1
+                elseif jaseowns_Chiv_ReserveSymbols = 0
+                    @setvar! jaseowns_HolySymbols 2
+                else
+                    @setvar! jaseowns_HolySymbols 0
+                endif
+            elseif ingump "1/" 1387930325
+                @setvar! jaseowns_HolySymbols 1
+                if jaseowns_Chiv_ReserveSymbols = 1
+                    @setvar! jaseowns_HolySymbols 0
+                elseif jaseowns_Chiv_ReserveSymbols = 0
+                    @setvar! jaseowns_HolySymbols 1
+                else
+                    @setvar! jaseowns_HolySymbols 0
+                endif
+            elseif ingump "0/" 1387930325
+                @setvar! jaseowns_HolySymbols 0
+            endif
+        endif
+    endif
+    
+    @setvar! jaseowns_CurrentBotTargetAttacked 0
+    
+    if warmode and not cooldown PVP
+        
+        if insysmsg "Target a new 'Last Target'"
+            overhead "Set your target"
+            while targetexists 
+                wait 50
+            endwhile
+            getlabel backpack jaseowns_PingCheck
+            if insysmsg "Last Target set."
+                overhead "New target selected!" 89 lasttarget
+                @setvar! jaseowns_CurrentBotTarget lasttarget 
+            endif
+        endif
+    
+        // do fighting
+        if not find jaseowns_CurrentBotTarget
+            hotkey "target closest non-friendly monster"
+            @setvar! jaseowns_LastBotTarget lasttarget 
+            if jaseowns_CurrentBotTarget != jaseowns_LastBotTarget
+                @setvar! jaseowns_CurrentBotTarget jaseowns_LastBotTarget
+            endif
+        endif
+        
+        # TODO: handle hidden mobs
+        if not dead jaseowns_CurrentBotTarget
+            
+            if timer jaseowns_CurrentBotTargetOverheadTimer >= jaseowns_CurrentBotTargetOverheadTimerCD and listexists jaseowns_CurrentBotTargetOverheadText
+                foreach jaseowns_Overhead in jaseowns_CurrentBotTargetOverheadText
+                    overhead jaseowns_Overhead jaseowns_CurrentBotTargetOverheadHue jaseowns_CurrentBotTarget
+                endfor
+                settimer jaseowns_CurrentBotTargetOverheadTimer 0
+            endif
+
+            if find jaseowns_CurrentBotTarget ground -1 -1 jaseowns_FightingRangeCheck
+                
+                for 3
+                    if dead jaseowns_CurrentBotTarget
+                        break
+                    endif
+                    getlabel jaseowns_CurrentBotTarget jaseowns_CurrentBotTargetDesc
+                    if "-" in jaseowns_CurrentBotTargetDesc
+                        // do nothing - try again
+                    else
+                        break
+                    endif
+                endfor
+                @setvar! jaseowns_IgnoreCurrentBotTarget 0
+                
+                if "(summoned" in jaseowns_CurrentBotTargetDesc or "(bonded" in jaseowns_CurrentBotTargetDesc or "(tame" in jaseowns_CurrentBotTargetDesc
+                    overhead "▼ Player pet - IGNORE ▼" 77 jaseowns_CurrentBotTarget
+                    @setvar! jaseowns_IgnoreCurrentBotTarget 1
+                elseif listexists jaseowns_IgnoreMobList
+                    foreach jaseowns_IgnoreMob in jaseowns_IgnoreMobList
+                        if jaseowns_IgnoreMob in jaseowns_CurrentBotTargetDesc
+                            if timer jaseowns_IgnoreMobOverheadTimer >= jaseowns_IgnoreMobOverheadTimerCD and listexists jaseowns_IgnoreMobOverheadText
+                                foreach jaseowns_Overhead in jaseowns_IgnoreMobOverheadText
+                                    overhead jaseowns_Overhead jaseowns_IgnoreMobOverheadHue  jaseowns_CurrentBotTarget
+                                endfor
+                                settimer jaseowns_IgnoreMobOverheadTimer 0
+                            endif
+                            @setvar! jaseowns_IgnoreCurrentBotTarget 1
+                        endif
+                    endfor
+                endif
+
+                if jaseowns_IgnoreCurrentBotTarget = 1 or dead jaseowns_CurrentBotTarget
+                    @setvar! jaseowns_CurrentBotTarget 0
+                else
+                    
+                
+                    attack jaseowns_CurrentBotTarget
+                
+                    # bard stuff here
+
+                    ### 
+                    # 1 = Discord
+                    # 2 = Peacemaking
+                    # 3 = Provo
+                    ###
+            #        @setvar! jaseowns_Bard_FirstBardAbility PEACE
+            #        @setvar! jaseowns_Bard_SecondBardAbility discord
+            #        @setvar! jaseowns_Bard_ThirdBardAbility 3
+            #        
+            #  
+            #        getlabel jaseowns_CurrentBotTarget jaseowns_CurrentBotTargetDesc
+            #        if "discord" in jaseowns_CurrentBotTargetDesc
+            #            skip discord
+            #        endif
+            #        if "pacified" in jaseowns_CurrentBotTargetDesc
+            #            skip pacified
+            #        endif
+                    
+                    #overhead "Current target: {{jaseowns_CurrentBotTargetDesc}} {{jaseowns_UsedSkillTimer}}"
+                    
+                    @setvar! jaseowns_BOT_TargetPoisoned 0
+                    if "Ticks" in jaseowns_CurrentBotTargetDesc
+                        @setvar! jaseowns_BOT_TargetPoisoned 1
+                    endif
+                    
+                    @setvar! jaseowns_Bard_SkipDiscord 0
+                    if "discord" in jaseowns_CurrentBotTargetDesc
+                        @setvar! jaseowns_Bard_SkipDiscord 1
+                    endif
+                    
+                    @setvar! jaseowns_Bard_SkipPeace 0
+                    if "pacified" in jaseowns_CurrentBotTargetDesc
+                        @setvar! jaseowns_Bard_SkipPeace 1
+                    endif
+                    
+                    # TODO: longshot bro
+                    if findtype 5117|3920|31184|31186|30993 righthand or findtype 5117|3920|31184|31186|30993 lefthand
+                        @setvar! jaseowns_DynamicRangeCheck 8
+                    elseif findtype 30994|30990|30995|5042 lefthand
+                        @setvar! jaseowns_DynamicRangeCheck 10
+### OCEAN EDIT ###
+                    elseif findtype 31169|31172 righthand or findtype 31169|31172 lefthand
+                        @setvar! jaseowns_DynamicRangeCheck 10
+### /OCEAN EDIT ###
+                    else
+                        @setvar! jaseowns_DynamicRangeCheck 2
+                    endif
+
+                    if jaseowns_Bard_CanDiscord = 1 and jaseowns_Bard_SkipDiscord = 0 and timer jaseowns_UsedSkillTimer >= 5000
+                        
+                        overhead "Discording: {{jaseowns_CurrentBotTargetDesc}}"
+                        useskill 'Discordance'
+                        wft 500
+                        if insysmsg "What instrument"
+                            if findtype 3740|3742|3762|3763|10245|20006|20008|20010|20012|20014|20016 backpack as jaseowns_Instrument 
+                                target jaseowns_Instrument
+                            else
+                                overhead "I do not have an instrument" 34
+                            endif
+                            wft 500
+                        endif
+                        if targetexists 
+                            target jaseowns_CurrentBotTarget
+                            getlabel backpack jaseowns_PingCheck
+                            if insysmsg "Target cannot be seen" or insysmsg "That is too far away."
+                                if timer jaseowns_CurrentBotTargetUnableToAttackOverheadTimer >= jaseowns_CurrentBotTargetUnableToAttackOverheadTimerCD and listexists jaseowns_CurrentBotTargetUnableToAttackOverheadText
+                                    foreach jaseowns_Overhead in jaseowns_CurrentBotTargetUnableToAttackOverheadText
+                                        overhead jaseowns_Overhead jaseowns_CurrentBotTargetUnableToAttackOverheadHue jaseowns_CurrentBotTarget
+                                    endfor
+                                    settimer jaseowns_CurrentBotTargetOverheadTimer 0
+                                endif
+                                @setvar! jaseowns_CurrentBotTarget 0
+                            else
+                                settimer jaseowns_UsedSkillTimer 0
+                                @setvar! jaseowns_CurrentBotTargetAttacked 1
+                            endif
+                        endif
+                    elseif jaseowns_Bard_CanPeacemake = 1 and jaseowns_Bard_SkipPeace = 0 and timer jaseowns_UsedSkillTimer >= 5000
+                       
+                        overhead "Peacmking"
+                        useskill 'Peacemaking'
+                        wft 500
+                        if insysmsg "What instrument"
+                            if findtype 3740|3742|3762|3763|10245|20006|20008|20010|20012|20014|20016 backpack as jaseowns_Instrument 
+                                target jaseowns_Instrument
+                            else
+                                overhead "I do not have an instrument" 34
+                            endif
+                            wft 500
+                        endif
+                        if targetexists 
+                            target jaseowns_CurrentBotTarget
+                            getlabel backpack jaseowns_PingCheck
+                            if insysmsg "Target cannot be seen" or insysmsg "That is too far away."
+                                if timer jaseowns_CurrentBotTargetUnableToAttackOverheadTimer >= jaseowns_CurrentBotTargetUnableToAttackOverheadTimerCD and listexists jaseowns_CurrentBotTargetUnableToAttackOverheadText
+                                    foreach jaseowns_Overhead in jaseowns_CurrentBotTargetUnableToAttackOverheadText
+                                        overhead jaseowns_Overhead jaseowns_CurrentBotTargetUnableToAttackOverheadHue jaseowns_CurrentBotTarget
+                                    endfor
+                                    settimer jaseowns_CurrentBotTargetOverheadTimer 0
+                                endif
+                                @setvar! jaseowns_CurrentBotTarget 0
+                            else
+                                settimer jaseowns_UsedSkillTimer 0
+                                @setvar! jaseowns_CurrentBotTargetAttacked 1
+                                @setvar! jaseowns_CurrentBotTargetGoodLOS 1
+                            endif
+                        endif
+                        
+                    # TODO : handle range of archery
+                    elseif find jaseowns_CurrentBotTarget ground -1 -1 2
+                        // assume we got it
+                        @setvar! jaseowns_CurrentBotTargetAttacked 1
+                    elseif not targetexists and jaseowns_CurrentBotTargetGoodLOS = 0
+                        overhead "Arms lore"
+                        useskill "ArmsLore"
+                        wft 500
+                        if targetexists 
+                            target jaseowns_CurrentBotTarget
+                            getlabel backpack jaseowns_PingCheck
+                            if insysmsg "Target cannot be seen" or insysmsg "That is too far away."
+                                if timer jaseowns_CurrentBotTargetUnableToAttackOverheadTimer >= jaseowns_CurrentBotTargetUnableToAttackOverheadTimerCD and listexists jaseowns_CurrentBotTargetUnableToAttackOverheadText
+                                    foreach jaseowns_Overhead in jaseowns_CurrentBotTargetUnableToAttackOverheadText
+                                        overhead jaseowns_Overhead jaseowns_CurrentBotTargetUnableToAttackOverheadHue jaseowns_CurrentBotTarget
+                                    endfor
+                                    settimer jaseowns_CurrentBotTargetOverheadTimer 0
+                                endif
+                                @setvar! jaseowns_CurrentBotTarget 0
+                            else
+                                @setvar! jaseowns_CurrentBotTargetGoodLOS 1
+                                settimer jaseowns_UsedSkillTimer 3000
+                                @setvar! jaseowns_CurrentBotTargetAttacked 1
+                            endif
+                        endif
+                        if targetexists
+                            hotkey "Cancel Current Target"
+                        endif 
+                    elseif jaseowns_CurrentBotTargetGoodLOS = 1 and find jaseowns_CurrentBotTarget ground -1 -1 jaseowns_DynamicRangeCheck 
+                        @setvar! jaseowns_CurrentBotTargetAttacked 1
+                    endif
+                endif
+            else
+                @setvar! jaseowns_CurrentBotTarget 0
+                @setvar! jaseowns_CurrentBotTargetGoodLOS 0
+            endif
+        endif
+    else
+        @setvar! jaseowns_CurrentBotTarget 0
+        @setvar! jaseowns_CurrentBotTargetGoodLOS 0
+        // do nothing
+    endif
+    
+
+    #####
+    ## Parry Codex Options
+    ###
+    if skill "Parry" >= 80 
+        if mana >= jaseowns_Parry_CodexMinMana and timer jaseowns_Parry_SwitchCodexTimer >= jaseowns_Parry_SwitchCodexTimerCD and findtype 11889 backpack as jaseowns_ParryCodex
+            getlabel jaseowns_ParryCodex jaseowns_ParryCodexDesc
+
+            if "Shield Bash" in jaseowns_ParryCodexDesc
+                @setvar! jaseowns_ActiveParryCodex 1
+            elseif "Warding" in jaseowns_ParryCodexDesc
+                @setvar! jaseowns_ActiveParryCodex 2
+            elseif "Testudo" in jaseowns_ParryCodexDesc
+                @setvar! jaseowns_ActiveParryCodex 3
+            elseif "Mirror" in jaseowns_ParryCodexDesc
+                @setvar! jaseowns_ActiveParryCodex 4
+            elseif "Bulwark" in jaseowns_ParryCodexDesc
+                @setvar! jaseowns_ActiveParryCodex 5
+            endif
+            
+            if findbuff "bleed" and jaseowns_Parry_SwitchToWardingIfBleeding = 1 and diffhits >= jaseowns_Parry_SwitchToWardingIfBleedingHpDiff
+                @setvar! jaseowns_SwitchTo 2
+            elseif findbuff "disease" and jaseowns_Parry_SwitchToWardingIfDisease = 1 and diffhits >= jaseowns_Parry_SwitchToWardingIfDiseaseHpDiff
+                @setvar! jaseowns_SwitchTo 2
+            elseif poisoned and jaseowns_Parry_SwitchToWardingIfPoison = 1 and diffhits >= jaseowns_Parry_SwitchToWardingIfPoisonHpDiff
+                @setvar! jaseowns_SwitchTo 2
+            elseif jaseowns_Parry_SwitchToBulwarkIfStandingStill = 1 and not cooldown "Bulwark"
+                @setvar! jaseowns_SwitchTo 5
+            elseif jaseowns_Parry_SwitchToShieldBashWhileMoving = 1 and cooldown "Moving"
+                @setvar! jaseowns_SwitchTo 1
+            elseif varexist jaseowns_Parry_SwitchToDefaultStance
+                @setvar! jaseowns_SwitchTo jaseowns_Parry_SwitchToDefaultStance
+            else
+                @setvar! jaseowns_SwitchTo 0
+            endif
+            
+            if jaseowns_ActiveParryCodex != jaseowns_SwitchTo
+                if jaseowns_SwitchTo = 1
+                    say "[ShieldsStance1"
+                elseif jaseowns_SwitchTo = 2
+                    say "[ShieldsStance2"
+                elseif jaseowns_SwitchTo = 3
+                    say "[ShieldsStance3"
+                elseif jaseowns_SwitchTo = 4
+                    say "[ShieldsStance4"
+                elseif jaseowns_SwitchTo = 5
+                    say "[ShieldsStance5"
+                endif
+                settimer jaseowns_Parry_SwitchCodexTimer 0
+            endif
+        endif
+    endif
+
+    // Attacking stuff
+    if jaseowns_CurrentBotTargetAttacked = 1
+        
+        if jaseowns_UseAbility1 = 1 and timer jaseowns_UseAbilityTimer >= jaseowns_UseAbilityTimerCD
+            say "[WeaponAbility1"
+            getlabel backpack jaseowns_PingCheck 
+            if insysmsg "You do cannot perform that ability yet."
+                settimer jaseowns_UseAbilityTimer 0
+            elseif insysmsg "You have not yet unlocked that weapon ability." or insysmsg "You do not have the required codex or skills to use that weapon ability."
+                @setvar! jaseowns_UseAbility1 0
+            else
+                settimer jaseowns_UseAbilityTimer 0 
+            endif
+        endif 
+
+        if jaseowns_UseAbility2 = 1 and timer jaseowns_UseAbilityTimer >= jaseowns_UseAbilityTimerCD
+            say "[WeaponAbility2"
+            getlabel backpack jaseowns_PingCheck 
+            if insysmsg "You do cannot perform that ability yet."
+                settimer jaseowns_UseAbilityTimer 0
+            elseif insysmsg "You have not yet unlocked that weapon ability." or insysmsg "You do not have the required codex or skills to use that weapon ability."
+                @setvar! jaseowns_UseAbility2 0
+            else
+                settimer jaseowns_UseAbilityTimer 0 
+            endif
+        endif   
+        
+        # if i have poison skill and jaseowns_UseAbility3
+        #  assume bane
+        #   only use bane if target has ticks in label
+
+        if jaseowns_UseAbility3 = 1 and timer jaseowns_UseAbilityTimer >= jaseowns_UseAbilityTimerCD
+            if jaseowns_BOT_Poisoner_UseBane = 1
+                if jaseowns_BOT_TargetPoisoned = 1
+                    say "[WeaponAbility3"
+                endif
+            else
+                say "[WeaponAbility3"
+            endif
+            getlabel backpack jaseowns_PingCheck 
+            if insysmsg "You do cannot perform that ability yet."
+                settimer jaseowns_UseAbilityTimer 0
+            elseif insysmsg "You have not yet unlocked that weapon ability." or insysmsg "You do not have the required codex or skills to use that weapon ability."
+                @setvar! jaseowns_UseAbility3 0
+            else
+                settimer jaseowns_UseAbilityTimer 0 
+            endif
+        endif   
+    
+        if jaseowns_AutoExplodePot = 1 and findtype 3853 self 0 as jaseowns_Pot
+            if timer jaseowns_AutoExplodePotTimer >= jaseowns_AutoExplodePotTimerCD 
+                dclick jaseowns_Pot
+                if findtype 3853 self 0 as jaseowns_Pot2
+                    getlabel jaseowns_Pot2 jaseowns_PotDesc    
+                    if "next" in jaseowns_PotDesc
+                        if "12 seconds" in jaseowns_PotDesc
+                            @setvar! jaseowns_AutoExplodePotTimerCD 12000
+                        elseif "13 seconds" in jaseowns_PotDesc
+                            @setvar! jaseowns_AutoExplodePotTimerCD 13000
+                        elseif "14 seconds" in jaseowns_PotDesc
+                            @setvar! jaseowns_AutoExplodePotTimerCD 14000
+                        elseif "15 seconds" in jaseowns_PotDesc
+                            @setvar! jaseowns_AutoExplodePotTimerCD 15000
+                        endif
+                        settimer jaseowns_AutoExplodePotTimer 0
+                        cooldown "Purple Pot" jaseowns_AutoExplodePotTimerCD
+                    endif
+                endif
+            endif
+            wft 500
+            target lasttarget
+        endif
+    
+        if not queued and jaseowns_Potion_UseAgilityAutomatically = 1 and not findbuff "Agility" and findtype 3848 self as jaseowns_Potion
+            if timer jaseowns_UseItemTimer >= jaseowns_UseItemTimerCD
+                dclick jaseowns_Potion
+                settimer jaseowns_UseItemTimer 0
+            endif
+        endif
+        
+        if not queued and jaseowns_Potion_UseStrengthAutomatically = 1 and not findbuff "Strength" and findtype 3849 self as jaseowns_Potion
+            if timer jaseowns_UseItemTimer >= jaseowns_UseItemTimerCD
+                dclick jaseowns_Potion
+                settimer jaseowns_UseItemTimer 0
+            endif
+        endif
+        
+        if not queued and jaseowns_Potion_UseMagicResistAutomatically = 1 and not findbuff "Magic Resist" and findtype 3846 self as jaseowns_Potion
+            if timer jaseowns_UseItemTimer >= jaseowns_UseItemTimerCD
+                dclick jaseowns_Potion
+                settimer jaseowns_UseItemTimer 0
+            endif
+        endif
+    
+        if varexist jaseowns_HolySymbols
+            if jaseowns_Chiv_UseDivineFuryAutomatically = 1 and 4 <= jaseowns_HolySymbols and skill "chivalry" >= 90 and timer jaseowns_DivineFuryTimer >= jaseowns_DivineFuryTimerCD
+                say "[DivineFury"
+                getlabel backpack jaseowns_PingCheck
+                if insysmsg "Holy symbols remaining" 
+                    cooldown "Divine Fury" jaseowns_DivineFuryTimerCD
+                    settimer jaseowns_DivineFuryTimer 0
+                endif
+            elseif poisoned and jaseowns_Chiv_UseCleanseByFireAutomatically = 1 and 2 <= jaseowns_HolySymbols and skill "chivalry" >= 60 and timer jaseowns_CleanseByFireTimer >= jaseowns_CleanseByFireTimerCD
+                say "[CleanseByFire"
+                getlabel backpack jaseowns_PingCheck
+                if insysmsg "Holy symbols remaining" 
+                    cooldown "Cleanse By Fire" jaseowns_CleanseByFireTimerCD
+                    settimer jaseowns_CleanseByFireTimer 0
+                endif
+            elseif jaseowns_Chiv_UseEnemyOfOneAutomatically = 1 and 3 <= jaseowns_HolySymbols and skill "chivalry" >= 75 and timer jaseowns_EnemyOfOneTimer >= jaseowns_EnemyOfOneTimerCD
+                say "[EnemyOfOne"
+                getlabel backpack jaseowns_PingCheck
+                if insysmsg "Holy symbols remaining" 
+                    cooldown "Enemy Of One" jaseowns_EnemyOfOneTimerCD
+                    settimer jaseowns_EnemyOfOneTimer 0
+                endif  
+            elseif jaseowns_Chiv_UseConsecrateWeaponAutomatically = 1 and 2 <= jaseowns_HolySymbols and skill "chivalry" >= 65 and timer jaseowns_ConsecrateWeaponTimer >= jaseowns_ConsecrateWeaponTimerCD
+                say "[ConsecrateWeapon"
+                getlabel backpack jaseowns_PingCheck
+                if insysmsg "Holy symbols remaining" 
+                    cooldown "Consecrate Weapon" jaseowns_ConsecrateWeaponTimerCD
+                    settimer jaseowns_ConsecrateWeaponTimer 0
+                endif
+            endif
+        endif
+        
+        
+        if jaseowns_AutoTaunting = 1 or jaseowns_AutoAOETaunting = 1
+            @setvar! jaseowns_TriggerAbility 0
+            if cooldown "Taunting" or timer jaseowns_TauntingTimer < jaseowns_TauntingTimerCD
+                // do nothing
+            elseif not varexist jaseowns_Parry_AutoTauntHpDiffTrigger
+                if hp >= 80
+                    @setvar! jaseowns_TriggerAbility 1
+                endif
+            elseif diffhits <= jaseowns_Parry_AutoTauntHpDiffTrigger 
+                @setvar! jaseowns_TriggerAbility 1
+            endif
+            if jaseowns_TriggerAbility = 1
+                say "[Taunt"
+                wft 500
+                if targetexists 
+                    if jaseowns_AutoAOETaunting = 1
+                        hotkey "Target Self"
+                    else
+                        target jaseowns_CurrentBotTarget
+                    endif
+                    getlabel backpack jaseowns_PingCheck
+                    if not targetexists 
+                        if insysmsg "Cannot be seen"
+                            // do nothing
+                        else
+                            cooldown "Taunting" jaseowns_TauntingTimerCD
+                            settimer jaseowns_TauntingTimer 0
+                        endif
+                    else
+                        hotkey "Cancel Current Target"
+                    endif
+                endif
+            endif
+        endif
+### Ocean Edit
+        ### Ocean: Crew Attack
+        if undead_Ocean_CrewAttackEnable = 1
+            @setvar! jaseowns_TriggerAbility 0
+            if cooldown "CrewAttack" or timer undead_Ocean_CrewAttackTimer < undead_Ocean_CrewAttackTimerCD
+                // do nothing
+            else
+                @setvar! jaseowns_TriggerAbility 1
+            endif
+            if jaseowns_TriggerAbility = 1
+                overhead '!!Crew Attack!!' 54
+                say "[CrewAttack"
+                wft 500
+                if targetexists 
+                    target jaseowns_CurrentBotTarget
+                    getlabel backpack jaseowns_PingCheck
+                    if not targetexists 
+                        if insysmsg "Cannot be seen"
+                            // do nothing
+                        else
+                            cooldown "CrewAttack" undead_Ocean_CrewAttackTimerCD
+                            settimer undead_Ocean_CrewAttackTimer 0
+                        endif
+                    else
+                        hotkey "Cancel Current Target"
+                    endif
+                endif
+            endif
+        endif
+### /Ocean Edit
+        
+    endif
+    
+    if skill "Discordance" > 0
+        if not findbuff "song of discordance" and timer jaseowns_BOT_BardBuffTimer >= 10000
+            useskill 'Discordance'
+            wft 500
+            if insysmsg "What instrument"
+                if findtype 3740|3742|3762|3763|10245|20006|20008|20010|20012|20014|20016 backpack as jaseowns_Instrument 
+                    target jaseowns_Instrument
+                else
+                    overhead "I do not have an instrument" 34
+                endif
+                wft 500
+            endif
+            target backpack
+            settimer jaseowns_BOT_BardBuffTimer 0
+        endif
+    endif
+
+    if skill "Provocation" > 0
+        if not findbuff "song of provocation" and timer jaseowns_BOT_BardBuffTimer >= 10000
+            useskill 'Provocation'
+            wft 500
+            if insysmsg "What instrument"
+                if findtype 3740|3742|3762|3763|10245|20006|20008|20010|20012|20014|20016 backpack as jaseowns_Instrument 
+                    target jaseowns_Instrument
+                else
+                    overhead "I do not have an instrument" 34
+                endif
+                wft 500
+            endif
+            target backpack
+            settimer jaseowns_BOT_BardBuffTimer 0
+        endif
+    endif
+
+    if skill "Peacemaking" > 0
+        if not findbuff "song of peacemaking" and timer jaseowns_BOT_BardBuffTimer >= 10000
+            useskill 'Peacemaking'
+            wft 500
+            if insysmsg "What instrument"
+                if findtype 3740|3742|3762|3763|10245|20006|20008|20010|20012|20014|20016 backpack as jaseowns_Instrument 
+                    target jaseowns_Instrument
+                else
+                    overhead "I do not have an instrument" 34
+                endif
+                wft 500
+            endif
+            target backpack
+            settimer jaseowns_BOT_BardBuffTimer 0
+        endif
+    endif
+### Ocean Edits
+    ### Experimental, switch to Frost Aspect when youre low life.
+    if undead_Ocean_FrostRescue = 1 and hp < undead_Ocean_FrostRescue_hp_trigger 
+        if not cooldown "Aspect"
+            say "[AspectArmor Frost" 88
+            getlabel backpack ping
+            if insysmsg "Your armor is already of that aspect"
+                overhead "Frost Already Enabled" 2234
+            else 
+                cooldown "Aspect" 30000
+                overhead "--Frost Shell Primed--" 2234
+            endif
+        else
+            overhead "Aspect Cooling..." 45
+        endif
+    endif
+    
+    ### Experimental, switch into warmode when cannons are on cooldown. only 1x every 15 secs.
+    if undead_Ocean_Switch_Warmode_If_CannonsCD = 1 and cooldown 'Cannons' and timer undead_Ocean_Switch_Warmode_If_CannonsCD_Timer >= undead_Ocean_Switch_Warmode_If_CannonsCD_TimerCD
+        overhead 'Warmode Activated'
+        warmode on
+        settimer undead_Ocean_Switch_Warmode_If_CannonsCD_Timer 0
+    endif
+    
+### /Ocean Edits
+
+    wait 100
+endwhile

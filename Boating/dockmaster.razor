@@ -1,0 +1,12 @@
+
+for 50
+    hotkey "Next Monster Target"
+    @setvar bdockmaster lasttarget
+    if noto bdockmaster = "invulnerable"
+        getlabel bdockmaster desc
+        if "dockmaster" in desc
+            menu bdockmaster 1
+            break
+        endif
+    endif
+endfor

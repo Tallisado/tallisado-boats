@@ -1,0 +1,98 @@
+if skill "Healing" >= 20
+    clearsysmsg 
+    if varexist "CrewHeal"
+        overhead "test: no crewtargetvar"
+    endif
+    if not targetexists
+       overhead "info: no target cursor"
+    //if varexist "CrewHeal"
+    //     @unsetvar "CrewHeal"
+    // endif
+    
+        hotkey "Cancel Current Target"
+        overhead "Target Heal" 55
+        hotkey "Set Last Target"
+        wft 500
+        while targetexists 
+            //donothing
+        endwhile
+        @setvar "CrewHeal" lasttarget
+        overhead "set crew heal"
+    elseif targetexists and varexist "CrewHeal"
+        overhead "info: target cursor / crewhealVar"
+        hotkey "Cancel Current Target"
+        overhead "<Me>" 78 "CrewHeal"
+    else
+        overhead "Fumbled bandages .."
+        script "Master Background"
+    endif
+
+    getlabel lasttarget desc
+   
+
+    if varexist "CrewHeal" and findtype 3617 backpack as baids
+        while queued
+            //donothing
+        endwhile
+        dclick baids
+        wft 500
+        target "CrewHeal"
+        getlabel backpack ping
+        if insysmsg "You begin applying the bandages"
+            cooldown "Bandage" 5250
+        elseif insysmsg "You are too far away to do that"
+            overhead "**FAR**" 45 "CrewHeal"
+            if not bandaging
+                waitforgump 1722920179
+                gumpresponse 20 1722920179
+            endif
+            if not bandaging
+                waitforgump 1722920179
+                gumpresponse 21 1722920179
+            endif
+            if not bandaging
+                waitforgump 
+                gumpresponse 22 1722920179
+            endif
+            if not bandaging
+                waitforgump 1722920179
+                gumpresponse 23 1722920179
+            endif
+            if not bandaging
+                waitforgump 1722920179
+                gumpresponse 24 1722920179
+            endif
+            if not bandaging
+                waitforgump 1722920179
+                gumpresponse 25 1722920179
+            endif
+        elseif insysmsg "That being is not damaged!"
+            overhead "*Full Health*" 78 "CrewHeal"
+            if not bandaging
+                waitforgump 1722920179
+                gumpresponse 20 1722920179
+            endif
+            if not bandaging
+                waitforgump 1722920179
+                gumpresponse 21 1722920179
+            endif
+            if not bandaging
+                waitforgump 
+                gumpresponse 22 1722920179
+            endif
+            if not bandaging
+                waitforgump 1722920179
+                gumpresponse 23 1722920179
+            endif
+            if not bandaging
+                waitforgump 1722920179
+                gumpresponse 24 1722920179
+            endif
+            if not bandaging
+                waitforgump 1722920179
+                gumpresponse 25 1722920179
+            endif
+        endif
+    endif
+endif
+script "Master Background"

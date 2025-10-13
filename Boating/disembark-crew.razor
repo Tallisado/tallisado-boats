@@ -1,0 +1,34 @@
+# Bapeths Smart Disembark and Recall Boarding
+#
+# Script will loop into 'Master Background' if you have it in your script library
+#
+# This script acts as both an embark and disembark hotkey
+#
+# Script starts here
+overhead "Disembark Crew"
+pause 50
+clearsysmsg 
+say '[EmbarkFollowers'
+getlabel backpack ping
+say '[RecallBoarding'
+getlabel backpack ping
+
+if insysmsg "Your followers embark onto the ship"
+    hotkey "Play Script: Automation\PoonerBot\master"
+    stop
+endif
+
+if insysmsg "You do not have any valid at the moment"
+    hotkey "Play Script: Automation\PoonerBot\master"
+    stop
+endif
+#if insysmsg "not currently boarding"
+
+if insysmsg "you are already"
+    say "[disembark"
+    wft 500
+    while targetexists 
+        //do nothing
+    endwhile
+endif
+hotkey "Play Script: Automation\PoonerBot\master"

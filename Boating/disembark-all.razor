@@ -1,0 +1,97 @@
+# Bapeths Smart Disembark and Recall Boarding
+#
+# Script will loop into 'Master Background' if you have it in your script library
+#
+# This script acts as both an embark and disembark hotkey
+#
+# Script starts here
+overhead "Disembark All"
+pause 50
+clearsysmsg 
+say '[Embark'
+getlabel backpack ping
+say '[EmbarkFollowers'
+getlabel backpack ping
+say '[RecallBoarding'
+getlabel backpack ping
+warmode off 
+if insysmsg "Your followers embark onto the ship"
+    hotkey "Play Script: Automation\PoonerBot\master"
+    stop
+elseif followers >= 1
+    overhead 'Where shall I disembark?' 45
+    say '[DisembarkFollowers'
+    wft 500
+    while targetexists 
+        //donothing
+    endwhile
+    getlabel backpack ping
+    if insysmsg 'That is not a valid location'
+        overhead 'Try Again...' 45
+        replay
+    elseif insysmsg 'That is too far away'
+        overhead 'Try Again...' 45
+        replay
+    elseif insysmsg 'Target cannot be seen'
+        overhead 'Try Again...' 45
+        replay
+    elseif insysmsg 'The requested target is out of range'
+        overhead 'Try Again...' 45
+        replay
+    endif
+    say '[Disembark'
+    wft 500
+    while targetexists 
+        //donothing
+    endwhile
+    getlabel backpack ping
+    if insysmsg 'That is not a valid location'
+        overhead 'Try Again...' 45
+        replay
+    elseif insysmsg 'That is too far away'
+        overhead 'Try Again...' 45
+        replay
+    elseif insysmsg 'Target cannot be seen'
+        overhead 'Try Again...' 45
+        replay
+    elseif insysmsg 'The requested target is out of range'
+        overhead 'Try Again...' 45
+        replay
+    endif
+    elseif followers = 0 and insysmsg "You are already onboard"
+    overhead 'Where shall I disembark?' 45
+    say '[Disembark'
+    wft 500
+    while targetexists 
+        //donothing
+    endwhile
+    getlabel backpack ping
+    if insysmsg 'That is not a valid location'
+        overhead 'Try Again...' 45
+        replay
+    elseif insysmsg 'That is too far away'
+        overhead 'Try Again...' 45
+        replay
+    elseif insysmsg 'Target cannot be seen'
+        overhead 'Try Again...' 45
+        replay
+    elseif insysmsg 'The requested target is out of range'
+        overhead 'Try Again...' 45
+        replay
+    endif
+endif
+
+if insysmsg "You do not have any valid at the moment"
+    hotkey "Play Script: Automation\PoonerBot\master"
+    stop
+endif
+#if insysmsg "not currently boarding"
+
+if insysmsg "you are already"
+    say "[disembark"
+    wft 500
+    while targetexists 
+        //do nothing
+    endwhile
+endif
+hotkey "Play Script: Automation\PoonerBot\master"

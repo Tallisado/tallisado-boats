@@ -1,0 +1,10 @@
+hotkey 'Set Last Target'
+wft 500
+while targetexists 
+    //do nothing
+endwhile
+if not targetexists 
+    @setvar 'Manual Override' lasttarget
+    overhead "Manual Override Set" 88 
+endif
+hotkey "Play Script: Automation\PoonerBot\master"
