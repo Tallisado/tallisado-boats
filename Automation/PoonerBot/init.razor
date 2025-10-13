@@ -38,9 +38,9 @@ overhead "PEACE to run around" 89
 #@setvar! undead_Ocean_CrewHealBandagesFar_TimerCD
 
 # Spyglass Cooldown Min: 7s, 9s is recommended
-@setvar! undead_Ocean_Spyglass_Active 1
+//@setvar! undead_Ocean_Spyglass_Active 1
 @setvar! undead_Ocean_Spyglass_TimerCD 9000
-@setvar! undead_Ocean_Spyglass_SearchAllPages 0
+//@setvar! undead_Ocean_Spyglass_SearchAllPages 0
 
 @setvar! undead_Ocean_ShipHotBars_YellAtStart 0
 
@@ -71,7 +71,7 @@ overhead "PEACE to run around" 89
 @setvar! jaseowns_Potion_UseRefreshAutomatically 1
 @setvar! jaseowns_Potion_RefreshStamDiffTrigger 10
 # Potions Overhead
-@setvar! jaseowns_Potion_ShowOverheads 1
+@setvar! jaseowns_Potion_ShowOverheads 0
 @setvar! jaseowns_Potion_Cure_Overhead_IfCountIsLessThan 5
 @setvar! jaseowns_Potion_Cure_Overhead_IfCountIsLessThan_TimerCD 5000
 @setvar! jaseowns_Potion_Heal_Overhead_IfCountIsLessThan 5
@@ -177,11 +177,13 @@ pushlist jaseowns_IgnoreMobList "a giant rat"
 pushlist jaseowns_IgnoreMobList "a great hart"
 
 // tallis_Ocean_SacredJourneyOnAutoLaunch is used in launch to chiv gate buff
-//if tallis_Ocean_AutoLaunch = 1
-//    pushlist jaseowns_PreviousScript "Play Script: Automation\PoonerBot\dockermaster-launch"
-//else
+// luanch -> chiv -> master
+if tallis_Ocean_AutoLaunch = 1
+    overhead "Auto Launch!"
+    pushlist jaseowns_PreviousScript "Play Script: Boating\dockmaster-launch"
+else
     pushlist jaseowns_PreviousScript "Play Script: Automation\PoonerBot\master"
-//endif
+endif
 
 
 if listexists jaseowns_PreviousScript

@@ -167,7 +167,20 @@ while not dead
     overhead "Launch Sequence Complete..." 88
     warmode off
     if tallis_Ocean_SacredJourneyOnAutoLaunch = 1
-        hotkey 'Play Script: Automation\PoonerBot\sacred-journey-to-boat'
+        overhead "Please disembark for chiv buff"
+        say "[disembark"
+        wft 500
+        while targetexists
+            // do nothing
+        endwhile
+        getlabel backpack ping
+        if insysmsg "You disembark from the ship."
+            overhead "Time for the journey!"
+            hotkey 'Play Script: Boating\sacred-journey-to-boat'
+        else
+            overhead "Disembark failed, try again..."
+            replay
+        endif
     else
         hotkey 'Play Script: Automation\PoonerBot\master'
     endif
