@@ -173,6 +173,25 @@ if not varexist jaseowns_Potion_CureHpDiffTrigger
     @setvar! jaseowns_Potion_CureHpDiffTrigger 0
 endif
 
+while findtype 31262 backpack -1 as _p1
+    dclick _p1
+    wait 200
+    ignore _p1
+endwhile
+clearignore
+
+while findtype 30765 backpack -1 as _w1
+    dclick _w1
+    wait 200
+    ignore _w1
+endwhile
+clearignore
+
+say "[AspectWeapon Holy Max"
+wait 200
+say "[AspectArmor Fortune Max"
+wait 200
+
 if jaseowns_Potion_ShowOverheads = 1
     if not varexist jaseowns_Potion_Cure_Overhead_IfCountIsLessThan
         @setvar! jaseowns_Potion_Cure_Overhead_IfCountIsLessThan 5
@@ -199,7 +218,7 @@ if jaseowns_Potion_ShowOverheads = 1
     
 endif
 
-cooldown "Moving" 5000
+// cooldown "Moving" 5000
 if not cooldown "Moving"
     overhead "We do not have the cooldown..." 34
     overhead "Moving" 79

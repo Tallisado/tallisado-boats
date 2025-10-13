@@ -16,17 +16,14 @@ if not cooldown "Cannons"
     getlabel backpack ping
     if insysmsg 'No cannons require reloading at the moment.'
         overhead 'Cannons Fully Loaded' 45
-        warmode off 
         hotkey "Play Script: Automation\PoonerBot\master"
         stop
     elseif insysmsg "reload the cannons"
         overhead "Reloading underway..." 45
-        warmode off 
         hotkey "Play Script: Automation\PoonerBot\master"
         stop
     endif
     overhead '*Reloading*' 45
-    warmode off 
     hotkey "Play Script: Automation\PoonerBot\master"
     stop
 else 
