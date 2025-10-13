@@ -116,6 +116,7 @@ settimer baseInitTimerExample 0
 
 @setvar! jaseowns_CurrentBotTarget 0
 @setvar! jaseowns_FightingRangeCheck 12
+@setvar! tallis_repairDuration 6000
 
 if not varexist jaseowns_CurrentBotTargetOverheadTimerCD
     @setvar! jaseowns_CurrentBotTargetOverheadTimerCD 2000
@@ -619,7 +620,7 @@ while not dead
          endif
          
          if varexist 'CrewHeal' and timer undead_Ocean_CrewHealBandages_Timer >= undead_Ocean_CrewHealBandages_TimerCD and findtype 3617 backpack as baids
-            overhead "Medic LT" 88 lasttarget
+            //overhead "Medic LT" 88 lasttarget
             overhead "Medic CH Var" 88 'CrewHeal'
             hotkey "Bandage LastTarget"
             if insysmsg "You are too far away to do that"
@@ -1511,7 +1512,6 @@ while not dead
             endif
         endif
 
-        overhead "CHECK OVERRIDE"
         if varexist "Manual Override" and find "Manual Override" ground
             overhead "Manual Override - target selected!" 89 "Manual Override"
             @setvar! jaseowns_CurrentBotTarget "Manual Override"
@@ -1519,9 +1519,14 @@ while not dead
         // do fighting
         if not find jaseowns_CurrentBotTarget
             hotkey "target closest non-friendly monster"
-            @setvar! jaseowns_LastBotTarget lasttarget 
-            if jaseowns_CurrentBotTarget != jaseowns_LastBotTarget
-                @setvar! jaseowns_CurrentBotTarget jaseowns_LastBotTarget
+            getlabel lasttarget desc
+            if "[Crewmember]" in desc
+                overhead "ignore hommie"
+            else
+                @setvar! jaseowns_LastBotTarget lasttarget 
+                if jaseowns_CurrentBotTarget != jaseowns_LastBotTarget
+                    @setvar! jaseowns_CurrentBotTarget jaseowns_LastBotTarget
+                endif
             endif
         endif
         
@@ -1972,6 +1977,44 @@ while not dead
             endif
         endif
     ### /Ocean Edit
+    endif
+
+    if not cooldown "Fray" and not timerexists repairRetry
+        overhead "Out of combat repair"
+        settimer repairRetry tallis_repairDuration
+        hotkey "Play Script: Boating\repair"
+    endif
+
+    if insysmsg "We've received"
+        overhead "To the bottom!"
+        
+        if findtype "ship repair kit"
+        gumpclose 1271619955
+        clearsysmsg 
+        say "[Repair" 45
+        waitforgump 1271619955 500
+        gumpresponse 4
+        getlabel backpack ping
+    else
+        overhead "I am out of repair kits..." 38
+    endif
+    if insysmsg "guns"
+        gumpresponse 3
+        getlabel backpack ping
+    endif
+    if insysmsg "sails"
+        gumpresponse 2
+        getlabel backpack ping
+    endif
+    if insysmsg "hull"
+        overhead "Ship is in good order!" 68
+
+    endif
+    if insysmsg "repaired again"
+        overhead "Yar, we cant repair in combat..." 38
+    endif
+
+        hotkey "Play Script: Boating\cannon\reload"
     endif
 
     if timerexists openhull
