@@ -1,13 +1,9 @@
 removelist jaseowns_PreviousScript
 createlist jaseowns_PreviousScript
-pushlist jaseowns_PreviousScript "Play Script: Automation\BoatBot\BoatPoonerBase"
-
-### comment this shit out if you dont want to launch with chiv buff
-#
 
 #######
 # Ultimate Dexxer Bot Rewrite 2024 by Jaseowns
-# Changed for Boating by Undead
+# Changed for Boating by Undead / Tallis
 # UO Outlands - jaseowns.com/discord
 #####################
 overhead "Newer Dexxer Bot" 76
@@ -59,7 +55,7 @@ overhead "PEACE to run around" 89
 @setvar! jaseowns_ShowVersion 0
 
 # Skinning
-@setvar! jaseowns_UseSkinningKnifeAutomatically 0
+@setvar! jaseowns_UseSkinningKnifeAutomatically 1
 # Potions
 @setvar! jaseowns_Potion_UseMagicResistAutomatically 1
 @setvar! jaseowns_Potion_UseStrengthAutomatically 1
@@ -75,7 +71,7 @@ overhead "PEACE to run around" 89
 @setvar! jaseowns_Potion_UseRefreshAutomatically 1
 @setvar! jaseowns_Potion_RefreshStamDiffTrigger 10
 # Potions Overhead
-@setvar! jaseowns_Potion_ShowOverheads 0
+@setvar! jaseowns_Potion_ShowOverheads 1
 @setvar! jaseowns_Potion_Cure_Overhead_IfCountIsLessThan 5
 @setvar! jaseowns_Potion_Cure_Overhead_IfCountIsLessThan_TimerCD 5000
 @setvar! jaseowns_Potion_Heal_Overhead_IfCountIsLessThan 5
@@ -173,13 +169,19 @@ pushlist jaseowns_IgnoreMobList "a kingfisher"
 pushlist jaseowns_IgnoreMobList "a raven"
 pushlist jaseowns_IgnoreMobList "a goat"
 pushlist jaseowns_IgnoreMobList "a black bear"
-//pushlist jaseowns_IgnoreMobList "an eagle"
+pushlist jaseowns_IgnoreMobList "an eagle"
+pushlist jaseowns_IgnoreMobList "a wolf"
+pushlist jaseowns_IgnoreMobList "a horse"
+pushlist jaseowns_IgnoreMobList "a towhee"
 
-if tallis_Ocean_AutoLaunch = 1
-    pushlist jaseowns_PreviousScript "Play Script: Boating\dockmaster-lauch"
-if tallis_Ocean_SacredJourneyOnAutoLaunch = 1 and tallis_Ocean_AutoLaunch = 1 and not buffexists "Sacred Journey"
-    pushlist jaseowns_PreviousScript "Play Script: Boating\sacred-journey-to-boat"
-endif
+// tallis_Ocean_SacredJourneyOnAutoLaunch is used in launch to chiv gate buff
+//if tallis_Ocean_AutoLaunch = 1
+//    pushlist jaseowns_PreviousScript "Play Script: Automation\PoonerBot\dockermaster-launch"
+//else
+    pushlist jaseowns_PreviousScript "Play Script: Automation\PoonerBot\master"
+//endif
+
+
 if listexists jaseowns_PreviousScript
     foreach myScript in jaseowns_PreviousScript
         hotkey myScript

@@ -1,14 +1,4 @@
-# Bapeths Ship Launcher
-#
-# Updated March 30th 2025
-# 
-#
-# Script will loop into 'Master Background' if you have it in your script library
-# Run this script near any friendly boats to add any and all friendly crew to the ignore list
-#
-# This script will launch your ship, ready crew, and load cannons
-#
-# Script starts here
+
 
 clearsysmsg 
 overhead 'Launch sequence initiated...' 45
@@ -176,5 +166,9 @@ while not dead
     hotkey "Cancel Current Target"
     overhead "Launch Sequence Complete..." 88
     warmode off
-    stop
+    if tallis_Ocean_SacredJourneyOnAutoLaunch = 1
+        hotkey 'Play Script: Automation\PoonerBot\sacred-journey-to-boat'
+    else
+        hotkey 'Play Script: Automation\PoonerBot\master'
+    endif
 endwhile

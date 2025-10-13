@@ -4,7 +4,14 @@ while targetexists
     //do nothing
 endwhile
 if not targetexists 
-    @setvar 'Manual Override' lasttarget
-    overhead "Manual Override Set" 88 
+    getlabel lasttarget desc
+    if "[Crewmember]" in desc
+        @setvar 'CrewHeal' lasttarget
+        overhead "*Heal Target*" 78 "CrewHeal"
+        overhead "CrewHeal Set" 88 
+    else
+        @setvar 'Manual Override' lasttarget
+        overhead "Manual Override Set" 88 
+    endif
 endif
 hotkey "Play Script: Automation\PoonerBot\master"
