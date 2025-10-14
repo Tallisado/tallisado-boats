@@ -1,35 +1,18 @@
 removelist jaseowns_PreviousScript
 createlist jaseowns_PreviousScript
-pushlist jaseowns_PreviousScript "Play Script: Dex Bot\base"
 
 #######
-# Ultimate Dexxer Bot Rewrite 2024-2025 by Jaseowns
+# Ultimate Dexxer Bot Rewrite 2024 by Jaseowns
+# Changed for Boating by Undead / Tallis
 # UO Outlands - jaseowns.com/discord
 #####################
-overhead "Newer Dexxer Bot 2.4" 76
+overhead "Newer Dexxer Bot" 76
 overhead "WAR mode to fight stuff" 34
 overhead "PEACE to run around" 89
 #####################################
 # Recently Added:
 #######
-# GOALS Today:
-#   09/03/2025 = 2.4  - targeting: allow different styles of play
-#   09/01/2025 = 2.3  - bard: multi target boat: remove spyglass
-#   08/29/2025 = 2.2  - bard: allow peace first, aoe peace if low health
-#   07/02/2025 = 2.00 - auto provoke
-#   06/25/2025 = 1.23 - fix chiv over 15, fix bosses
-#   06/18/2025 = 1.22 - range check harpooner
-#   06/16/2025 = 1.21 - talk about chiv timing
-#   05/09/2025 = 1.20 - no changes here, only in base
-#   05/07/2025 = 1.19 - no changes here, only in base
-#   04/25/2025 = 1.18 - Fix holy symbols
-#   03/09/2025 = 1.17 - Fix error
-#   03/07/2025 = 1.16 - No stream but fixed the error (hopefully)
-#   02/07/2025 = 1.15 - 6-9pm stream: Turn off auto guard and update vet kit heals
-#   11/18/2024 = 1.14 - 6-9pm stream: Taming and boating?
-#   11/18/2024 = 1.13 - 6-9am stream: Cleansing Brew, overhead low aids
-#   11/15/2024 = 1.12 - 6-9pm stream: Varaible for magic resist potion
-#   11/15/2024 = 1.11 - 6-9am stream: Bane updates, added overweight checks
+# GOALS Today: potions
 #   11/11/2024 = 1.10 - 6-9pm stream: Testing with new echo, fix LOS, fix re-equip  
 #   11/11/2024 = 1.9 - 6-9am stream: Poison and bane, pancea, disarm logic
 #   11/08/2024 = 1.8 - 6-9pm stream: Bard buffs - Explosion Potions - Para Pouch
@@ -43,14 +26,6 @@ overhead "PEACE to run around" 89
 #   10/31/2024 = 1.0 - Initial Script
 #    
 
-@setvar! jaseowns_ShowVersion 1
-
-# Peace mode vs war mode 0 = war  1 = peace to fight mobs automatically
-@setvar! jaseowns_BOT_FIGHT_IN_PEACEMODE 1
-
-# Boating
-@setvar! jaseowns_BOAT_UseSpyGlassAutomatically 1
-@setvar! jaseowns_BOAT_UseSpyGlassAutomaticallyTimerCD 10000
 
 ### OCEAN EDIT ###
 @setvar! undead_overhead_ocean 87
@@ -77,11 +52,12 @@ overhead "PEACE to run around" 89
 
 ### /OCEAN EDIT ###
 
-# Skinning
-@setvar! jaseowns_UseSkinningKnifeAutomatically 0
 
+@setvar! jaseowns_ShowVersion 0
+
+# Skinning
+@setvar! jaseowns_UseSkinningKnifeAutomatically 1
 # Potions
-@setvar! jaseowns_Potion_UseMagicResistAgainIfDebuffedAutomatically 0
 @setvar! jaseowns_Potion_UseMagicResistAutomatically 1
 @setvar! jaseowns_Potion_UseStrengthAutomatically 1
 @setvar! jaseowns_Potion_UseAgilityAutomatically 1
@@ -89,12 +65,12 @@ overhead "PEACE to run around" 89
 @setvar! jaseowns_Potion_UseHealAutomatically 1
 @setvar! jaseowns_Potion_HealHpDiffTrigger 35
 # Cure Pot
-@setvar! jaseowns_HasPanacea 1
+@setvar! jaseowns_HasPanacea 0
 @setvar! jaseowns_Potion_UseCureAutomatically 1
 @setvar! jaseowns_Potion_CureHpDiffTrigger 0
 # Refresh Pot
 @setvar! jaseowns_Potion_UseRefreshAutomatically 1
-@setvar! jaseowns_Potion_RefreshStamDiffTrigger 50
+@setvar! jaseowns_Potion_RefreshStamDiffTrigger 10
 # Potions Overhead
 @setvar! jaseowns_Potion_ShowOverheads 0
 @setvar! jaseowns_Potion_Cure_Overhead_IfCountIsLessThan 5
@@ -105,11 +81,7 @@ overhead "PEACE to run around" 89
 @setvar! jaseowns_Potion_Explosion_Overhead_IfCountIsLessThan_TimerCD 5000
 
 # Explosion Potions - use at your own risk
-@setvar! jaseowns_AutoExplodePot 1
-
-# Cleansing Brew
-@setvar! jaseowns_Potion_UseCleansingBrewAutomatically 0
-@setvar! jaseowns_Potion_UseCleansingBrewHpDiffTrigger 60
+@setvar! jaseowns_AutoExplodePot 0
 
 # Weapon Abilities
 @setvar! jaseowns_UseAbility1 0
@@ -123,7 +95,7 @@ overhead "PEACE to run around" 89
 @setvar! jaseowns_Poison_AutomaticallyApplyAtSingleCharge 1
 
 # Parry
-@setvar! jaseowns_AutoTaunting 1
+@setvar! jaseowns_AutoTaunting 0
 @setvar! jaseowns_AutoAOETaunting 0
 @setvar! jaseowns_TauntingTimerCD 15000
 @setvar! jaseowns_Parry_AutoTauntHpDiffTrigger 20
@@ -163,13 +135,9 @@ overhead "PEACE to run around" 89
 @setvar! jaseowns_Chiv_AutoCloseWoundHpDiffTrigger 20
 
 # Bard Abilities
-@setvar! jaseowns_Bard_UsePeaceFirst 1
-@setvar! jaseowns_Bard_DiscordAutomatically 1
-@setvar! jaseowns_Bard_PeaceAutomatically 1
-@setvar! jaseowns_Bard_ProvoAutomatically 1
-@setvar! jaseowns_Bard_AutoUseAOEPeaceWhenLowHealthCheck 40
-
-@setvar! jaseowns_Healing_AidCountAlertLessThan20 1
+@setvar! jaseowns_Bard_DiscordAutomatically 0
+@setvar! jaseowns_Bard_PeaceAutomatically 0
+# @setvar! jaseowns_Bard_ProvokeAutomatically 1
 
 # General Target Overheads
 @setvar! jaseowns_CurrentBotTargetOverheadTimerCD 1500
@@ -202,10 +170,23 @@ pushlist jaseowns_IgnoreMobList "a kingfisher"
 pushlist jaseowns_IgnoreMobList "a raven"
 pushlist jaseowns_IgnoreMobList "a goat"
 pushlist jaseowns_IgnoreMobList "a black bear"
-//pushlist jaseowns_IgnoreMobList "an eagle"
+pushlist jaseowns_IgnoreMobList "an eagle"
+pushlist jaseowns_IgnoreMobList "a wolf"
+pushlist jaseowns_IgnoreMobList "a horse"
+pushlist jaseowns_IgnoreMobList "a towhee"
+pushlist jaseowns_IgnoreMobList "a giant rat"
+pushlist jaseowns_IgnoreMobList "a great hart"
 
-unsetvar jaseowns_BOT_CurrentRightHandWeapon
-unsetvar jaseowns_BOT_CurrentLeftHandWeapon
+// tallis_Ocean_SacredJourneyOnAutoLaunch is used in launch to chiv gate buff
+// luanch -> chiv -> master
+if tallis_Ocean_AutoLaunch = 1
+    overhead "Auto Launch!"
+    say "[AspectArmor Holy Max"
+    pushlist jaseowns_PreviousScript "Play Script: Boating\dockmaster-launch"
+else
+    pushlist jaseowns_PreviousScript "Play Script: Automation\PoonerBot\master"
+endif
+
 
 if listexists jaseowns_PreviousScript
     foreach myScript in jaseowns_PreviousScript

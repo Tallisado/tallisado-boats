@@ -5,13 +5,14 @@ while targetexists
 endwhile
 if not targetexists 
     getlabel lasttarget desc
-    if "[Crewmember]" in desc
-        @setvar 'CrewHeal' lasttarget
-        overhead "*Heal Target*" 78 "CrewHeal"
-        overhead "CrewHeal Set" 88 
-    else
-        @setvar 'Manual Override' lasttarget
-        overhead "Manual Override Set" 88 
+    if noto lasttarget = "friend" or noto lasttarget = "innocent" //and "[Crewmember]" in desc
+        @setvar 'ManualTargetFriendly' lasttarget
+        overhead "*Heal Target*" 78 "ManualTargetFriendly"
+        overhead "ManualTargetFriendly Set" 88 
+    elseif noto lasttarget = "murderer" or noto lasttarget = "enemy"
+        @setvar 'ManualTargetEnemy' lasttarget
+        overhead "ManualTargetEnemy Set" 88
     endif
 endif
 hotkey "Play Script: Automation\PoonerBot\master"
+

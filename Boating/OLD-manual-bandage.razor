@@ -1,12 +1,12 @@
 if skill "Healing" >= 20
     clearsysmsg 
-    if varexist "CrewHeal"
+    if varexist "ManualTargetFriendly"
         overhead "test: no crewtargetvar"
     endif
     if not targetexists
        overhead "info: no target cursor"
-    //if varexist "CrewHeal"
-    //     @unsetvar "CrewHeal"
+    //if varexist "ManualTargetFriendly"
+    //     @unsetvar "ManualTargetFriendly"
     // endif
     
         hotkey "Cancel Current Target"
@@ -16,12 +16,12 @@ if skill "Healing" >= 20
         while targetexists 
             //donothing
         endwhile
-        @setvar "CrewHeal" lasttarget
+        @setvar "ManualTargetFriendly" lasttarget
         overhead "set crew heal"
-    elseif targetexists and varexist "CrewHeal"
+    elseif targetexists and varexist "ManualTargetFriendly"
         overhead "info: target cursor / crewhealVar"
         hotkey "Cancel Current Target"
-        overhead "<Me>" 78 "CrewHeal"
+        overhead "<Me>" 78 "ManualTargetFriendly"
     else
         overhead "Fumbled bandages .."
         script "Master Background"
@@ -30,18 +30,18 @@ if skill "Healing" >= 20
     getlabel lasttarget desc
    
 
-    if varexist "CrewHeal" and findtype 3617 backpack as baids
+    if varexist "ManualTargetFriendly" and findtype 3617 backpack as baids
         while queued
             //donothing
         endwhile
         dclick baids
         wft 500
-        target "CrewHeal"
+        target "ManualTargetFriendly"
         getlabel backpack ping
         if insysmsg "You begin applying the bandages"
             cooldown "Bandage" 5250
         elseif insysmsg "You are too far away to do that"
-            overhead "**FAR**" 45 "CrewHeal"
+            overhead "**FAR**" 45 "ManualTargetFriendly"
             if not bandaging
                 waitforgump 1722920179
                 gumpresponse 20 1722920179
@@ -67,7 +67,7 @@ if skill "Healing" >= 20
                 gumpresponse 25 1722920179
             endif
         elseif insysmsg "That being is not damaged!"
-            overhead "*Full Health*" 78 "CrewHeal"
+            overhead "*Full Health*" 78 "ManualTargetFriendly"
             if not bandaging
                 waitforgump 1722920179
                 gumpresponse 20 1722920179
