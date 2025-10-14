@@ -16,7 +16,7 @@ say '[RecallBoarding'
 getlabel backpack ping
 warmode on 
 if insysmsg "Your followers embark onto the ship"
-    hotkey "Play Script: Automation\PoonerBot\master"
+    hotkey "Play Script: Automation\PoonerBot\base"
     stop
 elseif followers >= 1
     overhead 'Where shall I disembark?' 45
@@ -82,7 +82,7 @@ elseif followers >= 1
 endif
 
 if insysmsg "You do not have any valid at the moment"
-    hotkey "Play Script: Automation\PoonerBot\master"
+    hotkey "Play Script: Automation\PoonerBot\base"
     stop
 endif
 #if insysmsg "not currently boarding"
@@ -94,4 +94,4 @@ if insysmsg "you are already"
         //do nothing
     endwhile
 endif
-hotkey "Play Script: Automation\PoonerBot\master"
+hotkey "Play Script: Automation\PoonerBot\base"

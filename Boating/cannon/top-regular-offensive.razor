@@ -27,7 +27,7 @@ endif
 
 if insysmsg "fire its cannons again"
     overhead "Cannons Cooling..." 38
-    hotkey "Play Script: Automation\PoonerBot\master"
+    hotkey "Play Script: Automation\PoonerBot\base"
     stop
 endif
 if insysmsg "target this ability?"
@@ -37,19 +37,19 @@ if insysmsg "target this ability?"
     getlabel backpack ping
     if insysmsg "Our cannons cannot reach that location."
         overhead "Out of Range!" 38
-        hotkey "Play Script: Automation\PoonerBot\master"
+        hotkey "Play Script: Automation\PoonerBot\base"
         stop
     elseif insysmsg "That is too far away."
         overhead "Out of Range!" 38
-        hotkey "Play Script: Automation\PoonerBot\master"
+        hotkey "Play Script: Automation\PoonerBot\base"
         stop
     elseif insysmsg "Those cannons are out of ammunition"
         overhead "Out of Ammo!" 38
-        hotkey "Play Script: Automation\PoonerBot\master"
+        hotkey "Play Script: Automation\PoonerBot\base"
         stop
     elseif insysmsg "You may not fire onto your own ship!"
         overhead "Target is too close to fire on!" 38
-        hotkey "Play Script: Automation\PoonerBot\master"
+        hotkey "Play Script: Automation\PoonerBot\base"
         stop
     elseif not targetexists 
         cooldown "Cannons" 15000
@@ -65,7 +65,7 @@ if insysmsg "target this ability?"
                 cooldown "Disco" 5000
             endif
         endif
-        hotkey "Play Script: Automation\PoonerBot\master"
+        hotkey "Play Script: Automation\PoonerBot\base"
         stop
     endif
 else
@@ -74,4 +74,4 @@ endif
 if insysmsg "cannons finish reloading"
 overhead "Cannons reloading..." 38
 endif
-hotkey "Play Script: Automation\PoonerBot\master"
+hotkey "Play Script: Automation\PoonerBot\base"

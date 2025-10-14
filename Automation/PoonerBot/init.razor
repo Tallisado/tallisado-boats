@@ -63,11 +63,9 @@ overhead "PEACE to run around" 89
 #@setvar! undead_Ocean_CrewHealBandagesFar_TimerCD
 
 # Spyglass Cooldown Min: 7s, 9s is recommended
-//@setvar! undead_Ocean_Spyglass_Active 1
 @setvar! undead_Ocean_Spyglass_TimerCD 9000
-//@setvar! undead_Ocean_Spyglass_SearchAllPages 0
 
-@setvar! undead_Ocean_ShipHotBars_YellAtStart 0
+//@setvar! undead_Ocean_ShipHotBars_YellAtStart 0
 
 @setvar! undead_Ocean_UseBeggingTimerCD 20000
 
@@ -202,10 +200,25 @@ pushlist jaseowns_IgnoreMobList "a kingfisher"
 pushlist jaseowns_IgnoreMobList "a raven"
 pushlist jaseowns_IgnoreMobList "a goat"
 pushlist jaseowns_IgnoreMobList "a black bear"
-//pushlist jaseowns_IgnoreMobList "an eagle"
+pushlist jaseowns_IgnoreMobList "an eagle"
+pushlist jaseowns_IgnoreMobList "a wolf"
+pushlist jaseowns_IgnoreMobList "a horse"
+pushlist jaseowns_IgnoreMobList "a towhee"
+pushlist jaseowns_IgnoreMobList "a giant rat"
+pushlist jaseowns_IgnoreMobList "a great hart"
 
 unsetvar jaseowns_BOT_CurrentRightHandWeapon
 unsetvar jaseowns_BOT_CurrentLeftHandWeapon
+
+// tallis_Ocean_SacredJourneyOnAutoLaunch is used in launch to chiv gate buff
+// luanch -> chiv -> master
+if tallis_Ocean_AutoLaunch = 1
+    overhead "Auto Launch!"
+    say "[AspectArmor Holy Max"
+    pushlist jaseowns_PreviousScript "Play Script: Boating\dockmaster-launch"
+else
+    pushlist jaseowns_PreviousScript "Play Script: Automation\PoonerBot\base"
+endif
 
 if listexists jaseowns_PreviousScript
     foreach myScript in jaseowns_PreviousScript
