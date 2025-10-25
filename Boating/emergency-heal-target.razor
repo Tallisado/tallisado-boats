@@ -4,13 +4,12 @@ while targetexists
     //do nothing
 endwhile
 if not targetexists
+    getlabel lasttarget desc
     if noto lasttarget = "friend" or noto lasttarget = "innocent"
+        @setvar 'ManualTargetFriendlyEmergency' lasttarget
         @setvar 'ManualTargetFriendly' lasttarget
-        overhead "*Heal Target*" 78 "ManualTargetFriendly"
-        overhead "ManualTargetFriendly Set" 88 
     elseif noto lasttarget = "murderer" or noto lasttarget = "enemy" or noto lasttarget = "hostile" or noto lasttarget = "criminal"
         @setvar 'ManualTargetEnemy' lasttarget
-        overhead "ManualTargetEnemy Set" 88
     endif
     overhead "<<.>>" 88 lasttarget
 endif

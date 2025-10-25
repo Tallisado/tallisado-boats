@@ -1,6 +1,5 @@
 removelist jaseowns_PreviousScript
 createlist jaseowns_PreviousScript
-pushlist jaseowns_PreviousScript "Play Script: Dex Bot\base"
 
 #######
 # Ultimate Dexxer Bot Rewrite 2024-2025 by Jaseowns
@@ -46,7 +45,7 @@ overhead "PEACE to run around" 89
 @setvar! jaseowns_ShowVersion 1
 
 # Peace mode vs war mode 0 = war  1 = peace to fight mobs automatically
-@setvar! jaseowns_BOT_FIGHT_IN_PEACEMODE 1
+@setvar! jaseowns_BOT_FIGHT_IN_PEACEMODE 0
 
 # Boating
 @setvar! jaseowns_BOAT_UseSpyGlassAutomatically 1
@@ -72,6 +71,8 @@ overhead "PEACE to run around" 89
 @setvar! tallis_Ocean_AutoLaunch 1
 @setvar! tallis_Ocean_SacredJourneyOnAutoLaunch 1
 @setvar! tallis_Ocean_UsingSPK 1
+
+@setvar! jaseowns_BandageTimerCD 9000
 
 ### /OCEAN EDIT ###
 
@@ -113,7 +114,7 @@ overhead "PEACE to run around" 89
 @setvar! jaseowns_UseAbility1 0
 @setvar! jaseowns_UseAbility2 1
 @setvar! jaseowns_UseAbility3 0
-@setvar! jaseowns_UseAbilityTimerCD 5000
+@setvar! jaseowns_UseAbilityTimerCD 30500
 @setvar! jaseowns_ForceAbilitiesHotBarToShow 1
 
 # Poison
@@ -209,6 +210,7 @@ pushlist jaseowns_IgnoreMobList "a great hart"
 
 unsetvar jaseowns_BOT_CurrentRightHandWeapon
 unsetvar jaseowns_BOT_CurrentLeftHandWeapon
+unsetvar "shiphold"
 
 // tallis_Ocean_SacredJourneyOnAutoLaunch is used in launch to chiv gate buff
 // luanch -> chiv -> master

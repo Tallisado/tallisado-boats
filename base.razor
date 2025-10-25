@@ -1,0 +1,450 @@
+removelist jaseowns_PreviousScript
+createlist jaseowns_PreviousScript
+pushlist jaseowns_PreviousScript "Play Script: Mage Bot\base"
+
+#######
+# Ultimate Mage Summoner Necro Bot Rewrite 2024 by Jaseowns
+# UO Outlands - jaseowns.com/discord
+# https://outlands.uorazorscripts.com/arcane-mage
+#####################
+overhead "Newer Mage Bot" 76
+overhead "WAR mode to fight stuff" 34
+overhead "PEACE to run around 9.17" 89
+#####################################
+# Recently Added:
+#######
+#  05/12/2025 = 9.17 - see base for notes
+#  05/07/2025 = 9.16 - see base for notes (new var jaseowns_Bard_PeaceAutomatically and jaseowns_Bard_DiscordAutomatically)
+#  04/28/2025 = 9.15 - see base for notes (new var jaseowns_Thief_AlertRedPouchPop)
+#  04/25/2025 = 9.14 - see base for notes
+#  04/23/2025 = 9.13 - see base for notes
+#  04/21/2025 = 9.12 - see base for notes
+#  04/18/2025 = 9.11 - see base for notes (new var jaseowns_HitDiffCheckToCastHeal replaced jaseowns_HealthCheckToCastHeal)
+#  04/16/2025 = 9.10 - see base for notes
+#  04/14/2025 = 9.9 - see base for notes
+#  04/11/2025 = 9.8 - see base for notes
+#  04/09/2025 = 9.7 - fix object error
+#  01/20/2025 = 9.6 - fix body id and summons and poison
+#  12/27/2024 = 9.5 - all guard vs all kill
+#  12/18/2024 = 9.4 - add snacking
+#  11/20/2024 = 9.3 - fix cheese, necro reserve
+#  11/20/2024 = 9.2 - Necro Poison strike w/ D, drop gold if overweight
+#   9/19/2024 = 9.1 - More options
+#   9/18/2024 = 9.0 - Split out script into init file and base file
+#               
+
+
+#  This will no longer use "All Kill" if set to 1
+@setvar! jaseowns_UseAllGuardInsteadOfAllKill 1
+
+@setvar! jaseowns_Thief_AlertRedPouchPop 1
+
+@setvar! jaseowns_Necro_ReserveSymbols 2
+@setvar! jaseowns_Weight_GoldToDropIfOverweight 200
+@setvar! jaseowns_ShowVersion 1
+@setvar! jaseowns_BreakHealCastIfHealthy 1
+
+####
+## 1 = Auto bot (how it has been working)
+## 0 = You set the target
+###
+@setvar! jaseowns_AutoTargetNearest 1
+
+####
+## Output system states = 1
+## No message = 0
+### 
+@setvar! jaseowns_DEBUG_MODE 0
+
+@setvar! jaseowns_WaitForInvisMob 1
+
+
+####
+##  Override current target while casting (1 on, 0 off)
+###
+@setvar! jaseowns_RetargetWhileCasting 1
+
+####
+##  Stops the script and exits warmode if you hide 
+###
+@setvar! jaseowns_AutoStopScriptIfHidden 1
+
+# Set this to 0 to always cast, 500 for half a second, 1000 for full second
+# Requires "Moving" cooldown (Alt-o cooldowns with 1 second delay)
+@setvar! jaseowns_AvoidCastingWhileMovingCD 500
+
+#####
+## Breaks spell cast if hps.. also check for pot
+###
+@setvar! jaseowns_HpCheckToInterruptCastIfLessThan 40
+@setvar! jaseowns_HpCheckToDrinkPotionCastIfLessThan 75
+
+#####
+## Taunting
+###
+@setvar! jaseowns_AutoTaunting 1
+@setvar! jaseowns_TauntingTimerCD 15000
+
+#####
+## Alchemy
+###
+@setvar! jaseowns_AutoExplodePot 1
+@setvar! jaseowns_HasPanacea 1
+
+#####
+## Parry Codex Options
+###
+@setvar! jaseowns_SwitchToWardingIfBleeding 1
+@setvar! jaseowns_SwitchToWardingIfDisease 1
+@setvar! jaseowns_SwitchToBulwarkIfStandingStill 1
+@setvar! jaseowns_SwitchToShieldBashWhileMoving 1
+@setvar! jaseowns_SwitchToTestudoWhileMoving 0
+@setvar! jaseowns_CheckParryCodexMinMana 25
+@setvar! jaseowns_CheckParryCodexTimerCD 1000
+
+###
+# Bard
+##
+@setvar! jaseowns_Bard_PeaceAutomatically 1
+@setvar! jaseowns_Bard_DiscordAutomatically 1
+
+
+#####
+## ONLY USED FOR TAMERS AT THE MOMENT
+## Set Your Pet Variable Serial (>info on your main pet)
+## IF YOU ARE A SUMMONER OR ARCANE WIZARD - NO NEED TO CHANGE
+###
+if findtype "mycoolpetname" ground -1 -1 18 as jaseowns_FoundThisPet
+    @setvar! jaseowns_MyMainTamerPet jaseowns_FoundThisPet    
+else
+    @setvar! jaseowns_MyMainTamerPet 0x5280CF
+endif
+
+#####
+## Some Helper things related to Weight
+###
+@setvar! jaseowns_AutomaticallyDrinkStrPotIfOverWeight 1
+@setvar! jaseowns_WarnMeAtThisDiffWeight 10
+@setvar! jaseowns_WarnMeAtThisDiffWeightTimerCD 2000
+
+#####
+## Vet Kit Use Timer (Try every 5 seconds) = This will get set to 0 if you do not have the skill
+###
+@setvar! jaseowns_UseVetKits 1
+@setvar! jaseowns_VetKitTimerCD 5000
+
+#####
+## Using Mushroom
+###
+@setvar! jaseowns_EatShroomies 1
+@setvar! jaseowns_EatShroomiesTimerCD 60000
+@setvar! jaseowns_EatShroomiesAtDiffMana 35
+# Cooking Snack
+@setvar! jaseowns_EatSnackAtDiffMana 40
+
+#####
+## Casting Mushroom
+###
+@setvar! jaseowns_CastMagicMushroomCount 10
+@setvar! jaseowns_CastMagicMushroomIfBelowCount 5
+
+#####
+## Auto Skin Corpses
+###
+@setvar! jaseowns_UseSkinningKnifeAutomatically 0
+
+###
+## Reuses ALL KILL after target selection (to confirm we fighting)
+###
+@setvar! jaseowns_UseAllKillOnSameTargetEverySomeSeconds 5000
+
+###
+## Says "All Guard" before using med skill
+###
+@setvar! jaseowns_UseAllGuardBeforeMed 1
+
+#####
+## Paralyze Pouch Pop
+###
+@setvar! jaseowns_UseRedPouchAutomatically 1
+
+#####
+## Meditation
+###
+@setvar! jaseowns_UseMeditationAutomatically 1
+@setvar! jaseowns_UseMeditationAtManaDiff 79
+@setvar! jaseowns_UseMeditationMinimalAmountTimerCD 8000
+@setvar! jaseowns_OkayToCancelMeditateAtHealthCheckDiff 30
+
+#####
+## Setup your Pots
+###
+@setvar! jaseowns_UseHealPotion 1
+@setvar! jaseowns_UseHealPotionTimerCD 10000
+@setvar! jaseowns_UseHealPotionAtHealthDiff 60
+
+# This will be used to grab from keg if you have one
+@setvar! jaseowns_HealthPotCountInBackpack 2
+@setvar! jaseowns_CurePotCountInBackpack 2
+@setvar! jaseowns_ExplosionPotCountInBackpack 2
+@setvar! jaseowns_StrengthPotCountInBackpack 2
+@setvar! jaseowns_MagicResistPotCountInBackpack 2
+@setvar! jaseowns_RefreshPotCountInBackpack 2
+@setvar! jaseowns_AgilityPotCountInBackpack 2
+
+# Overhead counts (helps to know when low)
+@setvar! jaseowns_OverheadAlertsAboutPotionsTimerCD 5000
+@setvar! jaseowns_NoEmptyBottlesAlert 0
+@setvar! jaseowns_HealPotOverheadAlert 1
+@setvar! jaseowns_CurePotOverheadAlert 1
+@setvar! jaseowns_ExplosionPotOverheadAlert 0
+@setvar! jaseowns_StrengthPotOverheadAlert 1
+@setvar! jaseowns_MagicResistPotOverheadAlert 0
+@setvar! jaseowns_RefreshPotOverheadAlert 0
+@setvar! jaseowns_AgilityPotOverheadAlert 0
+
+@setvar! jaseowns_UseCurePotion 1
+@setvar! jaseowns_UseCurePotionOnlyInsteadOfCureSpell 1
+@setvar! jaseowns_UseCurePotionAtHealthDiff 0
+
+@setvar! jaseowns_UseRefreshPotion 1
+@setvar! jaseowns_UseRefreshPotionTimerCD 3000
+@setvar! jaseowns_UseRefreshPotionAtStamDiff 5
+
+# Uses dynamic MAXHP now to know when to drink
+@setvar! jaseowns_UseStrengthPotion 1
+@setvar! jaseowns_UseStrengthPotionOnlyInWarMode 1
+
+# Uses dyanmic agi check to know when to drink
+@setvar! jaseowns_UseAgilityPotion 1
+@setvar! jaseowns_UseAgilityPotionOnlyInWarMode 1
+
+@setvar! jaseowns_UseMagicResistPotion 1
+@setvar! jaseowns_UseMagicResistPotionOnlyIfMissingMagicReflection 1
+@setvar! jaseowns_UseMagicResistPotionOnlyInWarMode 1
+
+###############
+###  Choose your necro spells (ignored if less then required necro skill)
+######
+@setvar! jaseowns_ShowUsedNecroAbilityOverhead 1
+
+# This variable is used to know when to fire pain or poison strike
+@setvar! jaseowns_WeCastedSuccessfullyTimerCD 9000
+# Only fire corpse/mindrot at this mana or higher
+@setvar! jaseowns_CastCorpseSkinAndMindRotAtTheSameTimeMinMana 70
+
+@setvar! jaseowns_CastPoisonStrike 1
+@setvar! jaseowns_CastPoisonStrikeOnlyWhenLethal 1
+@setvar! jaseowns_CastPoisonStrikeAfterSuccessfulDisease 1
+@setvar! jaseowns_PoisonStrikeTimerCD 30500
+
+@setvar! jaseowns_CastEvilOmen 0
+@setvar! jaseowns_EvilOmenTimerCD 30500
+
+@setvar! jaseowns_CastCorpseSkin 1
+@setvar! jaseowns_CorpseSkinTimerCD 30500
+
+@setvar! jaseowns_CastVampiricEmbrace 0
+@setvar! jaseowns_VampiricEmbraceTimerCD 30500
+
+@setvar! jaseowns_CastMindRot 1
+@setvar! jaseowns_MindRotTimerCD 30500
+
+@setvar! jaseowns_CastBloodOath 0
+@setvar! jaseowns_BloodOathTimerCD 30500
+
+@setvar! jaseowns_CastStrangle 0
+@setvar! jaseowns_StrangleTimerCD 30500
+
+@setvar! jaseowns_CastPainSpike 0
+@setvar! jaseowns_PainSpikeTimerCD 30500    
+
+@setvar! requireWitherBeforeSummons 0
+@setvar! jaseowns_WitherTimerCD 30500
+
+@setvar! jaseowns_VengefulSpiritTimerCD 30500
+
+
+#####
+## Setup your Spells
+###
+
+# 5     Magic Arrow
+# 12    Harm
+# 18    Fireball
+# 20    Poison
+# 27    Curse
+# 30    Lightning
+# 31    Mana Drain
+# 37    Mind Blast
+# 42    Energy Bolt
+# 43    Explosion
+# 46    Mass Curse
+# 49    Chain Lightning
+# 51    Flamestrike
+# 53    Mana Vampire
+# 55    Meteor Swarm
+# 57    Earthquake
+
+# Poison  ## Set jaseowns_CastPoisonTimerCD to 0 if you want to spam for Lethal
+@setvar! jaseowns_CastPoison 0
+@setvar! jaseowns_CastPoisonTimerCD 2000
+@setvar! jaseowns_CastPoisonMinMana 20
+
+# Curse 27, Mana Drain 31 - Set as 0 if not needed
+@setvar! jaseowns_Precast_Spell_One 0
+@setvar! jaseowns_Precast_Spell_Two 0
+
+# 30 = Lightning
+@setvar! jaseowns_1st_Spell 30
+@setvar! jaseowns_1st_SpellMinMana 12
+@setvar! jaseowns_1st_SpellTimerCD 20000
+
+# 5 = Magic Arrow
+@setvar! jaseowns_2nd_Spell 5
+@setvar! jaseowns_2nd_SpellMinMana 12
+@setvar! jaseowns_2nd_SpellTimerCD 20000
+
+# 51 = Flamestrike (70 on jase, 50 on newb)
+@setvar! jaseowns_3rd_Spell 51
+@setvar! jaseowns_3rd_SpellMinMana 70
+@setvar! jaseowns_3rd_SpellTimerCD 0
+
+# 37 = Mindblast
+# 42 = Ebolt (for newb guy)
+@setvar! jaseowns_4th_Spell 37
+@setvar! jaseowns_4th_SpellMinMana 20
+@setvar! jaseowns_4th_SpellTimerCD 0
+
+@setvar! jaseowns_5th_Spell 0
+@setvar! jaseowns_5th_SpellMinMana 80
+@setvar! jaseowns_5th_SpellTimerCD 0
+
+@setvar! jaseowns_6th_Spell 0
+@setvar! jaseowns_6th_SpellMinMana 70
+@setvar! jaseowns_6th_SpellTimerCD 0
+
+@setvar! jaseowns_7th_Spell 0
+@setvar! jaseowns_7th_SpellMinMana 20
+@setvar! jaseowns_7th_SpellTimerCD 0
+
+# Bless
+@setvar! jaseowns_CastBless 1
+@setvar! jaseowns_CastBlessMinMana 12
+# Having no Alchemy will override this to 0
+@setvar! jaseowns_CastCunningOnly 1  
+
+# Reactive Armor
+@setvar! jaseowns_CastReactiveArmor 1
+@setvar! jaseowns_CastReactiveArmorMinMana 12
+
+# Arch Protection
+@setvar! jaseowns_CastArchProtection 1
+@setvar! jaseowns_CastArchProtectionMinMana 14
+
+# Magic Reflection
+@setvar! jaseowns_CastMagicReflection 1
+@setvar! jaseowns_CastMagicReflectionMinMana 14
+
+# Greater Healing  (use 40 for 60/100 health)
+@setvar! jaseowns_HitDiffCheckToCastHeal 40
+@setvar! jaseowns_CastGreaterHealMinMana 12
+@setvar! jaseowns_CastCureMinMana 6
+
+
+###############
+###  Choose your summons
+######
+@setvar! jaseowns_FORCE_SUMMON_PETS 0
+@setvar! jaseowns_CastToMaxFollowers 5
+
+# Earth: 0, 1, 2
+@setvar! castSummonEarthElementalCount 0
+@setvar! castSummonMummyCount 0
+
+# Fire: 0, 1, 2
+@setvar! castSummonFireElementalCount 0
+@setvar! castSummonLichCount 0
+
+# Demon: 0, 1, 2
+@setvar! castSummonDemonCount 0
+@setvar! castSummonThrallCount 0
+
+# Air: 0, 1, 2
+@setvar! castSummonAirCount 0
+@setvar! castSummonFiendCount 2
+
+# Water: 0, 1, 2
+@setvar! castSummonWaterCount 0
+@setvar! castSummonRagWitchCount 0
+
+# Creature: 0, 1, 2, 3, 4, 5
+@setvar! castSummonCreatureCount 1
+
+# Energy Vortex: 0, 1, 2
+@setvar! castEnergyVortexCount 0
+@setvar! castJackalSpiritCount 0
+
+# Blade Spirit: 0, 1
+@setvar! castBladeSpiritCount 0
+@setvar! castSkeletalHuskCount 0
+
+# Force Poison on if we have the skill
+if skill "Poisoning" >= 80
+    @setvar! jaseowns_CastPoison 1
+endif
+    
+####
+# Leyline  (regen mana back)
+###
+@setvar! jaseowns_UseSeekingWhenManaThiefIsProcced 1
+@setvar! jaseowns_UseSeekingWhenManaThiefIsProccedManaCheck 70
+@setvar! jaseowns_UseKeyLimePieAbilityMana 70
+
+if listexists jaseowns_PreviousScript
+    foreach myScript in jaseowns_PreviousScript
+        hotkey myScript
+    endfor
+endif
+
+
+############
+# TODO LIST:
+#########
+# IMPROVE barding if you are bard
+# improve bot when pets get summoned (use guard)
+# send in pet if dead and then rezzed (kinda handling with retarget timer)
+        # if it died and then is alive, at least use guard on menu
+# add elrich mana bar thingy ## status bar, 28135, 2617 
+# world save
+# Bleed / diease we pre-cast heal but its trying to cast on the monster
+# TODO: for TAMER - fix the  jaseowns_MyMainTamerPet so its dynamic.. maybe?
+
+######################################################################################
+##      HOW DOES THIS WORK?
+###########
+##  Update variables in the following sections based on your preference:
+
+##  DEBUG_MODE, AvoidCastingWhileMovingCD, Hp to cancel or drink pot while casting
+## MyMainTamerPet, Vet Kit Use, Mushroom, Autoskin, 
+##  ALL KILL timer, Using all guard, Pouch Pop, Meditation/Mana reserve preferences, Pots
+##  Necro Abilities, Spells, Summons
+
+########
+##  Most thing are behind a skill check, so if you setup summons but do not have spirit speak
+##  the script will not cast your pets
+
+########
+##     JASE - WHAT DO I NEED TO CHANGE TO USE THIS?
+##
+##  You should be able to just copy/paste/save/play out of the box.. HOWEVER:
+####  IF you are a TAMER: Update MyMainTamerPet
+#####  IF you are a SUMMONER: choose your pets (if you do not like my selection)
+######  IF you are a PURE MAGE: change your spells maybe
+########## 
+#######
+
+#####   Thank you for the support, please report bugs to https://jaseowns.com/discord
+#####       Do not forget to Like, Subscribe, Smash the Buttons
+
+######################################################################################
