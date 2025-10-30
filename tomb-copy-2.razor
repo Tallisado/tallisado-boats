@@ -1,0 +1,403 @@
+# Make sure you stay next to a ress stockpile (to check if recall home worked) and next to a shelf to restock 
+# make sure you have a rune that is called "House" to recall back
+# OR Room if you are using an inn room
+# make sure you have enough runes in your backpack (at least 30)
+# make sure you have a bag to hold the tombs
+# make sure you have the original tome to copy from and the copy tome to copy to
+# make sure you have enough mushrooms to keep your mana up - make a lot
+# make sure you have a tank follower if you want one to tank for you while copying
+
+# to create the pushlist section, use any AI to copy the original content, it can read it and create the list
+
+clearignore
+@setvar! recallTimer 2500
+@setvar! normalPause 650
+
+if not varexist originalTome
+    overhead 'Set tomb to copy from'
+    @setvar! originalTome
+endif
+if not varexist copyTome
+    overhead 'Set tomb to copy to'
+    @setvar! copyTome
+endif
+// @setvar! originalTome 0x44BE3B00
+// @setvar! copyTome 0x4C7F19B6
+
+if not varexist tomeBag
+    overhead 'Set the bag the tombs are in'
+    @setvar! tomeBag
+endif
+// @setvar! tomeBag 0x4D97A3F7
+
+// set this to 0 for house, or 1 for inn
+// extra checks to ensure you are in your room
+@setvar! HouseOrInn 1
+
+// Set starting rune position (1-26) - change this value as needed
+@setvar! currentRune 1
+
+@removelist runeList
+createlist runeList
+pushlist runeList 'PI 1' back
+pushlist runeList 'PI 2' back
+pushlist runeList 'PI 3' back
+pushlist runeList 'PI 4' back
+pushlist runeList 'PI 5' back
+pushlist runeList 'PI 6' back
+pushlist runeList 'PI 7' back
+pushlist runeList 'PI 8' back
+pushlist runeList 'PI 9' back
+pushlist runeList 'PI 10' back
+pushlist runeList 'PI 11' back
+pushlist runeList 'PI 12' back
+pushlist runeList 'PI 13' back
+pushlist runeList 'PI 14' back
+pushlist runeList 'PI 15' back
+pushlist runeList 'PI 16' back
+pushlist runeList 'PI 17' back
+pushlist runeList 'PI 18' back
+pushlist runeList 'PI 19' back
+pushlist runeList 'PI 20' back
+pushlist runeList 'PI 21' back
+pushlist runeList 'PI 22' back
+pushlist runeList 'PI 23' back
+pushlist runeList 'PI 24' back
+pushlist runeList 'PI 25' back
+pushlist runeList 'PI 26' back
+
+while $[currentRune] <= 26
+    // Check mana before each rune
+
+    if counttype 7956 backpack 2882 < 30
+        overhead 'more runes needed (below 30)'
+    endif
+
+    if findtype 44997 ground -1 -1 2 as shelf
+        menu shelf 1
+    endif
+
+    hotkey 'all follow me'
+    pause 400
+        
+    dclick tomeBag
+    pause 1000
+    
+    overhead "{{currentRune}} asd"
+    //if atlist runeList currentRune as runeEntry
+    //    overhead runeEntry
+    //else
+    //    overhead "index out of bounds or list item retrievend was no serial"
+    //endif
+    
+    if poplist runeList front as runeList
+        getlabel runeList runeListLabel
+        overhead 'Next rune serial to copy: {{runeList}}'
+        overhead runeListLabel
+    else
+        overhead 'No more runes to copy ???'
+        break
+    endif
+
+    overhead '!!!Copying Rune - {{runeList}}'
+        
+    if cooldown 'worldSave'
+        overhead 'Waiting for world save...'
+        pause 30000
+    endif
+
+    // Get the appropriate gump response for current rune position
+    if currentRune == 1
+        @setvar! currentGumpResponse '200'
+    elseif currentRune == 2
+        @setvar! currentGumpResponse '201'
+    elseif currentRune == 3
+        @setvar! currentGumpResponse '202'
+    elseif currentRune == 4
+        @setvar! currentGumpResponse '203'
+    elseif currentRune == 5
+        @setvar! currentGumpResponse '204'
+    elseif currentRune == 6
+        @setvar! currentGumpResponse '205'
+    elseif currentRune == 7
+        @setvar! currentGumpResponse '206'
+    elseif currentRune == 8
+        @setvar! currentGumpResponse '207'
+    elseif currentRune == 9
+        @setvar! currentGumpResponse '208'
+    elseif currentRune == 10
+        @setvar! currentGumpResponse '209'
+    elseif currentRune == 11
+        @setvar! currentGumpResponse '210'
+    elseif currentRune == 12
+        @setvar! currentGumpResponse '211'
+    elseif currentRune == 13
+        @setvar! currentGumpResponse '212'
+    elseif currentRune == 14
+        @setvar! currentGumpResponse '213'
+    elseif currentRune == 15
+        @setvar! currentGumpResponse '214'
+    elseif currentRune == 16
+        @setvar! currentGumpResponse '215'
+    elseif currentRune == 17
+        @setvar! currentGumpResponse '216'
+    elseif currentRune == 18
+        @setvar! currentGumpResponse '217'
+    elseif currentRune == 19
+        @setvar! currentGumpResponse '218'
+    elseif currentRune == 20
+        @setvar! currentGumpResponse '219'
+    elseif currentRune == 21
+        @setvar! currentGumpResponse '220'
+    elseif currentRune == 22
+        @setvar! currentGumpResponse '221'
+    elseif currentRune == 23
+        @setvar! currentGumpResponse '222'
+    elseif currentRune == 24
+        @setvar! currentGumpResponse '223'
+    elseif currentRune == 25
+        @setvar! currentGumpResponse '224'
+    elseif currentRune == 26
+        @setvar! currentGumpResponse '225'
+    endif
+
+    if findtype 7956 backpack 2882 as emptyRune
+        pause 400
+        dclick originalTome
+        waitforgump 167090027 1000
+        overhead 'Recalling to Rune: {{runeList}}'
+        gumpresponse currentGumpResponse
+        waitforgump 167090027 1000
+        // Alternate between button1 and button2 based on odd/even rune number
+        if currentRune == 1 or currentRune == 3 or currentRune == 5 or currentRune == 7 or currentRune == 9 or currentRune == 11 or currentRune == 13 or currentRune == 15 or currentRune == 17 or currentRune == 19 or currentRune == 21 or currentRune == 23 or currentRune == 25
+            gumpresponse button1
+        else
+            gumpresponse button2
+        endif
+        pause recallTimer
+        hotkey 'all guard me'
+        pause normalPause
+
+        if find ressStockpile
+            overhead 'home.. dont mark!'
+        else
+            overhead "DEBUG: Marking rune {{runeList}}"
+            // cast 'Mark'
+            // waitfortarget 2500
+            // target emptyRune
+            pause normalPause
+            while not findtype 23035 ground -1 -1 2
+                for 10
+                    overhead 'Recalling to House or Inn...'
+                    if HouseOrInn == 0
+                        say '[recall House'
+                    else
+                        // recall to inn and insure we are sucked into it
+                        say '[recall Room'
+                        hotkey 'Cancel Current Target'
+                        clearsysmsg 
+
+                        @setvar rentalGumpID 2393832411
+
+                        if gumpexists rentalGumpID
+                            gumpclose
+                            wait 100
+                        endif
+
+                        say 'room'
+                        waitforgump rentalGumpID 200
+
+                        if not gumpexists rentalGumpID
+                            wait 500
+                            say 'vendor buy the bank some guards'
+                        elseif ingump 'Enter Your Room'
+                            wait 250
+                            while not insysmsg 'You enter the rental room'
+                                overhead 'Entering room...' 903
+                                gumpresponse 4
+                                wait 250
+                                
+                                if insysmsg 'That vendor is too far away'
+                                    overhead 'Innkeeper is too far away!' 38
+                                    overhead 'Move closer!' 53
+                                    stop
+                                endif
+                            endwhile
+                            
+                            overhead 'Welcome home.'
+                            
+                        elseif ingump 'Rent This Room'
+                            gumpresponse 5
+                            waitforgump rentalGumpID 3000
+                            
+                            if ingump 'co-owner'
+                                while not insysmsg 'You enter the rental room'
+                                    wait 250
+                                    overhead 'Entering co-owned room...' 903
+                                    gumpresponse 100
+                                    
+                                    if insysmsg 'That vendor is too far away'
+                                        overhead 'Innkeeper is too far away!' 38
+                                        stop
+                                    endif
+                                endwhile
+                                
+                                overhead 'Welcome home.'
+                            else
+                                overhead 'No access to any rooms!' 38
+                            endif
+                        elseif ingump 'Visit Other Rooms'
+                            gumpresponse 2
+                            waitforgump rentalGumpID 3000
+                            
+                            while not insysmsg 'You enter the rental room'
+                                wait 250
+                                overhead 'Entering co-owned room...' 903
+                                gumpresponse 100
+                            endwhile
+                        else 
+                            sysmsg 'Character does not have a room or access to one!' 38
+                            overhead 'No room access!' 38
+                        endif
+                    endif
+                    pause 200
+                    while casting
+                    endwhile
+                    pause 400
+                    if findtype 23035 ground -1 -1 2
+                        break
+                    else
+                        hotkey 'cancel current target'
+                        overhead 'not at house yet..'
+                        if dead
+                            stop
+                        endif
+                    endif
+                endfor
+            endwhile
+                    
+            dclick tomeBag
+            pause 1000
+
+            if findtype 7956 backpack 0 as rune
+                overhead 'using this tome' 6 copyTome
+                overhead 'renaming rune to name' 6 rune
+                // dclick rune
+                // pause normalPause
+                // promptresponse listName
+                // pause normalPause
+                // @drop backpack
+                // lift rune 1
+                // drop copyTome
+                // pause normalPause
+            endif
+
+            if insysmsg 'world is saving'
+                for 30
+                    overhead 'Waiting for world save...'
+                    wait 1000
+                    if insysmsg 'save complete'
+                        overhead 'Save complete - continue on!' 88
+                        clearsysmsg 
+                        wait 250
+                        break
+                    endif
+                endfor
+            endif
+
+            if findtype 7956 backpack 0 as rune
+                overhead 'something went wrong marking the rune ..'
+                while findtype 7956 backpack 0 as rune
+                    lift rune
+                    drop 0x41B742BD 75 85 0
+                endif
+            endif
+
+            while dead
+                overhead 'Go res bitch - Copying Rune - {{runeList}}'
+                pause 1000
+            endwhile
+        
+        endif
+        
+    endif
+
+    if findtype 44997 ground -1 -1 2 as shelf
+        menu shelf 1
+    endif
+
+    while mana < 60
+        if not cooldown 'mushroom'
+            if findtype 29012 backpack as mushroom
+                dclick mushroom
+                pause 400
+                cooldown 'mushroom' 60000
+            endif
+        endif
+        skill 'meditation'
+        pause 1000
+    endwhile
+
+    // Increment to next rune
+    if currentRune == 1
+        @setvar! currentRune 2
+    elseif currentRune == 2
+        @setvar! currentRune 3
+    elseif currentRune == 3
+        @setvar! currentRune 4
+    elseif currentRune == 4
+        @setvar! currentRune 5
+    elseif currentRune == 5
+        @setvar! currentRune 6
+    elseif currentRune == 6
+        @setvar! currentRune 7
+    elseif currentRune == 7
+        @setvar! currentRune 8
+    elseif currentRune == 8
+        @setvar! currentRune 9
+    elseif currentRune == 9
+        @setvar! currentRune 10
+    elseif currentRune == 10
+        @setvar! currentRune 11
+    elseif currentRune == 11
+        @setvar! currentRune 12
+    elseif currentRune == 12
+        @setvar! currentRune 13
+    elseif currentRune == 13
+        @setvar! currentRune 14
+    elseif currentRune == 14
+        @setvar! currentRune 15
+    elseif currentRune == 15
+        @setvar! currentRune 16
+    elseif currentRune == 16
+        @setvar! currentRune 17
+    elseif currentRune == 17
+        @setvar! currentRune 18
+    elseif currentRune == 18
+        @setvar! currentRune 19
+    elseif currentRune == 19
+        @setvar! currentRune 20
+    elseif currentRune == 20
+        @setvar! currentRune 21
+    elseif currentRune == 21
+        @setvar! currentRune 22
+    elseif currentRune == 22
+        @setvar! currentRune 23
+    elseif currentRune == 23
+        @setvar! currentRune 24
+    elseif currentRune == 24
+        @setvar! currentRune 25
+    elseif currentRune == 25
+        @setvar! currentRune 26
+    elseif currentRune == 26
+        @setvar! currentRune 99
+        break
+    else
+        @setvar! currentRune 100
+    endif
+
+endif
+
+overhead 'Finished!!'
+overhead 'Finished!!'
+overhead 'Finished!!'

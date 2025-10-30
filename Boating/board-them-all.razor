@@ -1,21 +1,8 @@
-# Bapeths Simple Boarding Script
-#
-# "****REQUIRED****"
-# Bapeths Ship Cooldowns xml file (copy paste into your characters Cooldown file)
-# "COPY" Link to get Bapeths Cooldowns "https://outlands.uorazorscripts.com/script/f1e41e2d-411e-461e-9fd0-c4fc2dc234b1"
-# "PASTE" FILE PATH : C:\Program Files (x86)\Ultima Online Outlands\ClassicUO\Data\Profiles\"YOUR-ACCOUNT-NAME"\UO Outlands\"YOUR-CHARACTER" Open file in notepad
-# The cooldowns with "Tigger Text" Must be adjusted to "your ships stats" and "your Wizard Grimoire upgrades" in the UO in game Options
-#
-# Script will loop into 'Master Background' if you have it in your script library
-# Script will make use of "ManualTargetEnemy" if you have it in your script library
-#
-# This is script will attempt to board any ship
-# Bind it to a hotkey and play it when you wish to board
-#
-# Script starts here
 if gumpexists 2881168634
     gumpclose 2881168634
 endif
+
+hotkey 'Clear Target Queue'
 
 if findtype 5370 backpack 0 as boardrope
     if not cooldown "Boarding Party"
@@ -36,6 +23,7 @@ else
 endif
 if targetexists 
     overhead "Manual Target..." 88
+    warmode on
 endif
 while targetexists 
     //donothing

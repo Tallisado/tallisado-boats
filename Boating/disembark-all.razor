@@ -14,8 +14,9 @@ say '[EmbarkFollowers'
 getlabel backpack ping
 say '[RecallBoarding'
 getlabel backpack ping
-warmode on 
+ 
 if insysmsg "Your followers embark onto the ship"
+    warmode off
     hotkey "Play Script: Automation\PoonerBot\base"
     stop
 elseif followers >= 1
@@ -94,4 +95,5 @@ if insysmsg "you are already"
         //do nothing
     endwhile
 endif
+warmode off
 hotkey "Play Script: Automation\PoonerBot\base"

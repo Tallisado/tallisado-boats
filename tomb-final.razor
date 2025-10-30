@@ -1,0 +1,5522 @@
+# Make sure you stay next to a ress stockpile (to check if recall home worked) and next to a shelf to restock 
+# make sure you have a rune that is called "House" to recall back
+
+# then if you also have a tank it will all guard you when u copy witcher for example, sometimes there are mobs
+# and if you have vet supplies it heals
+# and if you can cast mushrooms for mana, it will do that too..
+
+# to create the pushlist section, use any AI to copy the original content, it can read it and create the list
+clearignore
+@setvar! recallTimer 2500
+@setvar! normalPause 650
+
+overhead 'Set tomb to copy from'
+@setvar! originalTome
+
+overhead 'Set tomb to copy to'
+@setvar! copyTome
+
+overhead 'Set the bag the tombs are in'
+@setvar! tomeBag
+
+// set this to 0 for house, or 1 for inn
+// extra checks to ensure you are in your room
+@setvar! HouseOrInn 1
+
+@removelist runeList
+createlist runeList
+pushlist runeList 'PI 1' back
+pushlist runeList 'PI 2' back
+pushlist runeList 'PI 3' back
+pushlist runeList 'PI 4' back
+pushlist runeList 'PI 5' back
+pushlist runeList 'PI 6' back
+pushlist runeList 'PI 7' back
+pushlist runeList 'PI 8' back
+pushlist runeList 'PI 9' back
+pushlist runeList 'PI 10' back
+pushlist runeList 'PI 11' back
+pushlist runeList 'PI 12' back
+pushlist runeList 'PI 13' back
+pushlist runeList 'PI 14' back
+pushlist runeList 'PI 15' back
+pushlist runeList 'PI 16' back
+pushlist runeList 'PI 17' back
+pushlist runeList 'PI 18' back
+pushlist runeList 'PI 19' back
+pushlist runeList 'PI 20' back
+pushlist runeList 'PI 21' back
+pushlist runeList 'PI 22' back
+pushlist runeList 'PI 23' back
+pushlist runeList 'PI 24' back
+pushlist runeList 'PI 25' back
+pushlist runeList 'PI 26' back
+
+if counttype 7956 backpack 2882 < 30
+    overhead 'more runes needed'
+endif
+
+if findtype 44997 ground -1 -1 2 as shelf
+    menu shelf 1
+endif
+
+hotkey 'all follow me'
+pause 400
+    
+dclick tomeBag
+pause 1000
+
+if atlist runeList 0 as listName
+    @setvar! runeList listName
+else
+    @setvar! runeList "no name"
+endif
+
+overhead 'Copying Rune - {{listName}}'
+    
+if cooldown 'worldSave'
+    overhead 'Waiting for world save...'
+    pause 30000
+endif
+
+while hp < 100
+    if findtype 25750 backpack as bandages
+        dclick bandages
+        pause 1000
+    endif
+endwhile
+
+if findtype 7956 backpack 2882 as emptyRune
+
+
+
+    pause 400
+    dclick originalTome
+    waitforgump 167090027 1000
+    gumpresponse 200
+    waitforgump 167090027 1000
+    gumpresponse 10
+    pause recallTimer
+    hotkey 'all guard me'
+    pause normalPause
+
+    if find ressStockpile
+
+        overhead 'home.. dont mark!'
+    
+    else
+
+        cast 'Mark'
+        waitfortarget 2500
+        target emptyRune
+        pause normalPause
+        while not findtype 23035 ground -1 -1 2
+            for 10
+                overhead 'Recalling to House or Inn...'
+                if HouseOrInn == 0
+                    say '[recall House'
+                else
+                    // recall to inn and insure we are sucked into it
+                    say '[recall Room'
+                    wait 3000
+                    hotkey 'Cancel Current Target'
+                    clearsysmsg 
+
+                    @setvar rentalGumpID 2393832411
+
+                    if gumpexists rentalGumpID
+                        gumpclose
+                        wait 100
+                    endif
+
+                    say 'room'
+                    waitforgump rentalGumpID 200
+
+                    if not gumpexists rentalGumpID
+                        wait 500
+                        say 'vendor buy the bank some guards'
+                    elseif ingump 'Enter Your Room'
+                        wait 250
+                        while not insysmsg 'You enter the rental room'
+                            overhead 'Entering room...' 903
+                            gumpresponse 4
+                            wait 250
+                            
+                            if insysmsg 'That vendor is too far away'
+                                overhead 'Innkeeper is too far away!' 38
+                                overhead 'Move closer!' 53
+                                stop
+                            endif
+                        endwhile
+                        
+                        overhead 'Welcome home.'
+                        
+                    elseif ingump 'Rent This Room'
+                        gumpresponse 5
+                        waitforgump rentalGumpID 3000
+                        
+                        if ingump 'co-owner'
+                            while not insysmsg 'You enter the rental room'
+                                wait 250
+                                overhead 'Entering co-owned room...' 903
+                                gumpresponse 100
+                                
+                                if insysmsg 'That vendor is too far away'
+                                    overhead 'Innkeeper is too far away!' 38
+                                    stop
+                                endif
+                            endwhile
+                            
+                            overhead 'Welcome home.'
+                        else
+                            overhead 'No access to any rooms!' 38
+                        endif
+                    elseif ingump 'Visit Other Rooms'
+                        gumpresponse 2
+                        waitforgump rentalGumpID 3000
+                        
+                        while not insysmsg 'You enter the rental room'
+                            wait 250
+                            overhead 'Entering co-owned room...' 903
+                            gumpresponse 100
+                        endwhile
+                    else 
+                        sysmsg 'Character does not have a room or access to one!' 38
+                        overhead 'No room access!' 38
+                    endif
+                endif
+                pause 200
+                while casting
+                endwhile
+                pause 400
+                if findtype 23035 ground -1 -1 2
+                    break
+                else
+                    hotkey 'cancel current target'
+                    overhead 'not at house yet..'
+                    if dead
+                        stop
+                    endif
+                endif
+            endfor
+        endwhile
+
+                
+        dclick tomeBag
+        pause 1000
+
+        if findtype 7956 backpack 0 as rune
+            overhead 'using this tome' 6 copyTome
+            overhead 'renaming rune to name' 6 rune
+            dclick rune
+            pause normalPause
+            promptresponse listName
+            pause normalPause
+            @drop backpack
+            lift rune 1
+            drop copyTome
+            pause normalPause
+        endif
+
+        if insysmsg 'world is saving'
+            for 30
+                overhead 'Waiting for world save...'
+                wait 1000
+                if insysmsg 'save complete'
+                    overhead 'Save complete - continue on!' 88
+                    clearsysmsg 
+                    wait 250
+                    break
+                endif
+            endfor
+        endif
+
+        if findtype 7956 backpack 0 as rune
+            overhead 'something went wrong..'
+            while findtype 7956 backpack 0 as rune
+                lift rune
+                drop 0x41B742BD 75 85 0
+            endif
+        endif
+
+        while dead
+            overhead 'Copying Rune - {{listName}}'
+            pause 1000
+        endwhile
+    endif
+endif
+
+if findtype 44997 ground -1 -1 2 as shelf
+    menu shelf 1
+endif
+
+
+
+
+while mana < 60
+
+    if not cooldown 'mushroom'
+        if findtype 29012 backpack as mushroom
+            dclick mushroom
+            pause 400
+            cooldown 'mushroom' 60000
+        endif
+    endif
+
+
+
+    skill 'meditation'
+    pause 3000
+
+endwhile
+
+if atlist runeList 1 as listName
+    @setvar! runeList listName
+else
+    @setvar! runeList "no name"
+endif
+
+overhead 'Copying Rune - {{listName}}'
+    
+if cooldown 'worldSave'
+    overhead 'Waiting for world save...'
+    pause 30000
+endif
+
+while hp < 100
+    if findtype 25750 backpack as bandages
+        dclick bandages
+        pause 1000
+    endif
+endwhile
+
+if findtype 7956 backpack 2882 as emptyRune
+
+
+
+    pause 400
+    dclick originalTome
+    waitforgump 167090027 1000
+    gumpresponse 201
+    waitforgump 167090027 1000
+    gumpresponse 20
+    pause recallTimer
+    hotkey 'all guard me'
+    pause normalPause
+
+    if find ressStockpile
+
+        overhead 'home.. dont mark!'
+    
+    else
+
+        cast 'Mark'
+        waitfortarget 2500
+        target emptyRune
+        pause normalPause
+        while not findtype 23035 ground -1 -1 2
+            for 10
+                overhead 'Recalling to House or Inn...'
+                if HouseOrInn == 0
+                    say '[recall House'
+                else
+                    // recall to inn and insure we are sucked into it
+                    say '[recall Room'
+                    wait 3000
+                    hotkey 'Cancel Current Target'
+                    clearsysmsg 
+
+                    @setvar rentalGumpID 2393832411
+
+                    if gumpexists rentalGumpID
+                        gumpclose
+                        wait 100
+                    endif
+
+                    say 'room'
+                    waitforgump rentalGumpID 200
+
+                    if not gumpexists rentalGumpID
+                        wait 500
+                        say 'vendor buy the bank some guards'
+                    elseif ingump 'Enter Your Room'
+                        wait 250
+                        while not insysmsg 'You enter the rental room'
+                            overhead 'Entering room...' 903
+                            gumpresponse 4
+                            wait 250
+                            
+                            if insysmsg 'That vendor is too far away'
+                                overhead 'Innkeeper is too far away!' 38
+                                overhead 'Move closer!' 53
+                                stop
+                            endif
+                        endwhile
+                        
+                        overhead 'Welcome home.'
+                        
+                    elseif ingump 'Rent This Room'
+                        gumpresponse 5
+                        waitforgump rentalGumpID 3000
+                        
+                        if ingump 'co-owner'
+                            while not insysmsg 'You enter the rental room'
+                                wait 250
+                                overhead 'Entering co-owned room...' 903
+                                gumpresponse 100
+                                
+                                if insysmsg 'That vendor is too far away'
+                                    overhead 'Innkeeper is too far away!' 38
+                                    stop
+                                endif
+                            endwhile
+                            
+                            overhead 'Welcome home.'
+                        else
+                            overhead 'No access to any rooms!' 38
+                        endif
+                    elseif ingump 'Visit Other Rooms'
+                        gumpresponse 2
+                        waitforgump rentalGumpID 3000
+                        
+                        while not insysmsg 'You enter the rental room'
+                            wait 250
+                            overhead 'Entering co-owned room...' 903
+                            gumpresponse 100
+                        endwhile
+                    else 
+                        sysmsg 'Character does not have a room or access to one!' 38
+                        overhead 'No room access!' 38
+                    endif
+                endif
+                pause 200
+                while casting
+                endwhile
+                pause 400
+                if findtype 23035 ground -1 -1 2
+                    break
+                else
+                    hotkey 'cancel current target'
+                    overhead 'not at house yet..'
+                    if dead
+                        stop
+                    endif
+                endif
+            endfor
+        endwhile
+                
+        dclick tomeBag
+        pause 1000
+
+        if findtype 7956 backpack 0 as rune
+            overhead 'using this tome' 6 copyTome
+            overhead 'renaming rune to name' 6 rune
+            dclick rune
+            pause normalPause
+            promptresponse listName
+            pause normalPause
+            @drop backpack
+            lift rune 1
+            drop copyTome
+            pause normalPause
+        endif
+
+        if insysmsg 'world is saving'
+            for 30
+                overhead 'Waiting for world save...'
+                wait 1000
+                if insysmsg 'save complete'
+                    overhead 'Save complete - continue on!' 88
+                    clearsysmsg 
+                    wait 250
+                    break
+                endif
+            endfor
+        endif
+
+        if findtype 7956 backpack 0 as rune
+            overhead 'something went wrong..'
+            while findtype 7956 backpack 0 as rune
+                lift rune
+                drop 0x41B742BD 75 85 0
+            endif
+        endif
+
+        while dead
+            overhead 'Copying Rune - {{listName}}'
+            pause 1000
+        endwhile
+    endif
+endif
+
+if findtype 44997 ground -1 -1 2 as shelf
+    menu shelf 1
+endif
+
+
+
+
+while mana < 60
+
+    if not cooldown 'mushroom'
+        if findtype 29012 backpack as mushroom
+            dclick mushroom
+            pause 400
+            cooldown 'mushroom' 60000
+        endif
+    endif
+
+
+
+    skill 'meditation'
+    pause 3000
+
+endwhile
+
+    
+
+dclick tomeBag
+pause 1000
+
+if atlist runeList 2 as listName
+    @setvar! runeList listName
+else
+    @setvar! runeList "no name"
+endif
+
+overhead 'Copying Rune - {{listName}}'
+    
+if cooldown 'worldSave'
+    overhead 'Waiting for world save...'
+    pause 30000
+endif
+
+while hp < 100
+    if findtype 25750 backpack as bandages
+        dclick bandages
+        pause 1000
+    endif
+endwhile
+
+if findtype 7956 backpack 2882 as emptyRune
+
+
+
+    pause 400
+    dclick originalTome
+    waitforgump 167090027 1000
+    gumpresponse 202
+    waitforgump 167090027 1000
+    gumpresponse 10
+    pause recallTimer
+    hotkey 'all guard me'
+    pause normalPause
+
+    if find ressStockpile
+
+        overhead 'home.. dont mark!'
+    
+    else
+
+        cast 'Mark'
+        waitfortarget 2500
+        target emptyRune
+        pause normalPause
+        while not findtype 23035 ground -1 -1 2
+            for 10
+                overhead 'Recalling to House or Inn...'
+                if HouseOrInn == 0
+                    say '[recall House'
+                else
+                    // recall to inn and insure we are sucked into it
+                    say '[recall Room'
+                    wait 3000
+                    hotkey 'Cancel Current Target'
+                    clearsysmsg 
+
+                    @setvar rentalGumpID 2393832411
+
+                    if gumpexists rentalGumpID
+                        gumpclose
+                        wait 100
+                    endif
+
+                    say 'room'
+                    waitforgump rentalGumpID 200
+
+                    if not gumpexists rentalGumpID
+                        wait 500
+                        say 'vendor buy the bank some guards'
+                    elseif ingump 'Enter Your Room'
+                        wait 250
+                        while not insysmsg 'You enter the rental room'
+                            overhead 'Entering room...' 903
+                            gumpresponse 4
+                            wait 250
+                            
+                            if insysmsg 'That vendor is too far away'
+                                overhead 'Innkeeper is too far away!' 38
+                                overhead 'Move closer!' 53
+                                stop
+                            endif
+                        endwhile
+                        
+                        overhead 'Welcome home.'
+                        
+                    elseif ingump 'Rent This Room'
+                        gumpresponse 5
+                        waitforgump rentalGumpID 3000
+                        
+                        if ingump 'co-owner'
+                            while not insysmsg 'You enter the rental room'
+                                wait 250
+                                overhead 'Entering co-owned room...' 903
+                                gumpresponse 100
+                                
+                                if insysmsg 'That vendor is too far away'
+                                    overhead 'Innkeeper is too far away!' 38
+                                    stop
+                                endif
+                            endwhile
+                            
+                            overhead 'Welcome home.'
+                        else
+                            overhead 'No access to any rooms!' 38
+                        endif
+                    elseif ingump 'Visit Other Rooms'
+                        gumpresponse 2
+                        waitforgump rentalGumpID 3000
+                        
+                        while not insysmsg 'You enter the rental room'
+                            wait 250
+                            overhead 'Entering co-owned room...' 903
+                            gumpresponse 100
+                        endwhile
+                    else 
+                        sysmsg 'Character does not have a room or access to one!' 38
+                        overhead 'No room access!' 38
+                    endif
+                endif
+                pause 200
+                while casting
+                endwhile
+                pause 400
+                if findtype 23035 ground -1 -1 2
+                    break
+                else
+                    hotkey 'cancel current target'
+                    overhead 'not at house yet..'
+                    if dead
+                        stop
+                    endif
+                endif
+            endfor
+        endwhile
+                
+        dclick tomeBag
+        pause 1000
+
+        if findtype 7956 backpack 0 as rune
+            overhead 'using this tome' 6 copyTome
+            overhead 'renaming rune to name' 6 rune
+            dclick rune
+            pause normalPause
+            promptresponse listName
+            pause normalPause
+            @drop backpack
+            lift rune 1
+            drop copyTome
+            pause normalPause
+        endif
+
+        if insysmsg 'world is saving'
+            for 30
+                overhead 'Waiting for world save...'
+                wait 1000
+                if insysmsg 'save complete'
+                    overhead 'Save complete - continue on!' 88
+                    clearsysmsg 
+                    wait 250
+                    break
+                endif
+            endfor
+        endif
+
+        if findtype 7956 backpack 0 as rune
+            overhead 'something went wrong..'
+            while findtype 7956 backpack 0 as rune
+                lift rune
+                drop 0x41B742BD 75 85 0
+            endif
+        endif
+
+        while dead
+            overhead 'Copying Rune - {{listName}}'
+            pause 1000
+        endwhile
+    
+    endif
+    
+endif
+
+if findtype 44997 ground -1 -1 2 as shelf
+    menu shelf 1
+endif
+
+
+
+
+while mana < 60
+
+    if not cooldown 'mushroom'
+        if findtype 29012 backpack as mushroom
+            dclick mushroom
+            pause 400
+            cooldown 'mushroom' 60000
+        endif
+    endif
+
+
+
+    skill 'meditation'
+    pause 3000
+
+endwhile
+
+    
+
+dclick tomeBag
+pause 1000
+
+if atlist runeList 3 as listName
+    @setvar! runeList listName
+else
+    @setvar! runeList "no name"
+endif
+
+overhead 'Copying Rune - {{listName}}'
+
+if cooldown 'worldSave'
+    overhead 'Waiting for world save...'
+    pause 30000
+endif
+
+while hp < 100
+    if findtype 25750 backpack as bandages
+        dclick bandages
+        pause 1000
+    endif
+endwhile
+
+if findtype 7956 backpack 2882 as emptyRune
+
+
+
+    pause 400
+    dclick originalTome
+    waitforgump 167090027 1000
+    gumpresponse 203
+    waitforgump 167090027 1000
+    gumpresponse 20
+    pause recallTimer
+    hotkey 'all guard me'
+    pause normalPause
+
+    if find ressStockpile
+
+        overhead 'home.. dont mark!'
+    
+    else
+
+        cast 'Mark'
+        waitfortarget 2500
+        target emptyRune
+        pause normalPause
+        while not findtype 23035 ground -1 -1 2
+            for 10
+                overhead 'Recalling to House or Inn...'
+                if HouseOrInn == 0
+                    say '[recall House'
+                else
+                    // recall to inn and insure we are sucked into it
+                    say '[recall Room'
+                    wait 3000
+                    hotkey 'Cancel Current Target'
+                    clearsysmsg 
+
+                    @setvar rentalGumpID 2393832411
+
+                    if gumpexists rentalGumpID
+                        gumpclose
+                        wait 100
+                    endif
+
+                    say 'room'
+                    waitforgump rentalGumpID 200
+
+                    if not gumpexists rentalGumpID
+                        wait 500
+                        say 'vendor buy the bank some guards'
+                    elseif ingump 'Enter Your Room'
+                        wait 250
+                        while not insysmsg 'You enter the rental room'
+                            overhead 'Entering room...' 903
+                            gumpresponse 4
+                            wait 250
+                            
+                            if insysmsg 'That vendor is too far away'
+                                overhead 'Innkeeper is too far away!' 38
+                                overhead 'Move closer!' 53
+                                stop
+                            endif
+                        endwhile
+                        
+                        overhead 'Welcome home.'
+                        
+                    elseif ingump 'Rent This Room'
+                        gumpresponse 5
+                        waitforgump rentalGumpID 3000
+                        
+                        if ingump 'co-owner'
+                            while not insysmsg 'You enter the rental room'
+                                wait 250
+                                overhead 'Entering co-owned room...' 903
+                                gumpresponse 100
+                                
+                                if insysmsg 'That vendor is too far away'
+                                    overhead 'Innkeeper is too far away!' 38
+                                    stop
+                                endif
+                            endwhile
+                            
+                            overhead 'Welcome home.'
+                        else
+                            overhead 'No access to any rooms!' 38
+                        endif
+                    elseif ingump 'Visit Other Rooms'
+                        gumpresponse 2
+                        waitforgump rentalGumpID 3000
+                        
+                        while not insysmsg 'You enter the rental room'
+                            wait 250
+                            overhead 'Entering co-owned room...' 903
+                            gumpresponse 100
+                        endwhile
+                    else 
+                        sysmsg 'Character does not have a room or access to one!' 38
+                        overhead 'No room access!' 38
+                    endif
+                endif
+                pause 200
+                while casting
+                endwhile
+                pause 400
+                if findtype 23035 ground -1 -1 2
+                    break
+                else
+                    hotkey 'cancel current target'
+                    overhead 'not at house yet..'
+                    if dead
+                        stop
+                    endif
+                endif
+            endfor
+        endwhile
+                
+        dclick tomeBag
+        pause 1000
+
+        if findtype 7956 backpack 0 as rune
+            overhead 'using this tome' 6 copyTome
+            overhead 'renaming rune to name' 6 rune
+            dclick rune
+            pause normalPause
+            promptresponse listName
+            pause normalPause
+            @drop backpack
+            lift rune 1
+            drop copyTome
+            pause normalPause
+        endif
+
+        if insysmsg 'world is saving'
+            for 30
+                overhead 'Waiting for world save...'
+                wait 1000
+                if insysmsg 'save complete'
+                    overhead 'Save complete - continue on!' 88
+                    clearsysmsg 
+                    wait 250
+                    break
+                endif
+            endfor
+        endif
+
+        if findtype 7956 backpack 0 as rune
+            overhead 'something went wrong..'
+            while findtype 7956 backpack 0 as rune
+                lift rune
+                drop 0x41B742BD 75 85 0
+            endif
+        endif
+
+        while dead
+            overhead 'Copying Rune - {{listName}}'
+            pause 1000
+        endwhile
+    
+    endif
+    
+endif
+
+if findtype 44997 ground -1 -1 2 as shelf
+    menu shelf 1
+endif
+
+
+
+
+while mana < 60
+
+    if not cooldown 'mushroom'
+        if findtype 29012 backpack as mushroom
+            dclick mushroom
+            pause 400
+            cooldown 'mushroom' 60000
+        endif
+    endif
+
+
+
+    skill 'meditation'
+    pause 3000
+
+endwhile
+
+    
+
+dclick tomeBag
+pause 1000
+
+if atlist runeList 4 as listName
+    @setvar! runeList listName
+else
+    @setvar! runeList "no name"
+endif
+
+overhead 'Copying Rune - {{listName}}'
+    
+if cooldown 'worldSave'
+    overhead 'Waiting for world save...'
+    pause 30000
+endif
+
+while hp < 100
+    if findtype 25750 backpack as bandages
+        dclick bandages
+        pause 1000
+    endif
+endwhile
+
+if findtype 7956 backpack 2882 as emptyRune
+
+
+
+    pause 400
+    dclick originalTome
+    waitforgump 167090027 1000
+    gumpresponse 204
+    waitforgump 167090027 1000
+    gumpresponse 10
+    pause recallTimer
+    hotkey 'all guard me'
+    pause normalPause
+
+    if find ressStockpile
+
+        overhead 'home.. dont mark!'
+    
+    else
+
+        cast 'Mark'
+        waitfortarget 2500
+        target emptyRune
+        pause normalPause
+        while not findtype 23035 ground -1 -1 2
+            for 10
+                overhead 'Recalling to House or Inn...'
+                if HouseOrInn == 0
+                    say '[recall House'
+                else
+                    // recall to inn and insure we are sucked into it
+                    say '[recall Room'
+                    wait 3000
+                    hotkey 'Cancel Current Target'
+                    clearsysmsg 
+
+                    @setvar rentalGumpID 2393832411
+
+                    if gumpexists rentalGumpID
+                        gumpclose
+                        wait 100
+                    endif
+
+                    say 'room'
+                    waitforgump rentalGumpID 200
+
+                    if not gumpexists rentalGumpID
+                        wait 500
+                        say 'vendor buy the bank some guards'
+                    elseif ingump 'Enter Your Room'
+                        wait 250
+                        while not insysmsg 'You enter the rental room'
+                            overhead 'Entering room...' 903
+                            gumpresponse 4
+                            wait 250
+                            
+                            if insysmsg 'That vendor is too far away'
+                                overhead 'Innkeeper is too far away!' 38
+                                overhead 'Move closer!' 53
+                                stop
+                            endif
+                        endwhile
+                        
+                        overhead 'Welcome home.'
+                        
+                    elseif ingump 'Rent This Room'
+                        gumpresponse 5
+                        waitforgump rentalGumpID 3000
+                        
+                        if ingump 'co-owner'
+                            while not insysmsg 'You enter the rental room'
+                                wait 250
+                                overhead 'Entering co-owned room...' 903
+                                gumpresponse 100
+                                
+                                if insysmsg 'That vendor is too far away'
+                                    overhead 'Innkeeper is too far away!' 38
+                                    stop
+                                endif
+                            endwhile
+                            
+                            overhead 'Welcome home.'
+                        else
+                            overhead 'No access to any rooms!' 38
+                        endif
+                    elseif ingump 'Visit Other Rooms'
+                        gumpresponse 2
+                        waitforgump rentalGumpID 3000
+                        
+                        while not insysmsg 'You enter the rental room'
+                            wait 250
+                            overhead 'Entering co-owned room...' 903
+                            gumpresponse 100
+                        endwhile
+                    else 
+                        sysmsg 'Character does not have a room or access to one!' 38
+                        overhead 'No room access!' 38
+                    endif
+                endif
+                pause 200
+                while casting
+                endwhile
+                pause 400
+                if findtype 23035 ground -1 -1 2
+                    break
+                else
+                    hotkey 'cancel current target'
+                    overhead 'not at house yet..'
+                    if dead
+                        stop
+                    endif
+                endif
+            endfor
+        endwhile
+                
+        dclick tomeBag
+        pause 1000
+
+        if findtype 7956 backpack 0 as rune
+            overhead 'using this tome' 6 copyTome
+            overhead 'renaming rune to name' 6 rune
+            dclick rune
+            pause normalPause
+            promptresponse listName
+            pause normalPause
+            @drop backpack
+            lift rune 1
+            drop copyTome
+            pause normalPause
+        endif
+
+        if insysmsg 'world is saving'
+            for 30
+                overhead 'Waiting for world save...'
+                wait 1000
+                if insysmsg 'save complete'
+                    overhead 'Save complete - continue on!' 88
+                    clearsysmsg 
+                    wait 250
+                    break
+                endif
+            endfor
+        endif
+
+        if findtype 7956 backpack 0 as rune
+            overhead 'something went wrong..'
+            while findtype 7956 backpack 0 as rune
+                lift rune
+                drop 0x41B742BD 75 85 0
+            endif
+        endif
+
+        while dead
+            overhead 'Copying Rune - {{listName}}'
+            pause 1000
+        endwhile
+    
+    endif
+    
+endif
+
+if findtype 44997 ground -1 -1 2 as shelf
+    menu shelf 1
+endif
+
+
+
+
+while mana < 60
+
+    if not cooldown 'mushroom'
+        if findtype 29012 backpack as mushroom
+            dclick mushroom
+            pause 400
+            cooldown 'mushroom' 60000
+        endif
+    endif
+
+
+
+    skill 'meditation'
+    pause 3000
+
+endwhile
+
+    
+
+dclick tomeBag
+pause 1000
+
+if atlist runeList 5 as listName
+    @setvar! runeList listName
+else
+    @setvar! runeList "no name"
+endif
+
+overhead 'Copying Rune - {{listName}}'
+    
+if cooldown 'worldSave'
+    overhead 'Waiting for world save...'
+    pause 30000
+endif
+
+while hp < 100
+    if findtype 25750 backpack as bandages
+        dclick bandages
+        pause 1000
+    endif
+endwhile
+
+if findtype 7956 backpack 2882 as emptyRune
+
+
+
+    pause 400
+    dclick originalTome
+    waitforgump 167090027 1000
+    gumpresponse 205
+    waitforgump 167090027 1000
+    gumpresponse 20
+    pause recallTimer
+    hotkey 'all guard me'
+    pause normalPause
+
+    if find ressStockpile
+
+        overhead 'home.. dont mark!'
+    
+    else
+
+        cast 'Mark'
+        waitfortarget 2500
+        target emptyRune
+        pause normalPause
+        while not findtype 23035 ground -1 -1 2
+            for 10
+                overhead 'Recalling to House or Inn...'
+                if HouseOrInn == 0
+                    say '[recall House'
+                else
+                    // recall to inn and insure we are sucked into it
+                    say '[recall Room'
+                    wait 3000
+                    hotkey 'Cancel Current Target'
+                    clearsysmsg 
+
+                    @setvar rentalGumpID 2393832411
+
+                    if gumpexists rentalGumpID
+                        gumpclose
+                        wait 100
+                    endif
+
+                    say 'room'
+                    waitforgump rentalGumpID 200
+
+                    if not gumpexists rentalGumpID
+                        wait 500
+                        say 'vendor buy the bank some guards'
+                    elseif ingump 'Enter Your Room'
+                        wait 250
+                        while not insysmsg 'You enter the rental room'
+                            overhead 'Entering room...' 903
+                            gumpresponse 4
+                            wait 250
+                            
+                            if insysmsg 'That vendor is too far away'
+                                overhead 'Innkeeper is too far away!' 38
+                                overhead 'Move closer!' 53
+                                stop
+                            endif
+                        endwhile
+                        
+                        overhead 'Welcome home.'
+                        
+                    elseif ingump 'Rent This Room'
+                        gumpresponse 5
+                        waitforgump rentalGumpID 3000
+                        
+                        if ingump 'co-owner'
+                            while not insysmsg 'You enter the rental room'
+                                wait 250
+                                overhead 'Entering co-owned room...' 903
+                                gumpresponse 100
+                                
+                                if insysmsg 'That vendor is too far away'
+                                    overhead 'Innkeeper is too far away!' 38
+                                    stop
+                                endif
+                            endwhile
+                            
+                            overhead 'Welcome home.'
+                        else
+                            overhead 'No access to any rooms!' 38
+                        endif
+                    elseif ingump 'Visit Other Rooms'
+                        gumpresponse 2
+                        waitforgump rentalGumpID 3000
+                        
+                        while not insysmsg 'You enter the rental room'
+                            wait 250
+                            overhead 'Entering co-owned room...' 903
+                            gumpresponse 100
+                        endwhile
+                    else 
+                        sysmsg 'Character does not have a room or access to one!' 38
+                        overhead 'No room access!' 38
+                    endif
+                endif
+                pause 200
+                while casting
+                endwhile
+                pause 400
+                if findtype 23035 ground -1 -1 2
+                    break
+                else
+                    hotkey 'cancel current target'
+                    overhead 'not at house yet..'
+                    if dead
+                        stop
+                    endif
+                endif
+            endfor
+        endwhile
+                
+        dclick tomeBag
+        pause 1000
+
+        if findtype 7956 backpack 0 as rune
+            overhead 'using this tome' 6 copyTome
+            overhead 'renaming rune to name' 6 rune
+            dclick rune
+            pause normalPause
+            promptresponse listName
+            pause normalPause
+            @drop backpack
+            lift rune 1
+            drop copyTome
+            pause normalPause
+        endif
+
+        if insysmsg 'world is saving'
+            for 30
+                overhead 'Waiting for world save...'
+                wait 1000
+                if insysmsg 'save complete'
+                    overhead 'Save complete - continue on!' 88
+                    clearsysmsg 
+                    wait 250
+                    break
+                endif
+            endfor
+        endif
+
+        if findtype 7956 backpack 0 as rune
+            overhead 'something went wrong..'
+            while findtype 7956 backpack 0 as rune
+                lift rune
+                drop 0x41B742BD 75 85 0
+            endif
+        endif
+
+        while dead
+            overhead 'Copying Rune - {{listName}}'
+            pause 1000
+        endwhile
+    
+    endif
+    
+endif
+
+if findtype 44997 ground -1 -1 2 as shelf
+    menu shelf 1
+endif
+
+
+
+
+while mana < 60
+
+    if not cooldown 'mushroom'
+        if findtype 29012 backpack as mushroom
+            dclick mushroom
+            pause 400
+            cooldown 'mushroom' 60000
+        endif
+    endif
+
+
+
+    skill 'meditation'
+    pause 3000
+
+endwhile
+
+    
+
+dclick tomeBag
+pause 1000
+
+if atlist runeList 6 as listName
+    @setvar! runeList listName
+else
+    @setvar! runeList "no name"
+endif
+
+overhead 'Copying Rune - {{listName}}'
+    
+if cooldown 'worldSave'
+    overhead 'Waiting for world save...'
+    pause 30000
+endif
+
+while hp < 100
+    if findtype 25750 backpack as bandages
+        dclick bandages
+        pause 1000
+    endif
+endwhile
+
+if findtype 7956 backpack 2882 as emptyRune
+
+
+
+    pause 400
+    dclick originalTome
+    waitforgump 167090027 1000
+    gumpresponse 206
+    waitforgump 167090027 1000
+    gumpresponse 10
+    pause recallTimer
+    hotkey 'all guard me'
+    pause normalPause
+
+    if find ressStockpile
+
+        overhead 'home.. dont mark!'
+    
+    else
+
+        cast 'Mark'
+        waitfortarget 2500
+        target emptyRune
+        pause normalPause
+        while not findtype 23035 ground -1 -1 2
+            for 10
+                overhead 'Recalling to House or Inn...'
+                if HouseOrInn == 0
+                    say '[recall House'
+                else
+                    // recall to inn and insure we are sucked into it
+                    say '[recall Room'
+                    wait 3000
+                    hotkey 'Cancel Current Target'
+                    clearsysmsg 
+
+                    @setvar rentalGumpID 2393832411
+
+                    if gumpexists rentalGumpID
+                        gumpclose
+                        wait 100
+                    endif
+
+                    say 'room'
+                    waitforgump rentalGumpID 200
+
+                    if not gumpexists rentalGumpID
+                        wait 500
+                        say 'vendor buy the bank some guards'
+                    elseif ingump 'Enter Your Room'
+                        wait 250
+                        while not insysmsg 'You enter the rental room'
+                            overhead 'Entering room...' 903
+                            gumpresponse 4
+                            wait 250
+                            
+                            if insysmsg 'That vendor is too far away'
+                                overhead 'Innkeeper is too far away!' 38
+                                overhead 'Move closer!' 53
+                                stop
+                            endif
+                        endwhile
+                        
+                        overhead 'Welcome home.'
+                        
+                    elseif ingump 'Rent This Room'
+                        gumpresponse 5
+                        waitforgump rentalGumpID 3000
+                        
+                        if ingump 'co-owner'
+                            while not insysmsg 'You enter the rental room'
+                                wait 250
+                                overhead 'Entering co-owned room...' 903
+                                gumpresponse 100
+                                
+                                if insysmsg 'That vendor is too far away'
+                                    overhead 'Innkeeper is too far away!' 38
+                                    stop
+                                endif
+                            endwhile
+                            
+                            overhead 'Welcome home.'
+                        else
+                            overhead 'No access to any rooms!' 38
+                        endif
+                    elseif ingump 'Visit Other Rooms'
+                        gumpresponse 2
+                        waitforgump rentalGumpID 3000
+                        
+                        while not insysmsg 'You enter the rental room'
+                            wait 250
+                            overhead 'Entering co-owned room...' 903
+                            gumpresponse 100
+                        endwhile
+                    else 
+                        sysmsg 'Character does not have a room or access to one!' 38
+                        overhead 'No room access!' 38
+                    endif
+                endif
+                pause 200
+                while casting
+                endwhile
+                pause 400
+                if findtype 23035 ground -1 -1 2
+                    break
+                else
+                    hotkey 'cancel current target'
+                    overhead 'not at house yet..'
+                    if dead
+                        stop
+                    endif
+                endif
+            endfor
+        endwhile
+                
+        dclick tomeBag
+        pause 1000
+
+        if findtype 7956 backpack 0 as rune
+            overhead 'using this tome' 6 copyTome
+            overhead 'renaming rune to name' 6 rune
+            dclick rune
+            pause normalPause
+            promptresponse listName
+            pause normalPause
+            @drop backpack
+            lift rune 1
+            drop copyTome
+            pause normalPause
+        endif
+
+        if insysmsg 'world is saving'
+            for 30
+                overhead 'Waiting for world save...'
+                wait 1000
+                if insysmsg 'save complete'
+                    overhead 'Save complete - continue on!' 88
+                    clearsysmsg 
+                    wait 250
+                    break
+                endif
+            endfor
+        endif
+
+        if findtype 7956 backpack 0 as rune
+            overhead 'something went wrong..'
+            while findtype 7956 backpack 0 as rune
+                lift rune
+                drop 0x41B742BD 75 85 0
+            endif
+        endif
+
+        while dead
+            overhead 'Copying Rune - {{listName}}'
+            pause 1000
+        endwhile
+    
+    endif
+    
+endif
+
+if findtype 44997 ground -1 -1 2 as shelf
+    menu shelf 1
+endif
+
+
+
+
+while mana < 60
+
+    if not cooldown 'mushroom'
+        if findtype 29012 backpack as mushroom
+            dclick mushroom
+            pause 400
+            cooldown 'mushroom' 60000
+        endif
+    endif
+
+
+
+    skill 'meditation'
+    pause 3000
+
+endwhile
+
+    
+
+dclick tomeBag
+pause 1000
+
+if atlist runeList 7 as listName
+    @setvar! runeList listName
+else
+    @setvar! runeList "no name"
+endif
+
+overhead 'Copying Rune - {{listName}}'
+    
+if cooldown 'worldSave'
+    overhead 'Waiting for world save...'
+    pause 30000
+endif
+
+while hp < 100
+    if findtype 25750 backpack as bandages
+        dclick bandages
+        pause 1000
+    endif
+endwhile
+
+if findtype 7956 backpack 2882 as emptyRune
+
+
+
+    pause 400
+    dclick originalTome
+    waitforgump 167090027 1000
+    gumpresponse 207
+    waitforgump 167090027 1000
+    gumpresponse 20
+    pause recallTimer
+    hotkey 'all guard me'
+    pause normalPause
+
+    if find ressStockpile
+
+        overhead 'home.. dont mark!'
+    
+    else
+
+        cast 'Mark'
+        waitfortarget 2500
+        target emptyRune
+        pause normalPause
+        while not findtype 23035 ground -1 -1 2
+            for 10
+                overhead 'Recalling to House or Inn...'
+                if HouseOrInn == 0
+                    say '[recall House'
+                else
+                    // recall to inn and insure we are sucked into it
+                    say '[recall Room'
+                    wait 3000
+                    hotkey 'Cancel Current Target'
+                    clearsysmsg 
+
+                    @setvar rentalGumpID 2393832411
+
+                    if gumpexists rentalGumpID
+                        gumpclose
+                        wait 100
+                    endif
+
+                    say 'room'
+                    waitforgump rentalGumpID 200
+
+                    if not gumpexists rentalGumpID
+                        wait 500
+                        say 'vendor buy the bank some guards'
+                    elseif ingump 'Enter Your Room'
+                        wait 250
+                        while not insysmsg 'You enter the rental room'
+                            overhead 'Entering room...' 903
+                            gumpresponse 4
+                            wait 250
+                            
+                            if insysmsg 'That vendor is too far away'
+                                overhead 'Innkeeper is too far away!' 38
+                                overhead 'Move closer!' 53
+                                stop
+                            endif
+                        endwhile
+                        
+                        overhead 'Welcome home.'
+                        
+                    elseif ingump 'Rent This Room'
+                        gumpresponse 5
+                        waitforgump rentalGumpID 3000
+                        
+                        if ingump 'co-owner'
+                            while not insysmsg 'You enter the rental room'
+                                wait 250
+                                overhead 'Entering co-owned room...' 903
+                                gumpresponse 100
+                                
+                                if insysmsg 'That vendor is too far away'
+                                    overhead 'Innkeeper is too far away!' 38
+                                    stop
+                                endif
+                            endwhile
+                            
+                            overhead 'Welcome home.'
+                        else
+                            overhead 'No access to any rooms!' 38
+                        endif
+                    elseif ingump 'Visit Other Rooms'
+                        gumpresponse 2
+                        waitforgump rentalGumpID 3000
+                        
+                        while not insysmsg 'You enter the rental room'
+                            wait 250
+                            overhead 'Entering co-owned room...' 903
+                            gumpresponse 100
+                        endwhile
+                    else 
+                        sysmsg 'Character does not have a room or access to one!' 38
+                        overhead 'No room access!' 38
+                    endif
+                endif
+                pause 200
+                while casting
+                endwhile
+                pause 400
+                if findtype 23035 ground -1 -1 2
+                    break
+                else
+                    hotkey 'cancel current target'
+                    overhead 'not at house yet..'
+                    if dead
+                        stop
+                    endif
+                endif
+            endfor
+        endwhile
+                
+        dclick tomeBag
+        pause 1000
+
+        if findtype 7956 backpack 0 as rune
+            overhead 'using this tome' 6 copyTome
+            overhead 'renaming rune to name' 6 rune
+            dclick rune
+            pause normalPause
+            promptresponse listName
+            pause normalPause
+            @drop backpack
+            lift rune 1
+            drop copyTome
+            pause normalPause
+        endif
+
+        if insysmsg 'world is saving'
+            for 30
+                overhead 'Waiting for world save...'
+                wait 1000
+                if insysmsg 'save complete'
+                    overhead 'Save complete - continue on!' 88
+                    clearsysmsg 
+                    wait 250
+                    break
+                endif
+            endfor
+        endif
+
+        if findtype 7956 backpack 0 as rune
+            overhead 'something went wrong..'
+            while findtype 7956 backpack 0 as rune
+                lift rune
+                drop 0x41B742BD 75 85 0
+            endif
+        endif
+
+        while dead
+            overhead 'Copying Rune - {{listName}}'
+            pause 1000
+        endwhile
+    
+    endif
+    
+endif
+
+if findtype 44997 ground -1 -1 2 as shelf
+    menu shelf 1
+endif
+
+
+
+
+while mana < 60
+
+    if not cooldown 'mushroom'
+        if findtype 29012 backpack as mushroom
+            dclick mushroom
+            pause 400
+            cooldown 'mushroom' 60000
+        endif
+    endif
+
+
+
+    skill 'meditation'
+    pause 3000
+
+endwhile
+
+    
+
+dclick tomeBag
+pause 1000
+
+if atlist runeList 8 as listName
+    @setvar! runeList listName
+else
+    @setvar! runeList "no name"
+endif
+
+overhead 'Copying Rune - {{listName}}'
+    
+if cooldown 'worldSave'
+    overhead 'Waiting for world save...'
+    pause 30000
+endif
+
+while hp < 100
+    if findtype 25750 backpack as bandages
+        dclick bandages
+        pause 1000
+    endif
+endwhile
+
+if findtype 7956 backpack 2882 as emptyRune
+
+
+
+    pause 400
+    dclick originalTome
+    waitforgump 167090027 1000
+    gumpresponse 208
+    waitforgump 167090027 1000
+    gumpresponse 10
+    pause recallTimer
+    hotkey 'all guard me'
+    pause normalPause
+
+    if find ressStockpile
+
+        overhead 'home.. dont mark!'
+    
+    else
+
+        cast 'Mark'
+        waitfortarget 2500
+        target emptyRune
+        pause normalPause
+        while not findtype 23035 ground -1 -1 2
+            for 10
+                overhead 'Recalling to House or Inn...'
+                if HouseOrInn == 0
+                    say '[recall House'
+                else
+                    // recall to inn and insure we are sucked into it
+                    say '[recall Room'
+                    wait 3000
+                    hotkey 'Cancel Current Target'
+                    clearsysmsg 
+
+                    @setvar rentalGumpID 2393832411
+
+                    if gumpexists rentalGumpID
+                        gumpclose
+                        wait 100
+                    endif
+
+                    say 'room'
+                    waitforgump rentalGumpID 200
+
+                    if not gumpexists rentalGumpID
+                        wait 500
+                        say 'vendor buy the bank some guards'
+                    elseif ingump 'Enter Your Room'
+                        wait 250
+                        while not insysmsg 'You enter the rental room'
+                            overhead 'Entering room...' 903
+                            gumpresponse 4
+                            wait 250
+                            
+                            if insysmsg 'That vendor is too far away'
+                                overhead 'Innkeeper is too far away!' 38
+                                overhead 'Move closer!' 53
+                                stop
+                            endif
+                        endwhile
+                        
+                        overhead 'Welcome home.'
+                        
+                    elseif ingump 'Rent This Room'
+                        gumpresponse 5
+                        waitforgump rentalGumpID 3000
+                        
+                        if ingump 'co-owner'
+                            while not insysmsg 'You enter the rental room'
+                                wait 250
+                                overhead 'Entering co-owned room...' 903
+                                gumpresponse 100
+                                
+                                if insysmsg 'That vendor is too far away'
+                                    overhead 'Innkeeper is too far away!' 38
+                                    stop
+                                endif
+                            endwhile
+                            
+                            overhead 'Welcome home.'
+                        else
+                            overhead 'No access to any rooms!' 38
+                        endif
+                    elseif ingump 'Visit Other Rooms'
+                        gumpresponse 2
+                        waitforgump rentalGumpID 3000
+                        
+                        while not insysmsg 'You enter the rental room'
+                            wait 250
+                            overhead 'Entering co-owned room...' 903
+                            gumpresponse 100
+                        endwhile
+                    else 
+                        sysmsg 'Character does not have a room or access to one!' 38
+                        overhead 'No room access!' 38
+                    endif
+                endif
+                pause 200
+                while casting
+                endwhile
+                pause 400
+                if findtype 23035 ground -1 -1 2
+                    break
+                else
+                    hotkey 'cancel current target'
+                    overhead 'not at house yet..'
+                    if dead
+                        stop
+                    endif
+                endif
+            endfor
+        endwhile
+                
+        dclick tomeBag
+        pause 1000
+
+        if findtype 7956 backpack 0 as rune
+            overhead 'using this tome' 6 copyTome
+            overhead 'renaming rune to name' 6 rune
+            dclick rune
+            pause normalPause
+            promptresponse listName
+            pause normalPause
+            @drop backpack
+            lift rune 1
+            drop copyTome
+            pause normalPause
+        endif
+
+        if insysmsg 'world is saving'
+            for 30
+                overhead 'Waiting for world save...'
+                wait 1000
+                if insysmsg 'save complete'
+                    overhead 'Save complete - continue on!' 88
+                    clearsysmsg 
+                    wait 250
+                    break
+                endif
+            endfor
+        endif
+
+        if findtype 7956 backpack 0 as rune
+            overhead 'something went wrong..'
+            while findtype 7956 backpack 0 as rune
+                lift rune
+                drop 0x41B742BD 75 85 0
+            endif
+        endif
+
+        while dead
+            overhead 'Copying Rune - {{listName}}'
+            pause 1000
+        endwhile
+    
+    endif
+    
+endif
+
+if findtype 44997 ground -1 -1 2 as shelf
+    menu shelf 1
+endif
+
+
+
+
+while mana < 60
+
+    if not cooldown 'mushroom'
+        if findtype 29012 backpack as mushroom
+            dclick mushroom
+            pause 400
+            cooldown 'mushroom' 60000
+        endif
+    endif
+
+
+
+    skill 'meditation'
+    pause 3000
+
+endwhile
+
+    
+
+dclick tomeBag
+pause 1000
+
+if atlist runeList 9 as listName
+    @setvar! runeList listName
+else
+    @setvar! runeList "no name"
+endif
+
+overhead 'Copying Rune - {{listName}}'
+    
+if cooldown 'worldSave'
+    overhead 'Waiting for world save...'
+    pause 30000
+endif
+
+while hp < 100
+    if findtype 25750 backpack as bandages
+        dclick bandages
+        pause 1000
+    endif
+endwhile
+
+if findtype 7956 backpack 2882 as emptyRune
+
+
+
+    pause 400
+    dclick originalTome
+    waitforgump 167090027 1000
+    gumpresponse 209
+    waitforgump 167090027 1000
+    gumpresponse 20
+    pause recallTimer
+    hotkey 'all guard me'
+    pause normalPause
+
+    if find ressStockpile
+
+        overhead 'home.. dont mark!'
+    
+    else
+
+        cast 'Mark'
+        waitfortarget 2500
+        target emptyRune
+        pause normalPause
+        while not findtype 23035 ground -1 -1 2
+            for 10
+                overhead 'Recalling to House or Inn...'
+                if HouseOrInn == 0
+                    say '[recall House'
+                else
+                    // recall to inn and insure we are sucked into it
+                    say '[recall Room'
+                    wait 3000
+                    hotkey 'Cancel Current Target'
+                    clearsysmsg 
+
+                    @setvar rentalGumpID 2393832411
+
+                    if gumpexists rentalGumpID
+                        gumpclose
+                        wait 100
+                    endif
+
+                    say 'room'
+                    waitforgump rentalGumpID 200
+
+                    if not gumpexists rentalGumpID
+                        wait 500
+                        say 'vendor buy the bank some guards'
+                    elseif ingump 'Enter Your Room'
+                        wait 250
+                        while not insysmsg 'You enter the rental room'
+                            overhead 'Entering room...' 903
+                            gumpresponse 4
+                            wait 250
+                            
+                            if insysmsg 'That vendor is too far away'
+                                overhead 'Innkeeper is too far away!' 38
+                                overhead 'Move closer!' 53
+                                stop
+                            endif
+                        endwhile
+                        
+                        overhead 'Welcome home.'
+                        
+                    elseif ingump 'Rent This Room'
+                        gumpresponse 5
+                        waitforgump rentalGumpID 3000
+                        
+                        if ingump 'co-owner'
+                            while not insysmsg 'You enter the rental room'
+                                wait 250
+                                overhead 'Entering co-owned room...' 903
+                                gumpresponse 100
+                                
+                                if insysmsg 'That vendor is too far away'
+                                    overhead 'Innkeeper is too far away!' 38
+                                    stop
+                                endif
+                            endwhile
+                            
+                            overhead 'Welcome home.'
+                        else
+                            overhead 'No access to any rooms!' 38
+                        endif
+                    elseif ingump 'Visit Other Rooms'
+                        gumpresponse 2
+                        waitforgump rentalGumpID 3000
+                        
+                        while not insysmsg 'You enter the rental room'
+                            wait 250
+                            overhead 'Entering co-owned room...' 903
+                            gumpresponse 100
+                        endwhile
+                    else 
+                        sysmsg 'Character does not have a room or access to one!' 38
+                        overhead 'No room access!' 38
+                    endif
+                endif
+                pause 200
+                while casting
+                endwhile
+                pause 400
+                if findtype 23035 ground -1 -1 2
+                    break
+                else
+                    hotkey 'cancel current target'
+                    overhead 'not at house yet..'
+                    if dead
+                        stop
+                    endif
+                endif
+            endfor
+        endwhile
+                
+        dclick tomeBag
+        pause 1000
+
+        if findtype 7956 backpack 0 as rune
+            overhead 'using this tome' 6 copyTome
+            overhead 'renaming rune to name' 6 rune
+            dclick rune
+            pause normalPause
+            promptresponse listName
+            pause normalPause
+            @drop backpack
+            lift rune 1
+            drop copyTome
+            pause normalPause
+        endif
+
+        if insysmsg 'world is saving'
+            for 30
+                overhead 'Waiting for world save...'
+                wait 1000
+                if insysmsg 'save complete'
+                    overhead 'Save complete - continue on!' 88
+                    clearsysmsg 
+                    wait 250
+                    break
+                endif
+            endfor
+        endif
+
+        if findtype 7956 backpack 0 as rune
+            overhead 'something went wrong..'
+            while findtype 7956 backpack 0 as rune
+                lift rune
+                drop 0x41B742BD 75 85 0
+            endif
+        endif
+
+        while dead
+            overhead 'Copying Rune - {{listName}}'
+            pause 1000
+        endwhile
+    
+    endif
+    
+endif
+
+if findtype 44997 ground -1 -1 2 as shelf
+    menu shelf 1
+endif
+
+
+
+
+while mana < 60
+
+    if not cooldown 'mushroom'
+        if findtype 29012 backpack as mushroom
+            dclick mushroom
+            pause 400
+            cooldown 'mushroom' 60000
+        endif
+    endif
+
+
+
+    skill 'meditation'
+    pause 3000
+
+endwhile
+
+    
+
+dclick tomeBag
+pause 1000
+
+if atlist runeList 10 as listName
+    @setvar! runeList listName
+else
+    @setvar! runeList "no name"
+endif
+
+overhead 'Copying Rune - {{listName}}'
+    
+if cooldown 'worldSave'
+    overhead 'Waiting for world save...'
+    pause 30000
+endif
+
+while hp < 100
+    if findtype 25750 backpack as bandages
+        dclick bandages
+        pause 1000
+    endif
+endwhile
+
+if findtype 7956 backpack 2882 as emptyRune
+
+
+
+    pause 400
+    dclick originalTome
+    waitforgump 167090027 1000
+    gumpresponse 210
+    waitforgump 167090027 1000
+    gumpresponse 10
+    pause recallTimer
+    hotkey 'all guard me'
+    pause normalPause
+
+    if find ressStockpile
+
+        overhead 'home.. dont mark!'
+    
+    else
+
+        cast 'Mark'
+        waitfortarget 2500
+        target emptyRune
+        pause normalPause
+        while not findtype 23035 ground -1 -1 2
+            for 10
+                overhead 'Recalling to House or Inn...'
+                if HouseOrInn == 0
+                    say '[recall House'
+                else
+                    // recall to inn and insure we are sucked into it
+                    say '[recall Room'
+                    wait 3000
+                    hotkey 'Cancel Current Target'
+                    clearsysmsg 
+
+                    @setvar rentalGumpID 2393832411
+
+                    if gumpexists rentalGumpID
+                        gumpclose
+                        wait 100
+                    endif
+
+                    say 'room'
+                    waitforgump rentalGumpID 200
+
+                    if not gumpexists rentalGumpID
+                        wait 500
+                        say 'vendor buy the bank some guards'
+                    elseif ingump 'Enter Your Room'
+                        wait 250
+                        while not insysmsg 'You enter the rental room'
+                            overhead 'Entering room...' 903
+                            gumpresponse 4
+                            wait 250
+                            
+                            if insysmsg 'That vendor is too far away'
+                                overhead 'Innkeeper is too far away!' 38
+                                overhead 'Move closer!' 53
+                                stop
+                            endif
+                        endwhile
+                        
+                        overhead 'Welcome home.'
+                        
+                    elseif ingump 'Rent This Room'
+                        gumpresponse 5
+                        waitforgump rentalGumpID 3000
+                        
+                        if ingump 'co-owner'
+                            while not insysmsg 'You enter the rental room'
+                                wait 250
+                                overhead 'Entering co-owned room...' 903
+                                gumpresponse 100
+                                
+                                if insysmsg 'That vendor is too far away'
+                                    overhead 'Innkeeper is too far away!' 38
+                                    stop
+                                endif
+                            endwhile
+                            
+                            overhead 'Welcome home.'
+                        else
+                            overhead 'No access to any rooms!' 38
+                        endif
+                    elseif ingump 'Visit Other Rooms'
+                        gumpresponse 2
+                        waitforgump rentalGumpID 3000
+                        
+                        while not insysmsg 'You enter the rental room'
+                            wait 250
+                            overhead 'Entering co-owned room...' 903
+                            gumpresponse 100
+                        endwhile
+                    else 
+                        sysmsg 'Character does not have a room or access to one!' 38
+                        overhead 'No room access!' 38
+                    endif
+                endif
+                pause 200
+                while casting
+                endwhile
+                pause 400
+                if findtype 23035 ground -1 -1 2
+                    break
+                else
+                    hotkey 'cancel current target'
+                    overhead 'not at house yet..'
+                    if dead
+                        stop
+                    endif
+                endif
+            endfor
+        endwhile
+                
+        dclick tomeBag
+        pause 1000
+
+        if findtype 7956 backpack 0 as rune
+            overhead 'using this tome' 6 copyTome
+            overhead 'renaming rune to name' 6 rune
+            dclick rune
+            pause normalPause
+            promptresponse listName
+            pause normalPause
+            @drop backpack
+            lift rune 1
+            drop copyTome
+            pause normalPause
+        endif
+
+        if insysmsg 'world is saving'
+            for 30
+                overhead 'Waiting for world save...'
+                wait 1000
+                if insysmsg 'save complete'
+                    overhead 'Save complete - continue on!' 88
+                    clearsysmsg 
+                    wait 250
+                    break
+                endif
+            endfor
+        endif
+
+        if findtype 7956 backpack 0 as rune
+            overhead 'something went wrong..'
+            while findtype 7956 backpack 0 as rune
+                lift rune
+                drop 0x41B742BD 75 85 0
+            endif
+        endif
+
+        while dead
+            overhead 'Copying Rune - {{listName}}'
+            pause 1000
+        endwhile
+    
+    endif
+    
+endif
+
+if findtype 44997 ground -1 -1 2 as shelf
+    menu shelf 1
+endif
+
+
+
+
+while mana < 60
+
+    if not cooldown 'mushroom'
+        if findtype 29012 backpack as mushroom
+            dclick mushroom
+            pause 400
+            cooldown 'mushroom' 60000
+        endif
+    endif
+
+
+
+    skill 'meditation'
+    pause 3000
+
+endwhile
+
+    
+
+dclick tomeBag
+pause 1000
+
+if atlist runeList 11 as listName
+    @setvar! runeList listName
+else
+    @setvar! runeList "no name"
+endif
+
+overhead 'Copying Rune - {{listName}}'
+    
+if cooldown 'worldSave'
+    overhead 'Waiting for world save...'
+    pause 30000
+endif
+
+while hp < 100
+    if findtype 25750 backpack as bandages
+        dclick bandages
+        pause 1000
+    endif
+endwhile
+
+if findtype 7956 backpack 2882 as emptyRune
+
+
+
+    pause 400
+    dclick originalTome
+    waitforgump 167090027 1000
+    gumpresponse 211
+    waitforgump 167090027 1000
+    gumpresponse 20
+    pause recallTimer
+    hotkey 'all guard me'
+    pause normalPause
+
+    if find ressStockpile
+
+        overhead 'home.. dont mark!'
+    
+    else
+
+        cast 'Mark'
+        waitfortarget 2500
+        target emptyRune
+        pause normalPause
+        while not findtype 23035 ground -1 -1 2
+            for 10
+                overhead 'Recalling to House or Inn...'
+                if HouseOrInn == 0
+                    say '[recall House'
+                else
+                    // recall to inn and insure we are sucked into it
+                    say '[recall Room'
+                    wait 3000
+                    hotkey 'Cancel Current Target'
+                    clearsysmsg 
+
+                    @setvar rentalGumpID 2393832411
+
+                    if gumpexists rentalGumpID
+                        gumpclose
+                        wait 100
+                    endif
+
+                    say 'room'
+                    waitforgump rentalGumpID 200
+
+                    if not gumpexists rentalGumpID
+                        wait 500
+                        say 'vendor buy the bank some guards'
+                    elseif ingump 'Enter Your Room'
+                        wait 250
+                        while not insysmsg 'You enter the rental room'
+                            overhead 'Entering room...' 903
+                            gumpresponse 4
+                            wait 250
+                            
+                            if insysmsg 'That vendor is too far away'
+                                overhead 'Innkeeper is too far away!' 38
+                                overhead 'Move closer!' 53
+                                stop
+                            endif
+                        endwhile
+                        
+                        overhead 'Welcome home.'
+                        
+                    elseif ingump 'Rent This Room'
+                        gumpresponse 5
+                        waitforgump rentalGumpID 3000
+                        
+                        if ingump 'co-owner'
+                            while not insysmsg 'You enter the rental room'
+                                wait 250
+                                overhead 'Entering co-owned room...' 903
+                                gumpresponse 100
+                                
+                                if insysmsg 'That vendor is too far away'
+                                    overhead 'Innkeeper is too far away!' 38
+                                    stop
+                                endif
+                            endwhile
+                            
+                            overhead 'Welcome home.'
+                        else
+                            overhead 'No access to any rooms!' 38
+                        endif
+                    elseif ingump 'Visit Other Rooms'
+                        gumpresponse 2
+                        waitforgump rentalGumpID 3000
+                        
+                        while not insysmsg 'You enter the rental room'
+                            wait 250
+                            overhead 'Entering co-owned room...' 903
+                            gumpresponse 100
+                        endwhile
+                    else 
+                        sysmsg 'Character does not have a room or access to one!' 38
+                        overhead 'No room access!' 38
+                    endif
+                endif
+                pause 200
+                while casting
+                endwhile
+                pause 400
+                if findtype 23035 ground -1 -1 2
+                    break
+                else
+                    hotkey 'cancel current target'
+                    overhead 'not at house yet..'
+                    if dead
+                        stop
+                    endif
+                endif
+            endfor
+        endwhile
+                
+        dclick tomeBag
+        pause 1000
+
+        if findtype 7956 backpack 0 as rune
+            overhead 'using this tome' 6 copyTome
+            overhead 'renaming rune to name' 6 rune
+            dclick rune
+            pause normalPause
+            promptresponse listName
+            pause normalPause
+            @drop backpack
+            lift rune 1
+            drop copyTome
+            pause normalPause
+        endif
+
+        if insysmsg 'world is saving'
+            for 30
+                overhead 'Waiting for world save...'
+                wait 1000
+                if insysmsg 'save complete'
+                    overhead 'Save complete - continue on!' 88
+                    clearsysmsg 
+                    wait 250
+                    break
+                endif
+            endfor
+        endif
+
+        if findtype 7956 backpack 0 as rune
+            overhead 'something went wrong..'
+            while findtype 7956 backpack 0 as rune
+                lift rune
+                drop 0x41B742BD 75 85 0
+            endif
+        endif
+
+        while dead
+            overhead 'Copying Rune - {{listName}}'
+            pause 1000
+        endwhile
+    
+    endif
+    
+endif
+
+if findtype 44997 ground -1 -1 2 as shelf
+    menu shelf 1
+endif
+
+
+
+
+while mana < 60
+
+    if not cooldown 'mushroom'
+        if findtype 29012 backpack as mushroom
+            dclick mushroom
+            pause 400
+            cooldown 'mushroom' 60000
+        endif
+    endif
+
+
+
+    skill 'meditation'
+    pause 3000
+
+endwhile
+
+    
+
+dclick tomeBag
+pause 1000
+
+if atlist runeList 12 as listName
+    @setvar! runeList listName
+else
+    @setvar! runeList "no name"
+endif
+
+overhead 'Copying Rune - {{listName}}'
+    
+if cooldown 'worldSave'
+    overhead 'Waiting for world save...'
+    pause 30000
+endif
+
+while hp < 100
+    if findtype 25750 backpack as bandages
+        dclick bandages
+        pause 1000
+    endif
+endwhile
+
+if findtype 7956 backpack 2882 as emptyRune
+
+
+
+    pause 400
+    dclick originalTome
+    waitforgump 167090027 1000
+    gumpresponse 212
+    waitforgump 167090027 1000
+    gumpresponse 10
+    pause recallTimer
+    hotkey 'all guard me'
+    pause normalPause
+
+    if find ressStockpile
+
+        overhead 'home.. dont mark!'
+    
+    else
+
+        cast 'Mark'
+        waitfortarget 2500
+        target emptyRune
+        pause normalPause
+        while not findtype 23035 ground -1 -1 2
+            for 10
+                overhead 'Recalling to House or Inn...'
+                if HouseOrInn == 0
+                    say '[recall House'
+                else
+                    // recall to inn and insure we are sucked into it
+                    say '[recall Room'
+                    wait 3000
+                    hotkey 'Cancel Current Target'
+                    clearsysmsg 
+
+                    @setvar rentalGumpID 2393832411
+
+                    if gumpexists rentalGumpID
+                        gumpclose
+                        wait 100
+                    endif
+
+                    say 'room'
+                    waitforgump rentalGumpID 200
+
+                    if not gumpexists rentalGumpID
+                        wait 500
+                        say 'vendor buy the bank some guards'
+                    elseif ingump 'Enter Your Room'
+                        wait 250
+                        while not insysmsg 'You enter the rental room'
+                            overhead 'Entering room...' 903
+                            gumpresponse 4
+                            wait 250
+                            
+                            if insysmsg 'That vendor is too far away'
+                                overhead 'Innkeeper is too far away!' 38
+                                overhead 'Move closer!' 53
+                                stop
+                            endif
+                        endwhile
+                        
+                        overhead 'Welcome home.'
+                        
+                    elseif ingump 'Rent This Room'
+                        gumpresponse 5
+                        waitforgump rentalGumpID 3000
+                        
+                        if ingump 'co-owner'
+                            while not insysmsg 'You enter the rental room'
+                                wait 250
+                                overhead 'Entering co-owned room...' 903
+                                gumpresponse 100
+                                
+                                if insysmsg 'That vendor is too far away'
+                                    overhead 'Innkeeper is too far away!' 38
+                                    stop
+                                endif
+                            endwhile
+                            
+                            overhead 'Welcome home.'
+                        else
+                            overhead 'No access to any rooms!' 38
+                        endif
+                    elseif ingump 'Visit Other Rooms'
+                        gumpresponse 2
+                        waitforgump rentalGumpID 3000
+                        
+                        while not insysmsg 'You enter the rental room'
+                            wait 250
+                            overhead 'Entering co-owned room...' 903
+                            gumpresponse 100
+                        endwhile
+                    else 
+                        sysmsg 'Character does not have a room or access to one!' 38
+                        overhead 'No room access!' 38
+                    endif
+                endif
+                pause 200
+                while casting
+                endwhile
+                pause 400
+                if findtype 23035 ground -1 -1 2
+                    break
+                else
+                    hotkey 'cancel current target'
+                    overhead 'not at house yet..'
+                    if dead
+                        stop
+                    endif
+                endif
+            endfor
+        endwhile
+                
+        dclick tomeBag
+        pause 1000
+
+        if findtype 7956 backpack 0 as rune
+            overhead 'using this tome' 6 copyTome
+            overhead 'renaming rune to name' 6 rune
+            dclick rune
+            pause normalPause
+            promptresponse listName
+            pause normalPause
+            @drop backpack
+            lift rune 1
+            drop copyTome
+            pause normalPause
+        endif
+
+        if insysmsg 'world is saving'
+            for 30
+                overhead 'Waiting for world save...'
+                wait 1000
+                if insysmsg 'save complete'
+                    overhead 'Save complete - continue on!' 88
+                    clearsysmsg 
+                    wait 250
+                    break
+                endif
+            endfor
+        endif
+
+        if findtype 7956 backpack 0 as rune
+            overhead 'something went wrong..'
+            while findtype 7956 backpack 0 as rune
+                lift rune
+                drop 0x41B742BD 75 85 0
+            endif
+        endif
+
+        while dead
+            overhead 'Copying Rune - {{listName}}'
+            pause 1000
+        endwhile
+    
+    endif
+    
+endif
+
+if findtype 44997 ground -1 -1 2 as shelf
+    menu shelf 1
+endif
+
+
+
+
+while mana < 60
+
+    if not cooldown 'mushroom'
+        if findtype 29012 backpack as mushroom
+            dclick mushroom
+            pause 400
+            cooldown 'mushroom' 60000
+        endif
+    endif
+
+
+
+    skill 'meditation'
+    pause 3000
+
+endwhile
+
+    
+
+dclick tomeBag
+pause 1000
+
+if atlist runeList 13 as listName
+    @setvar! runeList listName
+else
+    @setvar! runeList "no name"
+endif
+
+overhead 'Copying Rune - {{listName}}'
+    
+if cooldown 'worldSave'
+    overhead 'Waiting for world save...'
+    pause 30000
+endif
+
+while hp < 100
+    if findtype 25750 backpack as bandages
+        dclick bandages
+        pause 1000
+    endif
+endwhile
+
+if findtype 7956 backpack 2882 as emptyRune
+
+
+
+    pause 400
+    dclick originalTome
+    waitforgump 167090027 1000
+    gumpresponse 213
+    waitforgump 167090027 1000
+    gumpresponse 20
+    pause recallTimer
+    hotkey 'all guard me'
+    pause normalPause
+
+    if find ressStockpile
+
+        overhead 'home.. dont mark!'
+    
+    else
+
+        cast 'Mark'
+        waitfortarget 2500
+        target emptyRune
+        pause normalPause
+        while not findtype 23035 ground -1 -1 2
+            for 10
+                overhead 'Recalling to House or Inn...'
+                if HouseOrInn == 0
+                    say '[recall House'
+                else
+                    // recall to inn and insure we are sucked into it
+                    say '[recall Room'
+                    wait 3000
+                    hotkey 'Cancel Current Target'
+                    clearsysmsg 
+
+                    @setvar rentalGumpID 2393832411
+
+                    if gumpexists rentalGumpID
+                        gumpclose
+                        wait 100
+                    endif
+
+                    say 'room'
+                    waitforgump rentalGumpID 200
+
+                    if not gumpexists rentalGumpID
+                        wait 500
+                        say 'vendor buy the bank some guards'
+                    elseif ingump 'Enter Your Room'
+                        wait 250
+                        while not insysmsg 'You enter the rental room'
+                            overhead 'Entering room...' 903
+                            gumpresponse 4
+                            wait 250
+                            
+                            if insysmsg 'That vendor is too far away'
+                                overhead 'Innkeeper is too far away!' 38
+                                overhead 'Move closer!' 53
+                                stop
+                            endif
+                        endwhile
+                        
+                        overhead 'Welcome home.'
+                        
+                    elseif ingump 'Rent This Room'
+                        gumpresponse 5
+                        waitforgump rentalGumpID 3000
+                        
+                        if ingump 'co-owner'
+                            while not insysmsg 'You enter the rental room'
+                                wait 250
+                                overhead 'Entering co-owned room...' 903
+                                gumpresponse 100
+                                
+                                if insysmsg 'That vendor is too far away'
+                                    overhead 'Innkeeper is too far away!' 38
+                                    stop
+                                endif
+                            endwhile
+                            
+                            overhead 'Welcome home.'
+                        else
+                            overhead 'No access to any rooms!' 38
+                        endif
+                    elseif ingump 'Visit Other Rooms'
+                        gumpresponse 2
+                        waitforgump rentalGumpID 3000
+                        
+                        while not insysmsg 'You enter the rental room'
+                            wait 250
+                            overhead 'Entering co-owned room...' 903
+                            gumpresponse 100
+                        endwhile
+                    else 
+                        sysmsg 'Character does not have a room or access to one!' 38
+                        overhead 'No room access!' 38
+                    endif
+                endif
+                pause 200
+                while casting
+                endwhile
+                pause 400
+                if findtype 23035 ground -1 -1 2
+                    break
+                else
+                    hotkey 'cancel current target'
+                    overhead 'not at house yet..'
+                    if dead
+                        stop
+                    endif
+                endif
+            endfor
+        endwhile
+                
+        dclick tomeBag
+        pause 1000
+
+        if findtype 7956 backpack 0 as rune
+            overhead 'using this tome' 6 copyTome
+            overhead 'renaming rune to name' 6 rune
+            dclick rune
+            pause normalPause
+            promptresponse listName
+            pause normalPause
+            @drop backpack
+            lift rune 1
+            drop copyTome
+            pause normalPause
+        endif
+
+        if insysmsg 'world is saving'
+            for 30
+                overhead 'Waiting for world save...'
+                wait 1000
+                if insysmsg 'save complete'
+                    overhead 'Save complete - continue on!' 88
+                    clearsysmsg 
+                    wait 250
+                    break
+                endif
+            endfor
+        endif
+
+        if findtype 7956 backpack 0 as rune
+            overhead 'something went wrong..'
+            while findtype 7956 backpack 0 as rune
+                lift rune
+                drop 0x41B742BD 75 85 0
+            endif
+        endif
+
+        while dead
+            overhead 'Copying Rune - {{listName}}'
+            pause 1000
+        endwhile
+    
+    endif
+    
+endif
+
+if findtype 44997 ground -1 -1 2 as shelf
+    menu shelf 1
+endif
+
+
+
+
+while mana < 60
+
+    if not cooldown 'mushroom'
+        if findtype 29012 backpack as mushroom
+            dclick mushroom
+            pause 400
+            cooldown 'mushroom' 60000
+        endif
+    endif
+
+
+
+    skill 'meditation'
+    pause 3000
+
+endwhile
+
+    
+
+dclick tomeBag
+pause 1000
+
+if atlist runeList 14 as listName
+    @setvar! runeList listName
+else
+    @setvar! runeList "no name"
+endif
+
+overhead 'Copying Rune - {{listName}}'
+    
+if cooldown 'worldSave'
+    overhead 'Waiting for world save...'
+    pause 30000
+endif
+
+while hp < 100
+    if findtype 25750 backpack as bandages
+        dclick bandages
+        pause 1000
+    endif
+endwhile
+
+if findtype 7956 backpack 2882 as emptyRune
+
+
+
+    pause 400
+    dclick originalTome
+    waitforgump 167090027 1000
+    gumpresponse 214
+    waitforgump 167090027 1000
+    gumpresponse 10
+    pause recallTimer
+    hotkey 'all guard me'
+    pause normalPause
+
+    if find ressStockpile
+
+        overhead 'home.. dont mark!'
+    
+    else
+
+        cast 'Mark'
+        waitfortarget 2500
+        target emptyRune
+        pause normalPause
+        while not findtype 23035 ground -1 -1 2
+            for 10
+                overhead 'Recalling to House or Inn...'
+                if HouseOrInn == 0
+                    say '[recall House'
+                else
+                    // recall to inn and insure we are sucked into it
+                    say '[recall Room'
+                    wait 3000
+                    hotkey 'Cancel Current Target'
+                    clearsysmsg 
+
+                    @setvar rentalGumpID 2393832411
+
+                    if gumpexists rentalGumpID
+                        gumpclose
+                        wait 100
+                    endif
+
+                    say 'room'
+                    waitforgump rentalGumpID 200
+
+                    if not gumpexists rentalGumpID
+                        wait 500
+                        say 'vendor buy the bank some guards'
+                    elseif ingump 'Enter Your Room'
+                        wait 250
+                        while not insysmsg 'You enter the rental room'
+                            overhead 'Entering room...' 903
+                            gumpresponse 4
+                            wait 250
+                            
+                            if insysmsg 'That vendor is too far away'
+                                overhead 'Innkeeper is too far away!' 38
+                                overhead 'Move closer!' 53
+                                stop
+                            endif
+                        endwhile
+                        
+                        overhead 'Welcome home.'
+                        
+                    elseif ingump 'Rent This Room'
+                        gumpresponse 5
+                        waitforgump rentalGumpID 3000
+                        
+                        if ingump 'co-owner'
+                            while not insysmsg 'You enter the rental room'
+                                wait 250
+                                overhead 'Entering co-owned room...' 903
+                                gumpresponse 100
+                                
+                                if insysmsg 'That vendor is too far away'
+                                    overhead 'Innkeeper is too far away!' 38
+                                    stop
+                                endif
+                            endwhile
+                            
+                            overhead 'Welcome home.'
+                        else
+                            overhead 'No access to any rooms!' 38
+                        endif
+                    elseif ingump 'Visit Other Rooms'
+                        gumpresponse 2
+                        waitforgump rentalGumpID 3000
+                        
+                        while not insysmsg 'You enter the rental room'
+                            wait 250
+                            overhead 'Entering co-owned room...' 903
+                            gumpresponse 100
+                        endwhile
+                    else 
+                        sysmsg 'Character does not have a room or access to one!' 38
+                        overhead 'No room access!' 38
+                    endif
+                endif
+                pause 200
+                while casting
+                endwhile
+                pause 400
+                if findtype 23035 ground -1 -1 2
+                    break
+                else
+                    hotkey 'cancel current target'
+                    overhead 'not at house yet..'
+                    if dead
+                        stop
+                    endif
+                endif
+            endfor
+        endwhile
+                
+        dclick tomeBag
+        pause 1000
+
+        if findtype 7956 backpack 0 as rune
+            overhead 'using this tome' 6 copyTome
+            overhead 'renaming rune to name' 6 rune
+            dclick rune
+            pause normalPause
+            promptresponse listName
+            pause normalPause
+            @drop backpack
+            lift rune 1
+            drop copyTome
+            pause normalPause
+        endif
+
+        if insysmsg 'world is saving'
+            for 30
+                overhead 'Waiting for world save...'
+                wait 1000
+                if insysmsg 'save complete'
+                    overhead 'Save complete - continue on!' 88
+                    clearsysmsg 
+                    wait 250
+                    break
+                endif
+            endfor
+        endif
+
+        if findtype 7956 backpack 0 as rune
+            overhead 'something went wrong..'
+            while findtype 7956 backpack 0 as rune
+                lift rune
+                drop 0x41B742BD 75 85 0
+            endif
+        endif
+
+        while dead
+            overhead 'Copying Rune - {{listName}}'
+            pause 1000
+        endwhile
+    
+    endif
+    
+endif
+
+if findtype 44997 ground -1 -1 2 as shelf
+    menu shelf 1
+endif
+
+
+
+
+while mana < 60
+
+    if not cooldown 'mushroom'
+        if findtype 29012 backpack as mushroom
+            dclick mushroom
+            pause 400
+            cooldown 'mushroom' 60000
+        endif
+    endif
+
+
+
+    skill 'meditation'
+    pause 3000
+
+endwhile
+
+    
+
+dclick tomeBag
+pause 1000
+
+if atlist runeList 15 as listName
+    @setvar! runeList listName
+else
+    @setvar! runeList "no name"
+endif
+
+overhead 'Copying Rune - {{listName}}'
+    
+if cooldown 'worldSave'
+    overhead 'Waiting for world save...'
+    pause 30000
+endif
+
+while hp < 100
+    if findtype 25750 backpack as bandages
+        dclick bandages
+        pause 1000
+    endif
+endwhile
+
+if findtype 7956 backpack 2882 as emptyRune
+
+
+
+    pause 400
+    dclick originalTome
+    waitforgump 167090027 1000
+    gumpresponse 215
+    waitforgump 167090027 1000
+    gumpresponse 20
+    pause recallTimer
+    hotkey 'all guard me'
+    pause normalPause
+
+    if find ressStockpile
+
+        overhead 'home.. dont mark!'
+    
+    else
+
+        cast 'Mark'
+        waitfortarget 2500
+        target emptyRune
+        pause normalPause
+        while not findtype 23035 ground -1 -1 2
+            for 10
+                overhead 'Recalling to House or Inn...'
+                if HouseOrInn == 0
+                    say '[recall House'
+                else
+                    // recall to inn and insure we are sucked into it
+                    say '[recall Room'
+                    wait 3000
+                    hotkey 'Cancel Current Target'
+                    clearsysmsg 
+
+                    @setvar rentalGumpID 2393832411
+
+                    if gumpexists rentalGumpID
+                        gumpclose
+                        wait 100
+                    endif
+
+                    say 'room'
+                    waitforgump rentalGumpID 200
+
+                    if not gumpexists rentalGumpID
+                        wait 500
+                        say 'vendor buy the bank some guards'
+                    elseif ingump 'Enter Your Room'
+                        wait 250
+                        while not insysmsg 'You enter the rental room'
+                            overhead 'Entering room...' 903
+                            gumpresponse 4
+                            wait 250
+                            
+                            if insysmsg 'That vendor is too far away'
+                                overhead 'Innkeeper is too far away!' 38
+                                overhead 'Move closer!' 53
+                                stop
+                            endif
+                        endwhile
+                        
+                        overhead 'Welcome home.'
+                        
+                    elseif ingump 'Rent This Room'
+                        gumpresponse 5
+                        waitforgump rentalGumpID 3000
+                        
+                        if ingump 'co-owner'
+                            while not insysmsg 'You enter the rental room'
+                                wait 250
+                                overhead 'Entering co-owned room...' 903
+                                gumpresponse 100
+                                
+                                if insysmsg 'That vendor is too far away'
+                                    overhead 'Innkeeper is too far away!' 38
+                                    stop
+                                endif
+                            endwhile
+                            
+                            overhead 'Welcome home.'
+                        else
+                            overhead 'No access to any rooms!' 38
+                        endif
+                    elseif ingump 'Visit Other Rooms'
+                        gumpresponse 2
+                        waitforgump rentalGumpID 3000
+                        
+                        while not insysmsg 'You enter the rental room'
+                            wait 250
+                            overhead 'Entering co-owned room...' 903
+                            gumpresponse 100
+                        endwhile
+                    else 
+                        sysmsg 'Character does not have a room or access to one!' 38
+                        overhead 'No room access!' 38
+                    endif
+                endif
+                pause 200
+                while casting
+                endwhile
+                pause 400
+                if findtype 23035 ground -1 -1 2
+                    break
+                else
+                    hotkey 'cancel current target'
+                    overhead 'not at house yet..'
+                    if dead
+                        stop
+                    endif
+                endif
+            endfor
+        endwhile
+                
+        dclick tomeBag
+        pause 1000
+
+        if findtype 7956 backpack 0 as rune
+            overhead 'using this tome' 6 copyTome
+            overhead 'renaming rune to name' 6 rune
+            dclick rune
+            pause normalPause
+            promptresponse listName
+            pause normalPause
+            @drop backpack
+            lift rune 1
+            drop copyTome
+            pause normalPause
+        endif
+
+        if insysmsg 'world is saving'
+            for 30
+                overhead 'Waiting for world save...'
+                wait 1000
+                if insysmsg 'save complete'
+                    overhead 'Save complete - continue on!' 88
+                    clearsysmsg 
+                    wait 250
+                    break
+                endif
+            endfor
+        endif
+
+        if findtype 7956 backpack 0 as rune
+            overhead 'something went wrong..'
+            while findtype 7956 backpack 0 as rune
+                lift rune
+                drop 0x41B742BD 75 85 0
+            endif
+        endif
+
+        while dead
+            overhead 'Copying Rune - {{listName}}'
+            pause 1000
+        endwhile
+    
+    endif
+    
+endif
+
+if findtype 44997 ground -1 -1 2 as shelf
+    menu shelf 1
+endif
+
+
+
+
+while mana < 60
+
+    if not cooldown 'mushroom'
+        if findtype 29012 backpack as mushroom
+            dclick mushroom
+            pause 400
+            cooldown 'mushroom' 60000
+        endif
+    endif
+
+
+
+    skill 'meditation'
+    pause 3000
+
+endwhile
+
+    
+
+dclick tomeBag
+pause 1000
+
+if atlist runeList 16 as listName
+    @setvar! runeList listName
+else
+    @setvar! runeList "no name"
+endif
+
+overhead 'Copying Rune - {{listName}}'
+    
+if cooldown 'worldSave'
+    overhead 'Waiting for world save...'
+    pause 30000
+endif
+
+while hp < 100
+    if findtype 25750 backpack as bandages
+        dclick bandages
+        pause 1000
+    endif
+endwhile
+
+if findtype 7956 backpack 2882 as emptyRune
+
+
+
+    pause 400
+    dclick originalTome
+    waitforgump 167090027 1000
+    gumpresponse 216
+    waitforgump 167090027 1000
+    gumpresponse 10
+    pause recallTimer
+    hotkey 'all guard me'
+    pause normalPause
+
+    if find ressStockpile
+
+        overhead 'home.. dont mark!'
+    
+    else
+
+        cast 'Mark'
+        waitfortarget 2500
+        target emptyRune
+        pause normalPause
+        while not findtype 23035 ground -1 -1 2
+            for 10
+                overhead 'Recalling to House or Inn...'
+                if HouseOrInn == 0
+                    say '[recall House'
+                else
+                    // recall to inn and insure we are sucked into it
+                    say '[recall Room'
+                    wait 3000
+                    hotkey 'Cancel Current Target'
+                    clearsysmsg 
+
+                    @setvar rentalGumpID 2393832411
+
+                    if gumpexists rentalGumpID
+                        gumpclose
+                        wait 100
+                    endif
+
+                    say 'room'
+                    waitforgump rentalGumpID 200
+
+                    if not gumpexists rentalGumpID
+                        wait 500
+                        say 'vendor buy the bank some guards'
+                    elseif ingump 'Enter Your Room'
+                        wait 250
+                        while not insysmsg 'You enter the rental room'
+                            overhead 'Entering room...' 903
+                            gumpresponse 4
+                            wait 250
+                            
+                            if insysmsg 'That vendor is too far away'
+                                overhead 'Innkeeper is too far away!' 38
+                                overhead 'Move closer!' 53
+                                stop
+                            endif
+                        endwhile
+                        
+                        overhead 'Welcome home.'
+                        
+                    elseif ingump 'Rent This Room'
+                        gumpresponse 5
+                        waitforgump rentalGumpID 3000
+                        
+                        if ingump 'co-owner'
+                            while not insysmsg 'You enter the rental room'
+                                wait 250
+                                overhead 'Entering co-owned room...' 903
+                                gumpresponse 100
+                                
+                                if insysmsg 'That vendor is too far away'
+                                    overhead 'Innkeeper is too far away!' 38
+                                    stop
+                                endif
+                            endwhile
+                            
+                            overhead 'Welcome home.'
+                        else
+                            overhead 'No access to any rooms!' 38
+                        endif
+                    elseif ingump 'Visit Other Rooms'
+                        gumpresponse 2
+                        waitforgump rentalGumpID 3000
+                        
+                        while not insysmsg 'You enter the rental room'
+                            wait 250
+                            overhead 'Entering co-owned room...' 903
+                            gumpresponse 100
+                        endwhile
+                    else 
+                        sysmsg 'Character does not have a room or access to one!' 38
+                        overhead 'No room access!' 38
+                    endif
+                endif
+                pause 200
+                while casting
+                endwhile
+                pause 400
+                if findtype 23035 ground -1 -1 2
+                    break
+                else
+                    hotkey 'cancel current target'
+                    overhead 'not at house yet..'
+                    if dead
+                        stop
+                    endif
+                endif
+            endfor
+        endwhile
+                
+        dclick tomeBag
+        pause 1000
+
+        if findtype 7956 backpack 0 as rune
+            overhead 'using this tome' 6 copyTome
+            overhead 'renaming rune to name' 6 rune
+            dclick rune
+            pause normalPause
+            promptresponse listName
+            pause normalPause
+            @drop backpack
+            lift rune 1
+            drop copyTome
+            pause normalPause
+        endif
+
+        if insysmsg 'world is saving'
+            for 30
+                overhead 'Waiting for world save...'
+                wait 1000
+                if insysmsg 'save complete'
+                    overhead 'Save complete - continue on!' 88
+                    clearsysmsg 
+                    wait 250
+                    break
+                endif
+            endfor
+        endif
+
+        if findtype 7956 backpack 0 as rune
+            overhead 'something went wrong..'
+            while findtype 7956 backpack 0 as rune
+                lift rune
+                drop 0x41B742BD 75 85 0
+            endif
+        endif
+
+        while dead
+            overhead 'Copying Rune - {{listName}}'
+            pause 1000
+        endwhile
+    
+    endif
+    
+endif
+
+if findtype 44997 ground -1 -1 2 as shelf
+    menu shelf 1
+endif
+
+
+
+
+while mana < 60
+
+    if not cooldown 'mushroom'
+        if findtype 29012 backpack as mushroom
+            dclick mushroom
+            pause 400
+            cooldown 'mushroom' 60000
+        endif
+    endif
+
+
+
+    skill 'meditation'
+    pause 3000
+
+endwhile
+
+    
+
+dclick tomeBag
+pause 1000
+
+if atlist runeList 17 as listName
+    @setvar! runeList listName
+else
+    @setvar! runeList "no name"
+endif
+
+overhead 'Copying Rune - {{listName}}'
+    
+if cooldown 'worldSave'
+    overhead 'Waiting for world save...'
+    pause 30000
+endif
+
+while hp < 100
+    if findtype 25750 backpack as bandages
+        dclick bandages
+        pause 1000
+    endif
+endwhile
+
+if findtype 7956 backpack 2882 as emptyRune
+
+
+
+    pause 400
+    dclick originalTome
+    waitforgump 167090027 1000
+    gumpresponse 217
+    waitforgump 167090027 1000
+    gumpresponse 20
+    pause recallTimer
+    hotkey 'all guard me'
+    pause normalPause
+
+    if find ressStockpile
+
+        overhead 'home.. dont mark!'
+    
+    else
+
+        cast 'Mark'
+        waitfortarget 2500
+        target emptyRune
+        pause normalPause
+        while not findtype 23035 ground -1 -1 2
+            for 10
+                overhead 'Recalling to House or Inn...'
+                if HouseOrInn == 0
+                    say '[recall House'
+                else
+                    // recall to inn and insure we are sucked into it
+                    say '[recall Room'
+                    wait 3000
+                    hotkey 'Cancel Current Target'
+                    clearsysmsg 
+
+                    @setvar rentalGumpID 2393832411
+
+                    if gumpexists rentalGumpID
+                        gumpclose
+                        wait 100
+                    endif
+
+                    say 'room'
+                    waitforgump rentalGumpID 200
+
+                    if not gumpexists rentalGumpID
+                        wait 500
+                        say 'vendor buy the bank some guards'
+                    elseif ingump 'Enter Your Room'
+                        wait 250
+                        while not insysmsg 'You enter the rental room'
+                            overhead 'Entering room...' 903
+                            gumpresponse 4
+                            wait 250
+                            
+                            if insysmsg 'That vendor is too far away'
+                                overhead 'Innkeeper is too far away!' 38
+                                overhead 'Move closer!' 53
+                                stop
+                            endif
+                        endwhile
+                        
+                        overhead 'Welcome home.'
+                        
+                    elseif ingump 'Rent This Room'
+                        gumpresponse 5
+                        waitforgump rentalGumpID 3000
+                        
+                        if ingump 'co-owner'
+                            while not insysmsg 'You enter the rental room'
+                                wait 250
+                                overhead 'Entering co-owned room...' 903
+                                gumpresponse 100
+                                
+                                if insysmsg 'That vendor is too far away'
+                                    overhead 'Innkeeper is too far away!' 38
+                                    stop
+                                endif
+                            endwhile
+                            
+                            overhead 'Welcome home.'
+                        else
+                            overhead 'No access to any rooms!' 38
+                        endif
+                    elseif ingump 'Visit Other Rooms'
+                        gumpresponse 2
+                        waitforgump rentalGumpID 3000
+                        
+                        while not insysmsg 'You enter the rental room'
+                            wait 250
+                            overhead 'Entering co-owned room...' 903
+                            gumpresponse 100
+                        endwhile
+                    else 
+                        sysmsg 'Character does not have a room or access to one!' 38
+                        overhead 'No room access!' 38
+                    endif
+                endif
+                pause 200
+                while casting
+                endwhile
+                pause 400
+                if findtype 23035 ground -1 -1 2
+                    break
+                else
+                    hotkey 'cancel current target'
+                    overhead 'not at house yet..'
+                    if dead
+                        stop
+                    endif
+                endif
+            endfor
+        endwhile
+                
+        dclick tomeBag
+        pause 1000
+
+        if findtype 7956 backpack 0 as rune
+            overhead 'using this tome' 6 copyTome
+            overhead 'renaming rune to name' 6 rune
+            dclick rune
+            pause normalPause
+            promptresponse listName
+            pause normalPause
+            @drop backpack
+            lift rune 1
+            drop copyTome
+            pause normalPause
+        endif
+
+        if insysmsg 'world is saving'
+            for 30
+                overhead 'Waiting for world save...'
+                wait 1000
+                if insysmsg 'save complete'
+                    overhead 'Save complete - continue on!' 88
+                    clearsysmsg 
+                    wait 250
+                    break
+                endif
+            endfor
+        endif
+
+        if findtype 7956 backpack 0 as rune
+            overhead 'something went wrong..'
+            while findtype 7956 backpack 0 as rune
+                lift rune
+                drop 0x41B742BD 75 85 0
+            endif
+        endif
+
+        while dead
+            overhead 'Copying Rune - {{listName}}'
+            pause 1000
+        endwhile
+    
+    endif
+    
+endif
+
+if findtype 44997 ground -1 -1 2 as shelf
+    menu shelf 1
+endif
+
+
+
+
+while mana < 60
+
+    if not cooldown 'mushroom'
+        if findtype 29012 backpack as mushroom
+            dclick mushroom
+            pause 400
+            cooldown 'mushroom' 60000
+        endif
+    endif
+
+
+
+    skill 'meditation'
+    pause 3000
+
+endwhile
+
+    
+
+dclick tomeBag
+pause 1000
+
+if atlist runeList 18 as listName
+    @setvar! runeList listName
+else
+    @setvar! runeList "no name"
+endif
+
+overhead 'Copying Rune - {{listName}}'
+    
+if cooldown 'worldSave'
+    overhead 'Waiting for world save...'
+    pause 30000
+endif
+
+while hp < 100
+    if findtype 25750 backpack as bandages
+        dclick bandages
+        pause 1000
+    endif
+endwhile
+
+if findtype 7956 backpack 2882 as emptyRune
+
+
+
+    pause 400
+    dclick originalTome
+    waitforgump 167090027 1000
+    gumpresponse 218
+    waitforgump 167090027 1000
+    gumpresponse 10
+    pause recallTimer
+    hotkey 'all guard me'
+    pause normalPause
+
+    if find ressStockpile
+
+        overhead 'home.. dont mark!'
+    
+    else
+
+        cast 'Mark'
+        waitfortarget 2500
+        target emptyRune
+        pause normalPause
+        while not findtype 23035 ground -1 -1 2
+            for 10
+                overhead 'Recalling to House or Inn...'
+                if HouseOrInn == 0
+                    say '[recall House'
+                else
+                    // recall to inn and insure we are sucked into it
+                    say '[recall Room'
+                    wait 3000
+                    hotkey 'Cancel Current Target'
+                    clearsysmsg 
+
+                    @setvar rentalGumpID 2393832411
+
+                    if gumpexists rentalGumpID
+                        gumpclose
+                        wait 100
+                    endif
+
+                    say 'room'
+                    waitforgump rentalGumpID 200
+
+                    if not gumpexists rentalGumpID
+                        wait 500
+                        say 'vendor buy the bank some guards'
+                    elseif ingump 'Enter Your Room'
+                        wait 250
+                        while not insysmsg 'You enter the rental room'
+                            overhead 'Entering room...' 903
+                            gumpresponse 4
+                            wait 250
+                            
+                            if insysmsg 'That vendor is too far away'
+                                overhead 'Innkeeper is too far away!' 38
+                                overhead 'Move closer!' 53
+                                stop
+                            endif
+                        endwhile
+                        
+                        overhead 'Welcome home.'
+                        
+                    elseif ingump 'Rent This Room'
+                        gumpresponse 5
+                        waitforgump rentalGumpID 3000
+                        
+                        if ingump 'co-owner'
+                            while not insysmsg 'You enter the rental room'
+                                wait 250
+                                overhead 'Entering co-owned room...' 903
+                                gumpresponse 100
+                                
+                                if insysmsg 'That vendor is too far away'
+                                    overhead 'Innkeeper is too far away!' 38
+                                    stop
+                                endif
+                            endwhile
+                            
+                            overhead 'Welcome home.'
+                        else
+                            overhead 'No access to any rooms!' 38
+                        endif
+                    elseif ingump 'Visit Other Rooms'
+                        gumpresponse 2
+                        waitforgump rentalGumpID 3000
+                        
+                        while not insysmsg 'You enter the rental room'
+                            wait 250
+                            overhead 'Entering co-owned room...' 903
+                            gumpresponse 100
+                        endwhile
+                    else 
+                        sysmsg 'Character does not have a room or access to one!' 38
+                        overhead 'No room access!' 38
+                    endif
+                endif
+                pause 200
+                while casting
+                endwhile
+                pause 400
+                if findtype 23035 ground -1 -1 2
+                    break
+                else
+                    hotkey 'cancel current target'
+                    overhead 'not at house yet..'
+                    if dead
+                        stop
+                    endif
+                endif
+            endfor
+        endwhile
+                
+        dclick tomeBag
+        pause 1000
+
+        if findtype 7956 backpack 0 as rune
+            overhead 'using this tome' 6 copyTome
+            overhead 'renaming rune to name' 6 rune
+            dclick rune
+            pause normalPause
+            promptresponse listName
+            pause normalPause
+            @drop backpack
+            lift rune 1
+            drop copyTome
+            pause normalPause
+        endif
+
+        if insysmsg 'world is saving'
+            for 30
+                overhead 'Waiting for world save...'
+                wait 1000
+                if insysmsg 'save complete'
+                    overhead 'Save complete - continue on!' 88
+                    clearsysmsg 
+                    wait 250
+                    break
+                endif
+            endfor
+        endif
+
+        if findtype 7956 backpack 0 as rune
+            overhead 'something went wrong..'
+            while findtype 7956 backpack 0 as rune
+                lift rune
+                drop 0x41B742BD 75 85 0
+            endif
+        endif
+
+        while dead
+            overhead 'Copying Rune - {{listName}}'
+            pause 1000
+        endwhile
+    
+    endif
+    
+endif
+
+if findtype 44997 ground -1 -1 2 as shelf
+    menu shelf 1
+endif
+
+
+
+
+while mana < 60
+
+    if not cooldown 'mushroom'
+        if findtype 29012 backpack as mushroom
+            dclick mushroom
+            pause 400
+            cooldown 'mushroom' 60000
+        endif
+    endif
+
+
+
+    skill 'meditation'
+    pause 3000
+
+endwhile
+
+    
+
+dclick tomeBag
+pause 1000
+
+if atlist runeList 19 as listName
+    @setvar! runeList listName
+else
+    @setvar! runeList "no name"
+endif
+
+overhead 'Copying Rune - {{listName}}'
+    
+if cooldown 'worldSave'
+    overhead 'Waiting for world save...'
+    pause 30000
+endif
+
+while hp < 100
+    if findtype 25750 backpack as bandages
+        dclick bandages
+        pause 1000
+    endif
+endwhile
+
+if findtype 7956 backpack 2882 as emptyRune
+
+
+
+    pause 400
+    dclick originalTome
+    waitforgump 167090027 1000
+    gumpresponse 219
+    waitforgump 167090027 1000
+    gumpresponse 20
+    pause recallTimer
+    hotkey 'all guard me'
+    pause normalPause
+
+    if find ressStockpile
+
+        overhead 'home.. dont mark!'
+    
+    else
+
+        cast 'Mark'
+        waitfortarget 2500
+        target emptyRune
+        pause normalPause
+        while not findtype 23035 ground -1 -1 2
+            for 10
+                overhead 'Recalling to House or Inn...'
+                if HouseOrInn == 0
+                    say '[recall House'
+                else
+                    // recall to inn and insure we are sucked into it
+                    say '[recall Room'
+                    wait 3000
+                    hotkey 'Cancel Current Target'
+                    clearsysmsg 
+
+                    @setvar rentalGumpID 2393832411
+
+                    if gumpexists rentalGumpID
+                        gumpclose
+                        wait 100
+                    endif
+
+                    say 'room'
+                    waitforgump rentalGumpID 200
+
+                    if not gumpexists rentalGumpID
+                        wait 500
+                        say 'vendor buy the bank some guards'
+                    elseif ingump 'Enter Your Room'
+                        wait 250
+                        while not insysmsg 'You enter the rental room'
+                            overhead 'Entering room...' 903
+                            gumpresponse 4
+                            wait 250
+                            
+                            if insysmsg 'That vendor is too far away'
+                                overhead 'Innkeeper is too far away!' 38
+                                overhead 'Move closer!' 53
+                                stop
+                            endif
+                        endwhile
+                        
+                        overhead 'Welcome home.'
+                        
+                    elseif ingump 'Rent This Room'
+                        gumpresponse 5
+                        waitforgump rentalGumpID 3000
+                        
+                        if ingump 'co-owner'
+                            while not insysmsg 'You enter the rental room'
+                                wait 250
+                                overhead 'Entering co-owned room...' 903
+                                gumpresponse 100
+                                
+                                if insysmsg 'That vendor is too far away'
+                                    overhead 'Innkeeper is too far away!' 38
+                                    stop
+                                endif
+                            endwhile
+                            
+                            overhead 'Welcome home.'
+                        else
+                            overhead 'No access to any rooms!' 38
+                        endif
+                    elseif ingump 'Visit Other Rooms'
+                        gumpresponse 2
+                        waitforgump rentalGumpID 3000
+                        
+                        while not insysmsg 'You enter the rental room'
+                            wait 250
+                            overhead 'Entering co-owned room...' 903
+                            gumpresponse 100
+                        endwhile
+                    else 
+                        sysmsg 'Character does not have a room or access to one!' 38
+                        overhead 'No room access!' 38
+                    endif
+                endif
+                pause 200
+                while casting
+                endwhile
+                pause 400
+                if findtype 23035 ground -1 -1 2
+                    break
+                else
+                    hotkey 'cancel current target'
+                    overhead 'not at house yet..'
+                    if dead
+                        stop
+                    endif
+                endif
+            endfor
+        endwhile
+                
+        dclick tomeBag
+        pause 1000
+
+        if findtype 7956 backpack 0 as rune
+            overhead 'using this tome' 6 copyTome
+            overhead 'renaming rune to name' 6 rune
+            dclick rune
+            pause normalPause
+            promptresponse listName
+            pause normalPause
+            @drop backpack
+            lift rune 1
+            drop copyTome
+            pause normalPause
+        endif
+
+        if insysmsg 'world is saving'
+            for 30
+                overhead 'Waiting for world save...'
+                wait 1000
+                if insysmsg 'save complete'
+                    overhead 'Save complete - continue on!' 88
+                    clearsysmsg 
+                    wait 250
+                    break
+                endif
+            endfor
+        endif
+
+        if findtype 7956 backpack 0 as rune
+            overhead 'something went wrong..'
+            while findtype 7956 backpack 0 as rune
+                lift rune
+                drop 0x41B742BD 75 85 0
+            endif
+        endif
+
+        while dead
+            overhead 'Copying Rune - {{listName}}'
+            pause 1000
+        endwhile
+    
+    endif
+    
+endif
+
+if findtype 44997 ground -1 -1 2 as shelf
+    menu shelf 1
+endif
+
+
+
+
+while mana < 60
+
+    if not cooldown 'mushroom'
+        if findtype 29012 backpack as mushroom
+            dclick mushroom
+            pause 400
+            cooldown 'mushroom' 60000
+        endif
+    endif
+
+
+
+    skill 'meditation'
+    pause 3000
+
+endwhile
+
+    
+
+dclick tomeBag
+pause 1000
+
+if atlist runeList 20 as listName
+    @setvar! runeList listName
+else
+    @setvar! runeList "no name"
+endif
+
+overhead 'Copying Rune - {{listName}}'
+    
+if cooldown 'worldSave'
+    overhead 'Waiting for world save...'
+    pause 30000
+endif
+
+while hp < 100
+    if findtype 25750 backpack as bandages
+        dclick bandages
+        pause 1000
+    endif
+endwhile
+
+if findtype 7956 backpack 2882 as emptyRune
+
+
+
+    pause 400
+    dclick originalTome
+    waitforgump 167090027 1000
+    gumpresponse 220
+    waitforgump 167090027 1000
+    gumpresponse 10
+    pause recallTimer
+    hotkey 'all guard me'
+    pause normalPause
+
+    if find ressStockpile
+
+        overhead 'home.. dont mark!'
+    
+    else
+
+        cast 'Mark'
+        waitfortarget 2500
+        target emptyRune
+        pause normalPause
+        while not findtype 23035 ground -1 -1 2
+            for 10
+                overhead 'Recalling to House or Inn...'
+                if HouseOrInn == 0
+                    say '[recall House'
+                else
+                    // recall to inn and insure we are sucked into it
+                    say '[recall Room'
+                    wait 3000
+                    hotkey 'Cancel Current Target'
+                    clearsysmsg 
+
+                    @setvar rentalGumpID 2393832411
+
+                    if gumpexists rentalGumpID
+                        gumpclose
+                        wait 100
+                    endif
+
+                    say 'room'
+                    waitforgump rentalGumpID 200
+
+                    if not gumpexists rentalGumpID
+                        wait 500
+                        say 'vendor buy the bank some guards'
+                    elseif ingump 'Enter Your Room'
+                        wait 250
+                        while not insysmsg 'You enter the rental room'
+                            overhead 'Entering room...' 903
+                            gumpresponse 4
+                            wait 250
+                            
+                            if insysmsg 'That vendor is too far away'
+                                overhead 'Innkeeper is too far away!' 38
+                                overhead 'Move closer!' 53
+                                stop
+                            endif
+                        endwhile
+                        
+                        overhead 'Welcome home.'
+                        
+                    elseif ingump 'Rent This Room'
+                        gumpresponse 5
+                        waitforgump rentalGumpID 3000
+                        
+                        if ingump 'co-owner'
+                            while not insysmsg 'You enter the rental room'
+                                wait 250
+                                overhead 'Entering co-owned room...' 903
+                                gumpresponse 100
+                                
+                                if insysmsg 'That vendor is too far away'
+                                    overhead 'Innkeeper is too far away!' 38
+                                    stop
+                                endif
+                            endwhile
+                            
+                            overhead 'Welcome home.'
+                        else
+                            overhead 'No access to any rooms!' 38
+                        endif
+                    elseif ingump 'Visit Other Rooms'
+                        gumpresponse 2
+                        waitforgump rentalGumpID 3000
+                        
+                        while not insysmsg 'You enter the rental room'
+                            wait 250
+                            overhead 'Entering co-owned room...' 903
+                            gumpresponse 100
+                        endwhile
+                    else 
+                        sysmsg 'Character does not have a room or access to one!' 38
+                        overhead 'No room access!' 38
+                    endif
+                endif
+                pause 200
+                while casting
+                endwhile
+                pause 400
+                if findtype 23035 ground -1 -1 2
+                    break
+                else
+                    hotkey 'cancel current target'
+                    overhead 'not at house yet..'
+                    if dead
+                        stop
+                    endif
+                endif
+            endfor
+        endwhile
+                
+        dclick tomeBag
+        pause 1000
+
+        if findtype 7956 backpack 0 as rune
+            overhead 'using this tome' 6 copyTome
+            overhead 'renaming rune to name' 6 rune
+            dclick rune
+            pause normalPause
+            promptresponse listName
+            pause normalPause
+            @drop backpack
+            lift rune 1
+            drop copyTome
+            pause normalPause
+        endif
+
+        if insysmsg 'world is saving'
+            for 30
+                overhead 'Waiting for world save...'
+                wait 1000
+                if insysmsg 'save complete'
+                    overhead 'Save complete - continue on!' 88
+                    clearsysmsg 
+                    wait 250
+                    break
+                endif
+            endfor
+        endif
+
+        if findtype 7956 backpack 0 as rune
+            overhead 'something went wrong..'
+            while findtype 7956 backpack 0 as rune
+                lift rune
+                drop 0x41B742BD 75 85 0
+            endif
+        endif
+
+        while dead
+            overhead 'Copying Rune - {{listName}}'
+            pause 1000
+        endwhile
+    
+    endif
+    
+endif
+
+if findtype 44997 ground -1 -1 2 as shelf
+    menu shelf 1
+endif
+
+
+
+
+while mana < 60
+
+    if not cooldown 'mushroom'
+        if findtype 29012 backpack as mushroom
+            dclick mushroom
+            pause 400
+            cooldown 'mushroom' 60000
+        endif
+    endif
+
+
+
+    skill 'meditation'
+    pause 3000
+
+endwhile
+
+    
+
+dclick tomeBag
+pause 1000
+
+if atlist runeList 21 as listName
+    @setvar! runeList listName
+else
+    @setvar! runeList "no name"
+endif
+
+overhead 'Copying Rune - {{listName}}'
+    
+if cooldown 'worldSave'
+    overhead 'Waiting for world save...'
+    pause 30000
+endif
+
+while hp < 100
+    if findtype 25750 backpack as bandages
+        dclick bandages
+        pause 1000
+    endif
+endwhile
+
+if findtype 7956 backpack 2882 as emptyRune
+
+
+
+    pause 400
+    dclick originalTome
+    waitforgump 167090027 1000
+    gumpresponse 221
+    waitforgump 167090027 1000
+    gumpresponse 20
+    pause recallTimer
+    hotkey 'all guard me'
+    pause normalPause
+
+    if find ressStockpile
+
+        overhead 'home.. dont mark!'
+    
+    else
+
+        cast 'Mark'
+        waitfortarget 2500
+        target emptyRune
+        pause normalPause
+        while not findtype 23035 ground -1 -1 2
+            for 10
+                overhead 'Recalling to House or Inn...'
+                if HouseOrInn == 0
+                    say '[recall House'
+                else
+                    // recall to inn and insure we are sucked into it
+                    say '[recall Room'
+                    wait 3000
+                    hotkey 'Cancel Current Target'
+                    clearsysmsg 
+
+                    @setvar rentalGumpID 2393832411
+
+                    if gumpexists rentalGumpID
+                        gumpclose
+                        wait 100
+                    endif
+
+                    say 'room'
+                    waitforgump rentalGumpID 200
+
+                    if not gumpexists rentalGumpID
+                        wait 500
+                        say 'vendor buy the bank some guards'
+                    elseif ingump 'Enter Your Room'
+                        wait 250
+                        while not insysmsg 'You enter the rental room'
+                            overhead 'Entering room...' 903
+                            gumpresponse 4
+                            wait 250
+                            
+                            if insysmsg 'That vendor is too far away'
+                                overhead 'Innkeeper is too far away!' 38
+                                overhead 'Move closer!' 53
+                                stop
+                            endif
+                        endwhile
+                        
+                        overhead 'Welcome home.'
+                        
+                    elseif ingump 'Rent This Room'
+                        gumpresponse 5
+                        waitforgump rentalGumpID 3000
+                        
+                        if ingump 'co-owner'
+                            while not insysmsg 'You enter the rental room'
+                                wait 250
+                                overhead 'Entering co-owned room...' 903
+                                gumpresponse 100
+                                
+                                if insysmsg 'That vendor is too far away'
+                                    overhead 'Innkeeper is too far away!' 38
+                                    stop
+                                endif
+                            endwhile
+                            
+                            overhead 'Welcome home.'
+                        else
+                            overhead 'No access to any rooms!' 38
+                        endif
+                    elseif ingump 'Visit Other Rooms'
+                        gumpresponse 2
+                        waitforgump rentalGumpID 3000
+                        
+                        while not insysmsg 'You enter the rental room'
+                            wait 250
+                            overhead 'Entering co-owned room...' 903
+                            gumpresponse 100
+                        endwhile
+                    else 
+                        sysmsg 'Character does not have a room or access to one!' 38
+                        overhead 'No room access!' 38
+                    endif
+                endif
+                pause 200
+                while casting
+                endwhile
+                pause 400
+                if findtype 23035 ground -1 -1 2
+                    break
+                else
+                    hotkey 'cancel current target'
+                    overhead 'not at house yet..'
+                    if dead
+                        stop
+                    endif
+                endif
+            endfor
+        endwhile
+                
+        dclick tomeBag
+        pause 1000
+
+        if findtype 7956 backpack 0 as rune
+            overhead 'using this tome' 6 copyTome
+            overhead 'renaming rune to name' 6 rune
+            dclick rune
+            pause normalPause
+            promptresponse listName
+            pause normalPause
+            @drop backpack
+            lift rune 1
+            drop copyTome
+            pause normalPause
+        endif
+
+        if insysmsg 'world is saving'
+            for 30
+                overhead 'Waiting for world save...'
+                wait 1000
+                if insysmsg 'save complete'
+                    overhead 'Save complete - continue on!' 88
+                    clearsysmsg 
+                    wait 250
+                    break
+                endif
+            endfor
+        endif
+
+        if findtype 7956 backpack 0 as rune
+            overhead 'something went wrong..'
+            while findtype 7956 backpack 0 as rune
+                lift rune
+                drop 0x41B742BD 75 85 0
+            endif
+        endif
+
+        while dead
+            overhead 'Copying Rune - {{listName}}'
+            pause 1000
+        endwhile
+    
+    endif
+    
+endif
+
+if findtype 44997 ground -1 -1 2 as shelf
+    menu shelf 1
+endif
+
+
+
+
+while mana < 60
+
+    if not cooldown 'mushroom'
+        if findtype 29012 backpack as mushroom
+            dclick mushroom
+            pause 400
+            cooldown 'mushroom' 60000
+        endif
+    endif
+
+
+
+    skill 'meditation'
+    pause 3000
+
+endwhile
+
+    
+
+dclick tomeBag
+pause 1000
+
+if atlist runeList 22 as listName
+    @setvar! runeList listName
+else
+    @setvar! runeList "no name"
+endif
+
+overhead 'Copying Rune - {{listName}}'
+    
+if cooldown 'worldSave'
+    overhead 'Waiting for world save...'
+    pause 30000
+endif
+
+while hp < 100
+    if findtype 25750 backpack as bandages
+        dclick bandages
+        pause 1000
+    endif
+endwhile
+
+if findtype 7956 backpack 2882 as emptyRune
+
+
+
+    pause 400
+    dclick originalTome
+    waitforgump 167090027 1000
+    gumpresponse 222
+    waitforgump 167090027 1000
+    gumpresponse 10
+    pause recallTimer
+    hotkey 'all guard me'
+    pause normalPause
+
+    if find ressStockpile
+
+        overhead 'home.. dont mark!'
+    
+    else
+
+        cast 'Mark'
+        waitfortarget 2500
+        target emptyRune
+        pause normalPause
+        while not findtype 23035 ground -1 -1 2
+            for 10
+                overhead 'Recalling to House or Inn...'
+                if HouseOrInn == 0
+                    say '[recall House'
+                else
+                    // recall to inn and insure we are sucked into it
+                    say '[recall Room'
+                    wait 3000
+                    hotkey 'Cancel Current Target'
+                    clearsysmsg 
+
+                    @setvar rentalGumpID 2393832411
+
+                    if gumpexists rentalGumpID
+                        gumpclose
+                        wait 100
+                    endif
+
+                    say 'room'
+                    waitforgump rentalGumpID 200
+
+                    if not gumpexists rentalGumpID
+                        wait 500
+                        say 'vendor buy the bank some guards'
+                    elseif ingump 'Enter Your Room'
+                        wait 250
+                        while not insysmsg 'You enter the rental room'
+                            overhead 'Entering room...' 903
+                            gumpresponse 4
+                            wait 250
+                            
+                            if insysmsg 'That vendor is too far away'
+                                overhead 'Innkeeper is too far away!' 38
+                                overhead 'Move closer!' 53
+                                stop
+                            endif
+                        endwhile
+                        
+                        overhead 'Welcome home.'
+                        
+                    elseif ingump 'Rent This Room'
+                        gumpresponse 5
+                        waitforgump rentalGumpID 3000
+                        
+                        if ingump 'co-owner'
+                            while not insysmsg 'You enter the rental room'
+                                wait 250
+                                overhead 'Entering co-owned room...' 903
+                                gumpresponse 100
+                                
+                                if insysmsg 'That vendor is too far away'
+                                    overhead 'Innkeeper is too far away!' 38
+                                    stop
+                                endif
+                            endwhile
+                            
+                            overhead 'Welcome home.'
+                        else
+                            overhead 'No access to any rooms!' 38
+                        endif
+                    elseif ingump 'Visit Other Rooms'
+                        gumpresponse 2
+                        waitforgump rentalGumpID 3000
+                        
+                        while not insysmsg 'You enter the rental room'
+                            wait 250
+                            overhead 'Entering co-owned room...' 903
+                            gumpresponse 100
+                        endwhile
+                    else 
+                        sysmsg 'Character does not have a room or access to one!' 38
+                        overhead 'No room access!' 38
+                    endif
+                endif
+                pause 200
+                while casting
+                endwhile
+                pause 400
+                if findtype 23035 ground -1 -1 2
+                    break
+                else
+                    hotkey 'cancel current target'
+                    overhead 'not at house yet..'
+                    if dead
+                        stop
+                    endif
+                endif
+            endfor
+        endwhile
+                
+        dclick tomeBag
+        pause 1000
+
+        if findtype 7956 backpack 0 as rune
+            overhead 'using this tome' 6 copyTome
+            overhead 'renaming rune to name' 6 rune
+            dclick rune
+            pause normalPause
+            promptresponse listName
+            pause normalPause
+            @drop backpack
+            lift rune 1
+            drop copyTome
+            pause normalPause
+        endif
+
+        if insysmsg 'world is saving'
+            for 30
+                overhead 'Waiting for world save...'
+                wait 1000
+                if insysmsg 'save complete'
+                    overhead 'Save complete - continue on!' 88
+                    clearsysmsg 
+                    wait 250
+                    break
+                endif
+            endfor
+        endif
+
+        if findtype 7956 backpack 0 as rune
+            overhead 'something went wrong..'
+            while findtype 7956 backpack 0 as rune
+                lift rune
+                drop 0x41B742BD 75 85 0
+            endif
+        endif
+
+        while dead
+            overhead 'Copying Rune - {{listName}}'
+            pause 1000
+        endwhile
+    
+    endif
+    
+endif
+
+if findtype 44997 ground -1 -1 2 as shelf
+    menu shelf 1
+endif
+
+
+
+
+while mana < 60
+
+    if not cooldown 'mushroom'
+        if findtype 29012 backpack as mushroom
+            dclick mushroom
+            pause 400
+            cooldown 'mushroom' 60000
+        endif
+    endif
+
+
+
+    skill 'meditation'
+    pause 3000
+
+endwhile
+
+    
+
+dclick tomeBag
+pause 1000
+
+if atlist runeList 23 as listName
+    @setvar! runeList listName
+else
+    @setvar! runeList "no name"
+endif
+
+overhead 'Copying Rune - {{listName}}'
+    
+if cooldown 'worldSave'
+    overhead 'Waiting for world save...'
+    pause 30000
+endif
+
+while hp < 100
+    if findtype 25750 backpack as bandages
+        dclick bandages
+        pause 1000
+    endif
+endwhile
+
+if findtype 7956 backpack 2882 as emptyRune
+
+
+
+    pause 400
+    dclick originalTome
+    waitforgump 167090027 1000
+    gumpresponse 223
+    waitforgump 167090027 1000
+    gumpresponse 20
+    pause recallTimer
+    hotkey 'all guard me'
+    pause normalPause
+
+    if find ressStockpile
+
+        overhead 'home.. dont mark!'
+    
+    else
+
+        cast 'Mark'
+        waitfortarget 2500
+        target emptyRune
+        pause normalPause
+        while not findtype 23035 ground -1 -1 2
+            for 10
+                overhead 'Recalling to House or Inn...'
+                if HouseOrInn == 0
+                    say '[recall House'
+                else
+                    // recall to inn and insure we are sucked into it
+                    say '[recall Room'
+                    wait 3000
+                    hotkey 'Cancel Current Target'
+                    clearsysmsg 
+
+                    @setvar rentalGumpID 2393832411
+
+                    if gumpexists rentalGumpID
+                        gumpclose
+                        wait 100
+                    endif
+
+                    say 'room'
+                    waitforgump rentalGumpID 200
+
+                    if not gumpexists rentalGumpID
+                        wait 500
+                        say 'vendor buy the bank some guards'
+                    elseif ingump 'Enter Your Room'
+                        wait 250
+                        while not insysmsg 'You enter the rental room'
+                            overhead 'Entering room...' 903
+                            gumpresponse 4
+                            wait 250
+                            
+                            if insysmsg 'That vendor is too far away'
+                                overhead 'Innkeeper is too far away!' 38
+                                overhead 'Move closer!' 53
+                                stop
+                            endif
+                        endwhile
+                        
+                        overhead 'Welcome home.'
+                        
+                    elseif ingump 'Rent This Room'
+                        gumpresponse 5
+                        waitforgump rentalGumpID 3000
+                        
+                        if ingump 'co-owner'
+                            while not insysmsg 'You enter the rental room'
+                                wait 250
+                                overhead 'Entering co-owned room...' 903
+                                gumpresponse 100
+                                
+                                if insysmsg 'That vendor is too far away'
+                                    overhead 'Innkeeper is too far away!' 38
+                                    stop
+                                endif
+                            endwhile
+                            
+                            overhead 'Welcome home.'
+                        else
+                            overhead 'No access to any rooms!' 38
+                        endif
+                    elseif ingump 'Visit Other Rooms'
+                        gumpresponse 2
+                        waitforgump rentalGumpID 3000
+                        
+                        while not insysmsg 'You enter the rental room'
+                            wait 250
+                            overhead 'Entering co-owned room...' 903
+                            gumpresponse 100
+                        endwhile
+                    else 
+                        sysmsg 'Character does not have a room or access to one!' 38
+                        overhead 'No room access!' 38
+                    endif
+                endif
+                pause 200
+                while casting
+                endwhile
+                pause 400
+                if findtype 23035 ground -1 -1 2
+                    break
+                else
+                    hotkey 'cancel current target'
+                    overhead 'not at house yet..'
+                    if dead
+                        stop
+                    endif
+                endif
+            endfor
+        endwhile
+                
+        dclick tomeBag
+        pause 1000
+
+        if findtype 7956 backpack 0 as rune
+            overhead 'using this tome' 6 copyTome
+            overhead 'renaming rune to name' 6 rune
+            dclick rune
+            pause normalPause
+            promptresponse listName
+            pause normalPause
+            @drop backpack
+            lift rune 1
+            drop copyTome
+            pause normalPause
+        endif
+
+        if insysmsg 'world is saving'
+            for 30
+                overhead 'Waiting for world save...'
+                wait 1000
+                if insysmsg 'save complete'
+                    overhead 'Save complete - continue on!' 88
+                    clearsysmsg 
+                    wait 250
+                    break
+                endif
+            endfor
+        endif
+
+        if findtype 7956 backpack 0 as rune
+            overhead 'something went wrong..'
+            while findtype 7956 backpack 0 as rune
+                lift rune
+                drop 0x41B742BD 75 85 0
+            endif
+        endif
+
+        while dead
+            overhead 'Copying Rune - {{listName}}'
+            pause 1000
+        endwhile
+    
+    endif
+    
+endif
+
+if findtype 44997 ground -1 -1 2 as shelf
+    menu shelf 1
+endif
+
+
+
+
+while mana < 60
+
+    if not cooldown 'mushroom'
+        if findtype 29012 backpack as mushroom
+            dclick mushroom
+            pause 400
+            cooldown 'mushroom' 60000
+        endif
+    endif
+
+
+
+    skill 'meditation'
+    pause 3000
+
+endwhile
+
+    
+
+dclick tomeBag
+pause 1000
+
+if atlist runeList 24 as listName
+    @setvar! runeList listName
+else
+    @setvar! runeList "no name"
+endif
+
+overhead 'Copying Rune - {{listName}}'
+    
+if cooldown 'worldSave'
+    overhead 'Waiting for world save...'
+    pause 30000
+endif
+
+while hp < 100
+    if findtype 25750 backpack as bandages
+        dclick bandages
+        pause 1000
+    endif
+endwhile
+
+if findtype 7956 backpack 2882 as emptyRune
+
+
+
+    pause 400
+    dclick originalTome
+    waitforgump 167090027 1000
+    gumpresponse 224
+    waitforgump 167090027 1000
+    gumpresponse 10
+    pause recallTimer
+    hotkey 'all guard me'
+    pause normalPause
+
+    if find ressStockpile
+
+        overhead 'home.. dont mark!'
+    
+    else
+
+        cast 'Mark'
+        waitfortarget 2500
+        target emptyRune
+        pause normalPause
+        while not findtype 23035 ground -1 -1 2
+            for 10
+                overhead 'Recalling to House or Inn...'
+                if HouseOrInn == 0
+                    say '[recall House'
+                else
+                    // recall to inn and insure we are sucked into it
+                    say '[recall Room'
+                    wait 3000
+                    hotkey 'Cancel Current Target'
+                    clearsysmsg 
+
+                    @setvar rentalGumpID 2393832411
+
+                    if gumpexists rentalGumpID
+                        gumpclose
+                        wait 100
+                    endif
+
+                    say 'room'
+                    waitforgump rentalGumpID 200
+
+                    if not gumpexists rentalGumpID
+                        wait 500
+                        say 'vendor buy the bank some guards'
+                    elseif ingump 'Enter Your Room'
+                        wait 250
+                        while not insysmsg 'You enter the rental room'
+                            overhead 'Entering room...' 903
+                            gumpresponse 4
+                            wait 250
+                            
+                            if insysmsg 'That vendor is too far away'
+                                overhead 'Innkeeper is too far away!' 38
+                                overhead 'Move closer!' 53
+                                stop
+                            endif
+                        endwhile
+                        
+                        overhead 'Welcome home.'
+                        
+                    elseif ingump 'Rent This Room'
+                        gumpresponse 5
+                        waitforgump rentalGumpID 3000
+                        
+                        if ingump 'co-owner'
+                            while not insysmsg 'You enter the rental room'
+                                wait 250
+                                overhead 'Entering co-owned room...' 903
+                                gumpresponse 100
+                                
+                                if insysmsg 'That vendor is too far away'
+                                    overhead 'Innkeeper is too far away!' 38
+                                    stop
+                                endif
+                            endwhile
+                            
+                            overhead 'Welcome home.'
+                        else
+                            overhead 'No access to any rooms!' 38
+                        endif
+                    elseif ingump 'Visit Other Rooms'
+                        gumpresponse 2
+                        waitforgump rentalGumpID 3000
+                        
+                        while not insysmsg 'You enter the rental room'
+                            wait 250
+                            overhead 'Entering co-owned room...' 903
+                            gumpresponse 100
+                        endwhile
+                    else 
+                        sysmsg 'Character does not have a room or access to one!' 38
+                        overhead 'No room access!' 38
+                    endif
+                endif
+                pause 200
+                while casting
+                endwhile
+                pause 400
+                if findtype 23035 ground -1 -1 2
+                    break
+                else
+                    hotkey 'cancel current target'
+                    overhead 'not at house yet..'
+                    if dead
+                        stop
+                    endif
+                endif
+            endfor
+        endwhile
+                
+        dclick tomeBag
+        pause 1000
+
+        if findtype 7956 backpack 0 as rune
+            overhead 'using this tome' 6 copyTome
+            overhead 'renaming rune to name' 6 rune
+            dclick rune
+            pause normalPause
+            promptresponse listName
+            pause normalPause
+            @drop backpack
+            lift rune 1
+            drop copyTome
+            pause normalPause
+        endif
+
+        if insysmsg 'world is saving'
+            for 30
+                overhead 'Waiting for world save...'
+                wait 1000
+                if insysmsg 'save complete'
+                    overhead 'Save complete - continue on!' 88
+                    clearsysmsg 
+                    wait 250
+                    break
+                endif
+            endfor
+        endif
+
+        if findtype 7956 backpack 0 as rune
+            overhead 'something went wrong..'
+            while findtype 7956 backpack 0 as rune
+                lift rune
+                drop 0x41B742BD 75 85 0
+            endif
+        endif
+
+        while dead
+            overhead 'Copying Rune - {{listName}}'
+            pause 1000
+        endwhile
+    
+    endif
+    
+endif
+
+if findtype 44997 ground -1 -1 2 as shelf
+    menu shelf 1
+endif
+
+
+
+
+while mana < 60
+
+    if not cooldown 'mushroom'
+        if findtype 29012 backpack as mushroom
+            dclick mushroom
+            pause 400
+            cooldown 'mushroom' 60000
+        endif
+    endif
+
+
+
+    skill 'meditation'
+    pause 3000
+
+endwhile
+
+
+
+
+
+
+dclick tomeBag
+pause 1000
+
+if atlist runeList 25 as listName
+    @setvar! runeList listName
+else
+    @setvar! runeList "no name"
+endif
+
+overhead 'Copying Rune - {{listName}}'
+    
+if cooldown 'worldSave'
+    overhead 'Waiting for world save...'
+    pause 30000
+endif
+
+while hp < 100
+    if findtype 25750 backpack as bandages
+        dclick bandages
+        pause 1000
+    endif
+endwhile
+
+if findtype 7956 backpack 2882 as emptyRune
+
+
+
+    pause 400
+    dclick originalTome
+    waitforgump 167090027 1000
+    gumpresponse 225
+    waitforgump 167090027 1000
+    gumpresponse 20
+    pause recallTimer
+    hotkey 'all guard me'
+    pause normalPause
+
+    if find ressStockpile
+
+        overhead 'home.. dont mark!'
+    
+    else
+
+        cast 'Mark'
+        waitfortarget 2500
+        target emptyRune
+        pause normalPause
+        while not findtype 23035 ground -1 -1 2
+            for 10
+                overhead 'Recalling to House or Inn...'
+                if HouseOrInn == 0
+                    say '[recall House'
+                else
+                    // recall to inn and insure we are sucked into it
+                    say '[recall Room'
+                    wait 3000
+                    hotkey 'Cancel Current Target'
+                    clearsysmsg 
+
+                    @setvar rentalGumpID 2393832411
+
+                    if gumpexists rentalGumpID
+                        gumpclose
+                        wait 100
+                    endif
+
+                    say 'room'
+                    waitforgump rentalGumpID 200
+
+                    if not gumpexists rentalGumpID
+                        wait 500
+                        say 'vendor buy the bank some guards'
+                    elseif ingump 'Enter Your Room'
+                        wait 250
+                        while not insysmsg 'You enter the rental room'
+                            overhead 'Entering room...' 903
+                            gumpresponse 4
+                            wait 250
+                            
+                            if insysmsg 'That vendor is too far away'
+                                overhead 'Innkeeper is too far away!' 38
+                                overhead 'Move closer!' 53
+                                stop
+                            endif
+                        endwhile
+                        
+                        overhead 'Welcome home.'
+                        
+                    elseif ingump 'Rent This Room'
+                        gumpresponse 5
+                        waitforgump rentalGumpID 3000
+                        
+                        if ingump 'co-owner'
+                            while not insysmsg 'You enter the rental room'
+                                wait 250
+                                overhead 'Entering co-owned room...' 903
+                                gumpresponse 100
+                                
+                                if insysmsg 'That vendor is too far away'
+                                    overhead 'Innkeeper is too far away!' 38
+                                    stop
+                                endif
+                            endwhile
+                            
+                            overhead 'Welcome home.'
+                        else
+                            overhead 'No access to any rooms!' 38
+                        endif
+                    elseif ingump 'Visit Other Rooms'
+                        gumpresponse 2
+                        waitforgump rentalGumpID 3000
+                        
+                        while not insysmsg 'You enter the rental room'
+                            wait 250
+                            overhead 'Entering co-owned room...' 903
+                            gumpresponse 100
+                        endwhile
+                    else 
+                        sysmsg 'Character does not have a room or access to one!' 38
+                        overhead 'No room access!' 38
+                    endif
+                endif
+                pause 200
+                while casting
+                endwhile
+                pause 400
+                if findtype 23035 ground -1 -1 2
+                    break
+                else
+                    hotkey 'cancel current target'
+                    overhead 'not at house yet..'
+                    if dead
+                        stop
+                    endif
+                endif
+            endfor
+        endwhile
+                
+        dclick tomeBag
+        pause 1000
+
+        if findtype 7956 backpack 0 as rune
+            overhead 'using this tome' 6 copyTome
+            overhead 'renaming rune to name' 6 rune
+            dclick rune
+            pause normalPause
+            promptresponse listName
+            pause normalPause
+            @drop backpack
+            lift rune 1
+            drop copyTome
+            pause normalPause
+        endif
+
+        if insysmsg 'world is saving'
+            for 30
+                overhead 'Waiting for world save...'
+                wait 1000
+                if insysmsg 'save complete'
+                    overhead 'Save complete - continue on!' 88
+                    clearsysmsg 
+                    wait 250
+                    break
+                endif
+            endfor
+        endif
+
+        if findtype 7956 backpack 0 as rune
+            overhead 'something went wrong..'
+            while findtype 7956 backpack 0 as rune
+                lift rune
+                drop 0x41B742BD 75 85 0
+            endif
+        endif
+
+        while dead
+            overhead 'Copying Rune - {{listName}}'
+            pause 1000
+        endwhile
+    
+    endif
+    
+endif
+
+if findtype 44997 ground -1 -1 2 as shelf
+    menu shelf 1
+endif
+
+
+
+
+while mana < 60
+
+    if not cooldown 'mushroom'
+        if findtype 29012 backpack as mushroom
+            dclick mushroom
+            pause 400
+            cooldown 'mushroom' 60000
+        endif
+    endif
+
+
+
+    skill 'meditation'
+    pause 3000
+
+endwhile
+
+
+overhead 'Finished!!'
+overhead 'Finished!!'
+overhead 'Finished!!'
