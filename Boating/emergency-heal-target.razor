@@ -4,14 +4,36 @@ while targetexists
     //do nothing
 endwhile
 if not targetexists
-    getlabel lasttarget desc
-    if noto lasttarget = "friend" or noto lasttarget = "innocent"
-        @setvar 'ManualTargetFriendlyEmergency' lasttarget
-        @setvar 'ManualTargetFriendly' lasttarget
-    elseif noto lasttarget = "murderer" or noto lasttarget = "enemy" or noto lasttarget = "hostile" or noto lasttarget = "criminal"
-        @setvar 'ManualTargetEnemy' lasttarget
+    if findtype 3617 backpack as baids 
+        if noto lasttarget = "friend" or noto lasttarget = "innocent"
+            @setvar 'ManualTargetFriendly' lasttarget
+            overhead "*Heal Target*" 78 "ManualTargetFriendly"
+            overhead "ManualTargetFriendly Set" 88
+            overhead "Medic!" 88 'ManualTargetFriendly'
+            while queued
+                //donothing
+            endwhile
+            dclick baids
+            wft 500
+            target 'ManualTargetFriendly'
+            getlabel backpack ping
+            if insysmsg "You are too far away to do that"
+                overhead "* FAR *" 88 'ManualTargetFriendly'
+                overhead "* FAR *" 88 'ManualTargetFriendly'
+                overhead "* FAR *" 88 'ManualTargetFriendly'
+            elseif insysmsg "That being is not damaged!"
+                overhead "Healthy!" 88 'ManualTargetFriendly'
+                unsetvar 'ManualTargetFriendly'
+                settimer HealCrew CrewHealCD
+            else
+                overhead "Healing fumble!" 88
+                unsetvar 'ManualTargetFriendly'
+                settimer HealCrew CrewHealCD
+            endif
+            if targetexists
+                hotkey "Cancel Current Target"
+            endif
+        endif
     endif
-    overhead "<<.>>" 88 lasttarget
 endif
 hotkey "Play Script: Automation\PoonerBot\base"
-

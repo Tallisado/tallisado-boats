@@ -70,9 +70,9 @@ if not timerexists "CrewATK"
     settimer "CrewATK" CrewATK_CD
 endif
 
-if not timerexists "healcrew"
-    createtimer "healcrew"
-    settimer "healcrew" 5000
+if not timerexists HealCrew
+    createtimer HealCrew
+    settimer HealCrew 5000
 endif
 
 if not timerexists "healpot"
@@ -173,71 +173,71 @@ endif
 ######################################################
 
 ## Bandage self & crew
-if skill "Healing" >= 20
-    if hp < maxhp and timer "bandage" >= 10200 and findtype 3617 backpack
+if skill "Healing" >= 20 and findtype 3617 backpack as baids
+    if hp < maxhp and timer "bandage" >= 10200 and findtype 3617 backpack and not bandaging
         hotkey "Bandage Self"
         settimer "bandage" 0
-    elseif not bandaging and findtype 3617 backpack and AutoHealCrew = 1 and gumpexists 1722920179 and timer "AutoHealSpam" >= AutoHealSpam
-        if timer "healcrew" >= CrewHealCD
-            if varexist 'ManualTargetFriendly' and not bandaging and findtype 3617 backpack as baids
-                overhead "Medic!" 88 'ManualTargetFriendly'
-                while queued
-                    //donothing
-                endwhile
-                dclick baids
-                wft 500
-                target 'ManualTargetFriendly'
-                getlabel backpack ping
-            
-                if insysmsg "You are too far away to do that"
-                    overhead "|--| FAR |--|" 88 'ManualTargetFriendly'
-                elseif insysmsg "That being is not damaged!"
-                    overhead "Healthy!" 88 'ManualTargetFriendly'
-                    unsetvar 'ManualTargetFriendly'
-                    settimer "healcrew" CrewHealCD
-                endif
-                if targetexists 
-                    hotkey "Clear Current Target"
-                endif
+    elseif gumpexists 1722920179 and timer "AutoHealSpam" >= AutoHealSpam
+        if varexist 'ManualTargetFriendly' and not bandaging
+            overhead "Medic!" 88 'ManualTargetFriendly'
+            while queued
+                //donothing
+            endwhile
+            dclick baids
+            wft 500
+            target 'ManualTargetFriendly'
+            getlabel backpack ping
+            if insysmsg "You are too far away to do that"
+                overhead "* FAR *" 88 'ManualTargetFriendly'
+                overhead "* FAR *" 88 'ManualTargetFriendly'
+                overhead "* FAR *" 88 'ManualTargetFriendly'
+            elseif insysmsg "That being is not damaged!"
+                overhead "Healthy!" 88 'ManualTargetFriendly'
+                unsetvar 'ManualTargetFriendly'
+                settimer HealCrew CrewHealCD
             else
-                if timer "healcrew" >= CrewHealCD
-                    if not bandaging
-                        waitforgump 1722920179
-                        gumpresponse 20 1722920179
-                    endif
-                    if not bandaging
-                        waitforgump 1722920179
-                        gumpresponse 21 1722920179
-                    endif
-                    if not bandaging
-                        waitforgump 1722920179
-                        gumpresponse 22 1722920179
-                    endif
-                    if not bandaging
-                        waitforgump 1722920179
-                        gumpresponse 23 1722920179
-                    endif
-                    if not bandaging
-                        waitforgump 1722920179
-                        gumpresponse 24 1722920179
-                    endif
-                    if not bandaging
-                        waitforgump 1722920179
-                        gumpresponse 25 1722920179
-                    endif
-                    if not bandaging
-                        waitforgump 1722920179 
-                        gumpresponse 26 1722920179
-                    endif
-                    if not bandaging
-                        waitforgump 1722920179 
-                        gumpresponse 27 1722920179
-                    endif
-                    wait 200
-                    settimer "healcrew" 0
-                endif
+                overhead "Healing fumble!" 88
+                unsetvar 'ManualTargetFriendly'
+                settimer HealCrew CrewHealCD
             endif
-            
+            if targetexists
+                hotkey "Cancel Current Target"
+            endif
+        endif
+        if timer HealCrew >= CrewHealCD
+            if not bandaging
+                waitforgump 1722920179
+                gumpresponse 20 1722920179
+            endif
+            if not bandaging
+                waitforgump 1722920179
+                gumpresponse 21 1722920179
+            endif
+            if not bandaging
+                waitforgump 1722920179
+                gumpresponse 22 1722920179
+            endif
+            if not bandaging
+                waitforgump 1722920179
+                gumpresponse 23 1722920179
+            endif
+            if not bandaging
+                waitforgump 1722920179
+                gumpresponse 24 1722920179
+            endif
+            if not bandaging
+                waitforgump 1722920179
+                gumpresponse 25 1722920179
+            endif
+            if not bandaging
+                waitforgump 1722920179 
+                gumpresponse 26 1722920179
+            endif
+            if not bandaging
+                waitforgump 1722920179 
+                gumpresponse 27 1722920179
+            endif
+            settimer HealCrew 0
         endif
         settimer "AutoHealSpam" 0
     endif
@@ -281,7 +281,7 @@ if hp <= HealpotHP and not targetexists
             wait 200
             settimer "healpot" 0
         endif
-    else 
+    else
          overhead 'Out of heals!' 34
     endif
 endif
@@ -391,7 +391,7 @@ if skill "Chivalry" >= 80
             poplist 'symbols' 'back'
         endfor
         
-    elseif poisoned and  list "symbols" >= 7 and hits < CleanseByFireHP and CleanseByFire = 1 and timer "cleansefire" >= 30000
+    elseif poisoned and list "symbols" >= 2 and hits < CleanseByFireHP and CleanseByFire = 1 and timer "cleansefire" >= 30000
         say "[CleanseByFire"
         settimer "cleansefire" 0
         overhead "- Cleanse By Fire -" 0
@@ -399,7 +399,7 @@ if skill "Chivalry" >= 80
           poplist 'symbols' 'back'
         endfor
         
-    elseif findbuff "bleed" or findbuff "disease" and list "symbols" >= 8 and CloseWounds = 1 and timer "closewounds" >= 30000
+    elseif findbuff "bleed" or findbuff "disease" and list "symbols" >= 3 and CloseWounds = 1 and timer "closewounds" >= 30000
         say "[CloseWounds"
         settimer "closewounds" 0
         overhead "- Close Wounds -" 0
@@ -407,7 +407,7 @@ if skill "Chivalry" >= 80
           poplist 'symbols' 'back'
         endfor
         
-    elseif list "symbols" >= 9  and timer "divinefury" >= 30000 and find "oceantarget" ground -1 -1 12 and DivineFury = 1
+    elseif list "symbols" >= 4  and timer "divinefury" >= 30000 and find "oceantarget" ground -1 -1 12 and DivineFury = 1
         say '[DivineFury'
         settimer "divinefury" 0
         overhead "- Divine Fury -" 0
@@ -416,7 +416,7 @@ if skill "Chivalry" >= 80
         endfor
         wait 600
         
-    elseif list "symbols" >= 8  and timer "enemyofone" >= 30000 and find "oceantarget" ground -1 -1 12 and EnemyOfOne = 1
+    elseif list "symbols" >= 3 and timer "enemyofone" >= 30000 and find "oceantarget" ground -1 -1 12 and EnemyOfOne = 1
         say '[EnemyOfOne'
         settimer "enemyofone" 0
         overhead "- Enemy Of One -" 0       
@@ -425,11 +425,11 @@ if skill "Chivalry" >= 80
         endfor
         wait 600   
 
-    elseif list "symbols" >= 9 and timer "consweapon" >= 30000 and find "oceantarget" ground -1 -1 12 and ConsWeapon = 1
+    elseif list "symbols" >= 2 and timer "consweapon" >= 30000 and find "oceantarget" ground -1 -1 12 and ConsWeapon = 1
         say '[ConsecrateWeapon'
         settimer "consweapon" 0
         overhead "- Consecrate Weapon -" 0   
-        for 4 
+        for 2
           poplist 'symbols' 'back'
         endfor
         wait 600
@@ -530,7 +530,7 @@ if timer "oceanscan" >= 300
         endif
     else
         if not find oceantarget ground -1 -1 12
-            overhead "debug: scanning for targets..." 88
+            // overhead "debug: scanning for targets..." 88
             hotkey "Next Enemy Monster Target"
             if not insysmsg "No one matching"
                 @setvar "oceantarget" lasttarget 
@@ -547,13 +547,13 @@ if timer "oceanscan" >= 300
     endif
     if find oceantarget ground -1 -1 12
         if noto "oceantarget" = "murderer" or noto "oceantarget" = "enemy" or noto "oceantarget" = "hostile" or noto "oceantarget" = "criminal"
-            overhead "debug: attacking oceantarget"
+            // overhead "debug: attacking oceantarget"
             if timer "CrewATK" >= CrewATK_CD
-                overhead "debug: attacking oceantarget (CREW)"
+                // overhead "debug: attacking oceantarget (CREW)"
                 say '[crewattack'
                 wft 500
                 target oceantarget
-                overhead "▼ Crew Focus ▼" 88 oceantarget
+                // overhead "▼ Crew Focus ▼" 88 oceantarget
                 settimer "CrewATK" 0
             endif
             wait 200
@@ -646,6 +646,7 @@ elseif warmode
             if insysmsg "Target cannot be seen" or insysmsg "That is too far away."
                 overhead "Debug: Disarm Failed - Target Not Visible" 34
             else
+                overhead "Debug: Disarm Attempted" 34
                 settimer disarmcheck 0
             endif
         endif
@@ -660,10 +661,8 @@ elseif warmode
         overhead "debug: Trying Scourge" 34
         say "[WeaponAbility2"
         getlabel backpack pingCheck 
-        if insysmsg "You do cannot perform that ability yet."
+        if insysmsg "You cannot perform that ability yet."
             settimer scouragetimer 0
-        elseif insysmsg "You have not yet unlocked that weapon ability." or insysmsg "You do not have the required codex or skills to use that weapon ability."
-            overhead "Ability 2 Not Available" 34
         else
             overhead "debug: Scourge Used" 34
             settimer scouragetimer 0 

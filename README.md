@@ -1,42 +1,23 @@
-# TODO
+# Overview
+Tallisado pooner boating automation.
 
-automation/boat/init
-automation/boat/master
+## Summary of features
+- Auto Launch (Open bags/menus, Use Aspects, set hold, chiv gate for atk speed, etc)
+- Auto heal loop (crew, self, and focused crew to break loop)
+- Auto Repair (when sinking a ship, repairs and reloads for you)
+- Deaths door Frost Shield (dumps into frost armor to stay alive)
+- Auto pots, chiv abiliies
+- Uses weapon ability when boarding npc ship
+- Auto loot enemy hold, and auto dump into your hold (rotate boat if your hold is not found)
+- Auto glass on less frequent timer than in-game checkbox
 
-boating/bomb-drop
-boating/bomb-extinguish
-boating/stance-pin
-boating/stance-skewer
-boating/stance-strafe
-boating/dockmaster
-boating/dockmaster-landing
-boating/dockmaster-lauch
-boating/manual-override
-boating/board-them-all
-boating/board-them-crew
-boating/board-them-self
-boating/disembark-all
-boating/disembark-crew
-boating/disembark-self
-boating/manual-bandage
+### manual-target
 
-boating/cannon/cannonball
-boating/cannon/top-lesser-offensive
-boating/cannon/top-regular-offensive
-boating/cannon/top-greater-offensive
-boating/cannon/top-aux-lesser-passive
-boating/cannon/top-aux-regular-passive
-boating/cannon/top-aux-greater-passive
-boating/cannon/top-aux-lesser-offensive
-boating/cannon/top-aux-regular-offensive
-boating/cannon/top-aux-greater-offensive
+- focus fire botth npc and pvp crew, as well as auto fire cannon toward their boats
+- loops a heal on a target friendly until full, then go back to crew loop
 
-boating/cannon/bot-lesser-offensive
-boating/cannon/bot-regular-offensive
-boating/cannon/bot-greater-offensive
-boating/cannon/bot-aux-lesser-passive
-boating/cannon/bot-aux-regular-passive
-boating/cannon/bot-aux-greater-passive
-boating/cannon/bot-aux-lesser-offensive
-boating/cannon/bot-aux-regular-offensive
-boating/cannon/bot-aux-greater-offensive
+## I'm running this
+![alt text](image.png)
+
+## My keybindings
+![alt text](SCR-20251102-sito.png)

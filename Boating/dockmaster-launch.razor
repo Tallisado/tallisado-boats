@@ -25,6 +25,20 @@
         @ignore bbook
     endif
 
+    while findtype 31262 backpack -1 as _p1
+        dclick _p1
+        wait 200
+        ignore _p1
+    endwhile
+    clearignore
+
+    while findtype 30765 backpack -1 as _w1
+        dclick _w1
+        wait 200
+        ignore _w1
+    endwhile
+    clearignore
+    
     pause 500
 
     for 25
