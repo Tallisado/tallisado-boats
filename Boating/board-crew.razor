@@ -1,6 +1,7 @@
-# Boating/board-all.razor
-# Hotkey-bindable: attempt to board enemy ship with all crew via boarding rope.
-# Tries ManualTargetEnemy first, then closest grey/enemy/player targets.
+# Boating/board-crew.razor
+# Hotkey-bindable: send crew only to board enemy ship (you stay behind).
+# Use board-all.razor (F1) to board together with crew.
+# Gump buttons: 2=Myself, 3=My Followers, 5=Target Ship (fire)
 
 if gumpexists 2881168634
     gumpclose 2881168634
@@ -19,13 +20,11 @@ if cooldown "Boarding Party"
 endif
 
 clearsysmsg
+@setvar "boardingCrewOnly" 1
 dclick boardrope
 waitforgump 2881168634 500
-if varexist "boardingCrewOnly"
-    gumpresponse 2
-    gumpresponse 3
-    @unsetvar "boardingCrewOnly"
-endif
+gumpresponse 2
+gumpresponse 3
 gumpresponse 5
 wft 500
 hotkey 'Target Closest Grey Monster'
@@ -44,16 +43,14 @@ if insysmsg 'That ship is too far away to board'
     overhead '*Argh, not close enough!*' 47
     gumpclose 2881168634
 elseif insysmsg "Your boarding party fails"
-    overhead "Yar, these ropes are no good!" 38
+    overhead "Yar, crew couldn't make it!" 38
     cooldown "Boarding Party" 15000
 elseif insysmsg 'You are already on that ship.'
     overhead 'We are boarded! Use ManualTargetEnemy!' 39
 elseif insysmsg 'You successfully board the ship!'
-    overhead "Yar, enemies abound!" 88
+    overhead "Crew away! Watch their backs!" 88
     cooldown "Boarding Party" 15000
-    warmode on
 elseif insysmsg 'The ship seems devoid of life'
     overhead 'Easy come easy go...' 79
-    warmode on
 endif
 hotkey "Play Script: Bots\PoonerBot\base"

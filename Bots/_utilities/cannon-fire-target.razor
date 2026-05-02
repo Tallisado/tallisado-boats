@@ -7,6 +7,7 @@
 #   @setvar! "cannon_msg" <text>    - overhead message shown on success (e.g. "Fire!")
 #
 # Target priority: ManualTargetEnemy -> ShipSails -> Closest Enemy -> Closest Grey -> player aim
+# On manual aim (priority 5): saves clicked target as ShipSails (sails/mast/rigging) or ManualTargetEnemy
 
 wft 500
 
@@ -133,6 +134,14 @@ elseif insysmsg "You may not fire onto your own ship!"
 elseif not targetexists
     cooldown "Cannons" cannon_cd
     overhead "{{cannon_msg}}" 88
+    getlabel lasttarget clickedlabel
+    if clickedlabel contains "sails" or clickedlabel contains "mast" or clickedlabel contains "rigging"
+        @setvar "ShipSails" lasttarget
+        overhead ">>> Saved as ShipSails: {{clickedlabel}}" 44
+    else
+        @setvar "ManualTargetEnemy" lasttarget
+        overhead ">>> Saved as ManualTargetEnemy: {{clickedlabel}}" 44
+    endif
     @unsetvar! cannon_cd
     @unsetvar! cannon_msg
     hotkey "Play Script: Bots\PoonerBot\base"
