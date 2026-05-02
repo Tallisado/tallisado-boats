@@ -36,8 +36,7 @@ settimer baseInitTimerExample 0
 #   - [x] fix archery range
 #   - if in peace mode and low health, auto aoe peace
 #   - Allow a person to choose what goes first
-#   - [x] Peacemaking  
-#   - [x] Discordance
+#   - [x] Peacemaking
 #   - Provo (maybe?)
 
 #  Handle world saves
@@ -280,12 +279,6 @@ endif
 @setvar! jaseowns_PotionSatchel backpack
 if findlayer self Outerbody as jaseowns_MaybePotionSatchel
     @setvar! jaseowns_PotionSatchel jaseowns_MaybePotionSatchel
-endif
-
-if skill "Discordance" >= 50 and jaseowns_Bard_DiscordAutomatically = 1
-    @setvar! jaseowns_Bard_CanDiscord 1
-else
-    @setvar! jaseowns_Bard_CanDiscord 0
 endif
 
 if skill "Peacemaking" >= 50 and jaseowns_Bard_PeaceAutomatically = 1
@@ -1605,36 +1598,11 @@ while not dead
                 
                     attack jaseowns_CurrentBotTarget
                 
-                    # bard stuff here
-
-                    ### 
-                    # 1 = Discord
-                    # 2 = Peacemaking
-                    # 3 = Provo
-                    ###
-            #        @setvar! jaseowns_Bard_FirstBardAbility PEACE
-            #        @setvar! jaseowns_Bard_SecondBardAbility discord
-            #        @setvar! jaseowns_Bard_ThirdBardAbility 3
-            #        
-            #  
-            #        getlabel jaseowns_CurrentBotTarget jaseowns_CurrentBotTargetDesc
-            #        if "discord" in jaseowns_CurrentBotTargetDesc
-            #            skip discord
-            #        endif
-            #        if "pacified" in jaseowns_CurrentBotTargetDesc
-            #            skip pacified
-            #        endif
-                    
                     #overhead "Current target: {{jaseowns_CurrentBotTargetDesc}} {{jaseowns_UsedSkillTimer}}"
                     
                     @setvar! jaseowns_BOT_TargetPoisoned 0
                     if "Ticks" in jaseowns_CurrentBotTargetDesc
                         @setvar! jaseowns_BOT_TargetPoisoned 1
-                    endif
-                    
-                    @setvar! jaseowns_Bard_SkipDiscord 0
-                    if "discord" in jaseowns_CurrentBotTargetDesc
-                        @setvar! jaseowns_Bard_SkipDiscord 1
                     endif
                     
                     @setvar! jaseowns_Bard_SkipPeace 0
@@ -1655,36 +1623,7 @@ while not dead
                         @setvar! jaseowns_DynamicRangeCheck 2
                     endif
 
-                    if jaseowns_Bard_CanDiscord = 1 and jaseowns_Bard_SkipDiscord = 0 and timer jaseowns_UsedSkillTimer >= 5000
-                        
-                        overhead "Discording: {{jaseowns_CurrentBotTargetDesc}}"
-                        useskill 'Discordance'
-                        wft 500
-                        if insysmsg "What instrument"
-                            if findtype 3740|3742|3762|3763|10245|20006|20008|20010|20012|20014|20016 backpack as jaseowns_Instrument 
-                                target jaseowns_Instrument
-                            else
-                                overhead "I do not have an instrument" 34
-                            endif
-                            wft 500
-                        endif
-                        if targetexists 
-                            target jaseowns_CurrentBotTarget
-                            getlabel backpack jaseowns_PingCheck
-                            if insysmsg "Target cannot be seen" or insysmsg "That is too far away."
-                                if timer jaseowns_CurrentBotTargetUnableToAttackOverheadTimer >= jaseowns_CurrentBotTargetUnableToAttackOverheadTimerCD and listexists jaseowns_CurrentBotTargetUnableToAttackOverheadText
-                                    foreach jaseowns_Overhead in jaseowns_CurrentBotTargetUnableToAttackOverheadText
-                                        overhead jaseowns_Overhead jaseowns_CurrentBotTargetUnableToAttackOverheadHue jaseowns_CurrentBotTarget
-                                    endfor
-                                    settimer jaseowns_CurrentBotTargetOverheadTimer 0
-                                endif
-                                @setvar! jaseowns_CurrentBotTarget 0
-                            else
-                                settimer jaseowns_UsedSkillTimer 0
-                                @setvar! jaseowns_CurrentBotTargetAttacked 1
-                            endif
-                        endif
-                    elseif jaseowns_Bard_CanPeacemake = 1 and jaseowns_Bard_SkipPeace = 0 and timer jaseowns_UsedSkillTimer >= 5000
+                    if jaseowns_Bard_CanPeacemake = 1 and jaseowns_Bard_SkipPeace = 0 and timer jaseowns_UsedSkillTimer >= 5000
                        
                         overhead "Peacmking"
                         useskill 'Peacemaking'
@@ -2076,23 +2015,6 @@ while not dead
             endwhile
         endwhile
         overhead "info: found hatch end" 3
-    endif
-
-    if skill "Discordance" > 0
-        if not findbuff "song of discordance" and timer jaseowns_BOT_BardBuffTimer >= 10000
-            useskill 'Discordance'
-            wft 500
-            if insysmsg "What instrument"
-                if findtype 3740|3742|3762|3763|10245|20006|20008|20010|20012|20014|20016 backpack as jaseowns_Instrument 
-                    target jaseowns_Instrument
-                else
-                    overhead "I do not have an instrument" 34
-                endif
-                wft 500
-            endif
-            target backpack
-            settimer jaseowns_BOT_BardBuffTimer 0
-        endif
     endif
 
     if skill "Provocation" > 0

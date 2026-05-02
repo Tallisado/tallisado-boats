@@ -7,7 +7,6 @@
 #   @setvar! "cannon_msg" <text>    - overhead message shown on success (e.g. "Fire!")
 #
 # Target priority: ManualTargetEnemy -> ShipSails -> Closest Enemy -> Closest Grey -> player aim
-# On any success, calls Bots\_utilities\cannon-post-fire then stops.
 
 wft 500
 
@@ -30,7 +29,7 @@ if varexist "ManualTargetEnemy"
         overhead "{{cannon_msg}}" 88
         @unsetvar! cannon_cd
         @unsetvar! cannon_msg
-        hotkey "Play Script: Bots\_utilities\cannon-post-fire"
+        hotkey "Play Script: Bots\PoonerBot\base"
         stop
     endif
 endif
@@ -55,7 +54,7 @@ if varexist "ShipSails"
         overhead "{{cannon_msg}}" 88
         @unsetvar! cannon_cd
         @unsetvar! cannon_msg
-        hotkey "Play Script: Bots\_utilities\cannon-post-fire"
+        hotkey "Play Script: Bots\PoonerBot\base"
         stop
     endif
 endif
