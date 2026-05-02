@@ -1,23 +1,18 @@
-# Bapeths Ship Repair
-#
-# Script will loop into 'Master Background' if you have it in your script library
-# Script will turn warmode off as a plug in to Master Background
-#
-# This script will immedeatly start to repair and open the repair gump for manual selection
-# The priority of auto repair is Guns > Sails > Hull
-# If the repair is already underway and you want to change what ship part is being repaired select it in the gump
-#
-# Script starts here
-if findtype "ship repair kit"
-    gumpclose 1271619955
-    clearsysmsg 
-    say "[Repair" 45
-    waitforgump 1271619955 500
-    gumpresponse 4
-    getlabel backpack ping
-else
-    overhead "I am out of repair kits..." 38
+# Boating/repair.razor
+# Hotkey-bindable: repair ship. Auto-priority: Guns > Sails > Hull.
+# Leaves repair gump open for manual selection after auto-priority fires.
+
+if not findtype "ship repair kit" backpack
+    overhead "Out of repair kits!" 38
+    hotkey "Play Script: Bots\PoonerBot\base"
+    stop
 endif
+gumpclose 1271619955
+clearsysmsg
+say "[Repair" 45
+waitforgump 1271619955 500
+gumpresponse 4
+getlabel backpack ping
 if insysmsg "guns"
     gumpresponse 3
     getlabel backpack ping
@@ -28,11 +23,10 @@ if insysmsg "sails"
 endif
 if insysmsg "hull"
     overhead "Ship is in good order!" 68
-
 endif
 if insysmsg "repaired again"
-    overhead "Yar, we cant repair in combat..." 38
+    overhead "Cannot repair in combat..." 38
 endif
 say "[Repair" 45
 waitforgump 1271619955 500
-hotkey "Play Script: Automation\PoonerBot\master"
+hotkey "Play Script: Bots\PoonerBot\base"

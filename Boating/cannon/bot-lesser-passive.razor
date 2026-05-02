@@ -1,28 +1,15 @@
-# Bapeths Ship Slot "Lesser Passive" ability (Bottom Row)
-#
-# "****REQUIRED****"
-# Bapeths Ship Cooldowns xml file (copy paste into your characters Cooldown file)
-# "COPY" Link to get Bapeths Cooldowns "https://outlands.uorazorscripts.com/script/f1e41e2d-411e-461e-9fd0-c4fc2dc234b1"
-# "PASTE" FILE PATH : C:\Program Files (x86)\Ultima Online Outlands\ClassicUO\Data\Profiles\"YOUR-ACCOUNT-NAME"\UO Outlands\"YOUR-CHARACTER" Open file in notepad
-# The cooldowns with "Tigger Text" Must be adjusted to "your ships stats" in the UO in game Options
-#
-# This script will use a passive ability
-# Passive abilities must be "slotted in your ships BOTTOM ROW" of upgrades
-# If your passive ability is not in the bottom roe the script will not work
-#
-# Script will loop into 'Master Background' if you have it in your script library
-#
-# Script starts here
-clearsysmsg 
+# Boating/cannon/bot-lesser-passive.razor
+# Hotkey-bindable: trigger Bottom row Lesser passive ability.
+clearsysmsg
 say '[SecondLesserAbility'
 getlabel backpack ping
 if insysmsg "you must wait"
     overhead "Lesser Cooling..." 38
-    hotkey "Play Script: Automation\PoonerBot\master"
+    hotkey "Play Script: Bots\PoonerBot\base"
     stop
-elseif insysmsg "not currently reloading"
+elseif insysmsg "currently be repaired"
     overhead "It would be no use..." 38
 else
-    overhead '*Passive Lesser Ability*' 67
+    overhead '*Passive Lesser Ability*' 87
 endif
-hotkey "Play Script: Automation\PoonerBot\master"
+hotkey "Play Script: Bots\PoonerBot\base"

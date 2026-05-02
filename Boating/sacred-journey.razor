@@ -1,0 +1,27 @@
+# Boating/sacred-journey.razor
+# Applies Sacred Journey chivalry buff, then boards ship and starts bot.
+# Called automatically by launch.razor when tallis_Ocean_SacredJourneyOnAutoLaunch = 1.
+
+if skill "Chivalry" < 50
+    overhead "No chivalry skill - skipping Sacred Journey" 38
+    hotkey 'Play Script: Bots\PoonerBot\base'
+    stop
+endif
+
+say "[sacredjourney"
+wft 1000
+while targetexists
+    pause 50
+endwhile
+getlabel backpack ping
+if insysmsg "You feel a blessing"
+    overhead "Sacred Journey active!" 88
+else
+    overhead "Sacred Journey cast - boarding..." 78
+endif
+say "[board"
+wft 500
+while targetexists
+    pause 50
+endwhile
+hotkey 'Play Script: Bots\PoonerBot\base'

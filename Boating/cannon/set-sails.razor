@@ -1,0 +1,35 @@
+# Boating/cannon/set-sails.razor
+# Hotkey-bindable: click the enemy ship's sails (or any part) to save it as the
+# cannon aim target. Future cannon fires will target this serial automatically.
+#
+# HOW TO USE:
+#   1. Bind this script to a key
+#   2. When near an enemy ship, press the key
+#   3. Click the enemy ship sails / hull / mast
+#   4. Debug info overhead tells you what was clicked and its serial
+#   5. Re-run whenever you switch targets or the serial goes stale
+#
+# NOTE: The saved serial is the specific object you clicked (e.g. the Sails tile).
+#   If the ship rotates or moves far away, the cannon may still fire at that location.
+#   If targeting fails with "cannot reach", re-run this script on the new position.
+#   Use Boating\set-target.razor to set an explicit override (ManualTargetEnemy) instead.
+
+clearsysmsg
+overhead "Click the enemy ship to aim cannons..." 88
+hotkey 'Set Last Target'
+wft 3000
+while targetexists
+    pause 50
+endwhile
+
+if not targetexists
+    getlabel lasttarget saillabel
+    overhead ">>> Clicked: {{saillabel}}" 44
+    overhead ">>> Serial stored as ShipSails" 44
+    @setvar "ShipSails" lasttarget
+    overhead "Sails target saved! Cannons will aim here." 88
+else
+    overhead "No target selected - ShipSails unchanged" 38
+endif
+
+hotkey "Play Script: Bots\PoonerBot\base"

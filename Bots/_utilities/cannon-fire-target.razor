@@ -1,0 +1,145 @@
+# Bots/_utilities/cannon-fire-target.razor
+# Internal shared cannon targeting logic.
+# Called by all cannon/ability scripts after the game has issued a target cursor.
+#
+# CALLER MUST SET before hotkey-ing here:
+#   @setvar! "cannon_cd" <ms>       - cooldown to apply on fire (e.g. 13500 or 15000)
+#   @setvar! "cannon_msg" <text>    - overhead message shown on success (e.g. "Fire!")
+#
+# Target priority: ManualTargetEnemy -> ShipSails -> Closest Enemy -> Closest Grey -> player aim
+# On any success, calls Bots\_utilities\cannon-post-fire then stops.
+
+wft 500
+
+# Priority 1: Explicit enemy target set by player via set-target.razor
+if varexist "ManualTargetEnemy"
+    target "ManualTargetEnemy"
+    getlabel backpack ping
+    if insysmsg "Our cannons cannot reach that location." or insysmsg "That is too far away."
+        overhead "Manual target out of range - trying sails..." 78
+    elseif insysmsg "Those cannons are out of ammunition"
+        overhead "Out of Ammo!" 38
+        @unsetvar! cannon_cd
+        @unsetvar! cannon_msg
+        hotkey "Play Script: Bots\PoonerBot\base"
+        stop
+    elseif insysmsg "You may not fire onto your own ship!"
+        overhead "Too close - trying sails..." 78
+    elseif not targetexists
+        cooldown "Cannons" cannon_cd
+        overhead "{{cannon_msg}}" 88
+        @unsetvar! cannon_cd
+        @unsetvar! cannon_msg
+        hotkey "Play Script: Bots\_utilities\cannon-post-fire"
+        stop
+    endif
+endif
+
+# Priority 2: Saved sails target - set via Boating\cannon\set-sails.razor
+if varexist "ShipSails"
+    target "ShipSails"
+    getlabel backpack ping
+    if insysmsg "Our cannons cannot reach that location." or insysmsg "That is too far away."
+        overhead "Sails out of range - re-run set-sails or get closer" 78
+    elseif insysmsg "Those cannons are out of ammunition"
+        overhead "Out of Ammo!" 38
+        @unsetvar! cannon_cd
+        @unsetvar! cannon_msg
+        hotkey "Play Script: Bots\PoonerBot\base"
+        stop
+    elseif insysmsg "You may not fire onto your own ship!"
+        overhead "Sails target is own ship! Clear with set-sails" 38
+        @unsetvar "ShipSails"
+    elseif not targetexists
+        cooldown "Cannons" cannon_cd
+        overhead "{{cannon_msg}}" 88
+        @unsetvar! cannon_cd
+        @unsetvar! cannon_msg
+        hotkey "Play Script: Bots\_utilities\cannon-post-fire"
+        stop
+    endif
+endif
+
+# Priority 3: Auto-target closest enemy monster
+hotkey "Target Closest Enemy Monster"
+getlabel backpack ping
+if insysmsg "Our cannons cannot reach that location." or insysmsg "That is too far away."
+    overhead "Enemy out of range!" 38
+elseif insysmsg "Those cannons are out of ammunition"
+    overhead "Out of Ammo!" 38
+    @unsetvar! cannon_cd
+    @unsetvar! cannon_msg
+    hotkey "Play Script: Bots\PoonerBot\base"
+    stop
+elseif insysmsg "You may not fire onto your own ship!"
+    overhead "Too close!" 38
+elseif not targetexists
+    cooldown "Cannons" cannon_cd
+    overhead "{{cannon_msg}}" 88
+    @unsetvar! cannon_cd
+    @unsetvar! cannon_msg
+    hotkey "Play Script: Bots\_utilities\cannon-post-fire"
+    stop
+endif
+
+# Priority 4: Auto-target closest grey monster
+hotkey "Target Closest Grey Monster"
+getlabel backpack ping
+if insysmsg "Our cannons cannot reach that location." or insysmsg "That is too far away."
+    overhead "Grey out of range!" 38
+elseif insysmsg "Those cannons are out of ammunition"
+    overhead "Out of Ammo!" 38
+    @unsetvar! cannon_cd
+    @unsetvar! cannon_msg
+    hotkey "Play Script: Bots\PoonerBot\base"
+    stop
+elseif insysmsg "You may not fire onto your own ship!"
+    overhead "Too close!" 38
+elseif not targetexists
+    cooldown "Cannons" cannon_cd
+    overhead "{{cannon_msg}}" 88
+    @unsetvar! cannon_cd
+    @unsetvar! cannon_msg
+    hotkey "Play Script: Bots\_utilities\cannon-post-fire"
+    stop
+endif
+
+# Priority 5: Wait for player to aim manually (cursor still up)
+if insysmsg "No one matching" or insysmsg "out of range"
+    overhead "Yar! Aim manually..." 88
+endif
+overhead "Click your target!" 88
+while targetexists
+    pause 50
+endwhile
+getlabel backpack ping
+if insysmsg "Our cannons cannot reach that location." or insysmsg "That is too far away."
+    overhead "Out of Range!" 38
+    @unsetvar! cannon_cd
+    @unsetvar! cannon_msg
+    hotkey "Play Script: Bots\PoonerBot\base"
+    stop
+elseif insysmsg "Those cannons are out of ammunition"
+    overhead "Out of Ammo!" 38
+    @unsetvar! cannon_cd
+    @unsetvar! cannon_msg
+    hotkey "Play Script: Bots\PoonerBot\base"
+    stop
+elseif insysmsg "You may not fire onto your own ship!"
+    overhead "Too close!" 38
+    @unsetvar! cannon_cd
+    @unsetvar! cannon_msg
+    hotkey "Play Script: Bots\PoonerBot\base"
+    stop
+elseif not targetexists
+    cooldown "Cannons" cannon_cd
+    overhead "{{cannon_msg}}" 88
+    @unsetvar! cannon_cd
+    @unsetvar! cannon_msg
+    hotkey "Play Script: Bots\_utilities\cannon-post-fire"
+    stop
+endif
+
+@unsetvar! cannon_cd
+@unsetvar! cannon_msg
+hotkey "Play Script: Bots\PoonerBot\base"

@@ -1,0 +1,35 @@
+# Boating/cannon/fire.razor
+# Hotkey-bindable: fire main cannonballs.
+# Tries ManualTargetEnemy -> ShipSails -> Closest Enemy -> Closest Grey -> player aim.
+# Use Boating\cannon\set-sails.razor to save a sails target.
+# Use Boating\set-target.razor to set a priority enemy override.
+#
+# Set "Range check Last Target" to 22 in Razor > Options > Targeting & Queues
+
+clearsysmsg
+hotkey '> Interrupt'
+hotkey "Cancel Current Target"
+say '[FireCannons'
+getlabel backpack ping
+
+if insysmsg "fire its cannons again"
+    overhead "Cannons Cooling..." 38
+    hotkey "Play Script: Bots\_utilities\cannon-post-fire"
+    stop
+endif
+
+if insysmsg "cannons finish reloading"
+    overhead "Cannons reloading..." 38
+    hotkey "Play Script: Bots\PoonerBot\base"
+    stop
+endif
+
+if insysmsg "fire the cannons?"
+    @setvar! "cannon_cd" 13500
+    @setvar! "cannon_msg" "Fire!"
+    hotkey "Play Script: Bots\_utilities\cannon-fire-target"
+    stop
+endif
+
+overhead "Cannons not ready..." 38
+hotkey "Play Script: Bots\PoonerBot\base"

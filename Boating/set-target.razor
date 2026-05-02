@@ -1,0 +1,25 @@
+# Boating/set-target.razor
+# Hotkey-bindable: click a target to set it as ManualTargetEnemy or ManualTargetFriendly.
+# ManualTargetEnemy = cannon aim priority override (used by all cannon scripts)
+# ManualTargetFriendly = heal target (used by emergency-heal.razor and base loop)
+
+hotkey 'Set Last Target'
+wft 1000
+while targetexists
+    pause 50
+endwhile
+
+if not targetexists
+    if noto lasttarget = "friend" or noto lasttarget = "innocent"
+        @setvar 'ManualTargetFriendly' lasttarget
+        overhead "*Heal Target Set*" 78 "ManualTargetFriendly"
+        overhead "ManualTargetFriendly Set" 88
+    elseif noto lasttarget = "murderer" or noto lasttarget = "enemy" or noto lasttarget = "hostile" or noto lasttarget = "criminal"
+        @setvar 'ManualTargetEnemy' lasttarget
+        overhead "ManualTargetEnemy Set" 88
+        overhead "<<.>>" 88 lasttarget
+    else
+        overhead "Notoriety unclear - not saved" 38
+    endif
+endif
+hotkey "Play Script: Bots\PoonerBot\base"
