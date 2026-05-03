@@ -1,27 +1,53 @@
 # Boating/sacred-journey.razor
-# Applies Sacred Journey chivalry buff, then boards ship and starts bot.
+# Applies Sacred Journey chivalry buff, then embarks and starts bot.
 # Called automatically by launch.razor when tallis_Ocean_SacredJourneyOnAutoLaunch = 1.
 
-if skill "Chivalry" < 50
+if skill "Chivalry" < 90
     overhead "No chivalry skill - skipping Sacred Journey" 38
-    hotkey 'Play Script: Bots\PoonerBot\base'
+    say "[Embark"
+    hotkey 'Play Script: tallisado-boats\Bots\PoonerBot\base'
     stop
 endif
 
-say "[sacredjourney"
-wft 1000
-while targetexists
-    pause 50
-endwhile
+clearsysmsg
+say "[SacredJourney"
 getlabel backpack ping
-if insysmsg "You feel a blessing"
-    overhead "Sacred Journey active!" 88
-else
-    overhead "Sacred Journey cast - boarding..." 78
+if insysmsg "You may not use that ability spell while on a ship"
+    overhead "I should find some land to make my journey..." 45
+    gumpclose 1482653814
+    say "[disembark"
+    while targetexists
+        //donothing
+    endwhile
+    replay
 endif
-say "[board"
-wft 500
-while targetexists
-    pause 50
-endwhile
-hotkey 'Play Script: Bots\PoonerBot\base'
+waitforgump 1482653814 500
+if not gumpexists 1482653814
+    overhead "Sacred Journey gump did not open - skipping..." 38
+    say "[Embark"
+    hotkey 'Play Script: tallisado-boats\Bots\PoonerBot\base'
+    stop
+endif
+gumpresponse 5
+waitforgump 1482653814 500
+if gumpexists 1482653814
+    gumpresponse 4
+endif
+getlabel backpack ping
+if insysmsg "You have been in combat too recently to use that ability"
+    overhead "Argh, I cant do that while fighting..." 45
+    gumpclose 1482653814
+    hotkey 'Play Script: tallisado-boats\Bots\PoonerBot\base'
+    stop
+endif
+pause 1000
+if findtype 30528 ground 2091 -1 1 as chivgate
+    dclick chivgate
+    waitforgump 3899019871 3000
+    if gumpexists 3899019871
+        gumpresponse 2
+    endif
+endif
+say "[Embark"
+overhead "I am charged with Holy Power!" 78
+hotkey 'Play Script: tallisado-boats\Bots\PoonerBot\base'

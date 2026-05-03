@@ -1,4 +1,4 @@
-# Bots/_utilities/cannon-fire-target.razor
+﻿# Bots/_utilities/cannon-fire-target.razor
 # Internal shared cannon targeting logic.
 # Called by all cannon/ability scripts after the game has issued a target cursor.
 #
@@ -21,7 +21,7 @@ if varexist "ManualTargetEnemy"
         overhead "Out of Ammo!" 38
         @unsetvar! cannon_cd
         @unsetvar! cannon_msg
-        hotkey "Play Script: Bots\PoonerBot\base"
+        hotkey "Play Script: tallisado-boats\Bots\PoonerBot\base"
         stop
     elseif insysmsg "You may not fire onto your own ship!"
         overhead "Too close - trying sails..." 78
@@ -30,12 +30,12 @@ if varexist "ManualTargetEnemy"
         overhead "{{cannon_msg}}" 88
         @unsetvar! cannon_cd
         @unsetvar! cannon_msg
-        hotkey "Play Script: Bots\PoonerBot\base"
+        hotkey "Play Script: tallisado-boats\Bots\PoonerBot\base"
         stop
     endif
 endif
 
-# Priority 2: Saved sails target - set via Boating\cannon\set-sails.razor
+# Priority 2: Saved sails target - set via tallisado-boats\Boating\cannon\set-sails.razor
 if varexist "ShipSails"
     target "ShipSails"
     getlabel backpack ping
@@ -45,7 +45,7 @@ if varexist "ShipSails"
         overhead "Out of Ammo!" 38
         @unsetvar! cannon_cd
         @unsetvar! cannon_msg
-        hotkey "Play Script: Bots\PoonerBot\base"
+        hotkey "Play Script: tallisado-boats\Bots\PoonerBot\base"
         stop
     elseif insysmsg "You may not fire onto your own ship!"
         overhead "Sails target is own ship! Clear with set-sails" 38
@@ -55,60 +55,68 @@ if varexist "ShipSails"
         overhead "{{cannon_msg}}" 88
         @unsetvar! cannon_cd
         @unsetvar! cannon_msg
-        hotkey "Play Script: Bots\PoonerBot\base"
+        hotkey "Play Script: tallisado-boats\Bots\PoonerBot\base"
         stop
     endif
 endif
 
-# Priority 3: Auto-target closest enemy monster
-hotkey "Target Closest Enemy Monster"
-getlabel backpack ping
-if insysmsg "Our cannons cannot reach that location." or insysmsg "That is too far away."
-    overhead "Enemy out of range!" 38
-elseif insysmsg "Those cannons are out of ammunition"
-    overhead "Out of Ammo!" 38
-    @unsetvar! cannon_cd
-    @unsetvar! cannon_msg
-    hotkey "Play Script: Bots\PoonerBot\base"
-    stop
-elseif insysmsg "You may not fire onto your own ship!"
-    overhead "Too close!" 38
-elseif not targetexists
-    cooldown "Cannons" cannon_cd
-    overhead "{{cannon_msg}}" 88
-    @unsetvar! cannon_cd
-    @unsetvar! cannon_msg
-    hotkey "Play Script: Bots\PoonerBot\base"
-    stop
+# Priority 3: Auto-target closest enemy monster (skipped when cannon_manual_aim is set)
+if not varexist "cannon_manual_aim"
+    hotkey "Target Closest Enemy Monster"
+    getlabel backpack ping
+    if insysmsg "Our cannons cannot reach that location." or insysmsg "That is too far away."
+        overhead "Enemy out of range!" 38
+    elseif insysmsg "Those cannons are out of ammunition"
+        overhead "Out of Ammo!" 38
+        @unsetvar! cannon_cd
+        @unsetvar! cannon_msg
+        hotkey "Play Script: tallisado-boats\Bots\PoonerBot\base"
+        stop
+    elseif insysmsg "You may not fire onto your own ship!"
+        overhead "Too close!" 38
+    elseif not targetexists
+        cooldown "Cannons" cannon_cd
+        overhead "{{cannon_msg}}" 88
+        @unsetvar! cannon_cd
+        @unsetvar! cannon_msg
+        hotkey "Play Script: tallisado-boats\Bots\PoonerBot\base"
+        stop
+    endif
 endif
 
-# Priority 4: Auto-target closest grey monster
-hotkey "Target Closest Grey Monster"
-getlabel backpack ping
-if insysmsg "Our cannons cannot reach that location." or insysmsg "That is too far away."
-    overhead "Grey out of range!" 38
-elseif insysmsg "Those cannons are out of ammunition"
-    overhead "Out of Ammo!" 38
-    @unsetvar! cannon_cd
-    @unsetvar! cannon_msg
-    hotkey "Play Script: Bots\PoonerBot\base"
-    stop
-elseif insysmsg "You may not fire onto your own ship!"
-    overhead "Too close!" 38
-elseif not targetexists
-    cooldown "Cannons" cannon_cd
-    overhead "{{cannon_msg}}" 88
-    @unsetvar! cannon_cd
-    @unsetvar! cannon_msg
-    hotkey "Play Script: Bots\PoonerBot\base"
-    stop
+# Priority 4: Auto-target closest grey monster (skipped when cannon_manual_aim is set)
+if not varexist "cannon_manual_aim"
+    hotkey "Target Closest Grey Monster"
+    getlabel backpack ping
+    if insysmsg "Our cannons cannot reach that location." or insysmsg "That is too far away."
+        overhead "Grey out of range!" 38
+    elseif insysmsg "Those cannons are out of ammunition"
+        overhead "Out of Ammo!" 38
+        @unsetvar! cannon_cd
+        @unsetvar! cannon_msg
+        hotkey "Play Script: tallisado-boats\Bots\PoonerBot\base"
+        stop
+    elseif insysmsg "You may not fire onto your own ship!"
+        overhead "Too close!" 38
+    elseif not targetexists
+        cooldown "Cannons" cannon_cd
+        overhead "{{cannon_msg}}" 88
+        @unsetvar! cannon_cd
+        @unsetvar! cannon_msg
+        hotkey "Play Script: tallisado-boats\Bots\PoonerBot\base"
+        stop
+    endif
 endif
+@unsetvar! cannon_manual_aim
 
 # Priority 5: Wait for player to aim manually (cursor still up)
+if varexist "ShipSails"
+    overhead ">>> ShipSails already set - click to override or press Escape" 44
+endif
 if insysmsg "No one matching" or insysmsg "out of range"
     overhead "Yar! Aim manually..." 88
 endif
-overhead "Click your target!" 88
+overhead ">>> Click your target! (sails/mast = ShipSails, else = ManualTarget)" 88
 while targetexists
     pause 50
 endwhile
@@ -117,37 +125,39 @@ if insysmsg "Our cannons cannot reach that location." or insysmsg "That is too f
     overhead "Out of Range!" 38
     @unsetvar! cannon_cd
     @unsetvar! cannon_msg
-    hotkey "Play Script: Bots\PoonerBot\base"
+    hotkey "Play Script: tallisado-boats\Bots\PoonerBot\base"
     stop
 elseif insysmsg "Those cannons are out of ammunition"
     overhead "Out of Ammo!" 38
     @unsetvar! cannon_cd
     @unsetvar! cannon_msg
-    hotkey "Play Script: Bots\PoonerBot\base"
+    hotkey "Play Script: tallisado-boats\Bots\PoonerBot\base"
     stop
 elseif insysmsg "You may not fire onto your own ship!"
     overhead "Too close!" 38
     @unsetvar! cannon_cd
     @unsetvar! cannon_msg
-    hotkey "Play Script: Bots\PoonerBot\base"
+    hotkey "Play Script: tallisado-boats\Bots\PoonerBot\base"
     stop
 elseif not targetexists
     cooldown "Cannons" cannon_cd
     overhead "{{cannon_msg}}" 88
     getlabel lasttarget clickedlabel
-    if clickedlabel contains "sails" or clickedlabel contains "mast" or clickedlabel contains "rigging"
+    if "sails" in clickedlabel or "mast" in clickedlabel or "rigging" in clickedlabel
         @setvar "ShipSails" lasttarget
-        overhead ">>> Saved as ShipSails: {{clickedlabel}}" 44
+        overhead "*** SAVED: ShipSails = {{clickedlabel}} ***" 88 ShipSails
+        overhead "*** ShipSails LOCKED ***" 66
     else
         @setvar "ManualTargetEnemy" lasttarget
-        overhead ">>> Saved as ManualTargetEnemy: {{clickedlabel}}" 44
+        overhead "*** SAVED: ManualTarget = {{clickedlabel}} ***" 88 ManualTargetEnemy
+        overhead "*** ManualTargetEnemy LOCKED ***" 66
     endif
     @unsetvar! cannon_cd
     @unsetvar! cannon_msg
-    hotkey "Play Script: Bots\PoonerBot\base"
+    hotkey "Play Script: tallisado-boats\Bots\PoonerBot\base"
     stop
 endif
 
 @unsetvar! cannon_cd
 @unsetvar! cannon_msg
-hotkey "Play Script: Bots\PoonerBot\base"
+hotkey "Play Script: tallisado-boats\Bots\PoonerBot\base"

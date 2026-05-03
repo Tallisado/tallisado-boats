@@ -1,4 +1,4 @@
-#####################################
+﻿#####################################
 ### You should not have to edit this file ever.
 #####
 # 11/11/2024 stream - 1.10
@@ -390,8 +390,11 @@ if not timerexists undead_Ocean__Switch_Warmode_If_CannonsCD_Timer
     settimer undead_Ocean_Switch_Warmode_If_CannonsCD_Timer undead_Ocean_Switch_Warmode_If_CannonsCD_TimerCD
 endif
 
+if not varexist tallis_prev_warmode
+    @setvar! tallis_prev_warmode 0
+endif
 
-warmode on
+warmode off
 
 ### /OCEAN EDIT ###
 
@@ -643,9 +646,10 @@ while not dead
             target "CrewHeal"
             getlabel backpack ping
         
-            if insysmsg "You are too far away to do that"
+            if insysmsg "too far away"
                 overhead "|--| FAR |--|" 88 'CrewHeal'
-            elseif insysmsg "That being is not damaged!"
+                unsetvar "CrewHeal"
+            elseif insysmsg "That being is not damaged!" or insysmsg "not damaged"
                 overhead "Healthy!" 88 'CrewHeal'
                 unsetvar "CrewHeal"
             endif
@@ -688,7 +692,6 @@ while not dead
             endif
         endif
         if not bandaging //and not queued
-            overhead "Healing timer reset"
             settimer undead_Ocean_CrewHealBandages_Timer undead_Ocean_CrewHealBandages_TimerCD
         else
             cooldown 'Crew Heal' undead_Ocean_CrewHealBandages_TimerCD
@@ -1947,7 +1950,7 @@ while not dead
     if not cooldown "Fray" and not timerexists repairRetry
         overhead "Out of combat repair"
         settimer repairRetry tallis_repairDuration
-        hotkey "Play Script: Boating\repair"
+        hotkey "Play Script: tallisado-boats\Boating\repair"
     endif
 
     if insysmsg "We've received"
@@ -1955,21 +1958,27 @@ while not dead
         
         if findtype "ship repair kit"
         gumpclose 1271619955
-        clearsysmsg 
+        clearsysmsg
         say "[Repair" 45
         waitforgump 1271619955 500
-        gumpresponse 4
-        getlabel backpack ping
+        if gumpexists 1271619955
+            gumpresponse 4
+            getlabel backpack ping
+            if insysmsg "guns"
+                if gumpexists 1271619955
+                    gumpresponse 3
+                    getlabel backpack ping
+                endif
+            endif
+            if insysmsg "sails"
+                if gumpexists 1271619955
+                    gumpresponse 2
+                    getlabel backpack ping
+                endif
+            endif
+        endif
     else
         overhead "I am out of repair kits..." 38
-    endif
-    if insysmsg "guns"
-        gumpresponse 3
-        getlabel backpack ping
-    endif
-    if insysmsg "sails"
-        gumpresponse 2
-        getlabel backpack ping
     endif
     if insysmsg "hull"
         overhead "Ship is in good order!" 68
@@ -1979,7 +1988,7 @@ while not dead
         overhead "Yar, we cant repair in combat..." 38
     endif
 
-        hotkey "Play Script: Boating\cannon\reload"
+        hotkey "Play Script: tallisado-boats\Boating\cannon\reload"
     endif
 
     if not poisoned and not queued and not targetexists and not findbuff "Actively Meditating" and not cooldown "Spyglass" and hp >= 66 and findtype "spyglass" backpack as bspy
@@ -1988,7 +1997,7 @@ while not dead
         waitforgump 2890020940 500
         if gumpexists 2890020940
             overhead 'Yarr!' 67
-            cooldown "Spyglass" undead_Ocean_Spyglass_TimerCD
+            cooldown "Spyglass" 9000
         endif 
     endif
 
@@ -2073,7 +2082,27 @@ while not dead
         warmode on
         settimer undead_Ocean_Switch_Warmode_If_CannonsCD_Timer 0
     endif
-    
+
+    ### Warmode transition: fire weapon special once when entering warmode (boarding/combat)
+    if warmode and tallis_prev_warmode = 0
+        @setvar! tallis_prev_warmode 1
+        overhead ">>> Warmode: Weapon Special!" 88
+        if jaseowns_UseAbility1 = 1
+            say "[WeaponAbility1"
+            getlabel backpack ping
+        endif
+        if jaseowns_UseAbility2 = 1
+            say "[WeaponAbility2"
+            getlabel backpack ping
+        endif
+        if jaseowns_UseAbility3 = 1
+            say "[WeaponAbility3"
+            getlabel backpack ping
+        endif
+    elseif not warmode and tallis_prev_warmode = 1
+        @setvar! tallis_prev_warmode 0
+    endif
+
 ### /Ocean Edits
 
     wait 100

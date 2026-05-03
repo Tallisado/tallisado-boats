@@ -1,0 +1,48 @@
+# Boating/set-crew-heal.razor
+# Click a crew member to focus-bandage them via CrewHeal in base.razor.
+# Re-run and click a different crew to change focus.
+# Re-run and press Escape (or click same target) to clear focus.
+
+hotkey "Cancel Current Target"
+clearsysmsg
+
+if varexist "CrewHeal"
+    getlabel CrewHeal prevname
+    if inrange CrewHeal 6
+        overhead "Heal focus: {{prevname}} [IN RANGE] - click to change, Esc to clear" 68
+    else
+        overhead "Heal focus: {{prevname}} [OUT OF RANGE] - click to change, Esc to clear" 38
+    endif
+else
+    overhead "Click crew member to focus-heal (Esc to clear)..." 55
+endif
+
+@setvar! "tallis_prev_lt" lasttarget
+hotkey "Set Last Target"
+wft 2000
+while targetexists
+    pause 50
+endwhile
+hotkey "Cancel Current Target"
+
+if tallis_prev_lt = lasttarget
+    if varexist "CrewHeal"
+        @unsetvar "CrewHeal"
+        overhead "*** CrewHeal cleared - back to auto-heal ***" 38
+    else
+        overhead "Focus heal cancelled" 38
+    endif
+    @unsetvar! tallis_prev_lt
+    hotkey 'Play Script: tallisado-boats\Bots\PoonerBot\base'
+    stop
+endif
+
+@unsetvar! tallis_prev_lt
+@setvar "CrewHeal" lasttarget
+getlabel lasttarget crewname
+if inrange lasttarget 6
+    overhead "*** Heal focus: {{crewname}} [IN RANGE] ***" 68
+else
+    overhead "*** Heal focus: {{crewname}} [OUT OF RANGE - will heal when closer] ***" 38
+endif
+hotkey 'Play Script: tallisado-boats\Bots\PoonerBot\base'

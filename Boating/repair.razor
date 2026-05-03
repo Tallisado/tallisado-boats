@@ -4,22 +4,31 @@
 
 if not findtype "ship repair kit" backpack
     overhead "Out of repair kits!" 38
-    hotkey "Play Script: Bots\PoonerBot\base"
+    hotkey "Play Script: tallisado-boats\Bots\PoonerBot\base"
     stop
 endif
 gumpclose 1271619955
 clearsysmsg
 say "[Repair" 45
 waitforgump 1271619955 500
+if not gumpexists 1271619955
+    overhead "Repair gump did not open..." 38
+    hotkey "Play Script: tallisado-boats\Bots\PoonerBot\base"
+    stop
+endif
 gumpresponse 4
 getlabel backpack ping
 if insysmsg "guns"
-    gumpresponse 3
-    getlabel backpack ping
+    if gumpexists 1271619955
+        gumpresponse 3
+        getlabel backpack ping
+    endif
 endif
 if insysmsg "sails"
-    gumpresponse 2
-    getlabel backpack ping
+    if gumpexists 1271619955
+        gumpresponse 2
+        getlabel backpack ping
+    endif
 endif
 if insysmsg "hull"
     overhead "Ship is in good order!" 68
@@ -29,4 +38,4 @@ if insysmsg "repaired again"
 endif
 say "[Repair" 45
 waitforgump 1271619955 500
-hotkey "Play Script: Bots\PoonerBot\base"
+hotkey "Play Script: tallisado-boats\Bots\PoonerBot\base"
