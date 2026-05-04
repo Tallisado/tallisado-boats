@@ -418,7 +418,7 @@ while not dead
     if skill "Begging" > 0 and timer undead_Ocean_UseBeggingTimer >= undead_Ocean_UseBeggingTimerCD
         skill 'begging'
         overhead "Crew Motivated" undead_overhead_ocean
-        cooldown "Begging" undead_Ocean_UseBeggingTimerCD
+        cooldown "Begging" 20000
         settimer undead_Ocean_UseBeggingTimer 0
     endif
 
@@ -545,7 +545,7 @@ while not dead
         if findbuff "bleed" or findbuff "disease"
             if findtype 3847 self 0 as jaseowns_UseItem
                 dclick jaseowns_UseItem
-                cooldown "Panacea" jaseowns_UsePanaceaTimerCD
+                cooldown "Panacea" 30500
                 settimer jaseowns_UsePanaceaTimer 0
             endif
         endif
@@ -1138,7 +1138,7 @@ while not dead
                 getlabel backpack jaseowns_PingCheck
                 if not targetexists 
                     if insysmsg "Holy symbols remaining" 
-                        cooldown "Noble Sacrifice" jaseowns_NobleSacrificeTimerCD
+                        cooldown "Noble Sacrifice" 30000
                         settimer jaseowns_NobleSacrificeTimer 0
                     endif
                 else
@@ -1149,14 +1149,14 @@ while not dead
             say "[HolyLight"
             getlabel backpack jaseowns_PingCheck
             if insysmsg "Holy symbols remaining" 
-                cooldown "Holy Light" jaseowns_HolyLightTimerCD
+                cooldown "Holy Light" 30000
                 settimer jaseowns_HolyLightTimer 0
             endif
         elseif jaseowns_BOT_UseCloseWounds = 1
             say "[CloseWounds"
             getlabel backpack jaseowns_PingCheck
             if insysmsg "Holy symbols remaining" 
-                cooldown "Close Wounds" jaseowns_CloseWoundsTimerCD
+                cooldown "Close Wounds" 30000
                 settimer jaseowns_CloseWoundsTimer 0
             endif
         endif
@@ -1818,7 +1818,7 @@ while not dead
                             @setvar! jaseowns_AutoExplodePotTimerCD 15000
                         endif
                         settimer jaseowns_AutoExplodePotTimer 0
-                        cooldown "Purple Pot" jaseowns_AutoExplodePotTimerCD
+                        cooldown "Purple Pot" 15000
                     endif
                 endif
             endif
@@ -1852,28 +1852,28 @@ while not dead
                 say "[DivineFury"
                 getlabel backpack jaseowns_PingCheck
                 if insysmsg "Holy symbols remaining" 
-                    cooldown "Divine Fury" jaseowns_DivineFuryTimerCD
+                    cooldown "Divine Fury" 30000
                     settimer jaseowns_DivineFuryTimer 0
                 endif
             elseif poisoned and jaseowns_Chiv_UseCleanseByFireAutomatically = 1 and 2 <= jaseowns_HolySymbols and skill "chivalry" >= 60 and timer jaseowns_CleanseByFireTimer >= jaseowns_CleanseByFireTimerCD
                 say "[CleanseByFire"
                 getlabel backpack jaseowns_PingCheck
                 if insysmsg "Holy symbols remaining" 
-                    cooldown "Cleanse By Fire" jaseowns_CleanseByFireTimerCD
+                    cooldown "Cleanse By Fire" 30000
                     settimer jaseowns_CleanseByFireTimer 0
                 endif
             elseif jaseowns_Chiv_UseEnemyOfOneAutomatically = 1 and 3 <= jaseowns_HolySymbols and skill "chivalry" >= 75 and timer jaseowns_EnemyOfOneTimer >= jaseowns_EnemyOfOneTimerCD
                 say "[EnemyOfOne"
                 getlabel backpack jaseowns_PingCheck
                 if insysmsg "Holy symbols remaining" 
-                    cooldown "Enemy Of One" jaseowns_EnemyOfOneTimerCD
+                    cooldown "Enemy Of One" 30000
                     settimer jaseowns_EnemyOfOneTimer 0
                 endif  
             elseif jaseowns_Chiv_UseConsecrateWeaponAutomatically = 1 and 2 <= jaseowns_HolySymbols and skill "chivalry" >= 65 and timer jaseowns_ConsecrateWeaponTimer >= jaseowns_ConsecrateWeaponTimerCD
                 say "[ConsecrateWeapon"
                 getlabel backpack jaseowns_PingCheck
                 if insysmsg "Holy symbols remaining" 
-                    cooldown "Consecrate Weapon" jaseowns_ConsecrateWeaponTimerCD
+                    cooldown "Consecrate Weapon" 30000
                     settimer jaseowns_ConsecrateWeaponTimer 0
                 endif
             endif
@@ -1905,7 +1905,7 @@ while not dead
                         if insysmsg "Cannot be seen"
                             // do nothing
                         else
-                            cooldown "Taunting" jaseowns_TauntingTimerCD
+                            cooldown "Taunting" 15000
                             settimer jaseowns_TauntingTimer 0
                         endif
                     else
@@ -1927,15 +1927,18 @@ while not dead
                 overhead '!!Crew Attack!!' 54
                 say "[CrewAttack"
                 wft 500
-                // TODO manual here 
-                if targetexists 
-                    target jaseowns_CurrentBotTarget
+                if targetexists
+                    if varexist "ManualTargetEnemy"
+                        target "ManualTargetEnemy"
+                    else
+                        target jaseowns_CurrentBotTarget
+                    endif
                     getlabel backpack jaseowns_PingCheck
-                    if not targetexists 
+                    if not targetexists
                         if insysmsg "Cannot be seen"
                             // do nothing
                         else
-                            cooldown "CrewAttack" undead_Ocean_CrewAttackTimerCD
+                            cooldown "CrewAttack" 15000
                             settimer undead_Ocean_CrewAttackTimer 0
                         endif
                     else
