@@ -1917,7 +1917,8 @@ while not dead
             wft 500
             if targetexists
                 if varexist "ManualTargetEnemy"
-                    if noto ManualTargetEnemy = "innocent" or noto ManualTargetEnemy = "friend" or noto ManualTargetEnemy = "invulnerable"
+                    getlabel ManualTargetEnemy tallis_crew_check
+                    if "[Crewmember]" in tallis_crew_check
                         hotkey "Cancel Current Target"
                     else
                         target "ManualTargetEnemy"
@@ -1927,7 +1928,8 @@ while not dead
                         endif
                     endif
                 else
-                    if noto jaseowns_CurrentBotTarget = "innocent" or noto jaseowns_CurrentBotTarget = "friend" or noto jaseowns_CurrentBotTarget = "invulnerable"
+                    getlabel jaseowns_CurrentBotTarget tallis_crew_check
+                    if "[Crewmember]" in tallis_crew_check
                         hotkey "Cancel Current Target"
                     else
                         target jaseowns_CurrentBotTarget
