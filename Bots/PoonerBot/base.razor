@@ -218,13 +218,6 @@ if jaseowns_Potion_ShowOverheads = 1
     
 endif
 
-// cooldown "Moving" 5000
-if not cooldown "Moving"
-    overhead "We do not have the cooldown..." 34
-    overhead "Moving" 79
-else
-    cooldown "Moving" 0
-endif
 
 if skill "Parrying" < 80
     @setvar! jaseowns_AutoTaunting 0
@@ -380,7 +373,7 @@ if not varexist undead_Ocean_FrostRescue_hp_trigger
 endif
 
 if not varexist undead_Ocean_Switch_Warmode_If_CannonsCD
-    @setvar! undead_Ocean_Switch_Warmode_If_CannonsCD 1
+    @setvar! undead_Ocean_Switch_Warmode_If_CannonsCD 0
 endif
 
 if not varexist undead_Ocean_Switch_Warmode_If_CannonsCD_TimerCD
@@ -1919,37 +1912,37 @@ while not dead
                 endif
             endif
         endif
-        ### Ocean Edit
-        ### Ocean: Crew Attack
-        if undead_Ocean_CrewAttackEnable = 1
-            @setvar! jaseowns_TriggerAbility 0
-            if cooldown "CrewAttack" or timer undead_Ocean_CrewAttackTimer < undead_Ocean_CrewAttackTimerCD
-                // do nothing
-            else
-                @setvar! jaseowns_TriggerAbility 1
-            endif
-            if jaseowns_TriggerAbility = 1
-                overhead '!!Crew Attack!!' 54
-                say "[CrewAttack"
-                wft 500
-                if targetexists
-                    if varexist "ManualTargetEnemy"
-                        target "ManualTargetEnemy"
-                    else
-                        target jaseowns_CurrentBotTarget
-                    endif
-                    getlabel backpack jaseowns_PingCheck
-                    if targetexists
-                        hotkey "Cancel Current Target"
-                    endif
+    ### /Ocean Edit
+    endif
+
+    ### Ocean: Crew Attack (fires in melee combat OR when ManualTargetEnemy is set cross-boat)
+    if undead_Ocean_CrewAttackEnable = 1 and (jaseowns_CurrentBotTargetAttacked = 1 or varexist "ManualTargetEnemy")
+        @setvar! jaseowns_TriggerAbility 0
+        if cooldown "CrewAttack" or timer undead_Ocean_CrewAttackTimer < undead_Ocean_CrewAttackTimerCD
+            // do nothing
+        else
+            @setvar! jaseowns_TriggerAbility 1
+        endif
+        if jaseowns_TriggerAbility = 1
+            overhead '!!Crew Attack!!' 54
+            say "[CrewAttack"
+            wft 500
+            if targetexists
+                if varexist "ManualTargetEnemy"
+                    target "ManualTargetEnemy"
                 else
+                    target jaseowns_CurrentBotTarget
+                endif
+                getlabel backpack jaseowns_PingCheck
+                if targetexists
                     hotkey "Cancel Current Target"
                 endif
-                cooldown "CrewAttack" 15000
-                settimer undead_Ocean_CrewAttackTimer 0
+            else
+                hotkey "Cancel Current Target"
             endif
+            cooldown "CrewAttack" 15000
+            settimer undead_Ocean_CrewAttackTimer 0
         endif
-    ### /Ocean Edit
     endif
 
     if not cooldown "Fray" and not timerexists repairRetry
