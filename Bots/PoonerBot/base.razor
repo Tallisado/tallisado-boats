@@ -1903,8 +1903,8 @@ while not dead
     ### /Ocean Edit
     endif
 
-    ### Ocean: Crew Attack (fires in melee combat OR when ManualTargetEnemy is set cross-boat)
-    if undead_Ocean_CrewAttackEnable = 1 and (jaseowns_CurrentBotTargetAttacked = 1 or varexist "ManualTargetEnemy")
+    ### Ocean: Crew Attack (only in warmode; melee combat OR ManualTargetEnemy set)
+    if undead_Ocean_CrewAttackEnable = 1 and warmode and (jaseowns_CurrentBotTargetAttacked = 1 or varexist "ManualTargetEnemy")
         @setvar! jaseowns_TriggerAbility 0
         if cooldown "CrewAttack" or timer undead_Ocean_CrewAttackTimer < undead_Ocean_CrewAttackTimerCD
             // do nothing
