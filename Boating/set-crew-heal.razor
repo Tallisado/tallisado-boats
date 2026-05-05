@@ -8,11 +8,7 @@ clearsysmsg
 
 if varexist "CrewHeal"
     getlabel CrewHeal prevname
-    if inrange CrewHeal 6
-        overhead "Heal focus: {{prevname}} [IN RANGE] - click to change, Esc to clear" 68
-    else
-        overhead "Heal focus: {{prevname}} [OUT OF RANGE] - click to change, Esc to clear" 38
-    endif
+    overhead "Current focus: {{prevname}} - click to change, Esc to clear" 55
 else
     overhead "Click crew member to focus-heal (Esc to clear)..." 55
 endif
@@ -40,9 +36,5 @@ endif
 @unsetvar! tallis_prev_lt
 @setvar "CrewHeal" lasttarget
 getlabel lasttarget crewname
-if inrange lasttarget 6
-    overhead "*** Heal focus: {{crewname}} [IN RANGE] ***" 68
-else
-    overhead "*** Heal focus: {{crewname}} [OUT OF RANGE - will heal when closer] ***" 38
-endif
+overhead "*** Heal focus SET: {{crewname}} ***" 68
 hotkey 'Play Script: tallisado-boats\Bots\PoonerBot\base'
