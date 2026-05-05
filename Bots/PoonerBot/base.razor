@@ -1917,13 +1917,27 @@ while not dead
             wft 500
             if targetexists
                 if varexist "ManualTargetEnemy"
-                    target "ManualTargetEnemy"
+                    if noto ManualTargetEnemy = "innocent" or noto ManualTargetEnemy = "friend" or noto ManualTargetEnemy = "invulnerable"
+                        overhead "Crew Attack: target is friendly, skipping" 38
+                        hotkey "Cancel Current Target"
+                    else
+                        target "ManualTargetEnemy"
+                        getlabel backpack jaseowns_PingCheck
+                        if targetexists
+                            hotkey "Cancel Current Target"
+                        endif
+                    endif
                 else
-                    target jaseowns_CurrentBotTarget
-                endif
-                getlabel backpack jaseowns_PingCheck
-                if targetexists
-                    hotkey "Cancel Current Target"
+                    if noto jaseowns_CurrentBotTarget = "innocent" or noto jaseowns_CurrentBotTarget = "friend" or noto jaseowns_CurrentBotTarget = "invulnerable"
+                        overhead "Crew Attack: target is friendly, skipping" 38
+                        hotkey "Cancel Current Target"
+                    else
+                        target jaseowns_CurrentBotTarget
+                        getlabel backpack jaseowns_PingCheck
+                        if targetexists
+                            hotkey "Cancel Current Target"
+                        endif
+                    endif
                 endif
             else
                 hotkey "Cancel Current Target"
