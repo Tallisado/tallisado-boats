@@ -1934,17 +1934,14 @@ while not dead
                         target jaseowns_CurrentBotTarget
                     endif
                     getlabel backpack jaseowns_PingCheck
-                    if not targetexists
-                        if insysmsg "Cannot be seen"
-                            // do nothing
-                        else
-                            cooldown "CrewAttack" 15000
-                            settimer undead_Ocean_CrewAttackTimer 0
-                        endif
-                    else
+                    if targetexists
                         hotkey "Cancel Current Target"
                     endif
+                else
+                    hotkey "Cancel Current Target"
                 endif
+                cooldown "CrewAttack" 15000
+                settimer undead_Ocean_CrewAttackTimer 0
             endif
         endif
     ### /Ocean Edit
