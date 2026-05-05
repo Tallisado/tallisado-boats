@@ -1,20 +1,10 @@
 # Boating/loot-or-dump.razor
-# Warmode ON  → loot nearby enemy ship hold (hatch)
-# Warmode OFF → dump valuable backpack items into your ship hold
-# Bind to Y key to replace dump-hold.razor.
+# Bind to Y key.
+# If an enemy hold (hatch) is within range 1: loot it.
+# Otherwise: dump valuable backpack items into your own ship hold.
 
-if warmode
-    # --- Loot enemy ship hold ---
-    if find "shiphold" ground -1 -1 1
-        overhead "Your hold is here - switch to peace mode to dump" 38
-        hotkey 'Play Script: tallisado-boats\Bots\PoonerBot\base'
-        stop
-    endif
-    if not findtype "hatch" ground -1 -1 1 as enemyhold
-        overhead "No enemy hold in range" 38
-        hotkey 'Play Script: tallisado-boats\Bots\PoonerBot\base'
-        stop
-    endif
+# --- Loot enemy ship hold if nearby ---
+if findtype "hatch" ground -1 -1 1 as enemyhold
     dclick enemyhold
     getlabel backpack ping
     overhead "Yarr the booty be mine!" 2091
@@ -30,7 +20,7 @@ if warmode
     stop
 endif
 
-# --- Peace mode: dump backpack to own hold ---
+# --- No enemy hold nearby: dump backpack to own hold ---
 if varexist "lasttarget"
     getlabel lasttarget holddesc
     if "hold" in holddesc
@@ -40,8 +30,8 @@ if varexist "lasttarget"
 endif
 
 if not varexist "shiphold" or not find "shiphold" ground -1 -1 3
-    overhead "No ship hold in range!" 38
-    overhead "Stand next to hold and set last target on it, then re-run" 38
+    overhead "No enemy hold or ship hold in range!" 38
+    overhead "Stand next to own hold and set last target on it, then re-run" 38
     hotkey 'Play Script: tallisado-boats\Bots\PoonerBot\base'
     stop
 endif
