@@ -372,16 +372,6 @@ if not varexist undead_Ocean_FrostRescue_hp_trigger
     @setvar! undead_Ocean_FrostRescue_hp_trigger 25
 endif
 
-if not varexist undead_Ocean_Switch_Warmode_If_CannonsCD
-    @setvar! undead_Ocean_Switch_Warmode_If_CannonsCD 0
-endif
-
-if not varexist undead_Ocean_Switch_Warmode_If_CannonsCD_TimerCD
-    @setvar! undead_Ocean_Switch_Warmode_If_CannonsCD_TimerCD 15000
-endif
-if not timerexists undead_Ocean__Switch_Warmode_If_CannonsCD_Timer
-    settimer undead_Ocean_Switch_Warmode_If_CannonsCD_Timer undead_Ocean_Switch_Warmode_If_CannonsCD_TimerCD
-endif
 
 if not warmode
     warmode off
@@ -2072,12 +2062,6 @@ while not dead
         endif
     endif
     
-    ### Experimental, switch into warmode when cannons are on cooldown. only 1x every 15 secs.
-    if undead_Ocean_Switch_Warmode_If_CannonsCD = 1 and cooldown 'Cannons' and timer undead_Ocean_Switch_Warmode_If_CannonsCD_Timer >= undead_Ocean_Switch_Warmode_If_CannonsCD_TimerCD
-        overhead 'Warmode Activated'
-        warmode on
-        settimer undead_Ocean_Switch_Warmode_If_CannonsCD_Timer 0
-    endif
 
 
 ### /Ocean Edits
