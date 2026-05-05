@@ -383,11 +383,9 @@ if not timerexists undead_Ocean__Switch_Warmode_If_CannonsCD_Timer
     settimer undead_Ocean_Switch_Warmode_If_CannonsCD_Timer undead_Ocean_Switch_Warmode_If_CannonsCD_TimerCD
 endif
 
-if not varexist tallis_prev_warmode
-    @setvar! tallis_prev_warmode 0
+if not warmode
+    warmode off
 endif
-
-warmode off
 
 ### /OCEAN EDIT ###
 
@@ -2081,25 +2079,6 @@ while not dead
         settimer undead_Ocean_Switch_Warmode_If_CannonsCD_Timer 0
     endif
 
-    ### Warmode transition: fire weapon special once when entering warmode (boarding/combat)
-    if warmode and tallis_prev_warmode = 0
-        @setvar! tallis_prev_warmode 1
-        overhead ">>> Warmode: Weapon Special!" 88
-        if jaseowns_UseAbility1 = 1
-            say "[WeaponAbility1"
-            getlabel backpack ping
-        endif
-        if jaseowns_UseAbility2 = 1
-            say "[WeaponAbility2"
-            getlabel backpack ping
-        endif
-        if jaseowns_UseAbility3 = 1
-            say "[WeaponAbility3"
-            getlabel backpack ping
-        endif
-    elseif not warmode and tallis_prev_warmode = 1
-        @setvar! tallis_prev_warmode 0
-    endif
 
 ### /Ocean Edits
 

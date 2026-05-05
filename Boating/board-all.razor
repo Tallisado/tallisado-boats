@@ -40,6 +40,18 @@ if findtype 5370 backpack 0 as boardrope
             overhead "Yar! Boarded!" 88
             cooldown "Boarding Party" 15000
             warmode on
+            if jaseowns_UseAbility1 = 1
+                say "[WeaponAbility1"
+                getlabel backpack ping
+            endif
+            if jaseowns_UseAbility2 = 1
+                say "[WeaponAbility2"
+                getlabel backpack ping
+            endif
+            if jaseowns_UseAbility3 = 1
+                say "[WeaponAbility3"
+                getlabel backpack ping
+            endif
         endif
     else
         overhead "The crew needs more time..." 38
