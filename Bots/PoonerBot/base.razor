@@ -1740,8 +1740,8 @@ while not dead
     endif
 
     // Attacking stuff
-    if jaseowns_CurrentBotTargetAttacked = 1
-        
+    if jaseowns_CurrentBotTargetAttacked = 1 and warmode
+
         if jaseowns_UseAbility1 = 1 and timer jaseowns_UseAbilityTimer >= jaseowns_UseAbilityTimerCD
             say "[WeaponAbility1"
             getlabel backpack jaseowns_PingCheck 
