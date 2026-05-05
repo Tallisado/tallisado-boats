@@ -28,22 +28,17 @@ if findtype 5370 backpack 0 as boardrope
         while targetexists
             pause 50
         endwhile
+        pause 500
         getlabel backpack ping
-        if insysmsg 'That ship is too far away to board'
+        if insysmsg "too far away" or insysmsg "not close enough"
             overhead '*Argh, not close enough!*' 47
             gumpclose 2881168634
-        elseif insysmsg "Your boarding party fails"
+        elseif insysmsg "boarding party fails" or insysmsg "ropes are no good"
             overhead "Yar, these ropes are no good!" 38
             cooldown "Boarding Party" 15000
-        elseif insysmsg 'You are already on that ship.'
-            overhead 'We are boarded! Use ManualTargetEnemy!' 39
-            warmode on
-        elseif insysmsg 'You successfully board the ship!'
-            overhead "Yar, enemies abound!" 88
+        else
+            overhead "Yar! Boarded!" 88
             cooldown "Boarding Party" 15000
-            warmode on
-        elseif insysmsg 'The ship seems devoid of life'
-            overhead 'Easy come easy go...' 79
             warmode on
         endif
     else
