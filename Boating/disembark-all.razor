@@ -15,11 +15,9 @@ getlabel backpack ping
 say '[RecallBoarding'
 getlabel backpack ping
 if insysmsg "Your followers embark onto the ship"
-    warmode off
     hotkey "Play Script: tallisado-boats\Bots\PoonerBot\base"
     stop
 elseif followers >= 1
-    warmode on
     overhead 'Where shall I disembark?' 45
     say '[DisembarkFollowers'
     wft 500
@@ -60,7 +58,6 @@ elseif followers >= 1
         replay
     endif
     elseif followers = 0 and insysmsg "You are already onboard"
-    warmode on
     overhead 'Where shall I disembark?' 45
     say '[Disembark'
     wft 500
@@ -95,6 +92,5 @@ if insysmsg "you are already"
     while targetexists
         pause 50
     endwhile
-    warmode on
 endif
 hotkey "Play Script: tallisado-boats\Bots\PoonerBot\base"
