@@ -18,12 +18,13 @@ if findtype 5370 backpack 0 as boardrope
         endif
         gumpresponse 5
         wft 500
-        hotkey 'Target Closest Grey Monster'
-        hotkey 'Target Closest Enemy Monster'
-        hotkey 'Next Enemy Player Target'
-        getlabel backpack ping
         if targetexists
-            overhead "Manual Target..." 88
+            if varexist "ManualTargetEnemy"
+                overhead "Boarding ManualTarget..." 88
+                target "ManualTargetEnemy"
+            else
+                hotkey 'Next Enemy Player Target'
+            endif
         endif
         while targetexists
             pause 50
