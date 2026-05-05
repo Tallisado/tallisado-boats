@@ -1525,7 +1525,7 @@ while not dead
             hotkey "target closest non-friendly monster"
             getlabel lasttarget desc
             if "[Crewmember]" in desc
-                overhead "ignore hommie"
+                // own crew, skip
             else
                 @setvar! jaseowns_LastBotTarget lasttarget 
                 if jaseowns_CurrentBotTarget != jaseowns_LastBotTarget
