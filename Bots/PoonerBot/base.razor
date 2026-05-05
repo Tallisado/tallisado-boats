@@ -636,22 +636,27 @@ while not dead
          endif
          
         if varexist 'CrewHeal' and timer undead_Ocean_CrewHealBandages_Timer >= undead_Ocean_CrewHealBandages_TimerCD and findtype 3617 backpack as baids
-            //overhead "Medic LT" 88 lasttarget
             overhead "Medic CH Var" 88 'CrewHeal'
             while queued
                 //donothing
             endwhile
             dclick baids
-            wft 500
-            target "CrewHeal"
-            getlabel backpack ping
-        
-            if insysmsg "too far away"
-                overhead "|--| FAR |--|" 88 'CrewHeal'
-                unsetvar "CrewHeal"
-            elseif insysmsg "That being is not damaged!" or insysmsg "not damaged"
-                overhead "Healthy!" 88 'CrewHeal'
-                unsetvar "CrewHeal"
+            wft 1000
+            if targetexists
+                target "CrewHeal"
+                getlabel backpack ping
+                if targetexists
+                    hotkey "Cancel Current Target"
+                endif
+                if insysmsg "too far away"
+                    overhead "|--| FAR |--|" 88 'CrewHeal'
+                    unsetvar "CrewHeal"
+                elseif insysmsg "That being is not damaged!" or insysmsg "not damaged"
+                    overhead "Healthy!" 88 'CrewHeal'
+                    unsetvar "CrewHeal"
+                endif
+            else
+                hotkey "Cancel Current Target"
             endif
         elseif timer undead_Ocean_CrewHealBandages_Timer >= undead_Ocean_CrewHealBandages_TimerCD 
             if not gumpexists 1722920179
@@ -694,7 +699,7 @@ while not dead
         if not bandaging //and not queued
             settimer undead_Ocean_CrewHealBandages_Timer undead_Ocean_CrewHealBandages_TimerCD
         else
-            cooldown 'Crew Heal' undead_Ocean_CrewHealBandages_TimerCD
+            cooldown 'Crew Heal' 5000
             settimer undead_Ocean_CrewHealBandages_Timer 0
         endif
     endif
