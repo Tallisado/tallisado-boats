@@ -92,8 +92,9 @@ endif
 if insysmsg "you are already"
     say "[disembark"
     wft 500
-    while targetexists 
-        //do nothing
+    while targetexists
+        pause 50
     endwhile
+    warmode on
 endif
 hotkey "Play Script: tallisado-boats\Bots\PoonerBot\base"

@@ -11,6 +11,11 @@ if findtype 5370 backpack 0 as boardrope
         clearsysmsg
         dclick boardrope
         waitforgump 2881168634 500
+        if not gumpexists 2881168634
+            overhead "Boarding gump did not open" 38
+            hotkey "Play Script: tallisado-boats\Bots\PoonerBot\base"
+            stop
+        endif
         gumpresponse 5
         wft 500
         hotkey 'Target Closest Grey Monster'
@@ -23,6 +28,7 @@ if findtype 5370 backpack 0 as boardrope
         while targetexists
             pause 50
         endwhile
+        getlabel backpack ping
         if insysmsg 'That ship is too far away to board'
             overhead '*Argh, not close enough!*' 47
             gumpclose 2881168634
@@ -31,6 +37,7 @@ if findtype 5370 backpack 0 as boardrope
             cooldown "Boarding Party" 15000
         elseif insysmsg 'You are already on that ship.'
             overhead 'We are boarded! Use ManualTargetEnemy!' 39
+            warmode on
         elseif insysmsg 'You successfully board the ship!'
             overhead "Yar, enemies abound!" 88
             cooldown "Boarding Party" 15000
