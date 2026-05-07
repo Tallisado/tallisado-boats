@@ -1,13 +1,13 @@
-# Boating/cannon/bot-aux-regular-passive.razor
+﻿# Boating/cannon/bot-aux-regular-passive.razor
 # Hotkey-bindable: trigger Bottom Auxiliary regular passive ability.
 clearsysmsg
 say '[SecondAuxiliaryAbility'
 getlabel backpack ping
 if insysmsg "you must wait" or insysmsg "not currently reloading"
     overhead "Aux Cooling..." 38
-    hotkey "Play Script: Bots\PoonerBot\base"
+    hotkey "Play Script: tallisado-boats\Bots\PoonerBot\base"
     stop
 else
     overhead '*Bot Aux Passive*' 87
 endif
-hotkey "Play Script: Bots\PoonerBot\base"
+hotkey "Play Script: tallisado-boats\Bots\PoonerBot\base"

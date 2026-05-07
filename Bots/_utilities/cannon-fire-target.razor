@@ -6,36 +6,12 @@
 #   @setvar! "cannon_cd" <ms>       - cooldown to apply on fire (e.g. 13500 or 15000)
 #   @setvar! "cannon_msg" <text>    - overhead message shown on success (e.g. "Fire!")
 #
-# Target priority: ManualTargetEnemy -> ShipSails -> Closest Enemy -> Closest Grey -> player aim
+# Target priority: ShipSails -> Closest Enemy -> Closest Grey -> player aim
 # On manual aim (priority 5): saves clicked target as ShipSails (sails/mast/rigging) or ManualTargetEnemy
 
 wft 500
 
-# Priority 1: Explicit enemy target set by player via set-target.razor
-if varexist "ManualTargetEnemy"
-    target "ManualTargetEnemy"
-    getlabel backpack ping
-    if insysmsg "Our cannons cannot reach that location." or insysmsg "That is too far away."
-        overhead "Manual target out of range - trying sails..." 78
-    elseif insysmsg "Those cannons are out of ammunition"
-        overhead "Out of Ammo!" 38
-        @unsetvar! cannon_cd
-        @unsetvar! cannon_msg
-        hotkey "Play Script: tallisado-boats\Bots\PoonerBot\base"
-        stop
-    elseif insysmsg "You may not fire onto your own ship!"
-        overhead "Too close - trying sails..." 78
-    elseif not targetexists
-        cooldown "Cannons" cannon_cd
-        overhead "{{cannon_msg}}" 88
-        @unsetvar! cannon_cd
-        @unsetvar! cannon_msg
-        hotkey "Play Script: tallisado-boats\Bots\PoonerBot\base"
-        stop
-    endif
-endif
-
-# Priority 2: Saved sails target - set via tallisado-boats\Boating\cannon\set-sails.razor
+# Priority 1: Saved sails target - set via tallisado-boats\Boating\cannon\set-sails.razor
 if varexist "ShipSails"
     target "ShipSails"
     getlabel backpack ping
@@ -110,13 +86,9 @@ endif
 @unsetvar! cannon_manual_aim
 
 # Priority 5: Wait for player to aim manually (cursor still up)
-if varexist "ShipSails"
-    overhead ">>> ShipSails already set - click to override or press Escape" 44
-endif
 if insysmsg "No one matching" or insysmsg "out of range"
-    overhead "Yar! Aim manually..." 88
+    overhead "Aim manually..." 88
 endif
-overhead ">>> Click your target! (sails/mast = ShipSails, else = ManualTarget)" 88
 while targetexists
     pause 50
 endwhile
@@ -145,12 +117,9 @@ elseif not targetexists
     getlabel lasttarget clickedlabel
     if "sails" in clickedlabel or "mast" in clickedlabel or "rigging" in clickedlabel
         @setvar "ShipSails" lasttarget
-        overhead "*** SAVED: ShipSails = {{clickedlabel}} ***" 88 ShipSails
-        overhead "*** ShipSails LOCKED ***" 66
+        overhead "Sails: {{clickedlabel}}" 66
     else
         @setvar "ManualTargetEnemy" lasttarget
-        overhead "*** SAVED: ManualTarget = {{clickedlabel}} ***" 88 ManualTargetEnemy
-        overhead "*** ManualTargetEnemy LOCKED ***" 66
     endif
     @unsetvar! cannon_cd
     @unsetvar! cannon_msg

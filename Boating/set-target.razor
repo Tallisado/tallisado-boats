@@ -1,56 +1,33 @@
 # Boating/set-target.razor
-# Click a target to set ManualTargetEnemy (cannon priority 1) or ManualTargetFriendly.
-# ManualTargetEnemy = auto-used by all cannon scripts as priority 1 aim.
-# Press Escape to clear the current focus target.
+# Click a target to set focus-fire (ManualTargetEnemy). Esc or same target to clear.
 
 hotkey "Cancel Current Target"
 clearsysmsg
 
 if varexist "ManualTargetEnemy"
-    getlabel ManualTargetEnemy prevname
-    overhead "Enemy focus: {{prevname}} - click to change, Esc to clear" 38
-elseif varexist "ManualTargetFriendly"
-    getlabel ManualTargetFriendly prevname
-    overhead "Friendly focus: {{prevname}} - click to change, Esc to clear" 68
-else
-    overhead "Click enemy or friendly target (Esc to clear)..." 55
+    overhead "▼▼▼" 33 "ManualTargetEnemy"
 endif
+overhead "Kill..." 55
 
 @setvar! "tallis_prev_lt" lasttarget
 hotkey 'Set Last Target'
-wft 1500
+
+while not targetexists
+    pause 50
+endwhile
 while targetexists
     pause 50
 endwhile
 hotkey "Cancel Current Target"
 
 if tallis_prev_lt = lasttarget
-    if varexist "ManualTargetEnemy"
-        @unsetvar "ManualTargetEnemy"
-        overhead "*** ManualTargetEnemy cleared ***" 38
-    elseif varexist "ManualTargetFriendly"
-        @unsetvar "ManualTargetFriendly"
-        overhead "*** ManualTargetFriendly cleared ***" 38
-    else
-        overhead "Set target cancelled" 38
-    endif
+    @unsetvar "ManualTargetEnemy"
     @unsetvar! tallis_prev_lt
     hotkey "Play Script: tallisado-boats\Bots\PoonerBot\base"
     stop
 endif
 
 @unsetvar! tallis_prev_lt
-getlabel lasttarget targetname
-
-if noto lasttarget = "friend" or noto lasttarget = "innocent"
-    @setvar 'ManualTargetFriendly' lasttarget
-    overhead "*** Friendly focus: {{targetname}} ***" 68 ManualTargetFriendly
-elseif noto lasttarget = "murderer" or noto lasttarget = "enemy" or noto lasttarget = "hostile" or noto lasttarget = "criminal" or noto lasttarget = "attackable"
-    @setvar 'ManualTargetEnemy' lasttarget
-    overhead "*** Enemy focus: {{targetname}} ***" 38 ManualTargetEnemy
-    overhead "<<< Cannon Priority 1 LOCKED >>>" 88
-else
-    overhead "Noto unclear - not saved (try again)" 38
-endif
-
+@setvar 'ManualTargetEnemy' lasttarget
+overhead "Kill..." 33 "ManualTargetEnemy"
 hotkey "Play Script: tallisado-boats\Bots\PoonerBot\base"

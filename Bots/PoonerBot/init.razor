@@ -1,4 +1,4 @@
-removelist jaseowns_PreviousScript
+﻿removelist jaseowns_PreviousScript
 createlist jaseowns_PreviousScript
 
 #######
@@ -140,7 +140,7 @@ overhead "PEACE to run around" 89
 
 # General Target Overheads
 @setvar! jaseowns_CurrentBotTargetOverheadTimerCD 1500
-@setvar! jaseowns_CurrentBotTargetOverheadHue 89
+@setvar! jaseowns_CurrentBotTargetOverheadHue 33
 
 @setvar! jaseowns_CurrentBotTargetUnableToAttackOverheadTimerCD 1500
 @setvar! jaseowns_CurrentBotTargetUnableToAttackOverheadHue 34
@@ -151,7 +151,7 @@ overhead "PEACE to run around" 89
 # Custom Target Overhead Messages
 removelist jaseowns_CurrentBotTargetOverheadText
 createlist jaseowns_CurrentBotTargetOverheadText
-pushlist jaseowns_CurrentBotTargetOverheadText "● ▼▼ HERE ▼▼ ●"
+pushlist jaseowns_CurrentBotTargetOverheadText "▼▼"
 
 removelist jaseowns_CurrentBotTargetUnableToAttackOverheadText
 createlist jaseowns_CurrentBotTargetUnableToAttackOverheadText
@@ -181,9 +181,9 @@ pushlist jaseowns_IgnoreMobList "a great hart"
 if tallis_Ocean_AutoLaunch = 1
     overhead "Auto Launch!"
     say "[AspectArmor Holy Max"
-    pushlist jaseowns_PreviousScript "Play Script: Boating\launch"
+    pushlist jaseowns_PreviousScript "Play Script: tallisado-boats\Boating\launch"
 else
-    pushlist jaseowns_PreviousScript "Play Script: Bots\PoonerBot\base"
+    pushlist jaseowns_PreviousScript "Play Script: tallisado-boats\Bots\PoonerBot\base"
 endif
 
 

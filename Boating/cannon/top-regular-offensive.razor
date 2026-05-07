@@ -1,4 +1,4 @@
-# Boating/cannon/top-regular-offensive.razor
+﻿# Boating/cannon/top-regular-offensive.razor
 # Hotkey-bindable: fire Top row Regular offensive ability.
 clearsysmsg
 hotkey '> Interrupt'
@@ -7,14 +7,14 @@ say "[RegularAbility"
 getlabel backpack ping
 if insysmsg "fire its cannons again" or insysmsg "you must wait"
     overhead "Cannons Cooling..." 38
-    hotkey "Play Script: Bots\PoonerBot\base"
+    hotkey "Play Script: tallisado-boats\Bots\PoonerBot\base"
     stop
 endif
 if insysmsg "target this ability?"
     @setvar! "cannon_cd" 15000
     @setvar! "cannon_msg" "*Top Regular Ability*"
-    hotkey "Play Script: Bots\_utilities\cannon-fire-target"
+    hotkey "Play Script: tallisado-boats\Bots\_utilities\cannon-fire-target"
     stop
 endif
 overhead "Ability Cooling..." 38
-hotkey "Play Script: Bots\PoonerBot\base"
+hotkey "Play Script: tallisado-boats\Bots\PoonerBot\base"

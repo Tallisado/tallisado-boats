@@ -1,4 +1,4 @@
-# Boating/cannon/set-sails.razor
+﻿# Boating/cannon/set-sails.razor
 # Hotkey-bindable: click the enemy ship's sails (or any part) to save it as the
 # cannon aim target. Future cannon fires will target this serial automatically.
 #
@@ -12,7 +12,7 @@
 # NOTE: The saved serial is the specific object you clicked (e.g. the Sails tile).
 #   If the ship rotates or moves far away, the cannon may still fire at that location.
 #   If targeting fails with "cannot reach", re-run this script on the new position.
-#   Use Boating\set-target.razor to set an explicit override (ManualTargetEnemy) instead.
+#   Use tallisado-boats\Boating\set-target.razor to set an explicit override (ManualTargetEnemy) instead.
 
 clearsysmsg
 overhead "Click the enemy ship to aim cannons..." 88
@@ -32,4 +32,4 @@ else
     overhead "No target selected - ShipSails unchanged" 38
 endif
 
-hotkey "Play Script: Bots\PoonerBot\base"
+hotkey "Play Script: tallisado-boats\Bots\PoonerBot\base"

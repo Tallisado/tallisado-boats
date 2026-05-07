@@ -1,4 +1,4 @@
-# Bapeths Smart Disembark and Recall Boarding
+﻿# Bapeths Smart Disembark and Recall Boarding
 #
 # Script will loop into 'Master Background' if you have it in your script library
 #
@@ -14,12 +14,12 @@ say '[RecallBoarding'
 getlabel backpack ping
 
 if insysmsg "Your followers embark onto the ship"
-    hotkey "Play Script: Bots\PoonerBot\base"
+    hotkey "Play Script: tallisado-boats\Bots\PoonerBot\base"
     stop
 endif
 
 if insysmsg "You do not have any valid at the moment"
-    hotkey "Play Script: Bots\PoonerBot\base"
+    hotkey "Play Script: tallisado-boats\Bots\PoonerBot\base"
     stop
 endif
 #if insysmsg "not currently boarding"
@@ -31,4 +31,4 @@ if insysmsg "you are already"
         //do nothing
     endwhile
 endif
-hotkey "Play Script: Bots\PoonerBot\base"
+hotkey "Play Script: tallisado-boats\Bots\PoonerBot\base"

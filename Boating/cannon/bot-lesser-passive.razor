@@ -1,15 +1,15 @@
-# Boating/cannon/bot-lesser-passive.razor
+﻿# Boating/cannon/bot-lesser-passive.razor
 # Hotkey-bindable: trigger Bottom row Lesser passive ability.
 clearsysmsg
 say '[SecondLesserAbility'
 getlabel backpack ping
 if insysmsg "you must wait"
     overhead "Lesser Cooling..." 38
-    hotkey "Play Script: Bots\PoonerBot\base"
+    hotkey "Play Script: tallisado-boats\Bots\PoonerBot\base"
     stop
 elseif insysmsg "currently be repaired"
     overhead "It would be no use..." 38
 else
     overhead '*Passive Lesser Ability*' 87
 endif
-hotkey "Play Script: Bots\PoonerBot\base"
+hotkey "Play Script: tallisado-boats\Bots\PoonerBot\base"
