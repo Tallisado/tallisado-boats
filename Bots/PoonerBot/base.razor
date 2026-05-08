@@ -130,6 +130,10 @@ if not varexist jaseowns_IgnoreMobOverheadTimerCD
     @setvar! jaseowns_IgnoreMobOverheadTimerCD 2000
 endif
 
+if not varexist jaseowns_AutoBandageHpDiffTrigger
+    @setvar! jaseowns_AutoBandageHpDiffTrigger 10
+endif
+
 if not timerexists jaseowns_CurrentBotTargetOverheadTimer
     settimer jaseowns_CurrentBotTargetOverheadTimer jaseowns_CurrentBotTargetOverheadTimerCD
 endif
