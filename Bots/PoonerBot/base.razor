@@ -1644,7 +1644,15 @@ while not dead
 
             if find jaseowns_CurrentBotTarget ground -1 -1 jaseowns_FightingRangeCheck
 
-                if jaseowns_CurrentBotTarget != jaseowns_BOT_LastLabeledTarget or not timerexists tallis_TargetLabelTimer or timer tallis_TargetLabelTimer >= 500
+                @setvar! tallis_NeedLabelRefresh 0
+                if jaseowns_CurrentBotTarget != jaseowns_BOT_LastLabeledTarget
+                    @setvar! tallis_NeedLabelRefresh 1
+                elseif not timerexists tallis_TargetLabelTimer
+                    @setvar! tallis_NeedLabelRefresh 1
+                elseif timer tallis_TargetLabelTimer >= 500
+                    @setvar! tallis_NeedLabelRefresh 1
+                endif
+                if tallis_NeedLabelRefresh = 1
                     for 3
                         if dead jaseowns_CurrentBotTarget
                             break
