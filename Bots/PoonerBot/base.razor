@@ -616,7 +616,6 @@ while not dead
         endif
          
         if varexist 'CrewHeal' and timer undead_Ocean_CrewHealBandages_Timer >= undead_Ocean_CrewHealBandages_TimerCD and findtype 3617 backpack as baids
-            overhead "CH: timer fired" 38
             getlabel CrewHeal tallis_heal_name
             if "-" in tallis_heal_name or "not found" in tallis_heal_name
                 pause 50
@@ -694,38 +693,39 @@ while not dead
                 settimer undead_Ocean_CrewHealBandages_Timer 0
             endif
         elseif timer undead_Ocean_CrewHealBandages_Timer >= undead_Ocean_CrewHealBandages_TimerCD
-            settimer undead_Ocean_CrewHealBandages_Timer 0
-            if not bandaging
-                waitforgump 1722920179 1000
-                gumpresponse 20 1722920179
-            endif
-            if not bandaging
-                waitforgump 1722920179 1000
-                gumpresponse 21 1722920179
-            endif
-            if not bandaging
-                waitforgump 1722920179 1000
-                gumpresponse 22 1722920179
-            endif
-            if not bandaging
-                waitforgump 1722920179 1000
-                gumpresponse 23 1722920179
-            endif
-            if not bandaging
-                waitforgump 1722920179 1000
-                gumpresponse 24 1722920179
-            endif
-            if not bandaging
-                waitforgump 1722920179 1000
-                gumpresponse 25 1722920179
-            endif
-            if not bandaging
-                waitforgump 1722920179 1000
-                gumpresponse 26 1722920179
-            endif
-            if not bandaging
-                waitforgump 1722920179 1000
-                gumpresponse 27 1722920179
+            if gumpexists 1722920179
+                if not bandaging
+                    waitforgump 1722920179 200
+                    gumpresponse 20 1722920179
+                endif
+                if not bandaging
+                    waitforgump 1722920179 200
+                    gumpresponse 21 1722920179
+                endif
+                if not bandaging
+                    waitforgump 1722920179 200
+                    gumpresponse 22 1722920179
+                endif
+                if not bandaging
+                    waitforgump 1722920179 200
+                    gumpresponse 23 1722920179
+                endif
+                if not bandaging
+                    waitforgump 1722920179 200
+                    gumpresponse 24 1722920179
+                endif
+                if not bandaging
+                    waitforgump 1722920179 200
+                    gumpresponse 25 1722920179
+                endif
+                if not bandaging
+                    waitforgump 1722920179 200
+                    gumpresponse 26 1722920179
+                endif
+                if not bandaging
+                    waitforgump 1722920179 200
+                    gumpresponse 27 1722920179
+                endif
             endif
             settimer undead_Ocean_CrewHealBandages_Timer 0
         endif
