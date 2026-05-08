@@ -696,7 +696,6 @@ while not dead
                 settimer undead_Ocean_CrewHealBandages_Timer 0
             endif
         elseif timer undead_Ocean_CrewHealBandages_Timer >= undead_Ocean_CrewHealBandages_TimerCD
-            overhead "CH: no target - use Set Crew Heal button" 38
             settimer undead_Ocean_CrewHealBandages_Timer 0
             if not bandaging
                 waitforgump 1722920179 1000
