@@ -205,12 +205,8 @@
 		<key mod="4" key="187" send="False">Play: RecallChargeGH</key>
 		<key mod="0" key="187" send="False">Play: RecallChargeRoom</key>
 		<key mod="0" key="46" send="False">L:2101</key>
-		<key mod="0" key="77" send="False">Play Script: uoo-scripts\Navigation\gate</key>
-		<key mod="0" key="48" send="False">Play Script: uoo-scripts\Navigation\room</key>
 		<key mod="0" key="89" send="False">Play Script: uoo-scripts\Boat-PvM\dump-hull</key>
 		<key mod="4" key="76" send="False">Play Script: uoo-scripts\Boat-PvM\room-crate</key>
-		<key mod="4" key="81" send="False">Play Script: uoo-scripts\Chiv\noble-self</key>
-		<key mod="0" key="76" send="False">Play Script: uoo-scripts\Organizers\inn-dropper</key>
 		<key mod="0" key="112" send="False">Play Script: uoo-scripts\Boating\board-all</key>
 		<key mod="0" key="116" send="False">Play Script: uoo-scripts\Boating\bomb</key>
 		<key mod="2" key="113" send="False">Play Script: uoo-scripts\Boating\disembark-all</key>
@@ -235,6 +231,10 @@
 		<key mod="0" key="50" send="False">Play Script: uoo-scripts\Boating\cannon\top-regular-offensive</key>
 		<key mod="4" key="123" send="False">Play Script: uoo-scripts\Bots\PoonerBot\base</key>
 		<key mod="0" key="123" send="False">Play Script: uoo-scripts\Bots\PoonerBot\init</key>
+		<key mod="4" key="81" send="False">Play Script: uoo-scripts\Chiv\noble-self</key>
+		<key mod="0" key="77" send="False">Play Script: uoo-scripts\Navigation\gate</key>
+		<key mod="0" key="48" send="False">Play Script: uoo-scripts\Navigation\room</key>
+		<key mod="0" key="76" send="False">Play Script: uoo-scripts\Organizers\inn-dropper</key>
 		<key mod="4" key="70" send="False">L:1025</key>
 		<key mod="2" key="69" send="False">L:1028</key>
 		<key mod="6" key="69" send="False">L:1029</key>
