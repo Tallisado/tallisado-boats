@@ -1934,6 +1934,7 @@ while not dead
         endif
     
         if varexist jaseowns_HolySymbols
+            overhead "DBG CHIV: sym={{jaseowns_HolySymbols}} eoo_t={{timer jaseowns_EnemyOfOneTimer}} chiv={{skill 'chivalry'}}" 88
             if jaseowns_Chiv_UseDivineFuryAutomatically = 1 and 4 <= jaseowns_HolySymbols and skill "chivalry" >= 90 and timer jaseowns_DivineFuryTimer >= jaseowns_DivineFuryTimerCD
                 say "[DivineFury"
                 getlabel backpack jaseowns_PingCheck
