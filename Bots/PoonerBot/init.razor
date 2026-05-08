@@ -191,6 +191,25 @@ if not timerexists undead_Ocean_CrewHealBandages_Timer
     settimer undead_Ocean_CrewHealBandages_Timer undead_Ocean_CrewHealBandages_TimerCD
 endif
 
+while findtype 31262 backpack -1 as _p1
+    dclick _p1
+    wait 200
+    ignore _p1
+endwhile
+clearignore
+
+while findtype 30765 backpack -1 as _w1
+    dclick _w1
+    wait 200
+    ignore _w1
+endwhile
+clearignore
+
+say "[AspectArmor Fortune Max"
+wait 200
+say "[AspectWeapon Holy Max"
+wait 200
+
 if listexists jaseowns_PreviousScript
     foreach myScript in jaseowns_PreviousScript
         hotkey myScript

@@ -129,9 +129,15 @@ if not varexist jaseowns_IgnoreMobOverheadTimerCD
     @setvar! jaseowns_IgnoreMobOverheadTimerCD 2000
 endif
 
-settimer jaseowns_CurrentBotTargetOverheadTimer jaseowns_CurrentBotTargetOverheadTimerCD
-settimer jaseowns_CurrentBotTargetUnableToAttackOverheadTimer jaseowns_CurrentBotTargetUnableToAttackOverheadTimerCD
-settimer jaseowns_IgnoreMobOverheadTimer jaseowns_IgnoreMobOverheadTimerCD
+if not timerexists jaseowns_CurrentBotTargetOverheadTimer
+    settimer jaseowns_CurrentBotTargetOverheadTimer jaseowns_CurrentBotTargetOverheadTimerCD
+endif
+if not timerexists jaseowns_CurrentBotTargetUnableToAttackOverheadTimer
+    settimer jaseowns_CurrentBotTargetUnableToAttackOverheadTimer jaseowns_CurrentBotTargetUnableToAttackOverheadTimerCD
+endif
+if not timerexists jaseowns_IgnoreMobOverheadTimer
+    settimer jaseowns_IgnoreMobOverheadTimer jaseowns_IgnoreMobOverheadTimerCD
+endif
 
 @setvar! jaseowns_HolyLightTimerCD 30000
 if not timerexists jaseowns_HolyLightTimer
@@ -163,7 +169,9 @@ if not timerexists jaseowns_EnemyOfOneTimer
 endif
 
 @setvar! jaseowns_UseItemTimerCD 650
-settimer jaseowns_UseItemTimer jaseowns_UseItemTimerCD
+if not timerexists jaseowns_UseItemTimer
+    settimer jaseowns_UseItemTimer jaseowns_UseItemTimerCD
+endif
 
 if not varexist jaseowns_Potion_HealHpDiffTrigger
     @setvar! jaseowns_Potion_HealHpDiffTrigger 40
@@ -172,24 +180,6 @@ if not varexist jaseowns_Potion_CureHpDiffTrigger
     @setvar! jaseowns_Potion_CureHpDiffTrigger 0
 endif
 
-while findtype 31262 backpack -1 as _p1
-    dclick _p1
-    wait 200
-    ignore _p1
-endwhile
-clearignore
-
-while findtype 30765 backpack -1 as _w1
-    dclick _w1
-    wait 200
-    ignore _w1
-endwhile
-clearignore
-
-say "[AspectArmor Fortune Max"
-wait 200
-say "[AspectWeapon Holy Max"
-wait 200
 
 
 if jaseowns_Potion_ShowOverheads = 1
@@ -280,7 +270,9 @@ else
     @setvar! jaseowns_Bard_CanPeacemake 0
 endif
 
-settimer jaseowns_BOT_BardBuffTimer 10000
+if not timerexists jaseowns_BOT_BardBuffTimer
+    settimer jaseowns_BOT_BardBuffTimer 10000
+endif
 
 clearsysmsg
 
@@ -290,16 +282,22 @@ endif
 
 if jaseowns_AutoExplodePot = 1
     @setvar! jaseowns_AutoExplodePotTimerCD 15000
-    settimer jaseowns_AutoExplodePotTimer jaseowns_AutoExplodePotTimerCD
+    if not timerexists jaseowns_AutoExplodePotTimer
+        settimer jaseowns_AutoExplodePotTimer jaseowns_AutoExplodePotTimerCD
+    endif
 endif
 
 @setvar! jaseowns_UsedSkillTimerCD 10000
-settimer jaseowns_UsedSkillTimer jaseowns_UsedSkillTimerCD
+if not timerexists jaseowns_UsedSkillTimer
+    settimer jaseowns_UsedSkillTimer jaseowns_UsedSkillTimerCD
+endif
 
 overhead "Base checks: {{baseInitTimerExample}}"
 
 @setvar! jaseowns_BOT_PoisonWeaponTimerCD 8000
-settimer jaseowns_BOT_PoisonWeaponTimer jaseowns_BOT_PoisonWeaponTimerCD
+if not timerexists jaseowns_BOT_PoisonWeaponTimer
+    settimer jaseowns_BOT_PoisonWeaponTimer jaseowns_BOT_PoisonWeaponTimerCD
+endif
 
 if jaseowns_ForceAbilitiesHotBarToShow = 1 and not gumpexists 3954121934
     say "[abilitieshotbar"
@@ -309,7 +307,9 @@ endif
 if not varexist jaseowns_UseAbilityTimerCD
     @setvar! jaseowns_UseAbilityTimerCD 30500
 endif
-settimer jaseowns_UseAbilityTimer jaseowns_UseAbilityTimerCD
+if not timerexists jaseowns_UseAbilityTimer
+    settimer jaseowns_UseAbilityTimer jaseowns_UseAbilityTimerCD
+endif
 
 if skill "Alchemy" < 80
     @setvar! jaseowns_HasPanacea 0
@@ -376,111 +376,6 @@ if not varexist undead_Ocean_FrostRescue_hp_trigger
     @setvar! undead_Ocean_FrostRescue_hp_trigger 25
 endif
 
-## Defaults — safe to start base.razor directly without init.razor
-if not varexist jaseowns_UseAbility1
-    @setvar! jaseowns_UseAbility1 0
-endif
-if not varexist jaseowns_UseAbility2
-    @setvar! jaseowns_UseAbility2 1
-endif
-if not varexist jaseowns_UseAbility3
-    @setvar! jaseowns_UseAbility3 0
-endif
-if not varexist jaseowns_Poison_AutomaticallyApply
-    @setvar! jaseowns_Poison_AutomaticallyApply 1
-endif
-if not varexist jaseowns_Poison_AutomaticallyApplyAtSingleCharge
-    @setvar! jaseowns_Poison_AutomaticallyApplyAtSingleCharge 1
-endif
-if not varexist jaseowns_Potion_UseHealAutomatically
-    @setvar! jaseowns_Potion_UseHealAutomatically 1
-endif
-if not varexist jaseowns_Potion_UseCureAutomatically
-    @setvar! jaseowns_Potion_UseCureAutomatically 1
-endif
-if not varexist jaseowns_Potion_UseRefreshAutomatically
-    @setvar! jaseowns_Potion_UseRefreshAutomatically 1
-endif
-if not varexist jaseowns_Potion_UseMagicResistAutomatically
-    @setvar! jaseowns_Potion_UseMagicResistAutomatically 1
-endif
-if not varexist jaseowns_Potion_UseStrengthAutomatically
-    @setvar! jaseowns_Potion_UseStrengthAutomatically 1
-endif
-if not varexist jaseowns_Potion_UseAgilityAutomatically
-    @setvar! jaseowns_Potion_UseAgilityAutomatically 1
-endif
-if not varexist jaseowns_Potion_ShowOverheads
-    @setvar! jaseowns_Potion_ShowOverheads 0
-endif
-if not varexist jaseowns_UseSkinningKnifeAutomatically
-    @setvar! jaseowns_UseSkinningKnifeAutomatically 1
-endif
-if not varexist jaseowns_Bard_PeaceAutomatically
-    @setvar! jaseowns_Bard_PeaceAutomatically 0
-endif
-if not varexist jaseowns_AutoExplodePot
-    @setvar! jaseowns_AutoExplodePot 0
-endif
-if not varexist jaseowns_Chiv_ReserveSymbols
-    @setvar! jaseowns_Chiv_ReserveSymbols 5
-endif
-if not varexist jaseowns_Chiv_AutoHolyLightHpDiffTrigger
-    @setvar! jaseowns_Chiv_AutoHolyLightHpDiffTrigger 60
-endif
-if not varexist jaseowns_Chiv_UseHolyLightAutomatically
-    @setvar! jaseowns_Chiv_UseHolyLightAutomatically 1
-endif
-if not varexist jaseowns_Chiv_AutoUseNobleSacrificeHpDiffTrigger
-    @setvar! jaseowns_Chiv_AutoUseNobleSacrificeHpDiffTrigger 80
-endif
-if not varexist jaseowns_Chiv_UseNobleSacrificeAutomatically
-    @setvar! jaseowns_Chiv_UseNobleSacrificeAutomatically 1
-endif
-if not varexist jaseowns_Chiv_UseDivineFuryAutomatically
-    @setvar! jaseowns_Chiv_UseDivineFuryAutomatically 1
-endif
-if not varexist jaseowns_Chiv_UseConsecrateWeaponAutomatically
-    @setvar! jaseowns_Chiv_UseConsecrateWeaponAutomatically 1
-endif
-if not varexist jaseowns_Chiv_UseEnemyOfOneAutomatically
-    @setvar! jaseowns_Chiv_UseEnemyOfOneAutomatically 1
-endif
-if not varexist jaseowns_Chiv_UseCleanseByFireAutomatically
-    @setvar! jaseowns_Chiv_UseCleanseByFireAutomatically 1
-endif
-if not varexist jaseowns_Chiv_UseCloseWoundsAutomatically
-    @setvar! jaseowns_Chiv_UseCloseWoundsAutomatically 1
-endif
-if not varexist jaseowns_Chiv_AutoCloseWoundHpDiffTrigger
-    @setvar! jaseowns_Chiv_AutoCloseWoundHpDiffTrigger 20
-endif
-if not listexists jaseowns_CurrentBotTargetOverheadText
-    createlist jaseowns_CurrentBotTargetOverheadText
-    pushlist jaseowns_CurrentBotTargetOverheadText "▼▼"
-endif
-if not listexists jaseowns_CurrentBotTargetUnableToAttackOverheadText
-    createlist jaseowns_CurrentBotTargetUnableToAttackOverheadText
-    pushlist jaseowns_CurrentBotTargetUnableToAttackOverheadText "● ▼ CANNOT SEE ▼ ●"
-endif
-if not listexists jaseowns_IgnoreMobOverheadText
-    createlist jaseowns_IgnoreMobOverheadText
-    pushlist jaseowns_IgnoreMobOverheadText "▼ IgnoreMobList - IGNORE ▼"
-endif
-if not listexists jaseowns_IgnoreMobList
-    createlist jaseowns_IgnoreMobList
-    pushlist jaseowns_IgnoreMobList "a sheep"
-    pushlist jaseowns_IgnoreMobList "a kingfisher"
-    pushlist jaseowns_IgnoreMobList "a raven"
-    pushlist jaseowns_IgnoreMobList "a goat"
-    pushlist jaseowns_IgnoreMobList "a black bear"
-    pushlist jaseowns_IgnoreMobList "an eagle"
-    pushlist jaseowns_IgnoreMobList "a wolf"
-    pushlist jaseowns_IgnoreMobList "a horse"
-    pushlist jaseowns_IgnoreMobList "a towhee"
-    pushlist jaseowns_IgnoreMobList "a giant rat"
-    pushlist jaseowns_IgnoreMobList "a great hart"
-endif
 
 if warmode
     warmode off
