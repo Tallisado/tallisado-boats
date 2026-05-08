@@ -2098,9 +2098,11 @@ while not dead
 
     if not cooldown "Fray"
         @setvar! tallis_repairReady 0
-        if not timerexists repairRetry
-            @setvar! tallis_repairReady 1
-        elseif timer repairRetry >= tallis_repairDuration
+        if timerexists repairRetry
+            if timer repairRetry >= tallis_repairDuration
+                @setvar! tallis_repairReady 1
+            endif
+        else
             @setvar! tallis_repairReady 1
         endif
         if tallis_repairReady = 1
