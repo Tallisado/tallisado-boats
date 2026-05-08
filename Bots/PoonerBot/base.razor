@@ -2100,21 +2100,21 @@ while not dead
         endif
     endif
 
-    if not cooldown "Fray"
-        @setvar! tallis_repairReady 0
-        if timerexists repairRetry
-            if timer repairRetry >= tallis_repairDuration
-                @setvar! tallis_repairReady 1
-            endif
-        else
-            @setvar! tallis_repairReady 1
-        endif
-        if tallis_repairReady = 1
-            overhead "Out of combat repair"
-            settimer repairRetry 0
-            hotkey "Play Script: uoo-scripts\Boating\repair"
-        endif
-    endif
+    # if not cooldown "Fray"
+    #     @setvar! tallis_repairReady 0
+    #     if timerexists repairRetry
+    #         if timer repairRetry >= tallis_repairDuration
+    #             @setvar! tallis_repairReady 1
+    #         endif
+    #     else
+    #         @setvar! tallis_repairReady 1
+    #     endif
+    #     if tallis_repairReady = 1
+    #         overhead "Out of combat repair"
+    #         settimer repairRetry 0
+    #         hotkey "Play Script: uoo-scripts\Boating\repair"
+    #     endif
+    # endif
 
     if varexist tallis_BoatSank
         @unsetvar! tallis_BoatSank
