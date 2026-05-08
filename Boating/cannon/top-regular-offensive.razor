@@ -6,7 +6,7 @@ hotkey "Cancel Current Target"
 say "[RegularAbility"
 getlabel backpack ping
 if varexist tallis_Ocean_UsingSPK and tallis_Ocean_UsingSPK = 1
-    cooldown "SPK" 30000
+    cooldown "SPK" 60000
     @setvar! tallis_Ocean_SPK_WasUsed 1
 endif
 if insysmsg "fire its cannons again" or insysmsg "you must wait"
