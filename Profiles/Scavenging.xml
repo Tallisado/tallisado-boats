@@ -234,18 +234,18 @@
 		<key mod="4" key="48" send="False">Play: guards</key>
 		<key mod="4" key="87" send="False">Play: InvisMe</key>
 		<key mod="0" key="46" send="False">L:2101</key>
-		<key mod="0" key="115" send="False">Play Script: auto-harvester</key>
-		<key mod="0" key="77" send="False">Play Script: gate</key>
-		<key mod="0" key="48" send="False">Play Script: room</key>
-		<key mod="4" key="69" send="False">Play Script: rope-tele</key>
-		<key mod="2" key="75" send="False">Play Script: society-time</key>
-		<key mod="0" key="112" send="False">Play Script: Gathering\all-harvester</key>
-		<key mod="0" key="82" send="False">Play Script: Gathering\button-skinning</key>
-		<key mod="0" key="113" send="False">Play Script: Gathering\scav-harvester-summon</key>
-		<key mod="0" key="76" send="False">Play Script: Organizers\inn-dropper</key>
-		<key mod="6" key="76" send="False">Play Script: Organizers\move-label-to-bag</key>
-		<key mod="4" key="76" send="False">Play Script: Organizers\scrap-unid-chest</key>
-		<key mod="4" key="75" send="False">Play Script: Train\train-steal</key>
+		<key mod="0" key="115" send="False">Play Script: uoo-scripts\Gathering\auto-harvester</key>
+		<key mod="0" key="77" send="False">Play Script: uoo-scripts\Navigation\gate</key>
+		<key mod="0" key="48" send="False">Play Script: uoo-scripts\Navigation\room</key>
+		<key mod="4" key="69" send="False">Play Script: uoo-scripts\Navigation\rope-tele</key>
+		<key mod="2" key="75" send="False">Play Script: uoo-scripts\Scavenging\society-time</key>
+		<key mod="0" key="112" send="False">Play Script: uoo-scripts\Gathering\all-harvester</key>
+		<key mod="0" key="82" send="False">Play Script: uoo-scripts\Gathering\button-skinning</key>
+		<key mod="0" key="113" send="False">Play Script: uoo-scripts\Gathering\scav-harvester-summon</key>
+		<key mod="0" key="76" send="False">Play Script: uoo-scripts\Organizers\inn-dropper</key>
+		<key mod="6" key="76" send="False">Play Script: uoo-scripts\Organizers\move-label-to-bag</key>
+		<key mod="4" key="76" send="False">Play Script: uoo-scripts\Organizers\scrap-unid-chest</key>
+		<key mod="4" key="75" send="False">Play Script: uoo-scripts\Train\train-steal</key>
 		<key mod="0" key="67" send="False">L:1371</key>
 		<key mod="4" key="83" send="False">L:2022</key>
 		<key mod="4" key="65" send="False">L:2024</key>

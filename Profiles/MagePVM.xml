@@ -222,13 +222,13 @@
 		<key mod="4" key="87" send="False">Play: InvisMe</key>
 		<key mod="4" key="187" send="False">Play: RecallChargeGH</key>
 		<key mod="0" key="187" send="False">Play: RecallChargeRoom</key>
-		<key mod="0" key="77" send="False">Play Script: gate</key>
-		<key mod="0" key="48" send="False">Play Script: room</key>
-		<key mod="4" key="69" send="False">Play Script: rope-tele</key>
-		<key mod="2" key="69" send="False">Play Script: rope-wall</key>
-		<key mod="0" key="123" send="False">Play Script: Automation\Mage Bot\init</key>
-		<key mod="0" key="220" send="False">Play Script: Dex bot\hally</key>
-		<key mod="0" key="76" send="False">Play Script: Organizers\inn-dropper</key>
+		<key mod="0" key="77" send="False">Play Script: uoo-scripts\Navigation\gate</key>
+		<key mod="0" key="48" send="False">Play Script: uoo-scripts\Navigation\room</key>
+		<key mod="4" key="69" send="False">Play Script: uoo-scripts\Navigation\rope-tele</key>
+		<key mod="2" key="69" send="False">Play Script: uoo-scripts\Navigation\rope-wall</key>
+		<key mod="0" key="123" send="False">Play Script: uoo-scripts\Automation\Mage Bot\init</key>
+		<key mod="0" key="220" send="False">Play Script: uoo-scripts\Dex bot\hally</key>
+		<key mod="0" key="76" send="False">Play Script: uoo-scripts\Organizers\inn-dropper</key>
 		<key mod="0" key="82" send="False">L:1028</key>
 		<key mod="2" key="81" send="False">L:1029</key>
 		<key mod="0" key="90" send="False">L:1030</key>

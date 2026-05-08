@@ -219,13 +219,13 @@
 		<key mod="0" key="78" send="False">L:1060594</key>
 		<key mod="0" key="187" send="False">Play: Bounce</key>
 		<key mod="0" key="114" send="False">L:2101</key>
-		<key mod="0" key="113" send="False">Play Script: auto-heal-loop</key>
-		<key mod="0" key="77" send="False">Play Script: gate</key>
-		<key mod="0" key="48" send="False">Play Script: room</key>
-		<key mod="0" key="123" send="False">Play Script: Boat-PvM\Master Background</key>
-		<key mod="0" key="81" send="False">Play Script: Chiv\noble-self</key>
-		<key mod="0" key="112" send="False">Play Script: Dex bot\init</key>
-		<key mod="0" key="76" send="False">Play Script: Organizers\inn-dropper</key>
+		<key mod="0" key="113" send="False">Play Script: uoo-scripts\Combat\auto-heal-loop</key>
+		<key mod="0" key="77" send="False">Play Script: uoo-scripts\Navigation\gate</key>
+		<key mod="0" key="48" send="False">Play Script: uoo-scripts\Navigation\room</key>
+		<key mod="0" key="123" send="False">Play Script: uoo-scripts\Boat-PvM\Master Background</key>
+		<key mod="0" key="81" send="False">Play Script: uoo-scripts\Chiv\noble-self</key>
+		<key mod="0" key="112" send="False">Play Script: uoo-scripts\Dex bot\init</key>
+		<key mod="0" key="76" send="False">Play Script: uoo-scripts\Organizers\inn-dropper</key>
 		<key mod="0" key="67" send="False">L:1371</key>
 		<key mod="4" key="81" send="False">L:1028</key>
 		<key mod="2" key="81" send="False">L:1029</key>

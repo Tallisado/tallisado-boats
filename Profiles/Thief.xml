@@ -207,15 +207,15 @@
 		<key mod="1" key="-2" send="False">L:2087</key>
 		<key mod="4" key="48" send="False">Play: guards</key>
 		<key mod="0" key="114" send="False">L:2101</key>
-		<key mod="0" key="112" send="False">Play Script: auto-heal-loop</key>
-		<key mod="0" key="86" send="False">Play Script: button-last-target</key>
-		<key mod="0" key="77" send="False">Play Script: gate</key>
-		<key mod="0" key="48" send="False">Play Script: room</key>
-		<key mod="4" key="69" send="False">Play Script: rope-tele</key>
-		<key mod="0" key="76" send="False">Play Script: Organizers\inn-dropper</key>
-		<key mod="4" key="76" send="False">Play Script: Organizers\scrap-unid-chest</key>
-		<key mod="4" key="70" send="False">Play Script: Thief\steal-last</key>
-		<key mod="0" key="113" send="False">Play Script: Train\train-detect</key>
+		<key mod="0" key="112" send="False">Play Script: uoo-scripts\Combat\auto-heal-loop</key>
+		<key mod="0" key="86" send="False">Play Script: uoo-scripts\Combat\button-last-target</key>
+		<key mod="0" key="77" send="False">Play Script: uoo-scripts\Navigation\gate</key>
+		<key mod="0" key="48" send="False">Play Script: uoo-scripts\Navigation\room</key>
+		<key mod="4" key="69" send="False">Play Script: uoo-scripts\Navigation\rope-tele</key>
+		<key mod="0" key="76" send="False">Play Script: uoo-scripts\Organizers\inn-dropper</key>
+		<key mod="4" key="76" send="False">Play Script: uoo-scripts\Organizers\scrap-unid-chest</key>
+		<key mod="4" key="70" send="False">Play Script: uoo-scripts\Thief\steal-last</key>
+		<key mod="0" key="113" send="False">Play Script: uoo-scripts\Train\train-detect</key>
 		<key mod="0" key="67" send="False">L:1371</key>
 		<key mod="2" key="69" send="False">L:1028</key>
 		<key mod="1" key="69" send="False">L:1029</key>

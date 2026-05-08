@@ -205,36 +205,36 @@
 		<key mod="4" key="187" send="False">Play: RecallChargeGH</key>
 		<key mod="0" key="187" send="False">Play: RecallChargeRoom</key>
 		<key mod="0" key="46" send="False">L:2101</key>
-		<key mod="0" key="77" send="False">Play Script: gate</key>
-		<key mod="0" key="48" send="False">Play Script: room</key>
-		<key mod="0" key="89" send="False">Play Script: Boat-PvM\dump-hull</key>
-		<key mod="4" key="76" send="False">Play Script: Boat-PvM\room-crate</key>
-		<key mod="4" key="81" send="False">Play Script: Chiv\noble-self</key>
-		<key mod="0" key="76" send="False">Play Script: Organizers\inn-dropper</key>
-		<key mod="0" key="112" send="False">Play Script: tallisado-boats\Boating\board-all</key>
-		<key mod="0" key="116" send="False">Play Script: tallisado-boats\Boating\bomb</key>
-		<key mod="2" key="113" send="False">Play Script: tallisado-boats\Boating\disembark-all</key>
-		<key mod="0" key="113" send="False">Play Script: tallisado-boats\Boating\disembark-crew</key>
-		<key mod="0" key="114" send="False">Play Script: tallisado-boats\Boating\disembark-self</key>
-		<key mod="6" key="123" send="False">Play Script: tallisado-boats\Boating\dockmaster-landing</key>
-		<key mod="1" key="123" send="False">Play Script: tallisado-boats\Boating\dockmaster</key>
-		<key mod="0" key="82" send="False">Play Script: tallisado-boats\Boating\repair</key>
-		<key mod="4" key="87" send="False">Play Script: tallisado-boats\Boating\stance-heave</key>
-		<key mod="4" key="83" send="False">Play Script: tallisado-boats\Boating\stance-pin</key>
-		<key mod="4" key="68" send="False">Play Script: tallisado-boats\Boating\stance-skewer</key>
-		<key mod="4" key="65" send="False">Play Script: tallisado-boats\Boating\stance-strafe</key>
-		<key mod="2" key="52" send="False">Play Script: tallisado-boats\Boating\cannon\bot-aux-lesser-offensive</key>
-		<key mod="2" key="51" send="False">Play Script: tallisado-boats\Boating\cannon\bot-greater-offensive</key>
-		<key mod="2" key="49" send="False">Play Script: tallisado-boats\Boating\cannon\bot-lesser-passive</key>
-		<key mod="2" key="50" send="False">Play Script: tallisado-boats\Boating\cannon\bot-regular-passive</key>
-		<key mod="0" key="220" send="False">Play Script: tallisado-boats\Boating\cannon\fire</key>
-		<key mod="0" key="84" send="False">Play Script: tallisado-boats\Boating\cannon\reload</key>
-		<key mod="0" key="52" send="False">Play Script: tallisado-boats\Boating\cannon\top-aux-lesser-passive</key>
-		<key mod="0" key="51" send="False">Play Script: tallisado-boats\Boating\cannon\top-greater-offensive</key>
-		<key mod="0" key="49" send="False">Play Script: tallisado-boats\Boating\cannon\top-lesser-offensive</key>
-		<key mod="0" key="50" send="False">Play Script: tallisado-boats\Boating\cannon\top-regular-offensive</key>
-		<key mod="4" key="123" send="False">Play Script: tallisado-boats\Bots\PoonerBot\base</key>
-		<key mod="0" key="123" send="False">Play Script: tallisado-boats\Bots\PoonerBot\init</key>
+		<key mod="0" key="77" send="False">Play Script: uoo-scripts\Navigation\gate</key>
+		<key mod="0" key="48" send="False">Play Script: uoo-scripts\Navigation\room</key>
+		<key mod="0" key="89" send="False">Play Script: uoo-scripts\Boat-PvM\dump-hull</key>
+		<key mod="4" key="76" send="False">Play Script: uoo-scripts\Boat-PvM\room-crate</key>
+		<key mod="4" key="81" send="False">Play Script: uoo-scripts\Chiv\noble-self</key>
+		<key mod="0" key="76" send="False">Play Script: uoo-scripts\Organizers\inn-dropper</key>
+		<key mod="0" key="112" send="False">Play Script: uoo-scripts\Boating\board-all</key>
+		<key mod="0" key="116" send="False">Play Script: uoo-scripts\Boating\bomb</key>
+		<key mod="2" key="113" send="False">Play Script: uoo-scripts\Boating\disembark-all</key>
+		<key mod="0" key="113" send="False">Play Script: uoo-scripts\Boating\disembark-crew</key>
+		<key mod="0" key="114" send="False">Play Script: uoo-scripts\Boating\disembark-self</key>
+		<key mod="6" key="123" send="False">Play Script: uoo-scripts\Boating\dockmaster-landing</key>
+		<key mod="1" key="123" send="False">Play Script: uoo-scripts\Boating\dockmaster</key>
+		<key mod="0" key="82" send="False">Play Script: uoo-scripts\Boating\repair</key>
+		<key mod="4" key="87" send="False">Play Script: uoo-scripts\Boating\stance-heave</key>
+		<key mod="4" key="83" send="False">Play Script: uoo-scripts\Boating\stance-pin</key>
+		<key mod="4" key="68" send="False">Play Script: uoo-scripts\Boating\stance-skewer</key>
+		<key mod="4" key="65" send="False">Play Script: uoo-scripts\Boating\stance-strafe</key>
+		<key mod="2" key="52" send="False">Play Script: uoo-scripts\Boating\cannon\bot-aux-lesser-offensive</key>
+		<key mod="2" key="51" send="False">Play Script: uoo-scripts\Boating\cannon\bot-greater-offensive</key>
+		<key mod="2" key="49" send="False">Play Script: uoo-scripts\Boating\cannon\bot-lesser-passive</key>
+		<key mod="2" key="50" send="False">Play Script: uoo-scripts\Boating\cannon\bot-regular-passive</key>
+		<key mod="0" key="220" send="False">Play Script: uoo-scripts\Boating\cannon\fire</key>
+		<key mod="0" key="84" send="False">Play Script: uoo-scripts\Boating\cannon\reload</key>
+		<key mod="0" key="52" send="False">Play Script: uoo-scripts\Boating\cannon\top-aux-lesser-passive</key>
+		<key mod="0" key="51" send="False">Play Script: uoo-scripts\Boating\cannon\top-greater-offensive</key>
+		<key mod="0" key="49" send="False">Play Script: uoo-scripts\Boating\cannon\top-lesser-offensive</key>
+		<key mod="0" key="50" send="False">Play Script: uoo-scripts\Boating\cannon\top-regular-offensive</key>
+		<key mod="4" key="123" send="False">Play Script: uoo-scripts\Bots\PoonerBot\base</key>
+		<key mod="0" key="123" send="False">Play Script: uoo-scripts\Bots\PoonerBot\init</key>
 		<key mod="4" key="70" send="False">L:1025</key>
 		<key mod="2" key="69" send="False">L:1028</key>
 		<key mod="6" key="69" send="False">L:1029</key>

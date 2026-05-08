@@ -203,36 +203,36 @@
 		<key mod="0" key="78" send="False">L:1060594</key>
 		<key mod="0" key="187" send="False">Play: RecallChargeRoom</key>
 		<key mod="0" key="46" send="False">L:2101</key>
-		<key mod="0" key="77" send="False">Play Script: gate</key>
-		<key mod="0" key="48" send="False">Play Script: room</key>
-		<key mod="0" key="112" send="False">Play Script: Boat-PvM\boarding</key>
-		<key mod="2" key="51" send="False">Play Script: Boat-PvM\bottom-greater-passive</key>
-		<key mod="2" key="52" send="False">Play Script: Boat-PvM\bottom-lesser-aux-passive</key>
-		<key mod="2" key="49" send="False">Play Script: Boat-PvM\bottom-lesser-passive</key>
-		<key mod="2" key="50" send="False">Play Script: Boat-PvM\bottom-regular-passive</key>
-		<key mod="0" key="220" send="False">Play Script: Boat-PvM\cannons-fire</key>
-		<key mod="0" key="84" send="False">Play Script: Boat-PvM\cannons-reload</key>
-		<key mod="0" key="113" send="False">Play Script: Boat-PvM\disembark-crew</key>
-		<key mod="0" key="115" send="False">Play Script: Boat-PvM\disembark-recall</key>
-		<key mod="6" key="123" send="False">Play Script: Boat-PvM\dock-it</key>
-		<key mod="0" key="89" send="False">Play Script: Boat-PvM\dump-hull</key>
-		<key mod="2" key="123" send="False">Play Script: Boat-PvM\launch-it</key>
-		<key mod="0" key="123" send="False">Play Script: Boat-PvM\Master Background</key>
-		<key mod="1" key="123" send="False">Play Script: Boat-PvM\open-dockermaster</key>
-		<key mod="4" key="76" send="False">Play Script: Boat-PvM\room-crate</key>
-		<key mod="0" key="114" send="False">Play Script: Boat-PvM\ship-bomb</key>
-		<key mod="0" key="51" send="False">Play Script: Boat-PvM\top-greater-offensive</key>
-		<key mod="0" key="52" send="False">Play Script: Boat-PvM\top-lesser-aux</key>
-		<key mod="0" key="49" send="False">Play Script: Boat-PvM\top-lesser-offensive</key>
-		<key mod="0" key="50" send="False">Play Script: Boat-PvM\top-regular-offensive</key>
-		<key mod="4" key="65" send="False">Play Script: Boat-PvM\FishingCodex\fish-2</key>
-		<key mod="4" key="83" send="False">Play Script: Boat-PvM\FishingCodex\fish-3</key>
-		<key mod="4" key="68" send="False">Play Script: Boat-PvM\FishingCodex\fish-4</key>
-		<key mod="0" key="70" send="False">Play Script: Boat-PvM\heal-crew\crew-all-nearest</key>
-		<key mod="0" key="166" send="False">Play Script: Boating\manual-target</key>
-		<key mod="4" key="81" send="False">Play Script: Chiv\noble-self</key>
-		<key mod="0" key="82" send="False">Play Script: Fishing\repair</key>
-		<key mod="0" key="76" send="False">Play Script: Organizers\inn-dropper</key>
+		<key mod="0" key="77" send="False">Play Script: uoo-scripts\Navigation\gate</key>
+		<key mod="0" key="48" send="False">Play Script: uoo-scripts\Navigation\room</key>
+		<key mod="0" key="112" send="False">Play Script: uoo-scripts\Boat-PvM\boarding</key>
+		<key mod="2" key="51" send="False">Play Script: uoo-scripts\Boat-PvM\bottom-greater-passive</key>
+		<key mod="2" key="52" send="False">Play Script: uoo-scripts\Boat-PvM\bottom-lesser-aux-passive</key>
+		<key mod="2" key="49" send="False">Play Script: uoo-scripts\Boat-PvM\bottom-lesser-passive</key>
+		<key mod="2" key="50" send="False">Play Script: uoo-scripts\Boat-PvM\bottom-regular-passive</key>
+		<key mod="0" key="220" send="False">Play Script: uoo-scripts\Boat-PvM\cannons-fire</key>
+		<key mod="0" key="84" send="False">Play Script: uoo-scripts\Boat-PvM\cannons-reload</key>
+		<key mod="0" key="113" send="False">Play Script: uoo-scripts\Boat-PvM\disembark-crew</key>
+		<key mod="0" key="115" send="False">Play Script: uoo-scripts\Boat-PvM\disembark-recall</key>
+		<key mod="6" key="123" send="False">Play Script: uoo-scripts\Boat-PvM\dock-it</key>
+		<key mod="0" key="89" send="False">Play Script: uoo-scripts\Boat-PvM\dump-hull</key>
+		<key mod="2" key="123" send="False">Play Script: uoo-scripts\Boat-PvM\launch-it</key>
+		<key mod="0" key="123" send="False">Play Script: uoo-scripts\Boat-PvM\Master Background</key>
+		<key mod="1" key="123" send="False">Play Script: uoo-scripts\Boat-PvM\open-dockermaster</key>
+		<key mod="4" key="76" send="False">Play Script: uoo-scripts\Boat-PvM\room-crate</key>
+		<key mod="0" key="114" send="False">Play Script: uoo-scripts\Boat-PvM\ship-bomb</key>
+		<key mod="0" key="51" send="False">Play Script: uoo-scripts\Boat-PvM\top-greater-offensive</key>
+		<key mod="0" key="52" send="False">Play Script: uoo-scripts\Boat-PvM\top-lesser-aux</key>
+		<key mod="0" key="49" send="False">Play Script: uoo-scripts\Boat-PvM\top-lesser-offensive</key>
+		<key mod="0" key="50" send="False">Play Script: uoo-scripts\Boat-PvM\top-regular-offensive</key>
+		<key mod="4" key="65" send="False">Play Script: uoo-scripts\Boat-PvM\FishingCodex\fish-2</key>
+		<key mod="4" key="83" send="False">Play Script: uoo-scripts\Boat-PvM\FishingCodex\fish-3</key>
+		<key mod="4" key="68" send="False">Play Script: uoo-scripts\Boat-PvM\FishingCodex\fish-4</key>
+		<key mod="0" key="70" send="False">Play Script: uoo-scripts\Boat-PvM\heal-crew\crew-all-nearest</key>
+		<key mod="0" key="166" send="False">Play Script: uoo-scripts\Boating\manual-target</key>
+		<key mod="4" key="81" send="False">Play Script: uoo-scripts\Chiv\noble-self</key>
+		<key mod="0" key="82" send="False">Play Script: uoo-scripts\Fishing\repair</key>
+		<key mod="0" key="76" send="False">Play Script: uoo-scripts\Organizers\inn-dropper</key>
 		<key mod="4" key="70" send="False">L:1025</key>
 		<key mod="2" key="69" send="False">L:1028</key>
 		<key mod="6" key="69" send="False">L:1029</key>

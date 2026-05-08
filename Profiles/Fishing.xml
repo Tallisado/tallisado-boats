@@ -203,16 +203,16 @@
 		<key mod="0" key="123" send="False">Play: Disembark</key>
 		<key mod="0" key="187" send="False">Play: RecallChargeRoom</key>
 		<key mod="0" key="114" send="False">L:2101</key>
-		<key mod="0" key="112" send="False">Play Script: auto-heal-loop</key>
-		<key mod="0" key="77" send="False">Play Script: gate</key>
-		<key mod="0" key="48" send="False">Play Script: room</key>
-		<key mod="0" key="122" send="False">Play Script: Fishing\boat-startup</key>
-		<key mod="0" key="118" send="False">Play Script: Fishing\cut-exotic-fish</key>
-		<key mod="0" key="119" send="False">Play Script: Fishing\dump-loot-hold</key>
-		<key mod="0" key="115" send="False">Play Script: Fishing\repair</key>
-		<key mod="0" key="117" send="False">Play Script: Fishing\spyglass-and-fish</key>
-		<key mod="0" key="116" send="False">Play Script: Fishing\spyglass-for-fishing</key>
-		<key mod="0" key="76" send="False">Play Script: Organizers\inn-dropper</key>
+		<key mod="0" key="112" send="False">Play Script: uoo-scripts\Combat\auto-heal-loop</key>
+		<key mod="0" key="77" send="False">Play Script: uoo-scripts\Navigation\gate</key>
+		<key mod="0" key="48" send="False">Play Script: uoo-scripts\Navigation\room</key>
+		<key mod="0" key="122" send="False">Play Script: uoo-scripts\Fishing\boat-startup</key>
+		<key mod="0" key="118" send="False">Play Script: uoo-scripts\Fishing\cut-exotic-fish</key>
+		<key mod="0" key="119" send="False">Play Script: uoo-scripts\Fishing\dump-loot-hold</key>
+		<key mod="0" key="115" send="False">Play Script: uoo-scripts\Fishing\repair</key>
+		<key mod="0" key="117" send="False">Play Script: uoo-scripts\Fishing\spyglass-and-fish</key>
+		<key mod="0" key="116" send="False">Play Script: uoo-scripts\Fishing\spyglass-for-fishing</key>
+		<key mod="0" key="76" send="False">Play Script: uoo-scripts\Organizers\inn-dropper</key>
 		<key mod="0" key="71" send="False">L:2035</key>
 		<key mod="4" key="71" send="False">L:2036</key>
 		<key mod="0" key="83" send="False">L:2580</key>

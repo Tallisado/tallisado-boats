@@ -207,11 +207,11 @@
 		<key mod="4" key="48" send="False">Play: guards</key>
 		<key mod="0" key="82" send="False">Play: InvisMe</key>
 		<key mod="0" key="46" send="False">L:2101</key>
-		<key mod="0" key="115" send="False">Play Script: auto-harvester</key>
-		<key mod="0" key="77" send="False">Play Script: gate</key>
-		<key mod="0" key="48" send="False">Play Script: room</key>
-		<key mod="0" key="113" send="False">Play Script: scav-buffs</key>
-		<key mod="0" key="49" send="False">Play Script: Gathering\auto-lumbering-jase</key>
+		<key mod="0" key="115" send="False">Play Script: uoo-scripts\Gathering\auto-harvester</key>
+		<key mod="0" key="77" send="False">Play Script: uoo-scripts\Navigation\gate</key>
+		<key mod="0" key="48" send="False">Play Script: uoo-scripts\Navigation\room</key>
+		<key mod="0" key="113" send="False">Play Script: uoo-scripts\Scavenging\scav-buffs</key>
+		<key mod="0" key="49" send="False">Play Script: uoo-scripts\Gathering\auto-lumbering-jase</key>
 		<key mod="0" key="67" send="False">L:1371</key>
 		<key mod="0" key="71" send="False">L:2035</key>
 		<key mod="4" key="71" send="False">L:2036</key>
