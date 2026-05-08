@@ -1685,6 +1685,7 @@ while not dead
                 else
                     
                 
+                    warmode on
                     attack jaseowns_CurrentBotTarget
                 
                     #overhead "Current target: {{jaseowns_CurrentBotTargetDesc}} {{jaseowns_UsedSkillTimer}}"
@@ -1840,6 +1841,7 @@ while not dead
     endif
 
     // Attacking stuff
+    overhead "DBG: atk={{jaseowns_CurrentBotTargetAttacked}} wm={{warmode}}" 55
     if jaseowns_CurrentBotTargetAttacked = 1 and warmode
 
         if jaseowns_UseAbility1 = 1 and timer jaseowns_UseAbilityTimer >= jaseowns_UseAbilityTimerCD
