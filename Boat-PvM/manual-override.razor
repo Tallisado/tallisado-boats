@@ -1,0 +1,17 @@
+# Bapeths Manual Override
+#
+# Script will loop into 'Master Background' if you have it in your script library
+#
+# Use this script in place of your "Set Last Target" hotkey 
+#
+# Script starts here
+hotkey 'Set Last Target'
+wft 500
+while targetexists 
+    //do nothing
+endwhile
+if not targetexists 
+    @setvar 'Manual Override' lasttarget
+    overhead "Manual Override Set" 88 
+endif
+script 'Master Background'

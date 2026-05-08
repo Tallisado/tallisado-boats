@@ -1,0 +1,325 @@
+
+@setvar! carveCD 650
+if not timerexists carveTimer
+    settimer carveTimer carveCD
+endif
+
+
+#--- Set Mage auto heals ---#
+
+@setvar! miniHeal 1
+@setvar! greaterHeal 1
+@setvar! cureSpell 1
+
+#--- Set potions ---#
+
+@setvar! drinkStr 0
+@setvar! strengthLowerThan 101
+
+@setvar! drinkAgility 0
+@setvar! drinkMagicResist 0
+@setvar! drinkHeal 1
+@setvar! drinkCure 1
+
+@setvar! drinkRefresh 0
+@setvar! staminaLowerThan 90
+
+#--- Alchemy Codex ---#
+
+@setvar! panaceaAbility 0
+
+#--- Auto healing hp diffs ---#
+#--- All variables refer to hit points differences ---#
+#--- When below certain hit points it will trigger ---#
+
+@setvar! activateAutoHealDiff 1
+
+@setvar! startCastMiniHealDiff 9
+@setvar! endCastMiniHealDiff 21
+
+@setvar! castEmergencyMiniHealDiff 72
+
+@setvar! startCastGreaterHealDiff endCastMiniHealDiff
+@setvar! endCastGreaterHealDiff 200
+
+@setvar! drinkHealPotDiff 35
+
+@setvar! interruptCastingBuffsDiff 40
+
+#--- Set mushrooms ---#
+
+@setvar! mushroomCount 0
+@setvar! eatMushWhenManaLowerThan 50
+l
+@setvar! mushroomTimerCD 60000
+
+#--- Drop Gold When Overweight ---#
+
+@setvar! amountOfGoldToDrop 500
+
+@setvar! lowManaWarningMessageWhenBelow 11
+
+#********** DO NOT EDIT UNLESS YOU KNOW WHAT YOU ARE DOING  **********   
+
+@setvar! holyPoints 0
+
+@setvar! nobleCD 30000
+settimer nobleTimer nobleCD
+
+@setvar! nobleMessageCD 500
+settimer nobleMessageTimer nobleMessageCD
+
+@setvar! holyLightCD 30000
+settimer holyLightTimer holyLightCD
+
+@setvar! maxwaittimeinms 650
+
+#--- Script msgs timers ---#
+
+@setvar! autoHealMessageCD 4500
+settimer autoHealMessageTimer 0
+
+@setvar! guardMessageCD 5500
+settimer guardMessageTimer guardMessageCD
+
+@setvar! manaMessageCD 2222
+settimer manaMessageTimer manaMessageCD
+
+@setvar! overweightMessageCD 3000
+settimer overweightMessageTimer overweightMessageCD
+
+#--- Resources timers ---#
+
+@setvar! pouchMessageCD 5000
+settimer pouchMessageTimer pouchMessageCD
+
+@setvar! aidsMessageCD 4000
+settimer aidsMessageTimer aidsMessageCD
+
+@setvar! whiteMessageCD 3000
+settimer whiteMessageTimer whiteMessageCD
+
+@setvar! blueMessageCD 3000
+settimer blueMessageTimer blueMessageCD
+
+@setvar! blackMessageCD 2500
+settimer blackMessageTimer blackMessageCD
+
+@setvar! orangeMessageCD 2000
+settimer orangeMessageTimer orangeMessageCD
+
+@setvar! yellowMessageCD 1500
+settimer yellowMessageTimer yellowMessageCD
+
+@setvar! redMessageCD 1000
+settimer redMessageTimer redMessageCD
+
+@setvar! foodMessageCD 3333
+settimer foodMessageTimer foodMessageCD
+
+#--- Magery buffs timers ---#
+
+@setvar! magicReflectCD 15000
+settimer magicReflectTimer 15000
+
+@setvar! armorReflectCD 15000
+settimer armorReflectTimer 15000
+
+@setvar! protectionCD 15000
+settimer protectionTimer 15000
+
+overhead "Skinning Bot Activated" 66
+
+while not dead
+
+    if timer autoHealMessageTimer > autoHealMessageCD
+        overhead "* auto-skinning *" 90
+        settimer autoHealMessageTimer 0
+    endif
+    
+    if weight > maxweight
+        if timer overweightMessageTimer > overweightMessageCD
+            overhead "Overweight !!" 34
+            settimer overweightMessageTimer 0
+        endif
+        
+        if 0 != amountOfGoldToDrop
+            while weight > maxweight
+                if findtype "gold coin" backpack as item
+                    lift item amountOfGoldToDrop
+                    droprelloc 0 0
+                    getlabel backpack xxx
+                    wait 200
+                    if insysmsg "cannot drop anything"
+                        drop backpack -1 -1 -1
+                    endif
+                    wait maxwaittimeinms
+                    overhead "* Gold Dropped *" 55
+                endif
+            endwhile            
+        endif
+    endif
+
+    #--- Trapped ---#
+    
+    if paralyzed 
+        if findtype "pouch" backpack 38 
+            yell "[pouch"            
+            wait 200
+        else
+            if timer pouchMessageTimer > pouchMessageCD
+                overhead "Out of Pouches!" 34
+                settimer pouchMessageTimer 0
+            endif
+        endif
+    endif
+ 
+    #--- Drink str pot ---#
+    if drinkStr = 1 and str < strengthLowerThan
+        
+        if not findbuff "Strength" 
+            if findtype "White Potion" self
+                dclicktype "White Potion"
+                sysmsg "strength pot" 1
+                wait 200
+            else
+                if timer whiteMessageTimer > whiteMessageCD
+                    overhead "Out of str pots" 34
+                    settimer whiteMessageTimer 0 
+                endif
+            endif
+        endif
+    endif
+    
+    #--- Drink agility pot ---#
+    
+    if drinkAgility = 1
+        if not findbuff "Agility" 
+            if findtype "Blue Potion" self
+                dclicktype "Blue Potion"
+                sysmsg "agility pot" 86
+                wait 200
+            else
+                if timer blueMessageTimer > blueMessageCD
+                    overhead "Out of agility pots" 34
+                    settimer blueMessageTimer 0 
+                endif
+            endif
+        endif
+    endif
+        
+    #--- Drink magic resist pot ---#
+
+    if drinkMagicResist = 1
+        if not findbuff "Magic Resist" 
+            if findtype "Black Potion" self
+                dclicktype "Black Potion"
+                sysmsg "magic resist pot" 111
+                wait 200
+            else
+                if timer blackMessageTimer > blackMessageCD
+                    overhead "Out of resist pots" 34
+                    settimer blackMessageTimer 0
+                endif
+            endif
+        endif
+    endif
+        
+    #--- Poisoned ---#
+    
+    if 1 = drinkCure or 1 = cureSpell
+        while poisoned
+            if findtype "Orange Potion" self
+                
+                dclicktype "Orange Potion"
+                sysmsg "cure pot" 44
+                wait 200
+            else
+                if timer orangeMessageTimer > orangeMessageCD
+                    overhead "Out of cure pots" 34
+                    settimer orangeMessageTimer 0
+                endif
+                
+                if diffhits >= 30 or not findtype 3972 self or not findtype 3973 self
+                    break
+                endif
+                
+                if skill 'magery' >= 40 and mana >= 6 and 1 = cureSpell and not casting
+                    cast 'cure'
+                    wait 50
+                    while not casting                   
+                        if targetexists
+                            hotkey 'cancel current target'
+                        endif
+                        cast 'cure'  
+                        wait 50
+                    endwhile  
+                    while not targetexists and casting
+                    endwhile
+                    waitfortarget maxwaittimeinms
+                    target 'self' 
+                    wait 200
+                else 
+                    break
+                endif
+            endif
+        endwhile
+    endif
+        
+    #--- Drink Heal Pot ---#
+    
+    if diffhits >= drinkHealPotDiff and 1 = drinkHeal and not findbuff "Noble Sacrifice"
+        if findtype "Yellow Potion" self as hPot
+            getlabel hPot potLabel
+            if "(" in potLabel
+            else
+                dclicktype 3852
+                getlabel backpack xxx
+                sysmsg "heal pot" 55
+            endif
+        else
+            if timer yellowMessageTimer > yellowMessageCD
+                overhead "Out of heals pots" 34
+                settimer yellowMessageTimer 0
+            endif
+        endif
+    endif
+            
+    #--- Drink red pot ---#
+    
+    if stam < staminaLowerThan and 1 = drinkRefresh and diffstam > 1
+        if findtype "Red Potion" self
+            dclicktype "Red Potion"
+            sysmsg "refresh pot" 234
+            wait 200
+        else
+            if timer redMessageTimer > redMessageCD
+                overhead "Out of refresh pots" 34
+                settimer redMessageTimer 0 
+            endif
+        endif
+    endif
+    
+    if mana < lowManaWarningMessageWhenBelow and timer manaMessageTimer > manaMessageCD
+        overhead "Low mana warning" 34
+        settimer manaMessageTimer 0
+    endif
+
+    while findtype "corpse" ground -1 -1 2 as corpsy and findtype 11552 backpack
+        if timer carveTimer > carveCD
+            if targetexists
+                hotkey 'cancel current target'
+            endif
+            while not targetexists 
+                skill 'forensicevaluation'
+            endwhile
+            
+            if targetexists and not hidden and find corpsy ground -1 -1 2
+                sysmsg "Skinning corpse.." 11
+                target 'self'    
+                @ignore corpsy
+                settimer carveTimer 0
+            endif
+        endif
+    endwhile
+endwhile

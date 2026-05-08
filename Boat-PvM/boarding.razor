@@ -1,0 +1,65 @@
+# Bapeths Simple Boarding Script
+#
+# "****REQUIRED****"
+# Bapeths Ship Cooldowns xml file (copy paste into your characters Cooldown file)
+# "COPY" Link to get Bapeths Cooldowns "https://outlands.uorazorscripts.com/script/f1e41e2d-411e-461e-9fd0-c4fc2dc234b1"
+# "PASTE" FILE PATH : C:\Program Files (x86)\Ultima Online Outlands\ClassicUO\Data\Profiles\"YOUR-ACCOUNT-NAME"\UO Outlands\"YOUR-CHARACTER" Open file in notepad
+# The cooldowns with "Tigger Text" Must be adjusted to "your ships stats" and "your Wizard Grimoire upgrades" in the UO in game Options
+#
+# Script will loop into 'Master Background' if you have it in your script library
+# Script will make use of "Manual Override" if you have it in your script library
+#
+# This is script will attempt to board any ship
+# Bind it to a hotkey and play it when you wish to board
+#
+# Script starts here
+if gumpexists 2881168634
+    gumpclose 2881168634
+endif
+
+if findtype 5370 backpack 0 as boardrope
+    if not cooldown "Boarding Party"
+        clearsysmsg 
+        dclick boardrope
+        waitforgump 2881168634 500
+        gumpresponse 5
+        wft 500
+        hotkey 'Target Closest Grey Monster'
+        hotkey 'Target Closest Enemy Monster'
+        hotkey 'Next Enemy Player Target'
+        getlabel backpack ping
+        overhead "Quickly"
+    else
+        overhead "The crew needs more time..." 38
+    endif
+else
+    overhead "I am out of boarding rope..." 38
+endif
+if targetexists 
+    overhead "Manual Target..." 88
+endif
+while targetexists 
+    //donothing
+endwhile
+if insysmsg 'That ship is too far away to board'
+    overhead '*Argh, Not close enough to board!*' 47
+    gumpclose 2881168634
+endif
+if insysmsg "Your boarding party fails"
+    overhead "Yar, these ropes are no good!" 38
+    cooldown "Boarding Party" 15000
+endif
+if insysmsg 'You are already on that ship.'
+    overhead 'We are boarded!' 45
+    overhead 'Use Manual Override!' 39
+endif
+if insysmsg 'You successfully board the ship!'
+    overhead "Yar, enemies abound!" 88
+    cooldown "Boarding Party" 15000
+    warmode on
+endif
+if insysmsg 'The ship seems devoid of life'
+    overhead 'Easy come easy go...' 79
+    warmode on
+endif
+script 'Master Background'

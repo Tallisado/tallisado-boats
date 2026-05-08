@@ -1,0 +1,27 @@
+//Activate this script while standing next to someone whos killing a mob
+//when the mob dies it will INSTANTLY put the boombox on the corpse of the mob
+//before they can even open it so to them it looks like it was there from the mob death
+
+//Ignore all current corpses
+    @clearignore 
+    while findtype corpse ground any any 18 as CorpseToIgnore
+        @ignore CorpseToIgnore
+    endwhile
+
+//Set boombox variable
+    overhead '[Target Boombox]' 53
+    setvar BoomBox
+
+//Lift boombox and wait for corpse to appear
+    lift BoomBox 1
+
+//Wait for corpse
+    while not findtype corpse ground any any 2
+    endwhile
+
+//Drop boombox onto corpse
+    if findtype corpse ground any any 2 as VictimCorpse
+        drop VictimCorpse -1 -1
+    endif
+
+overhead '[The bomb has been planted]' 53

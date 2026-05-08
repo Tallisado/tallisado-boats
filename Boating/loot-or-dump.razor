@@ -15,7 +15,7 @@ if findtype "hatch" ground -1 -1 3 as enemyhold
         endwhile
     endwhile
     overhead "Hold looted!" 88
-    hotkey 'Play Script: tallisado-boats\Bots\PoonerBot\base'
+    hotkey 'Play Script: uoo-scripts\Bots\PoonerBot\base'
     stop
 endif
 
@@ -30,7 +30,7 @@ endif
 
 if not varexist "shiphold" or not find "shiphold" ground -1 -1 3
     overhead "No enemy hold (range 3) or ship hold in range!" 38
-    hotkey 'Play Script: tallisado-boats\Bots\PoonerBot\base'
+    hotkey 'Play Script: uoo-scripts\Bots\PoonerBot\base'
     stop
 endif
 
@@ -46,4 +46,4 @@ while findtype "3963|3973|3962|3974|3976|3972|3981|3980|43206|cathedral tapestry
 endwhile
 
 overhead "Hold dump complete!" 88
-hotkey 'Play Script: tallisado-boats\Bots\PoonerBot\base'
+hotkey 'Play Script: uoo-scripts\Bots\PoonerBot\base'

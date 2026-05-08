@@ -1,4 +1,4 @@
-﻿# Boating/dump-hold.razor
+# Boating/dump-hold.razor
 # Hotkey-bindable: dump valuable items from backpack into your ship hold.
 #
 # SETUP: Run this script once while standing next to your ship hold with nothing
@@ -19,7 +19,7 @@ endif
 if not varexist "shiphold" or not find "shiphold" ground -1 -1 3
     overhead "No ship hold in range!" 38
     overhead "Stand next to hold and set last target on it, then re-run" 38
-    hotkey "Play Script: tallisado-boats\Bots\PoonerBot\base"
+    hotkey "Play Script: uoo-scripts\Bots\PoonerBot\base"
     stop
 endif
 
@@ -36,4 +36,4 @@ while findtype "3963|3973|3974|3980|3962|3976|3972|3981|43206|cathedral tapestry
 endwhile
 
 overhead "Hold dump complete!" 88
-hotkey "Play Script: tallisado-boats\Bots\PoonerBot\base"
+hotkey "Play Script: uoo-scripts\Bots\PoonerBot\base"

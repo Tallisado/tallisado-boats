@@ -1,0 +1,17 @@
+# Use Noble Sacrifice on your self with a hotkey by Jaseowns
+# UO Outlands
+if not timerexists noblesactimer
+    createtimer noblesactimer
+    settimer noblesactimer 30000
+endif
+
+if timer noblesactimer >= 30000
+    say '[NobleSacrifice'
+    wft 500
+    if targetexists 
+        target self
+        settimer noblesactimer 0
+    endif
+else
+    overhead "on cooldown" 34
+endif

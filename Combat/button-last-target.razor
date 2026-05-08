@@ -1,0 +1,11 @@
+# Set Last Target helper by Jaseowns
+# UO Outlands
+hotkey 'Set Last Target'
+wait 200
+while targetexists 
+    wait 50
+endwhile
+getlabel lasttarget descTarget
+@setvar! lastTargetSeriel lasttarget
+sysmsg "Last Target: {{descTarget}}" 88
+overhead "Last Target: {{descTarget}}" 89

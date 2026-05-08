@@ -1,0 +1,280 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<profile>
+	<property name="DisplaySkillChanges" type="System.Boolean">False</property>
+	<property name="TitleBarText" type="System.String">UO - {char}</property>
+	<property name="TitleBarDisplay" type="System.Boolean">True</property>
+	<property name="AutoSearch" type="System.Boolean">True</property>
+	<property name="NoSearchPouches" type="System.Boolean">True</property>
+	<property name="CounterWarnAmount" type="System.Int32">5</property>
+	<property name="CounterWarn" type="System.Boolean">True</property>
+	<property name="ObjectDelay" type="System.Int32">503</property>
+	<property name="ObjectDelayEnabled" type="System.Boolean">True</property>
+	<property name="AlwaysOnTop" type="System.Boolean">False</property>
+	<property name="SortCounters" type="System.Boolean">True</property>
+	<property name="QueueActions" type="System.Boolean">True</property>
+	<property name="QueueTargets" type="System.Boolean">False</property>
+	<property name="WindowX" type="System.Int32">19</property>
+	<property name="WindowY" type="System.Int32">0</property>
+	<property name="CountStealthSteps" type="System.Boolean">True</property>
+	<property name="SysColor" type="System.Int32">68</property>
+	<property name="WarningColor" type="System.Int32">37</property>
+	<property name="ExemptColor" type="System.Int32">1152</property>
+	<property name="Opacity" type="System.Int32">100</property>
+	<property name="BlockDismount" type="System.Boolean">True</property>
+	<property name="CapFullScreen" type="System.Boolean">False</property>
+	<property name="CapPath" type="System.String">C:\Users\tvanek\Pictures\RazorScreenShots</property>
+	<property name="CapTimeStamp" type="System.Boolean">True</property>
+	<property name="ImageFormat" type="System.String">jpg</property>
+	<property name="UndressConflicts" type="System.Boolean">True</property>
+	<property name="Systray" type="System.Boolean">False</property>
+	<property name="RazorWidth" type="System.Int32">863</property>
+	<property name="RazorHeight" type="System.Int32">649</property>
+	<property name="SellAgentMax" type="System.Int32">50</property>
+	<property name="SkillListCol" type="System.Int32">-1</property>
+	<property name="SkillListAsc" type="System.Boolean">False</property>
+	<property name="AutoStack" type="System.Boolean">False</property>
+	<property name="ActionStatusMsg" type="System.Boolean">True</property>
+	<property name="RangeCheckLT" type="System.Boolean">True</property>
+	<property name="LTRange" type="System.Int32">22</property>
+	<property name="FilterSnoopMsg" type="System.Boolean">True</property>
+	<property name="SmartLastTarget" type="System.Boolean">True</property>
+	<property name="LastTargTextFlags" type="System.Boolean">True</property>
+	<property name="AutoFriend" type="System.Boolean">False</property>
+	<property name="MessageLevel" type="System.Int32">0</property>
+	<property name="ForceIP" type="System.String" />
+	<property name="ForcePort" type="System.Int32">0</property>
+	<property name="BlockHealPoison" type="System.Boolean">False</property>
+	<property name="MapX" type="System.Int32">200</property>
+	<property name="MapY" type="System.Int32">200</property>
+	<property name="MapW" type="System.Int32">200</property>
+	<property name="MapH" type="System.Int32">200</property>
+	<property name="HotKeyStop" type="System.Boolean">False</property>
+	<property name="DiffTargetByType" type="System.Boolean">False</property>
+	<property name="StepThroughMacro" type="System.Boolean">False</property>
+	<property name="ShowTargetSelfLastClearOverhead" type="System.Boolean">False</property>
+	<property name="ShowOverheadMessages" type="System.Boolean">True</property>
+	<property name="OverheadFormat" type="System.String">[{msg}]</property>
+	<property name="OverheadStyle" type="System.Int32">1</property>
+	<property name="LightLevel" type="System.Int32">31</property>
+	<property name="LogSkillChanges" type="System.Boolean">False</property>
+	<property name="StealthOverhead" type="System.Boolean">False</property>
+	<property name="ShowAttackTargetOverhead" type="System.Boolean">False</property>
+	<property name="RangeCheckTargetByType" type="System.Boolean">False</property>
+	<property name="RangeCheckDoubleClick" type="System.Boolean">False</property>
+	<property name="ShowContainerLabels" type="System.Boolean">False</property>
+	<property name="ContainerLabelFormat" type="System.String">[{label}] ({type})</property>
+	<property name="ContainerLabelColor" type="System.Int32">88</property>
+	<property name="ContainerLabelStyle" type="System.Int32">1</property>
+	<property name="Season" type="System.Int32">5</property>
+	<property name="BlockTradeRequests" type="System.Boolean">False</property>
+	<property name="BlockPartyInvites" type="System.Boolean">False</property>
+	<property name="AutoAcceptParty" type="System.Boolean">False</property>
+	<property name="MaxLightLevel" type="System.Int32">31</property>
+	<property name="MinLightLevel" type="System.Int32">0</property>
+	<property name="MinMaxLightLevelEnabled" type="System.Boolean">False</property>
+	<property name="ShowTextTargetIndicator" type="System.Boolean">False</property>
+	<property name="ShowAttackTargetNewOnly" type="System.Boolean">True</property>
+	<property name="ShowInRazorTitleBar" type="System.Boolean">False</property>
+	<property name="RazorTitleBarText" type="System.String">{name} on {account} ({profile} - {shard}) - Razor v{version}</property>
+	<property name="EnableUOAAPI" type="System.Boolean">True</property>
+	<property name="TargetIndicatorFormat" type="System.String">* Target *</property>
+	<property name="NextPrevTargetIgnoresFriends" type="System.Boolean">False</property>
+	<property name="StealthStepsFormat" type="System.String">Steps: {step}</property>
+	<property name="ShowFriendOverhead" type="System.Boolean">False</property>
+	<property name="DisplaySkillChangesOverhead" type="System.Boolean">False</property>
+	<property name="GrabHotBag" type="System.String">1322555784</property>
+	<property name="MacroActionDelay" type="System.Boolean">False</property>
+	<property name="DisableMacroPlayFinish" type="System.Boolean">False</property>
+	<property name="ShowBandageTimer" type="System.Boolean">False</property>
+	<property name="ShowBandageTimerFormat" type="System.String">Bandage: {count}s</property>
+	<property name="ShowBandageTimerLocation" type="System.Int32">0</property>
+	<property name="OnlyShowBandageTimerEvery" type="System.Boolean">False</property>
+	<property name="OnlyShowBandageTimerSeconds" type="System.Int32">1</property>
+	<property name="ShowBandageTimerHue" type="System.Int32">88</property>
+	<property name="TargetIndicatorHue" type="System.Int32">10</property>
+	<property name="FilterSystemMessages" type="System.Boolean">False</property>
+	<property name="FilterRazorMessages" type="System.Boolean">True</property>
+	<property name="FilterDelay" type="System.Double">3.5</property>
+	<property name="FilterOverheadMessages" type="System.Boolean">False</property>
+	<property name="OnlyNextPrevBeneficial" type="System.Boolean">False</property>
+	<property name="FriendlyBeneficialOnly" type="System.Boolean">False</property>
+	<property name="NonFriendlyHarmfulOnly" type="System.Boolean">False</property>
+	<property name="ShowBandageStart" type="System.Boolean">False</property>
+	<property name="BandageStartMessage" type="System.String">Bandage: Starting</property>
+	<property name="ShowBandageEnd" type="System.Boolean">False</property>
+	<property name="BandageEndMessage" type="System.String">Bandage: Ending</property>
+	<property name="CaptureOthersDeathDelay" type="System.Double">0.5</property>
+	<property name="CaptureOwnDeathDelay" type="System.Double">0.5</property>
+	<property name="CaptureOthersDeath" type="System.Boolean">False</property>
+	<property name="CaptureOwnDeath" type="System.Boolean">False</property>
+	<property name="TargetFilterEnabled" type="System.Boolean">False</property>
+	<property name="SoundFilterEnabled" type="System.Boolean">False</property>
+	<property name="ShowFilteredSound" type="System.Boolean">False</property>
+	<property name="ShowPlayingSoundInfo" type="System.Boolean">False</property>
+	<property name="ShowMusicInfo" type="System.Boolean">False</property>
+	<property name="AutoSaveScript" type="System.Boolean">False</property>
+	<property name="AutoSaveScriptPlay" type="System.Boolean">False</property>
+	<property name="HighlightFriend" type="System.Boolean">False</property>
+	<property name="ScriptTargetTypeRange" type="System.Boolean">False</property>
+	<property name="ScriptDClickTypeRange" type="System.Boolean">False</property>
+	<property name="ScriptFindTypeRange" type="System.Boolean">False</property>
+	<property name="ScriptDisablePlayFinish" type="System.Boolean">True</property>
+	<property name="ShowPartyFriendOverhead" type="System.Boolean">False</property>
+	<property name="EnableTextFilter" type="System.Boolean">True</property>
+	<property name="DisableScriptTooltips" type="System.Boolean">False</property>
+	<property name="DisableScriptRestrictionMessage" type="System.Boolean">False</property>
+	<filters />
+	<counters>
+		<counter name="Bandages" enabled="True" image="True" />
+		<counter name="Black Pearl" enabled="True" image="True" />
+		<counter name="Blood Moss" enabled="True" image="True" />
+		<counter name="Cure Potions" enabled="True" image="True" />
+		<counter name="Garlic" enabled="True" image="True" />
+		<counter name="Ginseng" enabled="True" image="True" />
+		<counter name="Heal Potions" enabled="True" image="True" />
+		<counter name="Mandrake Root" enabled="True" image="True" />
+		<counter name="Nightshade" enabled="True" image="True" />
+		<counter name="Spider's Silk" enabled="True" image="True" />
+		<counter name="Sulfurous Ash" enabled="True" image="True" />
+	</counters>
+	<agents>
+		<Buy-1 enabled="False" />
+		<Buy-2 enabled="False" />
+		<Buy-3 enabled="False" />
+		<Buy-4 enabled="False" />
+		<Buy-5 enabled="False" />
+		<Buy-6 enabled="False" />
+		<Buy-7 enabled="False" />
+		<Buy-8 enabled="False" />
+		<Buy-9 enabled="False" />
+		<Buy-10 enabled="True" />
+		<IgnoreList enabled="False" />
+		<Organizer-1 hotbag="0" />
+		<Organizer-2 hotbag="0" />
+		<Organizer-3 hotbag="0" />
+		<Organizer-4 hotbag="0" />
+		<Organizer-5 hotbag="0" />
+		<Organizer-6 hotbag="0" />
+		<Organizer-7 hotbag="0" />
+		<Organizer-8 hotbag="0" />
+		<Organizer-9 hotbag="0" />
+		<Organizer-10 hotbag="0" />
+		<Organizer-11 hotbag="0" />
+		<Organizer-12 hotbag="0" />
+		<Organizer-13 hotbag="0" />
+		<Organizer-14 hotbag="0" />
+		<Organizer-15 hotbag="0" />
+		<Organizer-16 hotbag="0" />
+		<Organizer-17 hotbag="0" />
+		<Organizer-18 hotbag="0" />
+		<Organizer-19 hotbag="0" />
+		<Organizer-20 hotbag="0" />
+		<Restock-1 hotbag="0" />
+		<Restock-2 hotbag="0" />
+		<Restock-3 hotbag="0" />
+		<Restock-4 hotbag="0" />
+		<Restock-5 hotbag="0" />
+		<Restock-6 hotbag="0" />
+		<Restock-7 hotbag="0" />
+		<Restock-8 hotbag="0" />
+		<Restock-9 hotbag="0" />
+		<Restock-10 hotbag="1525483696" />
+		<Scavenger enabled="True">
+			<bag serial="0x62B488B2" />
+		</Scavenger>
+		<AutoSearchExemptions />
+		<Sell enabled="False" />
+		<UseOnce />
+	</agents>
+	<dresslists>
+		<list name="Pooner">
+			<item serial="1270687166" />
+			<item serial="1270687165" />
+			<item serial="1270687168" />
+			<item serial="1270687169" />
+			<item serial="1270687167" />
+			<item serial="1270687170" />
+			<item serial="1089530094" />
+			<item serial="1270687184" />
+		</list>
+	</dresslists>
+	<hotkeys>
+		<key mod="4" key="69" send="False">L:1060591</key>
+		<key mod="0" key="78" send="False">L:1060594</key>
+		<key mod="0" key="-3" send="False">L:1060</key>
+		<key mod="4" key="187" send="False">Play: RecallChargeGH</key>
+		<key mod="0" key="187" send="False">Play: RecallChargeRoom</key>
+		<key mod="0" key="46" send="False">L:2101</key>
+		<key mod="0" key="77" send="False">Play Script: gate</key>
+		<key mod="0" key="48" send="False">Play Script: room</key>
+		<key mod="0" key="89" send="False">Play Script: Boat-PvM\dump-hull</key>
+		<key mod="4" key="76" send="False">Play Script: Boat-PvM\room-crate</key>
+		<key mod="4" key="81" send="False">Play Script: Chiv\noble-self</key>
+		<key mod="0" key="76" send="False">Play Script: Organizers\inn-dropper</key>
+		<key mod="0" key="112" send="False">Play Script: tallisado-boats\Boating\board-all</key>
+		<key mod="0" key="116" send="False">Play Script: tallisado-boats\Boating\bomb</key>
+		<key mod="2" key="113" send="False">Play Script: tallisado-boats\Boating\disembark-all</key>
+		<key mod="0" key="113" send="False">Play Script: tallisado-boats\Boating\disembark-crew</key>
+		<key mod="0" key="114" send="False">Play Script: tallisado-boats\Boating\disembark-self</key>
+		<key mod="6" key="123" send="False">Play Script: tallisado-boats\Boating\dockmaster-landing</key>
+		<key mod="1" key="123" send="False">Play Script: tallisado-boats\Boating\dockmaster</key>
+		<key mod="0" key="82" send="False">Play Script: tallisado-boats\Boating\repair</key>
+		<key mod="4" key="87" send="False">Play Script: tallisado-boats\Boating\stance-heave</key>
+		<key mod="4" key="83" send="False">Play Script: tallisado-boats\Boating\stance-pin</key>
+		<key mod="4" key="68" send="False">Play Script: tallisado-boats\Boating\stance-skewer</key>
+		<key mod="4" key="65" send="False">Play Script: tallisado-boats\Boating\stance-strafe</key>
+		<key mod="2" key="52" send="False">Play Script: tallisado-boats\Boating\cannon\bot-aux-lesser-offensive</key>
+		<key mod="2" key="51" send="False">Play Script: tallisado-boats\Boating\cannon\bot-greater-offensive</key>
+		<key mod="2" key="49" send="False">Play Script: tallisado-boats\Boating\cannon\bot-lesser-passive</key>
+		<key mod="2" key="50" send="False">Play Script: tallisado-boats\Boating\cannon\bot-regular-passive</key>
+		<key mod="0" key="220" send="False">Play Script: tallisado-boats\Boating\cannon\fire</key>
+		<key mod="0" key="84" send="False">Play Script: tallisado-boats\Boating\cannon\reload</key>
+		<key mod="0" key="52" send="False">Play Script: tallisado-boats\Boating\cannon\top-aux-lesser-passive</key>
+		<key mod="0" key="51" send="False">Play Script: tallisado-boats\Boating\cannon\top-greater-offensive</key>
+		<key mod="0" key="49" send="False">Play Script: tallisado-boats\Boating\cannon\top-lesser-offensive</key>
+		<key mod="0" key="50" send="False">Play Script: tallisado-boats\Boating\cannon\top-regular-offensive</key>
+		<key mod="4" key="123" send="False">Play Script: tallisado-boats\Bots\PoonerBot\base</key>
+		<key mod="0" key="123" send="False">Play Script: tallisado-boats\Bots\PoonerBot\init</key>
+		<key mod="4" key="70" send="False">L:1025</key>
+		<key mod="2" key="69" send="False">L:1028</key>
+		<key mod="6" key="69" send="False">L:1029</key>
+		<key mod="4" key="86" send="False">L:1030</key>
+		<key mod="4" key="88" send="False">L:1031</key>
+		<key mod="4" key="67" send="False">L:1033</key>
+		<key mod="0" key="71" send="False">L:2035</key>
+		<key mod="4" key="71" send="False">L:2036</key>
+		<key mod="0" key="83" send="False">L:2580</key>
+		<key mod="0" key="87" send="False">L:2581</key>
+		<key mod="0" key="81" send="False">L:2582</key>
+		<key mod="0" key="69" send="False">L:2583</key>
+		<key mod="0" key="88" send="False">L:2586</key>
+		<key mod="0" key="90" send="False">L:2587</key>
+		<key mod="0" key="67" send="False">L:2588</key>
+		<key mod="0" key="65" send="False">L:2589</key>
+		<key mod="0" key="68" send="False">L:2590</key>
+	</hotkeys>
+	<overheadmessages>
+		<overheadmessage searchtext="*salvo*" message="Pew" hue="68" />
+	</overheadmessages>
+	<containerlabels />
+	<macrovariables />
+	<scriptvariables>
+		<scriptvariable serial="0x17A071" name="bdockmaster" />
+		<scriptvariable serial="0x4ED49988" name="updatemessagebapfood" />
+		<scriptvariable serial="0x4473DB1B" name="MainPoon" />
+		<scriptvariable serial="0x8EAEFBDB" name="rentalGumpID" />
+		<scriptvariable serial="0x4ED49988" name="jootbag" />
+		<scriptvariable serial="0x4D7E9901" name="shiphold" />
+	</scriptvariables>
+	<friends />
+	<textfilters>
+		<filter text="No one matching that" sysmessages="True" overhead="False" speech="False" ignoreinscripts="False" />
+		<filter text="not found" sysmessages="False" overhead="False" speech="False" ignoreinscripts="False" />
+		<filter text="You are not able to bandage that at the moment." sysmessages="True" overhead="False" speech="False" ignoreinscripts="False" />
+		<filter text="You are not able to bandage that at the moment." sysmessages="True" overhead="True" speech="True" ignoreinscripts="True" />
+		<filter text="You search with your spyglass." sysmessages="True" overhead="False" speech="False" ignoreinscripts="False" />
+		<filter text="You must be closer to heal me." sysmessages="True" overhead="True" speech="True" ignoreinscripts="True" />
+	</textfilters>
+	<targetfilters />
+	<soundfilters />
+</profile>

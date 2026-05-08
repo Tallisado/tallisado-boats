@@ -1,0 +1,14 @@
+# drop bag, hide, and open it
+overhead 'Select item to drop' 14
+@setvar itemToDrop
+
+lift itemToDrop
+wait 500
+droprelloc 0 -1
+
+if not hidden
+    skill 'hiding'
+endif
+
+wait 300
+dclick itemToDrop 

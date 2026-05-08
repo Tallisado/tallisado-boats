@@ -1,0 +1,21 @@
+if not varexist jase_lumber_runebook2
+    overhead "Select your escape runebook" 88
+    setvar jase_lumber_runebook
+endif
+
+    overhead "Red Alert!" 34
+    if skill "Magery" >= 40 
+        overhead 'Recalling...'
+        while not targetexists
+            cast "Recall"
+            wft 2000
+        endwhile
+        overhead "here"
+        target jase_lumber_runebook
+    elseif skill "Hiding" >= 40
+        useskill "Hiding"
+    endif
+    poplist "jase_lumber_actions" "red_alert"
+    overhead "Stopping script..." 34
+    stop
+    # replay

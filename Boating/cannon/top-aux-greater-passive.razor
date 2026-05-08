@@ -1,13 +1,13 @@
-﻿# Boating/cannon/top-aux-greater-passive.razor
+# Boating/cannon/top-aux-greater-passive.razor
 # Hotkey-bindable: trigger Top Auxiliary greater passive ability.
 clearsysmsg
 say '[AuxiliaryAbility'
 getlabel backpack ping
 if insysmsg "you must wait" or insysmsg "not currently reloading"
     overhead "Aux Cooling..." 38
-    hotkey "Play Script: tallisado-boats\Bots\PoonerBot\base"
+    hotkey "Play Script: uoo-scripts\Bots\PoonerBot\base"
     stop
 else
     overhead '*Top Aux Passive*' 87
 endif
-hotkey "Play Script: tallisado-boats\Bots\PoonerBot\base"
+hotkey "Play Script: uoo-scripts\Bots\PoonerBot\base"

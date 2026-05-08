@@ -23,11 +23,11 @@ hotkey "Cancel Current Target"
 if tallis_prev_lt = lasttarget
     @unsetvar "ManualTargetEnemy"
     @unsetvar! tallis_prev_lt
-    hotkey "Play Script: tallisado-boats\Bots\PoonerBot\base"
+    hotkey "Play Script: uoo-scripts\Bots\PoonerBot\base"
     stop
 endif
 
 @unsetvar! tallis_prev_lt
 @setvar 'ManualTargetEnemy' lasttarget
 overhead "Kill..." 33 "ManualTargetEnemy"
-hotkey "Play Script: tallisado-boats\Bots\PoonerBot\base"
+hotkey "Play Script: uoo-scripts\Bots\PoonerBot\base"

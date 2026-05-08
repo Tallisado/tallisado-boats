@@ -1,4 +1,4 @@
-﻿# Boating/cannon/bot-aux-lesser-offensive.razor
+# Boating/cannon/bot-aux-lesser-offensive.razor
 # Hotkey-bindable: fire Bottom Auxiliary lesser offensive ability.
 clearsysmsg
 hotkey '> Interrupt'
@@ -7,14 +7,14 @@ say "[SecondAuxiliaryAbility"
 getlabel backpack ping
 if insysmsg "fire its cannons again" or insysmsg "you must wait"
     overhead "Cannons Cooling..." 38
-    hotkey "Play Script: tallisado-boats\Bots\PoonerBot\base"
+    hotkey "Play Script: uoo-scripts\Bots\PoonerBot\base"
     stop
 endif
 if insysmsg "target this ability?"
     @setvar! "cannon_cd" 15000
     @setvar! "cannon_msg" "*Bot Aux Ability*"
-    hotkey "Play Script: tallisado-boats\Bots\_utilities\cannon-fire-target"
+    hotkey "Play Script: uoo-scripts\Bots\_utilities\cannon-fire-target"
     stop
 endif
 overhead "Ability Cooling..." 38
-hotkey "Play Script: tallisado-boats\Bots\PoonerBot\base"
+hotkey "Play Script: uoo-scripts\Bots\PoonerBot\base"

@@ -1,0 +1,8 @@
+//This one will cycle through the crew gump and try to find a hurt crewmember nearby to heal, then it'll roll back into my background script
+if not bandaging
+    waitforgump 1722920179
+    gumpresponse 20 1722920179
+    cooldown 'CREW HEAL' 5000
+endif
+
+script 'Master Background'

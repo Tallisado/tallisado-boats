@@ -1,0 +1,57 @@
+//This script expects to be called from the main organizer script so wants some pre-set variables
+
+if findtype 3645 ground -1 -1 1 as 'shippingcrate'
+    overhead 'Found Shipping Crate!' 18
+    dclick 'shippingcrate'
+    wait 250
+    if findtype 'bank deposit safe' ground any any 2 as safe
+        overhead 'Found Safe'
+        while findtype 'gold coin' shippingcrate as goldstacks
+                overhead 'Depositing gold.'
+                @drop backpack
+                lift goldstacks 60000
+                wait 250
+                drop safe -1 -1 0
+                wait 500
+        endwhile
+        while findtype 'doubloon' shippingcrate as dubbies
+                overhead 'Depositing dubs'
+                @drop backpack
+                lift dubbies 60000
+                wait 250
+                drop safe -1 -1 0
+                wait 500
+        endwhile
+    else 
+        overhead 'Did not find safe'
+    endif
+    if findtype "storage shelf|gothic storage shelf|stump storage shelf" ground -1 -1 2 as shelf
+        // Crate items to shelf
+        menu shelf 0
+        waitfortarget
+        target 'shippingcrate'
+        getlabel backpack pingCheck
+    endif
+    overhead 'test1'
+
+    
+    // Crate items to stockpile
+    //menu 0x49FA6F42 0
+    //waitfortarget
+    //target 'shippingcrate'
+    //getlabel backpack pingCheck
+    //
+    // Try to Lift
+    @drop backpack
+    lift shippingcrate
+    getlabel backpack pingCheck
+    drop backpack
+    getlabel backpack pingCheck
+    dclick 'shippingcrate'
+    
+else 
+    overhead 'No shipping crate found, strange that it found this path' 28
+endif
+
+overhead '~~ Used shipping crate path, one last pass at main organizer now ~~' 48
+script 'inn-dropper'

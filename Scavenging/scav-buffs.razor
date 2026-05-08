@@ -1,0 +1,237 @@
+
+@setvar! carveCD 650
+if not timerexists carveTimer
+    settimer carveTimer carveCD
+endif
+
+
+#--- Set Mage auto heals ---#
+
+@setvar! miniHeal 1
+@setvar! greaterHeal 1
+@setvar! cureSpell 1
+
+
+
+#--- Set potions ---#
+
+@setvar! drinkStr 0
+@setvar! strengthLowerThan 101
+
+@setvar! drinkAgility 0
+@setvar! drinkMagicResist 0
+@setvar! drinkHeal 1
+@setvar! drinkCure 1
+
+@setvar! drinkRefresh 0
+@setvar! staminaLowerThan 90
+
+#--- Alchemy Codex ---#
+
+@setvar! panaceaAbility 0
+
+#--- Auto healing hp diffs ---#
+#--- All variables refer to hit points differences ---#
+#--- When below certain hit points it will trigger ---#
+@setvar! miniumManaToBuff 70
+
+@setvar! activateAutoHealDiff 1
+
+@setvar! startCastMiniHealDiff 9
+@setvar! endCastMiniHealDiff 21
+
+@setvar! castEmergencyMiniHealDiff 72
+
+@setvar! startCastGreaterHealDiff endCastMiniHealDiff
+@setvar! endCastGreaterHealDiff 200
+
+@setvar! drinkHealPotDiff 35
+
+@setvar! interruptCastingBuffsDiff 40
+
+#--- Set mushrooms ---#
+
+@setvar! mushroomCount 0
+@setvar! eatMushWhenManaLowerThan 50
+l
+@setvar! mushroomTimerCD 60000
+
+#--- Drop Gold When Overweight ---#
+
+@setvar! amountOfGoldToDrop 500
+
+@setvar! lowManaWarningMessageWhenBelow 11
+
+#********** DO NOT EDIT UNLESS YOU KNOW WHAT YOU ARE DOING  **********   
+
+@setvar! holyPoints 0
+
+@setvar! nobleCD 30000
+settimer nobleTimer nobleCD
+
+@setvar! nobleMessageCD 500
+settimer nobleMessageTimer nobleMessageCD
+
+@setvar! holyLightCD 30000
+settimer holyLightTimer holyLightCD
+
+@setvar! maxwaittimeinms 650
+
+#--- Script msgs timers ---#
+
+@setvar! autoHealMessageCD 4500
+settimer autoHealMessageTimer 0
+
+@setvar! guardMessageCD 5500
+settimer guardMessageTimer guardMessageCD
+
+@setvar! manaMessageCD 2222
+settimer manaMessageTimer manaMessageCD
+
+@setvar! overweightMessageCD 3000
+settimer overweightMessageTimer overweightMessageCD
+
+#--- Resources timers ---#
+
+@setvar! pouchMessageCD 5000
+settimer pouchMessageTimer pouchMessageCD
+
+@setvar! aidsMessageCD 4000
+settimer aidsMessageTimer aidsMessageCD
+
+@setvar! whiteMessageCD 3000
+settimer whiteMessageTimer whiteMessageCD
+
+@setvar! blueMessageCD 3000
+settimer blueMessageTimer blueMessageCD
+
+@setvar! blackMessageCD 2500
+settimer blackMessageTimer blackMessageCD
+
+@setvar! orangeMessageCD 2000
+settimer orangeMessageTimer orangeMessageCD
+
+@setvar! yellowMessageCD 1500
+settimer yellowMessageTimer yellowMessageCD
+
+@setvar! redMessageCD 1000
+settimer redMessageTimer redMessageCD
+
+@setvar! foodMessageCD 3333
+settimer foodMessageTimer foodMessageCD
+
+#--- Magery buffs timers ---#
+
+@setvar! magicReflectCD 15000
+settimer magicReflectTimer 15000
+
+@setvar! armorReflectCD 15000
+settimer armorReflectTimer 15000
+
+@setvar! protectionCD 15000
+settimer protectionTimer 15000
+
+overhead "Skinning Bot Activated" 66
+
+@setvar! magicReflect 1
+@setvar! armorReflect 1
+@setvar! protectionSpell 1
+@setvar! blessSpell 1
+   
+#********** AUTO-MAGERY BUFFS IF NEEDED **********          
+@setvar! castingInterrupted 0
+
+if magicReflect = 1 and skill 'magery' >= 70 and not findbuff "Magic Reflection" and mana >= miniumManaToBuff and diffhits < activateAutoHealDiff and timer magicReflectTimer > magicReflectCD and findtype 3972 self and findtype 3974 self and findtype 3981 self and not find currentTarget ground -1 -1 12
+    if insysmsg "that spell will not"
+    endif
+    if insysmsg "that spell is already"
+    endif
+    sysmsg "magic reflect" 11
+    cast 'Magic Reflection'
+    while not casting 
+        getlabel backpack xxx
+        wait 200
+        if insysmsg "that spell will not" or insysmsg "that spell is already"
+            settimer magicReflectTimer 0
+            break  
+        endif
+        if targetexists
+            hotkey 'cancel current target'
+        endif
+        cast 'Magic Reflection'
+    endwhile 
+    
+    while casting 
+        if diffhits >= interruptCastingBuffsDiff or poisoned
+            interrupt
+            @setvar! castingInterrupted 1 
+            break
+        endif            
+    endwhile
+    wait 200  
+
+endif
+
+if armorReflect = 1 and skill 'magery' >= 30 and not findbuff "Reactive Armor" and mana >= miniumManaToBuff and diffhits < activateAutoHealDiff and timer armorReflectTimer > armorReflectCD and findtype 3980 self and findtype 3972 self and findtype 3981 self and not find currentTarget ground -1 -1 12
+    if insysmsg "that spell will not"
+    endif
+    if insysmsg "that spell is already"
+    endif
+    sysmsg "reflect armor" 11
+    cast 'Reactive Armor'
+    while not casting   
+        getlabel backpack xxx
+        wait 200
+        if insysmsg "that spell will not" or insysmsg "that spell is already"
+            settimer armorReflectTimer 0
+            break  
+        endif
+        if targetexists
+            hotkey 'cancel current target'
+        endif
+        cast 'Reactive Armor'
+    endwhile  
+    
+    while casting 
+    endwhile
+    getlabel backpack xxx
+    wait 200  
+endif     
+
+if protectionSpell = 1 and skill 'magery' >= 40 and not findbuff "Protection" and mana >= miniumManaToBuff and diffhits < activateAutoHealDiff and findtype 3980 self and findtype 3972 self and findtype 3973 self and not find currentTarget ground -1 -1 12
+    sysmsg "protect" 11
+    cast 'Protection'
+    while not casting
+        if targetexists
+            hotkey 'cancel current target'
+        endif
+        cast 'Protection'
+    endwhile  
+    while casting
+    endwhile
+    wait 200  
+endif 
+
+if blessSpell = 1 and skill 'magery' >= 50 and not findbuff "Cunning" and mana >= miniumManaToBuff and diffhits < activateAutoHealDiff and findtype 3972 self and findtype 3974 self and not find currentTarget ground -1 -1 12
+    sysmsg "bless" 11
+    cast 'Bless'         
+    while not casting                  
+        if targetexists
+            hotkey 'cancel current target'
+        endif
+        cast 'Bless'
+        wait 50
+    endwhile  
+    
+    while not targetexists and casting
+    endwhile
+    
+    waitfortarget maxwaittimeinms
+    target 'self' 
+    wait 200  
+endif 
+
+if mana < lowManaWarningMessageWhenBelow and timer manaMessageTimer > manaMessageCD
+    overhead "Low mana warning" 34
+    settimer manaMessageTimer 0
+endif

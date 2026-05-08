@@ -5,7 +5,7 @@
 if skill "Chivalry" < 90
     overhead "No chivalry skill - skipping Sacred Journey" 38
     say "[Embark"
-    hotkey 'Play Script: tallisado-boats\Bots\PoonerBot\base'
+    hotkey 'Play Script: uoo-scripts\Bots\PoonerBot\base'
     stop
 endif
 
@@ -25,7 +25,7 @@ waitforgump 1482653814 500
 if not gumpexists 1482653814
     overhead "Sacred Journey gump did not open - skipping..." 38
     say "[Embark"
-    hotkey 'Play Script: tallisado-boats\Bots\PoonerBot\base'
+    hotkey 'Play Script: uoo-scripts\Bots\PoonerBot\base'
     stop
 endif
 gumpresponse 5
@@ -37,7 +37,7 @@ getlabel backpack ping
 if insysmsg "You have been in combat too recently to use that ability"
     overhead "Argh, I cant do that while fighting..." 45
     gumpclose 1482653814
-    hotkey 'Play Script: tallisado-boats\Bots\PoonerBot\base'
+    hotkey 'Play Script: uoo-scripts\Bots\PoonerBot\base'
     stop
 endif
 pause 1000
@@ -50,4 +50,4 @@ if findtype 30528 ground 2091 -1 1 as chivgate
 endif
 say "[Embark"
 overhead "I am charged with Holy Power!" 78
-hotkey 'Play Script: tallisado-boats\Bots\PoonerBot\base'
+hotkey 'Play Script: uoo-scripts\Bots\PoonerBot\base'

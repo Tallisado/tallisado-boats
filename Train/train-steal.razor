@@ -1,0 +1,27 @@
+if findtype '7875|7872' ground 0 1 2 as 'pickpocketDip'
+  if skill "hiding" < 80
+      useskill 'Hiding'
+      dclick 'pickpocketDip'
+      wait 11000
+      loop
+  endif
+
+  if not hidden 
+      useskill 'Hiding'
+      dclick 'pickpocketDip'
+      wait 11000
+  endif
+
+  if hidden and skill 'stealth' < 100
+      useskill 'Stealth'
+      dclick 'pickpocketDip'
+      wait 11000
+  else
+      useskill 'Hiding'
+      dclick 'pickpocketDip'
+      wait 11000
+  endif
+else
+    overhead 'You need to be in front of a Pickpocket Dip'
+endif
+loop

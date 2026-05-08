@@ -1,15 +1,15 @@
-﻿# Boating/cannon/bot-greater-passive.razor
+# Boating/cannon/bot-greater-passive.razor
 # Hotkey-bindable: trigger Bottom row Greater passive ability.
 clearsysmsg
 say '[SecondGreaterAbility'
 getlabel backpack ping
 if insysmsg "you must wait"
     overhead "Greater Cooling..." 38
-    hotkey "Play Script: tallisado-boats\Bots\PoonerBot\base"
+    hotkey "Play Script: uoo-scripts\Bots\PoonerBot\base"
     stop
 elseif insysmsg "currently be repaired"
     overhead "It would be no use..." 38
 else
     overhead '*Passive Greater Ability*' 87
 endif
-hotkey "Play Script: tallisado-boats\Bots\PoonerBot\base"
+hotkey "Play Script: uoo-scripts\Bots\PoonerBot\base"

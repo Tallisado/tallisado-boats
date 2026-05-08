@@ -1,0 +1,43 @@
+# Bapeths Ocean Bandage Cross Heal
+#
+# Its a better bandage cross heal for crew (has indicators)
+#
+# Script starts here...
+
+if skill "Healing" >= 20
+    clearsysmsg 
+    if varexist "CrewHeal"
+        @unsetvar "CrewHeal"
+    endif
+    hotkey "Cancel Current Target"
+    overhead "Which Crew to Heal?" 88
+    hotkey "Set Last Target"
+    wft 500
+    while targetexists 
+        //donothing
+    endwhile
+    getlabel lasttarget desc
+
+    @setvar "CrewHeal" lasttarget 
+    overhead "*Heal Target*" 78 "CrewHeal"
+    hotkey "Cancel Current Target"
+    overhead 'hmm'
+    if varexist "CrewHeal" and findtype 3617 backpack as baids
+        while queued
+            //donothing
+        endwhile
+        dclick baids
+        wft 500
+        target "CrewHeal"
+        getlabel backpack ping
+        if insysmsg "You begin applying the bandages"
+            overhead "Healing..." 87 "Heal Target"
+            cooldown "Bandage" 5250
+        elseif insysmsg "You are too far away to do that"
+            overhead "*Get Closer*" 45 "CrewHeal"
+        elseif insysmsg "That being is not damaged!"
+            overhead "*Full Health*" 78 "CrewHeal" 
+        endif
+    endif
+endif
+script "Master Background"

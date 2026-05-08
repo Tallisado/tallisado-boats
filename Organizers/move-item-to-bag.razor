@@ -1,0 +1,40 @@
+#Alchemy - all serials: 3739
+    #mortar and pestle "mortar and pestle" 3739
+#Blacksmithing - all serials: 4020|4021|4027|4028|5091|5092
+    #smith's hammer ' "smith's hammer" ' 5091|5092
+    #tongs "tongs" 4027|4028 (standard) 
+    #sledgehammer "sledge hammer" 4020|4021
+#Cooking - all serials: 2431|4163
+    #rolling pin "rolling pin" 4163
+    #skillet "frypan" 2431 (standard) 
+#Carpentry - all serials: 4136|4137|4138|4144|4145|4148|4149|4324|4325|4326|4327
+    #dovetail saw "dovetail saw" 4136|4137
+    #drawing knife "draw knife" 4324
+    #froe "froe" 4325
+    #hammer "hammer" 4138
+    #inshave "inshave" 4326
+    #jointing plane "jointing plane" 4144|4145
+    #saw "saw" 4148|4149 (standard)
+    #scorp "scorp" 4327
+#Cartography - all serials: 4031|4032
+    #mapmaker's pen ' "pen and ink" 4031|4032 (standard rotation 4031, hue 2575)
+#Inscription - all serials: 4031|4032
+    #scribe's pen ' "pen and ink" 4031|4032 (standard rotation 4032, hue 0)
+#Tailoring - all serials: 3997
+    #sewing kit "sewing kit" 3997
+#Tinkering - all serials: 7864|7865
+    #tinker's tools ' "tool kit" 7864|7865
+    @setvar! item 5373
+
+if not varexist bag1
+    overhead "Select dump bag"
+    @setvar bag
+endif
+
+while findtype item backpack as found
+    lift found 60000
+    drop bag 2 -1 -1
+    wait 450
+    @ignore found
+endwhile
+@clearignore

@@ -4,7 +4,7 @@
 
 if not findtype "ship repair kit" backpack
     overhead "Out of repair kits!" 38
-    hotkey "Play Script: tallisado-boats\Bots\PoonerBot\base"
+    hotkey "Play Script: uoo-scripts\Bots\PoonerBot\base"
     stop
 endif
 gumpclose 1271619955
@@ -13,7 +13,7 @@ say "[Repair" 45
 waitforgump 1271619955 500
 if not gumpexists 1271619955
     overhead "Repair gump did not open..." 38
-    hotkey "Play Script: tallisado-boats\Bots\PoonerBot\base"
+    hotkey "Play Script: uoo-scripts\Bots\PoonerBot\base"
     stop
 endif
 gumpresponse 4
@@ -38,4 +38,4 @@ if insysmsg "repaired again"
 endif
 say "[Repair" 45
 waitforgump 1271619955 500
-hotkey "Play Script: tallisado-boats\Bots\PoonerBot\base"
+hotkey "Play Script: uoo-scripts\Bots\PoonerBot\base"

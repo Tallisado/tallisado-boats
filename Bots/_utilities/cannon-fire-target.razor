@@ -1,4 +1,4 @@
-﻿# Bots/_utilities/cannon-fire-target.razor
+# Bots/_utilities/cannon-fire-target.razor
 # Internal shared cannon targeting logic.
 # Called by all cannon/ability scripts after the game has issued a target cursor.
 #
@@ -11,7 +11,7 @@
 
 wft 500
 
-# Priority 1: Saved sails target - set via tallisado-boats\Boating\cannon\set-sails.razor
+# Priority 1: Saved sails target - set via uoo-scripts\Boating\cannon\set-sails.razor
 if varexist "ShipSails"
     target "ShipSails"
     getlabel backpack ping
@@ -21,7 +21,7 @@ if varexist "ShipSails"
         overhead "Out of Ammo!" 38
         @unsetvar! cannon_cd
         @unsetvar! cannon_msg
-        hotkey "Play Script: tallisado-boats\Bots\PoonerBot\base"
+        hotkey "Play Script: uoo-scripts\Bots\PoonerBot\base"
         stop
     elseif insysmsg "You may not fire onto your own ship!"
         overhead "Sails target is own ship! Clear with set-sails" 38
@@ -31,7 +31,7 @@ if varexist "ShipSails"
         overhead "{{cannon_msg}}" 88
         @unsetvar! cannon_cd
         @unsetvar! cannon_msg
-        hotkey "Play Script: tallisado-boats\Bots\PoonerBot\base"
+        hotkey "Play Script: uoo-scripts\Bots\PoonerBot\base"
         stop
     endif
 endif
@@ -46,7 +46,7 @@ if not varexist "cannon_manual_aim"
         overhead "Out of Ammo!" 38
         @unsetvar! cannon_cd
         @unsetvar! cannon_msg
-        hotkey "Play Script: tallisado-boats\Bots\PoonerBot\base"
+        hotkey "Play Script: uoo-scripts\Bots\PoonerBot\base"
         stop
     elseif insysmsg "You may not fire onto your own ship!"
         overhead "Too close!" 38
@@ -55,7 +55,7 @@ if not varexist "cannon_manual_aim"
         overhead "{{cannon_msg}}" 88
         @unsetvar! cannon_cd
         @unsetvar! cannon_msg
-        hotkey "Play Script: tallisado-boats\Bots\PoonerBot\base"
+        hotkey "Play Script: uoo-scripts\Bots\PoonerBot\base"
         stop
     endif
 endif
@@ -70,7 +70,7 @@ if not varexist "cannon_manual_aim"
         overhead "Out of Ammo!" 38
         @unsetvar! cannon_cd
         @unsetvar! cannon_msg
-        hotkey "Play Script: tallisado-boats\Bots\PoonerBot\base"
+        hotkey "Play Script: uoo-scripts\Bots\PoonerBot\base"
         stop
     elseif insysmsg "You may not fire onto your own ship!"
         overhead "Too close!" 38
@@ -79,7 +79,7 @@ if not varexist "cannon_manual_aim"
         overhead "{{cannon_msg}}" 88
         @unsetvar! cannon_cd
         @unsetvar! cannon_msg
-        hotkey "Play Script: tallisado-boats\Bots\PoonerBot\base"
+        hotkey "Play Script: uoo-scripts\Bots\PoonerBot\base"
         stop
     endif
 endif
@@ -97,19 +97,19 @@ if insysmsg "Our cannons cannot reach that location." or insysmsg "That is too f
     overhead "Out of Range!" 38
     @unsetvar! cannon_cd
     @unsetvar! cannon_msg
-    hotkey "Play Script: tallisado-boats\Bots\PoonerBot\base"
+    hotkey "Play Script: uoo-scripts\Bots\PoonerBot\base"
     stop
 elseif insysmsg "Those cannons are out of ammunition"
     overhead "Out of Ammo!" 38
     @unsetvar! cannon_cd
     @unsetvar! cannon_msg
-    hotkey "Play Script: tallisado-boats\Bots\PoonerBot\base"
+    hotkey "Play Script: uoo-scripts\Bots\PoonerBot\base"
     stop
 elseif insysmsg "You may not fire onto your own ship!"
     overhead "Too close!" 38
     @unsetvar! cannon_cd
     @unsetvar! cannon_msg
-    hotkey "Play Script: tallisado-boats\Bots\PoonerBot\base"
+    hotkey "Play Script: uoo-scripts\Bots\PoonerBot\base"
     stop
 elseif not targetexists
     cooldown "Cannons" cannon_cd
@@ -123,10 +123,10 @@ elseif not targetexists
     endif
     @unsetvar! cannon_cd
     @unsetvar! cannon_msg
-    hotkey "Play Script: tallisado-boats\Bots\PoonerBot\base"
+    hotkey "Play Script: uoo-scripts\Bots\PoonerBot\base"
     stop
 endif
 
 @unsetvar! cannon_cd
 @unsetvar! cannon_msg
-hotkey "Play Script: tallisado-boats\Bots\PoonerBot\base"
+hotkey "Play Script: uoo-scripts\Bots\PoonerBot\base"

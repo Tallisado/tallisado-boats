@@ -1,0 +1,52 @@
+// Rapid bandaging loop script 
+// created by: Yogurt
+// updated: 16 December 2024
+
+@setvar! globalTimeout 650
+if not dead
+    if findtype "clean bandage%s%" backpack
+        if bandaging = 0 
+            if hp != maxhp and not hidden
+                hotkey 'Bandage self' 
+                wait globalTimeout
+            elseif hp < 55
+                hotkey 'Bandage self' 
+                wait globalTimeout
+            endif
+        endif
+    endif
+
+    if paralyzed
+        overhead 'Paralyzed!' 38
+        if findtype "pouch" backpack 38 any any 
+            say '[pouch'
+            wait globalTimeout
+        endif
+    endif
+    
+    if poisoned
+        if findtype "Orange Potion" self
+            wait globalTimeout            
+            overhead 'Drinking cure!' 48
+            potion "cure" 
+            wait globalTimeout      
+        endif
+    endif
+
+    if hp < 55
+        if findtype 3852 self as PotsHeal 
+            getlabel PotsHeal LabelPotsHeal
+            if 'next usable' in LabelPotsHeal
+                sysmsg 'Unable to use Heal Potion Yet!' 33          
+            else
+                overhead 'Drinking heal!' 68  
+                dclick PotsHeal
+                wait globalTimeout  
+            endif
+        endif 
+    endif
+
+else
+   pause 1000
+endif 
+loop

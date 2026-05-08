@@ -1,4 +1,4 @@
-﻿# Boating/launch.razor
+# Boating/launch.razor
 # Hotkey-bindable: full ship launch sequence.
 # Finds nearby dockmaster, places ship, embarks crew, sets hold, opens hotbars.
 # Optionally disembarks after for Sacred Journey chiv buff (set tallis_Ocean_SacredJourneyOnAutoLaunch = 1 in init).
@@ -181,12 +181,12 @@ while not dead
         getlabel backpack ping
         if insysmsg "You disembark from the ship."
             overhead "Time for the journey!"
-            hotkey 'Play Script: tallisado-boats\Boating\sacred-journey'
+            hotkey 'Play Script: uoo-scripts\Boating\sacred-journey'
         else
             overhead "Disembark failed - starting bot..."
-            hotkey 'Play Script: tallisado-boats\Bots\PoonerBot\base'
+            hotkey 'Play Script: uoo-scripts\Bots\PoonerBot\base'
         endif
     else
-        hotkey 'Play Script: tallisado-boats\Bots\PoonerBot\base'
+        hotkey 'Play Script: uoo-scripts\Bots\PoonerBot\base'
     endif
 endwhile

@@ -1,19 +1,19 @@
-﻿# Boating/cannon/reload.razor
+# Boating/cannon/reload.razor
 # Hotkey-bindable: reload ship cannons.
 if not cooldown "Cannons"
     say '[Reload' 45
     getlabel backpack ping
     if insysmsg 'No cannons require reloading at the moment.'
         overhead 'Cannons Fully Loaded' 45
-        hotkey "Play Script: tallisado-boats\Bots\PoonerBot\base"
+        hotkey "Play Script: uoo-scripts\Bots\PoonerBot\base"
         stop
     elseif insysmsg "reload the cannons"
         overhead "Reloading underway..." 45
-        hotkey "Play Script: tallisado-boats\Bots\PoonerBot\base"
+        hotkey "Play Script: uoo-scripts\Bots\PoonerBot\base"
         stop
     endif
     overhead '*Reloading*' 45
 else
     overhead "Cannons are busy..." 45
 endif
-hotkey "Play Script: tallisado-boats\Bots\PoonerBot\base"
+hotkey "Play Script: uoo-scripts\Bots\PoonerBot\base"

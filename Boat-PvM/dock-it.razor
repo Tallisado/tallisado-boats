@@ -1,0 +1,46 @@
+for 50
+    hotkey "Next Monster Target"
+    @setvar bdockmaster lasttarget
+    if noto bdockmaster = "invulnerable"
+        getlabel bdockmaster desc
+        if "dockmaster" in desc
+            menu bdockmaster 1
+            getlabel backpack ping
+            if gumpexists 3287496917
+                gumpresponse 8
+                getlabel backpack ping
+                if insysmsg "You pay"
+                    overhead "Shipping crate sent" 74
+                elseif insysmsg "not been stationary"
+                    overhead "Stationary cooldown..." 45
+                    gumpclose 3287496917
+                    replay
+                elseif insysmsg "capable of being"
+                    overhead "Nothing to ship..." 45
+                elseif insysmsg "you are not onboard"
+                    gumpclose 3287496917
+                    overhead "Not on a ship..." 45
+                    stop
+                endif
+                waitforgump 3287496917
+                gumpresponse 7
+                getlabel backpack ping
+                if insysmsg "You dock the ship"
+                    overhead "Ship Docked Safley" 88
+                    gumpclose 3287496917
+                    hotkey "Cancel Current Target"
+                    stop
+                elseif insysmsg "not been stationary"
+                    overhead "Stationary cooldown..." 45
+                    gumpclose 3287496917
+                    replay
+                endif
+            else    
+                replay
+            endif
+            break
+        endif
+    endif
+endfor
+overhead "Disembark / Embark to resync if dockmaster can not be found" 45
+loop

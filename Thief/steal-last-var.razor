@@ -1,0 +1,27 @@
+# Steal stealthis (lastobject replacement) by Jaseowns
+# UO Outlands
+if not varexist stealthis
+    @setvar! stealthis lasttarget 
+endif
+@setvar! tempLastTarget lasttarget
+hotkey 'Set Last Target'
+target stealthis
+while not targetexists 
+    useskill 'Stealing'
+    wft 500
+endwhile
+target lasttarget  
+hotkey 'Set Last Target'
+target tempLastTarget
+wait 200
+if stealthis = 0 or find stealthis ground -1 -1 12
+   // do nothing
+elseif find stealthis backpack
+    getlabel stealthis desc
+    overhead "Stolen: {{desc}}" 88
+    sysmsg "Stolen: {{desc}}" 88
+    wait 200
+    hotkey 'Take Screenshot Now'
+endif
+wait 11000
+overhead "Skill ready"

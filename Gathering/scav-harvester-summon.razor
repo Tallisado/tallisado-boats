@@ -1,0 +1,41 @@
+createlist summonList
+clearlist summonList
+
+pushlist summonList "Earth Elemental"
+pushlist summonList "Earth Elemental"
+foreach summon in summonList
+    overhead "Summoning"
+    while diffmana > 50
+        while not findbuff "Actively Meditating" and timer "ManaTimer" > 10000
+            useskill "meditation"
+            if EnableOverheadMessages != 0 
+                overhead "*meditating...*" 10
+            endif
+            settimer "ManaTimer" 0
+        endwhile
+
+        if diffhits >= 30
+            return
+        endif    
+
+        wait 500
+    endwhile
+    
+    cast summon
+    wait 5000
+    overhead "done summon"
+endfor
+overhead "My pets? ..." 44
+if findtype 14 ground -1 -1 2 as myPet
+    overhead "I will keep watch, Master..." 44 myPet
+    for 5
+        if findtype 14 ground -1 -1 2 as myPet
+            getlabel myPet myPetLabel
+            if "earth elemental" in myPetLabel
+                overhead "I will keep watch, Master..." 44 myPet
+                menu myPet 3
+                @ignore myPet
+            endif 
+        endif 
+    endfor
+endif

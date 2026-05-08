@@ -1,0 +1,13 @@
+# Equip a halberd PVP by Jaseowns
+# UO Outlands
+// equips if we have a spell casted or not
+hotkey 'Toggle Peace Only'
+if targetexists any
+    cast 'unlock'
+    lifttype "halberd" 1 "backpack"
+    drop self lefthand
+else 
+    dclicktype "halberd" backpack
+endif
+
+hotkey "Attack Last Combatant"

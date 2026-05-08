@@ -1,0 +1,36 @@
+# Bapeths Simple Cannon Reload
+#
+# "****REQUIRED****"
+# Bapeths Ship Cooldowns xml file (copy paste into your characters Cooldown file)
+# "COPY" Link to get Bapeths Cooldowns "https://outlands.uorazorscripts.com/script/f1e41e2d-411e-461e-9fd0-c4fc2dc234b1"
+# "PASTE" FILE PATH : C:\Program Files (x86)\Ultima Online Outlands\ClassicUO\Data\Profiles\"YOUR-ACCOUNT-NAME"\UO Outlands\"YOUR-CHARACTER" Open file in notepad
+# The cooldowns with "Tigger Text" Must be adjusted to "your ships stats" and "your Wizard Grimoire upgrades" in the UO in game Options
+#
+# Script will loop into 'Master Background' if you have it in your script library
+#
+# This script will reload your cannons and create a cooldown
+#
+# Script Starts Here
+if not cooldown "Cannons"
+    say '[Reload' 45
+    getlabel backpack ping
+    if insysmsg 'No cannons require reloading at the moment.'
+        overhead 'Cannons Fully Loaded' 45
+        warmode off 
+        script 'Master Background'
+        stop
+    elseif insysmsg "reload the cannons"
+        overhead "Reloading underway..." 45
+        warmode off 
+        script 'Master Background'
+        stop
+    endif
+    overhead '*Reloading*' 45
+    warmode off 
+    script 'Master Background'
+    stop
+else 
+    overhead "Cannons are busy..." 45
+endif
+script 'Master Background'
+
