@@ -276,9 +276,6 @@ endif
 
 clearsysmsg
 
-if not timerexists tallis_ReloadTimer
-    settimer tallis_ReloadTimer 30000
-endif
 
 if jaseowns_AutoExplodePot = 1
     @setvar! jaseowns_AutoExplodePotTimerCD 15000
@@ -2110,10 +2107,6 @@ while not dead
         overhead "Yar, we cant repair in combat..." 38
     endif
 
-    if timer tallis_ReloadTimer >= 30000 and not targetexists
-        settimer tallis_ReloadTimer 0
-        hotkey "Play Script: uoo-scripts\Boating\cannon\reload"
-    endif
 
     if not poisoned and not queued and not targetexists and not findbuff "Actively Meditating" and not cooldown "Spyglass" and hp >= 66 and findtype "spyglass" backpack as bspy
         gumpclose 2890020940
