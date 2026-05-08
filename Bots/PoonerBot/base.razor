@@ -626,6 +626,9 @@ while not dead
                 if queued
                     overhead "CH: queued - skip" 3
                     settimer undead_Ocean_CrewHealBandages_Timer 0
+                elseif bandaging
+                    overhead "CH: bandaging - skip" 3
+                    settimer undead_Ocean_CrewHealBandages_Timer 2000
                 elseif targetexists
                     overhead "CH: cursor already open - skip" 3
                     hotkey "Cancel Current Target"
@@ -637,6 +640,7 @@ while not dead
                     if targetexists
                         overhead "CH: cursor OK" 3
                         target "CrewHeal"
+                        pause 200
                         getlabel backpack ping
                         if targetexists
                             hotkey "Cancel Current Target"
@@ -659,7 +663,7 @@ while not dead
                             settimer undead_Ocean_CrewHealBandages_Timer 0
                         else
                             overhead "CH: unknown" 38
-                            settimer undead_Ocean_CrewHealBandages_Timer 0
+                            settimer undead_Ocean_CrewHealBandages_Timer 500
                         endif
                     else
                         overhead "CH: wft timeout" 38
