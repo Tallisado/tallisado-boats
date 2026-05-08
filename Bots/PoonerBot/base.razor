@@ -604,14 +604,20 @@ while not dead
             gumpclose 4267467659
         endif
     endif
+    if not bandaging and varexist tallis_SelfBandage
+        @unsetvar! tallis_SelfBandage
+    endif
     if skill "Healing" > 0 and findtype 3617 self and not bandaging
         if findbuff "bleed" or findbuff "disease" or poisoned
+            @setvar! tallis_SelfBandage 1
             hotkey "Bandage Self"
         elseif not varexist jaseowns_AutoBandageHpDiffTrigger
             if hp < maxhp
+                @setvar! tallis_SelfBandage 1
                 hotkey "Bandage Self"
             endif
         elseif diffhits > jaseowns_AutoBandageHpDiffTrigger
+            @setvar! tallis_SelfBandage 1
             hotkey "Bandage Self"
         endif
          
@@ -1631,7 +1637,7 @@ while not dead
                 else
                     overhead "▼▼" 63 "CrewHeal"
                 endif
-            elseif bandaging
+            elseif bandaging and varexist tallis_SelfBandage
                 overhead "▼▼" 53
             endif
         endif
