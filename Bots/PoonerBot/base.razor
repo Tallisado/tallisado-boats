@@ -2110,7 +2110,7 @@ while not dead
         overhead "Yar, we cant repair in combat..." 38
     endif
 
-    if timer tallis_ReloadTimer >= 30000
+    if timer tallis_ReloadTimer >= 30000 and not targetexists
         settimer tallis_ReloadTimer 0
         hotkey "Play Script: uoo-scripts\Boating\cannon\reload"
     endif
