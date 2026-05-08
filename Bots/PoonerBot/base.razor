@@ -613,7 +613,7 @@ while not dead
         if findbuff "bleed" or findbuff "disease" or poisoned
             @setvar! tallis_SelfBandage 1
             hotkey "Bandage Self"
-        elseif diffhits > jaseowns_AutoBandageHpDiffTrigger
+        elseif diffhits >= jaseowns_AutoBandageHpDiffTrigger
             @setvar! tallis_SelfBandage 1
             hotkey "Bandage Self"
         endif
@@ -1173,7 +1173,8 @@ while not dead
         endif
 
         @setvar! jaseowns_BOT_UseCloseWounds 0
-        overhead "DBG CW: bleed={{findbuff 'bleed'}} disease={{findbuff 'disease'}} diffhits={{diffhits}}" 88
+        @setvar! tallis_dbg_dh diffhits
+        overhead "DBG CHIV2: dh={{tallis_dbg_dh}} sym={{jaseowns_HolySymbols}} NS={{jaseowns_BOT_UseNobleSacrifice}} HL={{jaseowns_BOT_UseHolyLight}}" 55
         if findbuff "disease" or findbuff "bleed"
             if jaseowns_Chiv_UseCloseWoundsAutomatically = 1 and 3 <= jaseowns_HolySymbols and skill "chivalry" >= 70 and timer jaseowns_CloseWoundsTimer >= jaseowns_CloseWoundsTimerCD
                 if not varexist jaseowns_Chiv_AutoCloseWoundHpDiffTrigger
@@ -1845,7 +1846,7 @@ while not dead
     endif
 
     // Attacking stuff
-    overhead "DBG: atk={{jaseowns_CurrentBotTargetAttacked}} wm={{warmode}}" 55
+    overhead "DBG: atk={{jaseowns_CurrentBotTargetAttacked}}" 55
     if jaseowns_CurrentBotTargetAttacked = 1 and warmode
 
         if jaseowns_UseAbility1 = 1 and timer jaseowns_UseAbilityTimer >= jaseowns_UseAbilityTimerCD
@@ -1940,7 +1941,6 @@ while not dead
         endif
     
         if varexist jaseowns_HolySymbols
-            overhead "DBG CHIV: sym={{jaseowns_HolySymbols}} eoo_t={{timer jaseowns_EnemyOfOneTimer}} chiv={{skill 'chivalry'}}" 88
             if jaseowns_Chiv_UseDivineFuryAutomatically = 1 and 4 <= jaseowns_HolySymbols and skill "chivalry" >= 90 and timer jaseowns_DivineFuryTimer >= jaseowns_DivineFuryTimerCD
                 say "[DivineFury"
                 getlabel backpack jaseowns_PingCheck
