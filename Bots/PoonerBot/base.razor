@@ -628,7 +628,6 @@ while not dead
                 getlabel CrewHeal tallis_heal_name
             endif
             if "[Crewmember]" in tallis_heal_name
-                overhead "{{tallis_heal_name}}" 88 'CrewHeal'
                 if bandaging
                     overhead "CH: bandaging - skip" 38
                     settimer undead_Ocean_CrewHealBandages_Timer 2000
