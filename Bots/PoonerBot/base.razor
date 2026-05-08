@@ -1632,11 +1632,7 @@ while not dead
             endif
             settimer jaseowns_CurrentBotTargetOverheadTimer 0
             if varexist "CrewHeal"
-                if bandaging
-                    overhead "▼▼" 53 "CrewHeal"
-                else
-                    overhead "▼▼" 63 "CrewHeal"
-                endif
+                overhead "▼▼" 63 "CrewHeal"
             elseif bandaging and varexist tallis_SelfBandage
                 overhead "▼▼" 53
             endif
