@@ -369,13 +369,6 @@ if not varexist undead_Ocean_CrewAttackEnable
     @setvar! undead_Ocean_CrewAttackEnable 1
 endif
 
-if not varexist undead_Ocean_FrostRescue
-    @setvar! undead_Ocean_FrostRescue 1
-endif
-
-if not varexist undead_Ocean_FrostRescue_hp_trigger
-    @setvar! undead_Ocean_FrostRescue_hp_trigger 25
-endif
 
 
 ### /OCEAN EDIT ###
@@ -2197,25 +2190,6 @@ while not dead
             settimer jaseowns_BOT_BardBuffTimer 0
         endif
     endif
-### Ocean Edits
-    ### Experimental, switch to Frost Aspect when youre low life.
-    if undead_Ocean_FrostRescue = 1 and hp < undead_Ocean_FrostRescue_hp_trigger 
-        if not cooldown "Aspect"
-            say "[AspectArmor Frost" 88
-            getlabel backpack ping
-            if insysmsg "Your armor is already of that aspect"
-                overhead "Frost Already Enabled" 2234
-            else 
-                cooldown "Aspect" 30000
-                overhead "--Frost Shell Primed--" 2234
-            endif
-        else
-            overhead "Aspect Cooling..." 45
-        endif
-    endif
-    
-
-
 ### /Ocean Edits
 
     wait 50
