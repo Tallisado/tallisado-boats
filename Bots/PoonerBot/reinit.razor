@@ -1,0 +1,144 @@
+### OCEAN EDIT ###
+@setvar! undead_overhead_ocean 87
+
+@setvar! undead_Ocean_CrewAutoAttack 0
+@setvar! undead_Ocean_CrewAutoAttack_TimerCD 30000
+
+@setvar! undead_Ocean_CrewHealBandages_TimerCD 5000
+
+# Spyglass Cooldown Min: 7s, 9s is recommended
+@setvar! undead_Ocean_Spyglass_TimerCD 9000
+
+@setvar! undead_Ocean_ShipHotBars_YellAtStart 0
+
+@setvar! undead_Ocean_UseBeggingTimerCD 20000
+
+@setvar! tallis_Ocean_AutoLaunch 1
+@setvar! tallis_Ocean_SacredJourneyOnAutoLaunch 1
+@setvar! tallis_Ocean_UsingSPK 1
+
+### /OCEAN EDIT ###
+
+
+@setvar! jaseowns_ShowVersion 0
+
+# Skinning
+@setvar! jaseowns_UseSkinningKnifeAutomatically 1
+# Potions
+@setvar! jaseowns_Potion_UseMagicResistAutomatically 1
+@setvar! jaseowns_Potion_UseStrengthAutomatically 1
+@setvar! jaseowns_Potion_UseAgilityAutomatically 1
+# Heal Pot
+@setvar! jaseowns_Potion_UseHealAutomatically 1
+@setvar! jaseowns_Potion_HealHpDiffTrigger 35
+# Cure Pot
+@setvar! jaseowns_HasPanacea 0
+@setvar! jaseowns_Potion_UseCureAutomatically 1
+@setvar! jaseowns_Potion_CureHpDiffTrigger 0
+# Refresh Pot
+@setvar! jaseowns_Potion_UseRefreshAutomatically 1
+@setvar! jaseowns_Potion_RefreshStamDiffTrigger 10
+# Potions Overhead
+@setvar! jaseowns_Potion_ShowOverheads 0
+@setvar! jaseowns_Potion_Cure_Overhead_IfCountIsLessThan 5
+@setvar! jaseowns_Potion_Cure_Overhead_IfCountIsLessThan_TimerCD 5000
+@setvar! jaseowns_Potion_Heal_Overhead_IfCountIsLessThan 5
+@setvar! jaseowns_Potion_Heal_Overhead_IfCountIsLessThan_TimerCD 5000
+@setvar! jaseowns_Potion_Explosion_Overhead_IfCountIsLessThan 5
+@setvar! jaseowns_Potion_Explosion_Overhead_IfCountIsLessThan_TimerCD 5000
+
+# Explosion Potions - use at your own risk
+@setvar! jaseowns_AutoExplodePot 0
+
+# Weapon Abilities
+@setvar! jaseowns_UseAbility1 0
+@setvar! jaseowns_UseAbility2 1
+@setvar! jaseowns_UseAbility3 0
+@setvar! jaseowns_UseAbilityTimerCD 5000
+@setvar! jaseowns_ForceAbilitiesHotBarToShow 1
+
+# Poison
+@setvar! jaseowns_Poison_AutomaticallyApply 1
+@setvar! jaseowns_Poison_AutomaticallyApplyAtSingleCharge 1
+
+# Parry
+@setvar! jaseowns_AutoTaunting 0
+@setvar! jaseowns_AutoAOETaunting 0
+@setvar! jaseowns_TauntingTimerCD 15000
+@setvar! jaseowns_Parry_AutoTauntHpDiffTrigger 20
+@setvar! jaseowns_Parry_CodexMinMana 13
+@setvar! jaseowns_Parry_SwitchToWardingIfBleeding 0
+@setvar! jaseowns_Parry_SwitchToWardingIfDisease 1
+@setvar! jaseowns_Parry_SwitchToWardingIfPoison 1
+@setvar! jaseowns_Parry_SwitchToBulwarkIfStandingStill 0
+@setvar! jaseowns_Parry_SwitchToShieldBashWhileMoving 0
+@setvar! jaseowns_Parry_SwitchToWardingIfBleedingHpDiff 25
+@setvar! jaseowns_Parry_SwitchToWardingIfDiseaseHpDiff 25
+@setvar! jaseowns_Parry_SwitchToWardingIfPoisonHpDiff 25
+# 1 = Shield Bash, 2 = Warding, 3 = Testudo, 4 = Mirror, 5 = Bulwark
+@setvar! jaseowns_Parry_SwitchToDefaultStance 1
+
+# Healing - Bandages
+@setvar! jaseowns_AutoBandageHpDiffTrigger 1
+
+# Healing - Chiv
+@setvar! jaseowns_Chiv_ReserveSymbols 5
+@setvar! jaseowns_Chiv_AutoHolyLightHpDiffTrigger 60
+@setvar! jaseowns_Chiv_UseHolyLightAutomatically 1
+@setvar! jaseowns_Chiv_AutoUseNobleSacrificeHpDiffTrigger 80
+@setvar! jaseowns_Chiv_UseNobleSacrificeAutomatically 1
+
+# Other Chiv Abilities
+@setvar! jaseowns_Chiv_UseDivineFuryAutomatically 1
+@setvar! jaseowns_Chiv_UseConsecrateWeaponAutomatically 1
+@setvar! jaseowns_Chiv_UseEnemyOfOneAutomatically 1
+@setvar! jaseowns_Chiv_UseCleanseByFireAutomatically 1
+@setvar! jaseowns_Chiv_UseCloseWoundsAutomatically 1
+@setvar! jaseowns_Chiv_AutoCloseWoundHpDiffTrigger 20
+
+# Bard Abilities
+@setvar! jaseowns_Bard_PeaceAutomatically 0
+
+# General Target Overheads
+@setvar! jaseowns_CurrentBotTargetOverheadTimerCD 1500
+@setvar! jaseowns_CurrentBotTargetOverheadHue 33
+
+@setvar! jaseowns_CurrentBotTargetUnableToAttackOverheadTimerCD 1500
+@setvar! jaseowns_CurrentBotTargetUnableToAttackOverheadHue 34
+
+@setvar! jaseowns_IgnoreMobOverheadTimerCD 1500
+@setvar! jaseowns_IgnoreMobOverheadHue 77
+
+# Custom Target Overhead Messages
+removelist jaseowns_CurrentBotTargetOverheadText
+createlist jaseowns_CurrentBotTargetOverheadText
+pushlist jaseowns_CurrentBotTargetOverheadText "▼▼"
+
+removelist jaseowns_CurrentBotTargetUnableToAttackOverheadText
+createlist jaseowns_CurrentBotTargetUnableToAttackOverheadText
+pushlist jaseowns_CurrentBotTargetUnableToAttackOverheadText "● ▼ CANNOT SEE ▼ ●"
+
+removelist jaseowns_IgnoreMobOverheadText
+createlist jaseowns_IgnoreMobOverheadText
+pushlist jaseowns_IgnoreMobOverheadText "▼ IgnoreMobList - IGNORE ▼"
+
+# Custom ignore list
+removelist jaseowns_IgnoreMobList
+createlist jaseowns_IgnoreMobList
+pushlist jaseowns_IgnoreMobList "a sheep"
+pushlist jaseowns_IgnoreMobList "a kingfisher"
+pushlist jaseowns_IgnoreMobList "a raven"
+pushlist jaseowns_IgnoreMobList "a goat"
+pushlist jaseowns_IgnoreMobList "a black bear"
+pushlist jaseowns_IgnoreMobList "an eagle"
+pushlist jaseowns_IgnoreMobList "a wolf"
+pushlist jaseowns_IgnoreMobList "a horse"
+pushlist jaseowns_IgnoreMobList "a towhee"
+pushlist jaseowns_IgnoreMobList "a giant rat"
+pushlist jaseowns_IgnoreMobList "a great hart"
+
+if not timerexists undead_Ocean_CrewHealBandages_Timer
+    settimer undead_Ocean_CrewHealBandages_Timer undead_Ocean_CrewHealBandages_TimerCD
+endif
+
+hotkey "Play Script: uoo-scripts\Bots\PoonerBot\base"
