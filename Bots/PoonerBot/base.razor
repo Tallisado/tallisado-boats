@@ -276,6 +276,9 @@ endif
 
 clearsysmsg
 
+if not timerexists tallis_CrewHealVVTimer
+    settimer tallis_CrewHealVVTimer 1500
+endif
 
 if jaseowns_AutoExplodePot = 1
     @setvar! jaseowns_AutoExplodePotTimerCD 15000
@@ -729,6 +732,19 @@ while not dead
                 endif
             endif
             settimer undead_Ocean_CrewHealBandages_Timer 0
+        endif
+    endif
+
+    if timer tallis_CrewHealVVTimer >= 1500
+        settimer tallis_CrewHealVVTimer 0
+        if varexist "CrewHeal"
+            if bandaging
+                overhead "▼▼" 53 "CrewHeal"
+            else
+                overhead "▼▼" 63 "CrewHeal"
+            endif
+        elseif bandaging
+            overhead "▼▼" 53
         endif
     endif
 
@@ -1626,15 +1642,6 @@ while not dead
                     endfor
                 endif
                 settimer jaseowns_CurrentBotTargetOverheadTimer 0
-                if varexist "CrewHeal"
-                    if bandaging
-                        overhead "▼▼" 53 "CrewHeal"
-                    else
-                        overhead "▼▼" 63 "CrewHeal"
-                    endif
-                elseif bandaging
-                    overhead "▼▼" 53
-                endif
             endif
 
             if find jaseowns_CurrentBotTarget ground -1 -1 jaseowns_FightingRangeCheck
