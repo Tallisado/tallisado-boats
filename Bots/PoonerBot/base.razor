@@ -374,10 +374,6 @@ if not varexist undead_Ocean_FrostRescue_hp_trigger
 endif
 
 
-if warmode
-    warmode off
-endif
-
 ### /OCEAN EDIT ###
 
 while not dead
@@ -1693,7 +1689,6 @@ while not dead
                 else
                     
                 
-                    warmode on
                     attack jaseowns_CurrentBotTarget
                 
                     #overhead "Current target: {{jaseowns_CurrentBotTargetDesc}} {{jaseowns_UsedSkillTimer}}"
