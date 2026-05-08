@@ -114,6 +114,7 @@ settimer baseInitTimerExample 0
 #  - [x] Skinning (self)
 
 @setvar! jaseowns_CurrentBotTarget 0
+@setvar! jaseowns_BOT_LastLabeledTarget 0
 @setvar! jaseowns_FightingRangeCheck 12
 @setvar! tallis_repairDuration 6000
 
@@ -611,11 +612,6 @@ while not dead
         if findbuff "bleed" or findbuff "disease" or poisoned
             @setvar! tallis_SelfBandage 1
             hotkey "Bandage Self"
-        elseif not varexist jaseowns_AutoBandageHpDiffTrigger
-            if hp < maxhp
-                @setvar! tallis_SelfBandage 1
-                hotkey "Bandage Self"
-            endif
         elseif diffhits > jaseowns_AutoBandageHpDiffTrigger
             @setvar! tallis_SelfBandage 1
             hotkey "Bandage Self"
@@ -1219,6 +1215,7 @@ while not dead
             endif
         endif
         
+        if jaseowns_BOT_UseNobleSacrifice = 1 or jaseowns_BOT_UseHolyLight = 1 or jaseowns_BOT_UseCloseWounds = 1
         if gumpexists 1387930325
             if cooldown PVP
                 unsetvar jaseowns_HolySymbols
@@ -1571,8 +1568,9 @@ while not dead
                 @setvar! jaseowns_HolySymbols 0
             endif
         endif
+        endif
     endif
-    
+
     @setvar! jaseowns_CurrentBotTargetAttacked 0
     
     if not cooldown PVP
@@ -1640,18 +1638,22 @@ while not dead
         if not dead jaseowns_CurrentBotTarget
 
             if find jaseowns_CurrentBotTarget ground -1 -1 jaseowns_FightingRangeCheck
-                
-                for 3
-                    if dead jaseowns_CurrentBotTarget
-                        break
-                    endif
-                    getlabel jaseowns_CurrentBotTarget jaseowns_CurrentBotTargetDesc
-                    if "-" in jaseowns_CurrentBotTargetDesc
-                        // do nothing - try again
-                    else
-                        break
-                    endif
-                endfor
+
+                if jaseowns_CurrentBotTarget != jaseowns_BOT_LastLabeledTarget or not timerexists tallis_TargetLabelTimer or timer tallis_TargetLabelTimer >= 500
+                    for 3
+                        if dead jaseowns_CurrentBotTarget
+                            break
+                        endif
+                        getlabel jaseowns_CurrentBotTarget jaseowns_CurrentBotTargetDesc
+                        if "-" in jaseowns_CurrentBotTargetDesc
+                            // do nothing - try again
+                        else
+                            break
+                        endif
+                    endfor
+                    @setvar! jaseowns_BOT_LastLabeledTarget jaseowns_CurrentBotTarget
+                    settimer tallis_TargetLabelTimer 0
+                endif
                 @setvar! jaseowns_IgnoreCurrentBotTarget 0
                 
                 if "[Crewmember]" in jaseowns_CurrentBotTargetDesc
