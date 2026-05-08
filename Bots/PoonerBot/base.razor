@@ -375,7 +375,7 @@ endif
 
 while not dead
 
-    if insysmsg "We've received"
+    if insysmsg "hull damage"
         if not cooldown "BoatSankCD"
             @setvar! tallis_BoatSank 1
             cooldown "BoatSankCD" 30000
@@ -2113,7 +2113,7 @@ while not dead
     # endif
 
     if varexist tallis_BoatSank
-        @unsetvar! tallis_BoatSank
+        @unsetvar tallis_BoatSank
         overhead "To the bottom!"
         say "[Reload" 45
         say "[AspectArmor Fortune Max"

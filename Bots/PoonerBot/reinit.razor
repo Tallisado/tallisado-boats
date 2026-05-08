@@ -141,11 +141,16 @@ if not timerexists undead_Ocean_CrewHealBandages_Timer
     settimer undead_Ocean_CrewHealBandages_Timer undead_Ocean_CrewHealBandages_TimerCD
 endif
 
-@unsetvar! tallis_BoatSank
+@unsetvar tallis_BoatSank
 
 if not gumpexists 1722920179
     say "[shiphotbars"
     waitforgump 1722920179 500
+endif
+
+if not gumpexists 3329337894
+    say "[TargetingMode"
+    waitforgump 3329337894 500
 endif
 
 hotkey "Play Script: uoo-scripts\Bots\PoonerBot\base"
