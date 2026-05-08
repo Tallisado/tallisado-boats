@@ -2100,7 +2100,7 @@ while not dead
             overhead "I am out of repair kits..." 38
         endif
     endif
-    if insysmsg "hull"
+    if timerexists repairRetry and insysmsg "hull"
         overhead "Ship is in good order!" 68
     endif
     if insysmsg "repaired again"
