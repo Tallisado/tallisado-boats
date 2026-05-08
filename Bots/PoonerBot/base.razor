@@ -282,7 +282,11 @@ endif
 
 settimer jaseowns_BOT_BardBuffTimer 10000
 
-clearsysmsg 
+clearsysmsg
+
+if not timerexists tallis_ReloadTimer
+    settimer tallis_ReloadTimer 30000
+endif
 
 if jaseowns_AutoExplodePot = 1
     @setvar! jaseowns_AutoExplodePotTimerCD 15000
@@ -2211,8 +2215,8 @@ while not dead
         overhead "Yar, we cant repair in combat..." 38
     endif
 
-    if not cooldown "ReloadCheck"
-        cooldown "ReloadCheck" 30000
+    if timer tallis_ReloadTimer >= 30000
+        settimer tallis_ReloadTimer 0
         hotkey "Play Script: uoo-scripts\Boating\cannon\reload"
     endif
 
