@@ -1172,6 +1172,7 @@ while not dead
         endif
 
         @setvar! jaseowns_BOT_UseCloseWounds 0
+        overhead "DBG CW: bleed={{findbuff 'bleed'}} disease={{findbuff 'disease'}} diffhits={{diffhits}}" 88
         if findbuff "disease" or findbuff "bleed"
             if jaseowns_Chiv_UseCloseWoundsAutomatically = 1 and 3 <= jaseowns_HolySymbols and skill "chivalry" >= 70 and timer jaseowns_CloseWoundsTimer >= jaseowns_CloseWoundsTimerCD
                 if not varexist jaseowns_Chiv_AutoCloseWoundHpDiffTrigger
