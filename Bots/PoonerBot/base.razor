@@ -642,7 +642,7 @@ while not dead
                             hotkey "Cancel Current Target"
                         endif
                         if insysmsg "too far away"
-                            overhead "??" 38 "CrewHeal"
+                            overhead "▼▼" 38 "CrewHeal"
                             settimer undead_Ocean_CrewHealBandages_Timer undead_Ocean_CrewHealBandages_TimerCD
                         elseif insysmsg "That being is not damaged!" or insysmsg "not damaged"
                             overhead "CH: not damaged - cleared" 3
@@ -1612,9 +1612,9 @@ while not dead
                 if "[Crewmember]" in tallis_overhead_check
                     @setvar! jaseowns_CurrentBotTarget 0
                 elseif varexist "Manual Override" and find "Manual Override" ground
-                    overhead "? ?? MANUAL ?? ?" 88 'Manual Override'
+                    overhead "● ▼▼ MANUAL ▼▼ ●" 88 'Manual Override'
                 elseif varexist "ManualTargetEnemy"
-                    overhead "???" 33 jaseowns_CurrentBotTarget
+                    overhead "▼▼▼" 33 jaseowns_CurrentBotTarget
                 else
                     foreach jaseowns_Overhead in jaseowns_CurrentBotTargetOverheadText
                         overhead jaseowns_Overhead jaseowns_CurrentBotTargetOverheadHue jaseowns_CurrentBotTarget
@@ -1623,12 +1623,12 @@ while not dead
                 settimer jaseowns_CurrentBotTargetOverheadTimer 0
                 if varexist "CrewHeal"
                     if bandaging
-                        overhead "??" 53 "CrewHeal"
+                        overhead "▼▼" 53 "CrewHeal"
                     else
-                        overhead "??" 63 "CrewHeal"
+                        overhead "▼▼" 63 "CrewHeal"
                     endif
                 elseif bandaging
-                    overhead "??" 53
+                    overhead "▼▼" 53
                 endif
             endif
 
@@ -1650,7 +1650,7 @@ while not dead
                 if "[Crewmember]" in jaseowns_CurrentBotTargetDesc
                     @setvar! jaseowns_CurrentBotTarget 0
                 elseif "(summoned" in jaseowns_CurrentBotTargetDesc or "(bonded" in jaseowns_CurrentBotTargetDesc or "(tame" in jaseowns_CurrentBotTargetDesc
-                    overhead "? Player pet - IGNORE ?" 77 jaseowns_CurrentBotTarget
+                    overhead "▼ Player pet - IGNORE ▼" 77 jaseowns_CurrentBotTarget
                     @setvar! jaseowns_IgnoreCurrentBotTarget 1
                 elseif listexists jaseowns_IgnoreMobList
                     foreach jaseowns_IgnoreMob in jaseowns_IgnoreMobList
