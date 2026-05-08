@@ -376,7 +376,10 @@ endif
 while not dead
 
     if insysmsg "We've received"
-        @setvar! tallis_BoatSank 1
+        if not cooldown "BoatSankCD"
+            @setvar! tallis_BoatSank 1
+            cooldown "BoatSankCD" 30000
+        endif
         clearsysmsg
     endif
 
