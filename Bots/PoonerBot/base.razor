@@ -1173,8 +1173,7 @@ while not dead
         endif
 
         @setvar! jaseowns_BOT_UseCloseWounds 0
-        @setvar! tallis_dbg_dh diffhits
-        overhead "DBG CHIV2: dh={{tallis_dbg_dh}} sym={{jaseowns_HolySymbols}} NS={{jaseowns_BOT_UseNobleSacrifice}} HL={{jaseowns_BOT_UseHolyLight}}" 55
+        overhead "DBG CHIV2: sym={{jaseowns_HolySymbols}} NS={{jaseowns_BOT_UseNobleSacrifice}} HL={{jaseowns_BOT_UseHolyLight}}" 55
         if findbuff "disease" or findbuff "bleed"
             if jaseowns_Chiv_UseCloseWoundsAutomatically = 1 and 3 <= jaseowns_HolySymbols and skill "chivalry" >= 70 and timer jaseowns_CloseWoundsTimer >= jaseowns_CloseWoundsTimerCD
                 if not varexist jaseowns_Chiv_AutoCloseWoundHpDiffTrigger
@@ -2097,10 +2096,12 @@ while not dead
         endif
     endif
 
-    if not cooldown "Fray" and not timerexists repairRetry
-        overhead "Out of combat repair"
-        settimer repairRetry tallis_repairDuration
-        hotkey "Play Script: uoo-scripts\Boating\repair"
+    if not cooldown "Fray"
+        if not timerexists repairRetry or timer repairRetry >= tallis_repairDuration
+            overhead "Out of combat repair"
+            settimer repairRetry 0
+            hotkey "Play Script: uoo-scripts\Boating\repair"
+        endif
     endif
 
     if varexist tallis_BoatSank
@@ -2135,9 +2136,6 @@ while not dead
         else
             overhead "I am out of repair kits..." 38
         endif
-    endif
-    if timerexists repairRetry and insysmsg "hull"
-        overhead "Ship is in good order!" 68
     endif
     if insysmsg "repaired again"
         overhead "Yar, we cant repair in combat..." 38
