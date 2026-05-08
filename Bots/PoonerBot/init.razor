@@ -49,6 +49,9 @@ overhead "PEACE to run around" 89
 @setvar! tallis_Ocean_AutoLaunch 1
 @setvar! tallis_Ocean_SacredJourneyOnAutoLaunch 1
 @setvar! tallis_Ocean_UsingSPK 1
+if tallis_Ocean_UsingSPK = 1
+    cooldown "SPK" 60000
+endif
 
 ### /OCEAN EDIT ###
 

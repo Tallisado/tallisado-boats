@@ -5,6 +5,9 @@ hotkey '> Interrupt'
 hotkey "Cancel Current Target"
 say "[RegularAbility"
 getlabel backpack ping
+if varexist tallis_Ocean_UsingSPK and tallis_Ocean_UsingSPK = 1
+    cooldown "SPK" 60000
+endif
 if insysmsg "fire its cannons again" or insysmsg "you must wait"
     overhead "Cannons Cooling..." 38
     hotkey "Play Script: uoo-scripts\Bots\PoonerBot\base"

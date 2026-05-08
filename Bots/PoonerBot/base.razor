@@ -403,6 +403,12 @@ while not dead
         settimer undead_Ocean_UseBeggingTimer 0
     endif
 
+    ## Ocean: SPK Notification
+    if varexist tallis_Ocean_UsingSPK and tallis_Ocean_UsingSPK = 1 and not cooldown "SPK" and not cooldown "SPKNotify"
+        overhead "SPK Ready - Load one!" 38
+        cooldown "SPKNotify" 30000
+    endif
+
 ### /OCEAN EDIT ###
     
     if casting 
