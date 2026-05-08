@@ -276,10 +276,6 @@ endif
 
 clearsysmsg
 
-if not timerexists tallis_CrewHealVVTimer
-    settimer tallis_CrewHealVVTimer 1500
-endif
-
 if jaseowns_AutoExplodePot = 1
     @setvar! jaseowns_AutoExplodePotTimerCD 15000
     if not timerexists jaseowns_AutoExplodePotTimer
@@ -732,19 +728,6 @@ while not dead
                 endif
             endif
             settimer undead_Ocean_CrewHealBandages_Timer 0
-        endif
-    endif
-
-    if timer tallis_CrewHealVVTimer >= 1500
-        settimer tallis_CrewHealVVTimer 0
-        if varexist "CrewHeal"
-            if bandaging
-                overhead "▼▼" 53 "CrewHeal"
-            else
-                overhead "▼▼" 63 "CrewHeal"
-            endif
-        elseif bandaging
-            overhead "▼▼" 53
         endif
     endif
 
@@ -1626,9 +1609,8 @@ while not dead
         endif
         
         # TODO: handle hidden mobs
-        if not dead jaseowns_CurrentBotTarget
-            
-            if timer jaseowns_CurrentBotTargetOverheadTimer >= jaseowns_CurrentBotTargetOverheadTimerCD and listexists jaseowns_CurrentBotTargetOverheadText
+        if timer jaseowns_CurrentBotTargetOverheadTimer >= jaseowns_CurrentBotTargetOverheadTimerCD and listexists jaseowns_CurrentBotTargetOverheadText
+            if not dead jaseowns_CurrentBotTarget
                 getlabel jaseowns_CurrentBotTarget tallis_overhead_check
                 if "[Crewmember]" in tallis_overhead_check
                     @setvar! jaseowns_CurrentBotTarget 0
@@ -1641,8 +1623,20 @@ while not dead
                         overhead jaseowns_Overhead jaseowns_CurrentBotTargetOverheadHue jaseowns_CurrentBotTarget
                     endfor
                 endif
-                settimer jaseowns_CurrentBotTargetOverheadTimer 0
             endif
+            settimer jaseowns_CurrentBotTargetOverheadTimer 0
+            if varexist "CrewHeal"
+                if bandaging
+                    overhead "▼▼" 53 "CrewHeal"
+                else
+                    overhead "▼▼" 63 "CrewHeal"
+                endif
+            elseif bandaging
+                overhead "▼▼" 53
+            endif
+        endif
+
+        if not dead jaseowns_CurrentBotTarget
 
             if find jaseowns_CurrentBotTarget ground -1 -1 jaseowns_FightingRangeCheck
                 
