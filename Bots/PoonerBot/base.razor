@@ -404,7 +404,7 @@ while not dead
     endif
 
     ## Ocean: SPK Notification
-    if varexist tallis_Ocean_UsingSPK and tallis_Ocean_UsingSPK = 1 and not cooldown "SPK" and not cooldown "SPKNotify"
+    if varexist tallis_Ocean_UsingSPK and tallis_Ocean_UsingSPK = 1 and varexist tallis_Ocean_SPK_WasUsed and not cooldown "SPK" and not cooldown "SPKNotify"
         overhead "SPK Ready - Load one!" 38
         cooldown "SPKNotify" 30000
     endif
