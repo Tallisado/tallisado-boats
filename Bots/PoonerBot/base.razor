@@ -382,6 +382,10 @@ endif
 
 while not dead
 
+    if insysmsg "We've received"
+        @setvar! tallis_BoatSank 1
+    endif
+
 ### OCEAN EDIT ###
     ### Ocean: Rearm Harpoons maybe no more needed, check jaseowns_BOT_CurrentRightHandWeapon
     if lhandempty and skill 'fishing' >= 80 and findtype 31169|31172 as weapon
@@ -2078,7 +2082,8 @@ while not dead
         hotkey "Play Script: uoo-scripts\Boating\repair"
     endif
 
-    if insysmsg "We've received"
+    if varexist tallis_BoatSank
+        @unsetvar! tallis_BoatSank
         overhead "To the bottom!"
         say "[Reload" 45
         say "[AspectArmor Fortune Max"
