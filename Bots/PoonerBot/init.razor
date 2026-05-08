@@ -187,6 +187,10 @@ else
 endif
 
 
+if not timerexists undead_Ocean_CrewHealBandages_Timer
+    settimer undead_Ocean_CrewHealBandages_Timer undead_Ocean_CrewHealBandages_TimerCD
+endif
+
 if listexists jaseowns_PreviousScript
     foreach myScript in jaseowns_PreviousScript
         hotkey myScript
