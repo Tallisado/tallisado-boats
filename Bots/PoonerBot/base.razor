@@ -1181,20 +1181,27 @@ while not dead
                     if diffhits >= 5
                         @setvar! jaseowns_BOT_UseCloseWounds 1
                     endif
-                elseif diffhits >= jaseowns_Chiv_AutoCloseWoundHpDiffTrigger 
+                elseif diffhits >= jaseowns_Chiv_AutoCloseWoundHpDiffTrigger
                     @setvar! jaseowns_BOT_UseCloseWounds 1
                 endif
             endif
         endif
-       
+
+        @setvar! jaseowns_BOT_UseCleanseByFire 0
+        if poisoned and jaseowns_Chiv_UseCleanseByFireAutomatically = 1 and 2 <= jaseowns_HolySymbols and skill "chivalry" >= 60
+            if timer jaseowns_CleanseByFireTimer >= jaseowns_CleanseByFireTimerCD
+                @setvar! jaseowns_BOT_UseCleanseByFire 1
+            endif
+        endif
+
         if jaseowns_BOT_UseNobleSacrifice = 1
             say "[NobleSacrifice"
             wft 500
-            if targetexists 
+            if targetexists
                 hotkey "Target Self"
                 getlabel backpack jaseowns_PingCheck
-                if not targetexists 
-                    if insysmsg "Holy symbols remaining" 
+                if not targetexists
+                    if insysmsg "Holy symbols remaining"
                         cooldown "Noble Sacrifice" 30000
                         settimer jaseowns_NobleSacrificeTimer 0
                     endif
@@ -1205,19 +1212,26 @@ while not dead
         elseif jaseowns_BOT_UseHolyLight = 1
             say "[HolyLight"
             getlabel backpack jaseowns_PingCheck
-            if insysmsg "Holy symbols remaining" 
+            if insysmsg "Holy symbols remaining"
                 cooldown "Holy Light" 30000
                 settimer jaseowns_HolyLightTimer 0
             endif
         elseif jaseowns_BOT_UseCloseWounds = 1
             say "[CloseWounds"
             getlabel backpack jaseowns_PingCheck
-            if insysmsg "Holy symbols remaining" 
+            if insysmsg "Holy symbols remaining"
                 cooldown "Close Wounds" 30000
                 settimer jaseowns_CloseWoundsTimer 0
             endif
+        elseif jaseowns_BOT_UseCleanseByFire = 1
+            say "[CleanseByFire"
+            getlabel backpack jaseowns_PingCheck
+            if insysmsg "Holy symbols remaining"
+                cooldown "Cleanse By Fire" 30000
+                settimer jaseowns_CleanseByFireTimer 0
+            endif
         endif
-        
+
         if jaseowns_BOT_UseNobleSacrifice = 1 or jaseowns_BOT_UseHolyLight = 1 or jaseowns_BOT_UseCloseWounds = 1
         if gumpexists 1387930325
             if cooldown PVP
