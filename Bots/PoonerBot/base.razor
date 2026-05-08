@@ -373,7 +373,7 @@ if not varexist undead_Ocean_FrostRescue_hp_trigger
 endif
 
 
-if not warmode
+if warmode
     warmode off
 endif
 
@@ -403,11 +403,6 @@ while not dead
         settimer undead_Ocean_UseBeggingTimer 0
     endif
 
-    ## Ocean: SPK Notification
-    if varexist tallis_Ocean_UsingSPK and tallis_Ocean_UsingSPK = 1 and varexist tallis_Ocean_SPK_WasUsed and not cooldown "SPK" and not cooldown "SPKNotify"
-        overhead "SPK Ready - Load one!" 38
-        cooldown "SPKNotify" 30000
-    endif
 
 ### /OCEAN EDIT ###
     
@@ -629,10 +624,7 @@ while not dead
             endif
             if "[Crewmember]" in tallis_heal_name
                 overhead "{{tallis_heal_name}}" 88 'CrewHeal'
-                if queued
-                    overhead "CH: queued - skip" 38
-                    settimer undead_Ocean_CrewHealBandages_Timer 0
-                elseif bandaging
+                if bandaging
                     overhead "CH: bandaging - skip" 38
                     settimer undead_Ocean_CrewHealBandages_Timer 2000
                 elseif targetexists
@@ -653,6 +645,12 @@ while not dead
                         endif
                         if insysmsg "too far away"
                             overhead "▼▼" 38 "CrewHeal"
+                            if cooldown "CrewHeal_TooFarFail"
+                                @unsetvar "CrewHeal"
+                                overhead "CH: too far twice - cleared" 38
+                            else
+                                cooldown "CrewHeal_TooFarFail" 10000
+                            endif
                             settimer undead_Ocean_CrewHealBandages_Timer undead_Ocean_CrewHealBandages_TimerCD
                         elseif insysmsg "That being is not damaged!" or insysmsg "not damaged"
                             overhead "CH: not damaged - cleared" 38
@@ -952,7 +950,6 @@ while not dead
             @setvar! jaseowns_HolySymbols_HasEnoughFor_NobleSacrificeHeal 1
             if jaseowns_Chiv_ReserveSymbols = 10
                 @setvar! jaseowns_HolySymbols 0
-                @setvar! jaseowns_HolySymbols_HasEnoughForHeal 1
             elseif jaseowns_Chiv_ReserveSymbols = 9
                 @setvar! jaseowns_HolySymbols 1
             elseif jaseowns_Chiv_ReserveSymbols = 8
@@ -1707,7 +1704,7 @@ while not dead
 
                     if jaseowns_Bard_CanPeacemake = 1 and jaseowns_Bard_SkipPeace = 0 and timer jaseowns_UsedSkillTimer >= 5000
                        
-                        overhead "Peacmking"
+                        overhead "Peacemaking"
                         useskill 'Peacemaking'
                         wft 500
                         if insysmsg "What instrument"
@@ -1838,7 +1835,7 @@ while not dead
         if jaseowns_UseAbility1 = 1 and timer jaseowns_UseAbilityTimer >= jaseowns_UseAbilityTimerCD
             say "[WeaponAbility1"
             getlabel backpack jaseowns_PingCheck 
-            if insysmsg "You do cannot perform that ability yet."
+            if insysmsg "You cannot perform that ability yet."
                 settimer jaseowns_UseAbilityTimer 0
             elseif insysmsg "You have not yet unlocked that weapon ability." or insysmsg "You do not have the required codex or skills to use that weapon ability."
                 @setvar! jaseowns_UseAbility1 0
@@ -1850,7 +1847,7 @@ while not dead
         if jaseowns_UseAbility2 = 1 and timer jaseowns_UseAbilityTimer >= jaseowns_UseAbilityTimerCD
             say "[WeaponAbility2"
             getlabel backpack jaseowns_PingCheck 
-            if insysmsg "You do cannot perform that ability yet."
+            if insysmsg "You cannot perform that ability yet."
                 settimer jaseowns_UseAbilityTimer 0
             elseif insysmsg "You have not yet unlocked that weapon ability." or insysmsg "You do not have the required codex or skills to use that weapon ability."
                 @setvar! jaseowns_UseAbility2 0
@@ -1872,7 +1869,7 @@ while not dead
                 say "[WeaponAbility3"
             endif
             getlabel backpack jaseowns_PingCheck 
-            if insysmsg "You do cannot perform that ability yet."
+            if insysmsg "You cannot perform that ability yet."
                 settimer jaseowns_UseAbilityTimer 0
             elseif insysmsg "You have not yet unlocked that weapon ability." or insysmsg "You do not have the required codex or skills to use that weapon ability."
                 @setvar! jaseowns_UseAbility3 0
@@ -1882,10 +1879,12 @@ while not dead
         endif   
     
         if jaseowns_AutoExplodePot = 1 and findtype 3853 self 0 as jaseowns_Pot
-            if timer jaseowns_AutoExplodePotTimer >= jaseowns_AutoExplodePotTimerCD 
+            if timer jaseowns_AutoExplodePotTimer >= jaseowns_AutoExplodePotTimerCD
                 dclick jaseowns_Pot
+                wft 500
+                target lasttarget
                 if findtype 3853 self 0 as jaseowns_Pot2
-                    getlabel jaseowns_Pot2 jaseowns_PotDesc    
+                    getlabel jaseowns_Pot2 jaseowns_PotDesc
                     if "next" in jaseowns_PotDesc
                         if "12 seconds" in jaseowns_PotDesc
                             @setvar! jaseowns_AutoExplodePotTimerCD 12000
@@ -1901,8 +1900,6 @@ while not dead
                     endif
                 endif
             endif
-            wft 500
-            target lasttarget
         endif
     
         if not queued and jaseowns_Potion_UseAgilityAutomatically = 1 and not findbuff "Agility" and findtype 3848 self as jaseowns_Potion
@@ -2077,50 +2074,48 @@ while not dead
 
     if insysmsg "We've received"
         overhead "To the bottom!"
-        
         if findtype "ship repair kit"
-        gumpclose 1271619955
-        clearsysmsg
-        say "[Repair" 45
-        waitforgump 1271619955 500
-        if gumpexists 1271619955
-            gumpresponse 4
-            getlabel backpack ping
-            if insysmsg "guns"
-                if gumpexists 1271619955
-                    gumpresponse 3
-                    getlabel backpack ping
+            gumpclose 1271619955
+            clearsysmsg
+            say "[Repair" 45
+            waitforgump 1271619955 500
+            if gumpexists 1271619955
+                gumpresponse 4
+                getlabel backpack ping
+                if insysmsg "guns"
+                    if gumpexists 1271619955
+                        gumpresponse 3
+                        getlabel backpack ping
+                    endif
+                endif
+                if insysmsg "sails"
+                    if gumpexists 1271619955
+                        gumpresponse 2
+                        getlabel backpack ping
+                    endif
                 endif
             endif
-            if insysmsg "sails"
-                if gumpexists 1271619955
-                    gumpresponse 2
-                    getlabel backpack ping
-                endif
-            endif
+        else
+            overhead "I am out of repair kits..." 38
         endif
-    else
-        overhead "I am out of repair kits..." 38
     endif
     if insysmsg "hull"
         overhead "Ship is in good order!" 68
-
     endif
     if insysmsg "repaired again"
         overhead "Yar, we cant repair in combat..." 38
     endif
 
-        hotkey "Play Script: uoo-scripts\Boating\cannon\reload"
-    endif
+    hotkey "Play Script: uoo-scripts\Boating\cannon\reload"
 
     if not poisoned and not queued and not targetexists and not findbuff "Actively Meditating" and not cooldown "Spyglass" and hp >= 66 and findtype "spyglass" backpack as bspy
         gumpclose 2890020940
         dclick bspy
+        cooldown "Spyglass" 9000
         waitforgump 2890020940 500
         if gumpexists 2890020940
             overhead 'Yarr!' 67
-            cooldown "Spyglass" 9000
-        endif 
+        endif
     endif
 
     if skill "Provocation" > 0
