@@ -41,8 +41,27 @@ if "[Crewmember]" in crewname
     @setvar! "CrewHeal" lasttarget
     overhead "▼▼" 63 "CrewHeal"
     settimer jaseowns_CurrentBotTargetOverheadTimer jaseowns_CurrentBotTargetOverheadTimerCD
+    clearsysmsg
+    if findtype 3617 backpack as baids
+        dclick baids
+        wft 400
+        if targetexists
+            target "CrewHeal"
+            pause 200
+            getlabel backpack ping
+            if insysmsg "You begin applying" or bandaging
+                settimer undead_Ocean_CrewHealBandages_Timer 0
+            else
+                settimer undead_Ocean_CrewHealBandages_Timer undead_Ocean_CrewHealBandages_TimerCD
+            endif
+        else
+            settimer undead_Ocean_CrewHealBandages_Timer undead_Ocean_CrewHealBandages_TimerCD
+        endif
+    else
+        settimer undead_Ocean_CrewHealBandages_Timer undead_Ocean_CrewHealBandages_TimerCD
+    endif
 else
     overhead "Not a crew member!" 38
+    settimer undead_Ocean_CrewHealBandages_Timer undead_Ocean_CrewHealBandages_TimerCD
 endif
-settimer undead_Ocean_CrewHealBandages_Timer 0
 hotkey 'Play Script: uoo-scripts\Bots\PoonerBot\base'
