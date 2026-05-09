@@ -9,5 +9,8 @@ if insysmsg "you must wait" or insysmsg "not currently reloading"
     stop
 else
     overhead '*Bot Aux Passive*' 87
+    if varexist tallis_Ocean_UsingHoldFast and tallis_Ocean_UsingHoldFast = 1
+        cooldown "Hold Fast" 30000
+    endif
 endif
 hotkey "Play Script: uoo-scripts\Bots\PoonerBot\base"
