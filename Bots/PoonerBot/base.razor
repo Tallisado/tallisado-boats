@@ -1954,6 +1954,17 @@ while not dead
             if jaseowns_HolySymbols < 9 and timer jaseowns_DivineFuryTimer >= jaseowns_DivineFuryTimerCD
                 overhead "CHIV burst: low sym={{jaseowns_HolySymbols}}/9 needed" 38
             endif
+            if timer jaseowns_DivineFuryTimer >= jaseowns_DivineFuryTimerCD
+                @setvar! dbg_EoO_tmr 0
+                if timer jaseowns_EnemyOfOneTimer >= jaseowns_EnemyOfOneTimerCD
+                    @setvar! dbg_EoO_tmr 1
+                endif
+                @setvar! dbg_CW_tmr 0
+                if timer jaseowns_ConsecrateWeaponTimer >= jaseowns_ConsecrateWeaponTimerCD
+                    @setvar! dbg_CW_tmr 1
+                endif
+                overhead "CHIV dbg: sym={{jaseowns_HolySymbols}} EoO-tmr={{dbg_EoO_tmr}}/flag={{jaseowns_Chiv_UseEnemyOfOneAutomatically}} CW-tmr={{dbg_CW_tmr}}/flag={{jaseowns_Chiv_UseConsecrateWeaponAutomatically}}" 55
+            endif
             if jaseowns_Chiv_UseDivineFuryAutomatically = 1 and 4 <= jaseowns_HolySymbols and skill "chivalry" >= 90 and timer jaseowns_DivineFuryTimer >= jaseowns_DivineFuryTimerCD
                 say "[DivineFury"
                 cooldown "Divine Fury" 30000
