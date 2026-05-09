@@ -1952,31 +1952,29 @@ while not dead
         endif
     
         if varexist jaseowns_HolySymbols
+            if jaseowns_HolySymbols < 9 and timer jaseowns_DivineFuryTimer >= jaseowns_DivineFuryTimerCD
+                overhead "CHIV burst: low sym={{jaseowns_HolySymbols}}/9 needed" 38
+            endif
             if jaseowns_Chiv_UseDivineFuryAutomatically = 1 and 4 <= jaseowns_HolySymbols and skill "chivalry" >= 90 and timer jaseowns_DivineFuryTimer >= jaseowns_DivineFuryTimerCD
                 say "[DivineFury"
                 getlabel backpack jaseowns_PingCheck
-                if insysmsg "Holy symbols remaining" 
+                if insysmsg "Holy symbols remaining"
                     cooldown "Divine Fury" 30000
                     settimer jaseowns_DivineFuryTimer 0
                 endif
-            elseif poisoned and jaseowns_Chiv_UseCleanseByFireAutomatically = 1 and 2 <= jaseowns_HolySymbols and skill "chivalry" >= 60 and timer jaseowns_CleanseByFireTimer >= jaseowns_CleanseByFireTimerCD
-                say "[CleanseByFire"
-                getlabel backpack jaseowns_PingCheck
-                if insysmsg "Holy symbols remaining" 
-                    cooldown "Cleanse By Fire" 30000
-                    settimer jaseowns_CleanseByFireTimer 0
-                endif
-            elseif jaseowns_Chiv_UseEnemyOfOneAutomatically = 1 and 3 <= jaseowns_HolySymbols and skill "chivalry" >= 75 and timer jaseowns_EnemyOfOneTimer >= jaseowns_EnemyOfOneTimerCD
+            endif
+            if jaseowns_Chiv_UseEnemyOfOneAutomatically = 1 and 3 <= jaseowns_HolySymbols and skill "chivalry" >= 75 and timer jaseowns_EnemyOfOneTimer >= jaseowns_EnemyOfOneTimerCD
                 say "[EnemyOfOne"
                 getlabel backpack jaseowns_PingCheck
-                if insysmsg "Holy symbols remaining" 
+                if insysmsg "Holy symbols remaining"
                     cooldown "Enemy Of One" 30000
                     settimer jaseowns_EnemyOfOneTimer 0
-                endif  
-            elseif jaseowns_Chiv_UseConsecrateWeaponAutomatically = 1 and 2 <= jaseowns_HolySymbols and skill "chivalry" >= 65 and timer jaseowns_ConsecrateWeaponTimer >= jaseowns_ConsecrateWeaponTimerCD
+                endif
+            endif
+            if jaseowns_Chiv_UseConsecrateWeaponAutomatically = 1 and 2 <= jaseowns_HolySymbols and skill "chivalry" >= 65 and timer jaseowns_ConsecrateWeaponTimer >= jaseowns_ConsecrateWeaponTimerCD
                 say "[ConsecrateWeapon"
                 getlabel backpack jaseowns_PingCheck
-                if insysmsg "Holy symbols remaining" 
+                if insysmsg "Holy symbols remaining"
                     cooldown "Consecrate Weapon" 30000
                     settimer jaseowns_ConsecrateWeaponTimer 0
                 endif
