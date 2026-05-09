@@ -665,8 +665,26 @@ while not dead
                         elseif bandaging
                             overhead "CH: bandaging OK" 38
                             settimer undead_Ocean_CrewHealBandages_Timer 0
+                        elseif insysmsg "must wait"
+                            overhead "CH: must wait" 38
+                            settimer undead_Ocean_CrewHealBandages_Timer 1000
+                        elseif insysmsg "That mobile" or insysmsg "invalid"
+                            overhead "CH: invalid target - cleared" 38
+                            @unsetvar "CrewHeal"
+                            settimer undead_Ocean_CrewHealBandages_Timer undead_Ocean_CrewHealBandages_TimerCD
+                        elseif insysmsg "cannot"
+                            overhead "CH: cannot" 38
+                            settimer undead_Ocean_CrewHealBandages_Timer 1000
+                        elseif insysmsg "dead"
+                            overhead "CH: target dead - cleared" 38
+                            @unsetvar "CrewHeal"
+                            settimer undead_Ocean_CrewHealBandages_Timer undead_Ocean_CrewHealBandages_TimerCD
                         else
-                            overhead "CH: unknown" 38
+                            @setvar! dbg_ch_tx 0
+                            if targetexists
+                                @setvar! dbg_ch_tx 1
+                            endif
+                            overhead "CH: unknown tx={{dbg_ch_tx}} band={{bandaging}}" 38
                             settimer undead_Ocean_CrewHealBandages_Timer 500
                         endif
                     else
