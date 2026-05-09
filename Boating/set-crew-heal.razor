@@ -38,7 +38,7 @@ endif
 @unsetvar! tallis_prev_lt
 getlabel lasttarget crewname
 if "[Crewmember]" in crewname
-    @setvar "CrewHeal" lasttarget
+    @setvar! "CrewHeal" lasttarget
     overhead "▼▼" 63 "CrewHeal"
     settimer jaseowns_CurrentBotTargetOverheadTimer jaseowns_CurrentBotTargetOverheadTimerCD
 else
