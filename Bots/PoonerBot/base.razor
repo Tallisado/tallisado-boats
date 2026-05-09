@@ -654,8 +654,7 @@ while not dead
                             endif
                             settimer undead_Ocean_CrewHealBandages_Timer undead_Ocean_CrewHealBandages_TimerCD
                         elseif insysmsg "That being is not damaged!" or insysmsg "not damaged"
-                            overhead "CH: not damaged - cleared" 38
-                            @unsetvar "CrewHeal"
+                            overhead "CH: not damaged - skip" 38
                             settimer undead_Ocean_CrewHealBandages_Timer undead_Ocean_CrewHealBandages_TimerCD
                         elseif insysmsg "already being healed" or insysmsg "already bandaged"
                             overhead "CH: already being healed" 38
