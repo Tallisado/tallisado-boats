@@ -1173,7 +1173,6 @@ while not dead
         endif
 
         @setvar! jaseowns_BOT_UseCloseWounds 0
-        overhead "DBG CHIV2: sym={{jaseowns_HolySymbols}} NS={{jaseowns_BOT_UseNobleSacrifice}} HL={{jaseowns_BOT_UseHolyLight}}" 55
         if findbuff "disease" or findbuff "bleed"
             if jaseowns_Chiv_UseCloseWoundsAutomatically = 1 and 3 <= jaseowns_HolySymbols and skill "chivalry" >= 70 and timer jaseowns_CloseWoundsTimer >= jaseowns_CloseWoundsTimerCD
                 if not varexist jaseowns_Chiv_AutoCloseWoundHpDiffTrigger
@@ -1859,7 +1858,6 @@ while not dead
     endif
 
     // Attacking stuff
-    overhead "DBG: atk={{jaseowns_CurrentBotTargetAttacked}}" 55
     if jaseowns_CurrentBotTargetAttacked = 1 and warmode
 
         if jaseowns_UseAbility1 = 1 and timer jaseowns_UseAbilityTimer >= jaseowns_UseAbilityTimerCD
