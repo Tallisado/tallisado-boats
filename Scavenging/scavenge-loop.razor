@@ -50,7 +50,6 @@ endif
 
 @setvar! mushroomCount 0
 @setvar! eatMushWhenManaLowerThan 50
-l
 @setvar! mushroomTimerCD 60000
 
 #--- Drop Gold When Overweight ---#
@@ -305,21 +304,26 @@ while not dead
         settimer manaMessageTimer 0
     endif
 
-    while findtype "corpse" ground -1 -1 2 as corpsy and findtype 11552 backpack
+    while findtype "corpse" ground -1 -1 5 as corpsy and findtype 11552 backpack
         if timer carveTimer > carveCD
             if targetexists
                 hotkey 'cancel current target'
             endif
-            while not targetexists 
+            while not targetexists
                 skill 'forensicevaluation'
+                wait 50
             endwhile
-            
-            if targetexists and not hidden and find corpsy ground -1 -1 2
+
+            if targetexists and not hidden and find corpsy ground -1 -1 5
                 sysmsg "Skinning corpse.." 11
-                target 'self'    
+                target 'self'
                 @ignore corpsy
                 settimer carveTimer 0
             endif
+        else
+            wait 100
         endif
     endwhile
+
+    wait 50
 endwhile
