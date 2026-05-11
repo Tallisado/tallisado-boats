@@ -1,0 +1,23 @@
+
+clearall
+hotkey '> Interrupt'
+overhead "Quick scav scan..." 90
+
+while findtype "corpse" ground -1 -1 5 as corpsy and findtype 11552 backpack as bknife
+    if targetexists
+        hotkey 'cancel current target'
+    endif
+    dclick bknife
+    waitfortarget 500
+    if targetexists and not hidden and find corpsy ground -1 -1 5
+        sysmsg "Quick: skinning.." 11
+        target corpsy
+        @ignore corpsy
+        wait 650
+    else
+        @ignore corpsy
+    endif
+endwhile
+
+overhead "Scan done - returning to loop" 90
+hotkey "Play Script: uoo-scripts\Scavenging\scavenge-loop"
