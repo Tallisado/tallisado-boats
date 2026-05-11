@@ -3,20 +3,31 @@ clearlist summonList
 
 pushlist summonList "Earth Elemental"
 pushlist summonList "Earth Elemental"
+
+settimer "ManaTimer" 10000
+
 foreach summon in summonList
     overhead "Summoning"
     while diffmana > 50
-        while not findbuff "Actively Meditating" and timer "ManaTimer" > 10000
-            useskill "meditation"
-            if EnableOverheadMessages != 0 
-                overhead "*meditating...*" 10
+        @setvar! canMeditate 0
+        if not findbuff "Actively Meditating"
+            if timerexists "ManaTimer"
+                if timer "ManaTimer" > 10000
+                    @setvar! canMeditate 1
+                endif
+            else
+                @setvar! canMeditate 1
             endif
+        endif
+        if canMeditate = 1
+            useskill "meditation"
+            overhead "*meditating...*" 10
             settimer "ManaTimer" 0
-        endwhile
+        endif
 
         if diffhits >= 30
             return
-        endif    
+        endif
 
         wait 500
     endwhile
