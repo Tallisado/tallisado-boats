@@ -1,1 +1,16 @@
-﻿say '[recallcharge Mining 22'
+﻿@setvar! hasRegs 0
+@findtype 0xF7A -1 'backpack'
+if finditem
+    @findtype 0xF7B -1 'backpack'
+    if finditem
+        @findtype 0xF86 -1 'backpack'
+        if finditem
+            @setvar! hasRegs 1
+        endif
+    endif
+endif
+if hasRegs = 1
+    say '[recall Mining 22'
+else
+    say '[recallcharge Mining 22'
+endif
