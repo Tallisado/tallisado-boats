@@ -253,7 +253,7 @@
 		<key mod="4" key="71" send="False">L:2036</key>
 		<key mod="0" key="90" send="False">L:1044081</key>
 		<key mod="0" key="70" send="False">L:1044093</key>
-		<key mod="0" key="107" send="False">Play Script: uoo-scripts\Navigation\recall-home</key>
+		<key mod="0" key="187" send="False">Play Script: uoo-scripts\Navigation\recall-home</key>
 	</hotkeys>
 	<overheadmessages>
 		<overheadmessage searchtext="You may now perform taunt" message="Taunt ready!" hue="68" />
