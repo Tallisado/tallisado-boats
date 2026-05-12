@@ -6,9 +6,10 @@ if findtype 0xF7A
         endif
     endif
 endif
-wait 2000
 if hasRegs = 1
     say '[recall room'
 else
     say '[recallcharge room'
 endif
+wait 2300
+hotkey "Play Script: uoo-scripts\Navigation\room"
