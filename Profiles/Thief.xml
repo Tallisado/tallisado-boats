@@ -13,8 +13,8 @@
 	<property name="SortCounters" type="System.Boolean">True</property>
 	<property name="QueueActions" type="System.Boolean">False</property>
 	<property name="QueueTargets" type="System.Boolean">False</property>
-	<property name="WindowX" type="System.Int32">714</property>
-	<property name="WindowY" type="System.Int32">1208</property>
+	<property name="WindowX" type="System.Int32">329</property>
+	<property name="WindowY" type="System.Int32">781</property>
 	<property name="CountStealthSteps" type="System.Boolean">True</property>
 	<property name="SysColor" type="System.Int32">68</property>
 	<property name="WarningColor" type="System.Int32">37</property>
@@ -218,12 +218,21 @@
 		<key mod="4" key="87" send="False">Play: InvisMe</key>
 		<key mod="4" key="77" send="False">Play: moongate</key>
 		<key mod="0" key="46" send="False">L:2101</key>
+		<key mod="2" key="50" send="False">Play Script: uoo-scripts\Combat\ebolt-combo</key>
 		<key mod="0" key="220" send="False">Play Script: uoo-scripts\Dex bot\hally</key>
 		<key mod="0" key="77" send="False">Play Script: uoo-scripts\Navigation\gate</key>
 		<key mod="0" key="48" send="False">Play Script: uoo-scripts\Navigation\room</key>
 		<key mod="0" key="69" send="False">Play Script: uoo-scripts\Navigation\rope-tele</key>
 		<key mod="2" key="69" send="False">Play Script: uoo-scripts\Navigation\rope-wall</key>
 		<key mod="2" key="49" send="False">Play Script: uoo-scripts\Navigation\recall-tome\1</key>
+		<key mod="2" key="50" send="False">Play Script: uoo-scripts\Navigation\recall-tome\2</key>
+		<key mod="2" key="51" send="False">Play Script: uoo-scripts\Navigation\recall-tome\3</key>
+		<key mod="2" key="52" send="False">Play Script: uoo-scripts\Navigation\recall-tome\4</key>
+		<key mod="2" key="53" send="False">Play Script: uoo-scripts\Navigation\recall-tome\5</key>
+		<key mod="2" key="54" send="False">Play Script: uoo-scripts\Navigation\recall-tome\6</key>
+		<key mod="2" key="55" send="False">Play Script: uoo-scripts\Navigation\recall-tome\7</key>
+		<key mod="2" key="56" send="False">Play Script: uoo-scripts\Navigation\recall-tome\8</key>
+		<key mod="2" key="57" send="False">Play Script: uoo-scripts\Navigation\recall-tome\9</key>
 		<key mod="2" key="48" send="False">Play Script: uoo-scripts\Navigation\recall-tome\10</key>
 		<key mod="4" key="49" send="False">Play Script: uoo-scripts\Navigation\recall-tome\11</key>
 		<key mod="4" key="50" send="False">Play Script: uoo-scripts\Navigation\recall-tome\12</key>
@@ -234,15 +243,7 @@
 		<key mod="4" key="55" send="False">Play Script: uoo-scripts\Navigation\recall-tome\17</key>
 		<key mod="4" key="56" send="False">Play Script: uoo-scripts\Navigation\recall-tome\18</key>
 		<key mod="4" key="57" send="False">Play Script: uoo-scripts\Navigation\recall-tome\19</key>
-		<key mod="2" key="50" send="False">Play Script: uoo-scripts\Navigation\recall-tome\2</key>
 		<key mod="4" key="48" send="False">Play Script: uoo-scripts\Navigation\recall-tome\20</key>
-		<key mod="2" key="51" send="False">Play Script: uoo-scripts\Navigation\recall-tome\3</key>
-		<key mod="2" key="52" send="False">Play Script: uoo-scripts\Navigation\recall-tome\4</key>
-		<key mod="2" key="53" send="False">Play Script: uoo-scripts\Navigation\recall-tome\5</key>
-		<key mod="2" key="54" send="False">Play Script: uoo-scripts\Navigation\recall-tome\6</key>
-		<key mod="2" key="55" send="False">Play Script: uoo-scripts\Navigation\recall-tome\7</key>
-		<key mod="2" key="56" send="False">Play Script: uoo-scripts\Navigation\recall-tome\8</key>
-		<key mod="2" key="57" send="False">Play Script: uoo-scripts\Navigation\recall-tome\9</key>
 		<key mod="0" key="76" send="False">Play Script: uoo-scripts\Organizers\inn-dropper</key>
 		<key mod="4" key="86" send="False">Play Script: uoo-scripts\Thief\steal-last-var</key>
 		<key mod="0" key="67" send="False">L:1371</key>
