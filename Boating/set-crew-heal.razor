@@ -24,15 +24,25 @@ endwhile
 hotkey "Cancel Current Target"
 
 if tallis_prev_lt = lasttarget
-    if varexist "CrewHeal"
-        @unsetvar "CrewHeal"
-        overhead "CrewHeal cleared" 38
-    else
-        overhead "Cancelled" 38
+    # base.razor's target "CrewHeal" updates lasttarget to the crew member serial.
+    # If the user re-focuses on the same crew member, tallis_prev_lt = lasttarget is
+    # true — but that's a refresh, not a cancel. Only cancel if it's NOT a crew member.
+    getlabel lasttarget tallis_ch_reflabel
+    @setvar! tallis_ch_is_crew 0
+    if "[Crewmember]" in tallis_ch_reflabel
+        @setvar! tallis_ch_is_crew 1
     endif
-    @unsetvar! tallis_prev_lt
-    hotkey 'Play Script: uoo-scripts\Bots\PoonerBot\base'
-    stop
+    if tallis_ch_is_crew = 0
+        if varexist "CrewHeal"
+            @unsetvar "CrewHeal"
+            overhead "CrewHeal cleared" 38
+        else
+            overhead "Cancelled" 38
+        endif
+        @unsetvar! tallis_prev_lt
+        hotkey 'Play Script: uoo-scripts\Bots\PoonerBot\base'
+        stop
+    endif
 endif
 
 @unsetvar! tallis_prev_lt
