@@ -226,26 +226,26 @@
 		<key mod="0" key="84" send="False">L:2530</key>
 		<key mod="0" key="90" send="False">L:1044081</key>
 		<key mod="0" key="70" send="False">L:1044093</key>
-		<key mod="6" key="49" send="False">Play Script: uoo-scripts\Navigation\recall-tome\1</key>
-		<key mod="6" key="50" send="False">Play Script: uoo-scripts\Navigation\recall-tome\2</key>
-		<key mod="6" key="51" send="False">Play Script: uoo-scripts\Navigation\recall-tome\3</key>
-		<key mod="6" key="52" send="False">Play Script: uoo-scripts\Navigation\recall-tome\4</key>
-		<key mod="6" key="53" send="False">Play Script: uoo-scripts\Navigation\recall-tome\5</key>
-		<key mod="6" key="54" send="False">Play Script: uoo-scripts\Navigation\recall-tome\6</key>
-		<key mod="6" key="55" send="False">Play Script: uoo-scripts\Navigation\recall-tome\7</key>
-		<key mod="6" key="56" send="False">Play Script: uoo-scripts\Navigation\recall-tome\8</key>
-		<key mod="6" key="57" send="False">Play Script: uoo-scripts\Navigation\recall-tome\9</key>
-		<key mod="6" key="48" send="False">Play Script: uoo-scripts\Navigation\recall-tome\10</key>
-		<key mod="7" key="49" send="False">Play Script: uoo-scripts\Navigation\recall-tome\11</key>
-		<key mod="7" key="50" send="False">Play Script: uoo-scripts\Navigation\recall-tome\12</key>
-		<key mod="7" key="51" send="False">Play Script: uoo-scripts\Navigation\recall-tome\13</key>
-		<key mod="7" key="52" send="False">Play Script: uoo-scripts\Navigation\recall-tome\14</key>
-		<key mod="7" key="53" send="False">Play Script: uoo-scripts\Navigation\recall-tome\15</key>
-		<key mod="7" key="54" send="False">Play Script: uoo-scripts\Navigation\recall-tome\16</key>
-		<key mod="7" key="55" send="False">Play Script: uoo-scripts\Navigation\recall-tome\17</key>
-		<key mod="7" key="56" send="False">Play Script: uoo-scripts\Navigation\recall-tome\18</key>
-		<key mod="7" key="57" send="False">Play Script: uoo-scripts\Navigation\recall-tome\19</key>
-		<key mod="7" key="48" send="False">Play Script: uoo-scripts\Navigation\recall-tome\20</key>
+		<key mod="4" key="49" send="False">Play Script: uoo-scripts\Navigation\recall-tome\1</key>
+		<key mod="4" key="50" send="False">Play Script: uoo-scripts\Navigation\recall-tome\2</key>
+		<key mod="4" key="51" send="False">Play Script: uoo-scripts\Navigation\recall-tome\3</key>
+		<key mod="4" key="52" send="False">Play Script: uoo-scripts\Navigation\recall-tome\4</key>
+		<key mod="4" key="53" send="False">Play Script: uoo-scripts\Navigation\recall-tome\5</key>
+		<key mod="4" key="54" send="False">Play Script: uoo-scripts\Navigation\recall-tome\6</key>
+		<key mod="4" key="55" send="False">Play Script: uoo-scripts\Navigation\recall-tome\7</key>
+		<key mod="4" key="56" send="False">Play Script: uoo-scripts\Navigation\recall-tome\8</key>
+		<key mod="4" key="57" send="False">Play Script: uoo-scripts\Navigation\recall-tome\9</key>
+		<key mod="4" key="48" send="False">Play Script: uoo-scripts\Navigation\recall-tome\10</key>
+		<key mod="2" key="49" send="False">Play Script: uoo-scripts\Navigation\recall-tome\11</key>
+		<key mod="2" key="50" send="False">Play Script: uoo-scripts\Navigation\recall-tome\12</key>
+		<key mod="2" key="51" send="False">Play Script: uoo-scripts\Navigation\recall-tome\13</key>
+		<key mod="2" key="52" send="False">Play Script: uoo-scripts\Navigation\recall-tome\14</key>
+		<key mod="2" key="53" send="False">Play Script: uoo-scripts\Navigation\recall-tome\15</key>
+		<key mod="2" key="54" send="False">Play Script: uoo-scripts\Navigation\recall-tome\16</key>
+		<key mod="2" key="55" send="False">Play Script: uoo-scripts\Navigation\recall-tome\17</key>
+		<key mod="2" key="56" send="False">Play Script: uoo-scripts\Navigation\recall-tome\18</key>
+		<key mod="2" key="57" send="False">Play Script: uoo-scripts\Navigation\recall-tome\19</key>
+		<key mod="2" key="48" send="False">Play Script: uoo-scripts\Navigation\recall-tome\20</key>
 	</hotkeys>
 	<overheadmessages>
 		<overheadmessage searchtext="You may now perform taunt" message="Taunt ready!" hue="68" />
