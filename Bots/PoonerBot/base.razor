@@ -635,11 +635,10 @@ while not dead
                 else
                     clearsysmsg
                     dclick baids
-                    wft 500
+                    wft 300
                     if targetexists
                         overhead "CH: cursor OK" 38
                         target "CrewHeal"
-                        pause 200
                         getlabel backpack ping
                         if targetexists
                             hotkey "Cancel Current Target"
@@ -689,13 +688,9 @@ while not dead
                         endif
                     else
                         overhead "CH: wft timeout" 38
-                        for 5
-                            if not targetexists
-                                break
-                            endif
+                        if targetexists
                             hotkey "Cancel Current Target"
-                            pause 100
-                        endfor
+                        endif
                         if cooldown "CrewHeal_WftFail"
                             @unsetvar "CrewHeal"
                             overhead "CH: lost cursor twice - cleared" 38

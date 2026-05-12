@@ -12,7 +12,14 @@ if skill "Healing" >= 20
         endfor
         @setvar "CrewHeal" lasttarget
         overhead "x" 88 "CrewHeal"
-        settimer undead_Ocean_CrewHealBandages_Timer undead_Ocean_CrewHealBandages_TimerCD
+        if findtype 3617 backpack as baids
+            dclick baids
+            wft 300
+            if targetexists
+                target "CrewHeal"
+            endif
+        endif
+        settimer undead_Ocean_CrewHealBandages_Timer 0
     elseif targetexists and varexist "CrewHeal"
         hotkey "Cancel Current Target"
         overhead "<Me>" 78 "CrewHeal"
