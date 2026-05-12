@@ -625,7 +625,7 @@ while not dead
                 getlabel CrewHeal tallis_heal_name
             endif
             if "[Crewmember]" in tallis_heal_name
-                if bandaging
+                if bandaging and not varexist tallis_SelfBandage
                     overhead "CH: bandaging - skip" 38
                     settimer undead_Ocean_CrewHealBandages_Timer 2000
                 elseif targetexists
@@ -661,9 +661,11 @@ while not dead
                         elseif insysmsg "You begin applying"
                             overhead "CH: bandaging OK" 38
                             settimer undead_Ocean_CrewHealBandages_Timer 0
+                            @unsetvar! tallis_SelfBandage
                         elseif bandaging
                             overhead "CH: bandaging OK" 38
                             settimer undead_Ocean_CrewHealBandages_Timer 0
+                            @unsetvar! tallis_SelfBandage
                         elseif insysmsg "must wait"
                             overhead "CH: must wait" 38
                             settimer undead_Ocean_CrewHealBandages_Timer 1000
