@@ -639,7 +639,12 @@ while not dead
                     if targetexists
                         overhead "CH: cursor OK" 38
                         target "CrewHeal"
-                        getlabel backpack ping
+                        for 6
+                            if not targetexists
+                                break
+                            endif
+                            pause 25
+                        endfor
                         if targetexists
                             hotkey "Cancel Current Target"
                         endif
