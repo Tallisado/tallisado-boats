@@ -249,15 +249,15 @@
 		<key mod="4" key="187" send="False">Play: RecallChargeGH</key>
 		<key mod="0" key="187" send="False">Play: RecallChargeRoom</key>
 		<key mod="0" key="46" send="False">L:2101</key>
-		<key mod="0" key="115" send="False">Play Script: uoo-scripts\Gathering\auto-harvester</key>
+		<key mod="0" key="115" send="False">Play Script: uoo-scripts\Harvesting\auto-harvester</key>
 		<key mod="0" key="77" send="False">Play Script: uoo-scripts\Navigation\gate</key>
 		<key mod="0" key="48" send="False">Play Script: uoo-scripts\Navigation\room</key>
 		<key mod="4" key="69" send="False">Play Script: uoo-scripts\Navigation\rope-tele</key>
-		<key mod="2" key="88" send="False">Play Script: uoo-scripts\Scavenging\scav-buffs</key>
-		<key mod="0" key="112" send="False">Play Script: uoo-scripts\Scavenging\scavenge-loop</key>
+		<key mod="2" key="88" send="False">Play Script: uoo-scripts\Harvesting\scav-buffs</key>
+		<key mod="0" key="112" send="False">Play Script: uoo-scripts\Harvesting\scavenge-loop</key>
 		<key mod="2" key="75" send="False">Play Script: uoo-scripts\Scavenging\society-time</key>
-		<key mod="0" key="82" send="False">Play Script: uoo-scripts\Gathering\button-skinning</key>
-		<key mod="0" key="113" send="False">Play Script: uoo-scripts\Gathering\scav-harvester-summon</key>
+		<key mod="0" key="82" send="False">Play Script: uoo-scripts\Harvesting\scavenge-loop-button</key>
+		<key mod="0" key="113" send="False">Play Script: uoo-scripts\Harvesting\scavenger-summons</key>
 		<key mod="0" key="76" send="False">Play Script: uoo-scripts\Organizers\inn-dropper</key>
 		<key mod="6" key="76" send="False">Play Script: uoo-scripts\Organizers\move-label-to-bag</key>
 		<key mod="4" key="76" send="False">Play Script: uoo-scripts\Organizers\scrap-unid-chest</key>
