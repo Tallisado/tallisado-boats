@@ -15,7 +15,7 @@ endif
 // Open non-skinned corpses only (skip monster corpses by label)
 while findtype "corpse" ground -1 -1 2 as jorpse
     getlabel jorpse jorpselabel
-    if instring jorpselabel "corpse"
+    if "corpse" in jorpselabel
         @ignore jorpse
     else
         dclick jorpse

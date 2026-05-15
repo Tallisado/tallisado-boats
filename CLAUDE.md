@@ -18,21 +18,18 @@ uoo-scripts\
 ├── Bots\
 │   ├── PoonerBot\    Main bot loop (base.razor, init.razor)
 │   └── _utilities\   Python helpers, cannon-fire-target
-├── Boat-PvM\         Older boat PvM bot (Master Background, cannon, disembark scripts)
+├── Boat-PvM\         Older boat PvM bot (Master Background, room-crate, dump-hull)
 │   └── heal-crew\    Old crew heal button scripts
 ├── Chiv\             Chivalry ability scripts
 ├── Combat\           Standalone combat scripts: auto-heal-loop, ebolt-combo, button-last-target
 ├── Dex bot\          Dex bot: init, hally
 ├── Fishing\          Fishing scripts + dump-loot-hold + crew-all-nearest
-├── Gathering\        Harvesting: all-harvester, auto-lumbering-jase, button-skinning, scav-harvester-summon, auto-harvester
+├── Harvesting\       Harvesting + scavenging: scavenge-loop, scavenge-loop-button, scavenger-summons, auto-harvester, etc.
 ├── Navigation\       Recall/travel: gate, room, rope-tele, rope-wall
 ├── Organizers\       Bag management: inn-dropper, move-label-to-bag, scrap-unid-chest
-├── Scavenging\       Scav scripts: scav-buffs, scavenge-loop, society-time
 ├── Skills\           (future use)
 ├── Thief\            Thief skills: steal-last
-├── Train\            Skill training: train-steal, train-detect
-├── Automation\
-│   └── Mage Bot\     Mage bot: init
+├── Train\            Skill training scripts — run manually, no XML hotkey bindings expected
 └── Profiles\         Copies of all RazorEnhanced profile XMLs (reference only — live files in Profiles\)
 ```
 
