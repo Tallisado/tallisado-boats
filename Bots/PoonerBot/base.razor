@@ -269,16 +269,6 @@ if findlayer self Outerbody as jaseowns_MaybePotionSatchel
     @setvar! jaseowns_PotionSatchel jaseowns_MaybePotionSatchel
 endif
 
-if skill "Peacemaking" >= 50 and jaseowns_Bard_PeaceAutomatically = 1
-    @setvar! jaseowns_Bard_CanPeacemake 1
-else
-    @setvar! jaseowns_Bard_CanPeacemake 0
-endif
-
-if not timerexists jaseowns_BOT_BardBuffTimer
-    settimer jaseowns_BOT_BardBuffTimer 10000
-endif
-
 clearsysmsg
 
 if jaseowns_AutoExplodePot = 1
@@ -1745,11 +1735,6 @@ while not dead
                         @setvar! jaseowns_BOT_TargetPoisoned 1
                     endif
                     
-                    @setvar! jaseowns_Bard_SkipPeace 0
-                    if "pacified" in jaseowns_CurrentBotTargetDesc
-                        @setvar! jaseowns_Bard_SkipPeace 1
-                    endif
-                    
                     # TODO: longshot bro
                     if findtype 5117|3920|31184|31186|30993 righthand or findtype 5117|3920|31184|31186|30993 lefthand
                         @setvar! jaseowns_DynamicRangeCheck 8
@@ -1763,42 +1748,11 @@ while not dead
                         @setvar! jaseowns_DynamicRangeCheck 2
                     endif
 
-                    if jaseowns_Bard_CanPeacemake = 1 and jaseowns_Bard_SkipPeace = 0 and timer jaseowns_UsedSkillTimer >= 5000
-                       
-                        overhead "Peacemaking"
-                        useskill 'Peacemaking'
-                        wft 500
-                        if insysmsg "What instrument"
-                            if findtype 3740|3742|3762|3763|10245|20006|20008|20010|20012|20014|20016 backpack as jaseowns_Instrument 
-                                target jaseowns_Instrument
-                            else
-                                overhead "I do not have an instrument" 34
-                            endif
-                            wft 500
-                        endif
-                        if targetexists 
-                            target jaseowns_CurrentBotTarget
-                            getlabel backpack jaseowns_PingCheck
-                            if insysmsg "Target cannot be seen" or insysmsg "That is too far away."
-                                if timer jaseowns_CurrentBotTargetUnableToAttackOverheadTimer >= jaseowns_CurrentBotTargetUnableToAttackOverheadTimerCD and listexists jaseowns_CurrentBotTargetUnableToAttackOverheadText
-                                    foreach jaseowns_Overhead in jaseowns_CurrentBotTargetUnableToAttackOverheadText
-                                        overhead jaseowns_Overhead jaseowns_CurrentBotTargetUnableToAttackOverheadHue jaseowns_CurrentBotTarget
-                                    endfor
-                                    settimer jaseowns_CurrentBotTargetOverheadTimer 0
-                                endif
-                                @setvar! jaseowns_CurrentBotTarget 0
-                            else
-                                settimer jaseowns_UsedSkillTimer 0
-                                @setvar! jaseowns_CurrentBotTargetAttacked 1
-                                @setvar! jaseowns_CurrentBotTargetGoodLOS 1
-                            endif
-                        endif
-                        
-                    # TODO : handle range of archery
-                    elseif find jaseowns_CurrentBotTarget ground -1 -1 2
+                    # TODO: handle range of archery
+                    if find jaseowns_CurrentBotTarget ground -1 -1 2
                         // assume we got it
                         @setvar! jaseowns_CurrentBotTargetAttacked 1
-                    elseif not targetexists and jaseowns_CurrentBotTargetGoodLOS = 0
+                    elseif not targetexists and warmode and jaseowns_CurrentBotTargetGoodLOS = 0
                         overhead "Arms lore"
                         useskill "ArmsLore"
                         wft 500
@@ -2200,39 +2154,6 @@ while not dead
         endif
     endif
 
-    if skill "Provocation" > 0
-        if not findbuff "song of provocation" and timer jaseowns_BOT_BardBuffTimer >= 10000
-            useskill 'Provocation'
-            wft 500
-            if insysmsg "What instrument"
-                if findtype 3740|3742|3762|3763|10245|20006|20008|20010|20012|20014|20016 backpack as jaseowns_Instrument 
-                    target jaseowns_Instrument
-                else
-                    overhead "I do not have an instrument" 34
-                endif
-                wft 500
-            endif
-            target backpack
-            settimer jaseowns_BOT_BardBuffTimer 0
-        endif
-    endif
-
-    if skill "Peacemaking" > 0
-        if not findbuff "song of peacemaking" and timer jaseowns_BOT_BardBuffTimer >= 10000
-            useskill 'Peacemaking'
-            wft 500
-            if insysmsg "What instrument"
-                if findtype 3740|3742|3762|3763|10245|20006|20008|20010|20012|20014|20016 backpack as jaseowns_Instrument 
-                    target jaseowns_Instrument
-                else
-                    overhead "I do not have an instrument" 34
-                endif
-                wft 500
-            endif
-            target backpack
-            settimer jaseowns_BOT_BardBuffTimer 0
-        endif
-    endif
 ### /Ocean Edits
 
     wait 50
