@@ -1680,10 +1680,18 @@ while not dead
                 @setvar! tallis_NeedLabelRefresh 0
                 if jaseowns_CurrentBotTarget != jaseowns_BOT_LastLabeledTarget
                     @setvar! tallis_NeedLabelRefresh 1
-                elseif not timerexists tallis_TargetLabelTimer
-                    @setvar! tallis_NeedLabelRefresh 1
-                elseif timer tallis_TargetLabelTimer >= 500
-                    @setvar! tallis_NeedLabelRefresh 1
+                else
+                    @setvar! tallis_lbl_chk 0
+                    if timerexists tallis_TargetLabelTimer
+                        if timer tallis_TargetLabelTimer >= 500
+                            @setvar! tallis_lbl_chk 1
+                        endif
+                    else
+                        @setvar! tallis_lbl_chk 1
+                    endif
+                    if tallis_lbl_chk = 1
+                        @setvar! tallis_NeedLabelRefresh 1
+                    endif
                 endif
                 if tallis_NeedLabelRefresh = 1
                     for 3
@@ -1764,7 +1772,7 @@ while not dead
                                     foreach jaseowns_Overhead in jaseowns_CurrentBotTargetUnableToAttackOverheadText
                                         overhead jaseowns_Overhead jaseowns_CurrentBotTargetUnableToAttackOverheadHue jaseowns_CurrentBotTarget
                                     endfor
-                                    settimer jaseowns_CurrentBotTargetOverheadTimer 0
+                                    settimer jaseowns_CurrentBotTargetUnableToAttackOverheadTimer 0
                                 endif
                                 @setvar! jaseowns_CurrentBotTarget 0
                             else
