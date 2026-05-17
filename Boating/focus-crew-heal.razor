@@ -1,0 +1,36 @@
+# focus-crew-heal.razor
+# Opens a target cursor. Click a crew member to immediately bandage them.
+# Cancels any open cursor first, interrupts any current bandage.
+# No CrewHeal variable — single one-shot bandage, then returns to base loop.
+
+hotkey "Cancel Current Target"
+clearsysmsg
+
+if findtype 3617 backpack as baids
+    dclick baids
+    wft 500
+    if targetexists
+        overhead "Focus..." 63
+        while targetexists
+            pause 50
+        endwhile
+        getlabel backpack tallis_fch_ping
+        if insysmsg "You begin applying" or bandaging
+            overhead "Focus: OK" 63
+        elseif insysmsg "That being is not damaged"
+            overhead "Focus: not damaged" 38
+        elseif insysmsg "too far away"
+            overhead "Focus: too far" 38
+        elseif insysmsg "must wait"
+            overhead "Focus: must wait" 38
+        else
+            overhead "Focus: sent" 63
+        endif
+    else
+        overhead "Focus: no cursor" 38
+    endif
+else
+    overhead "Focus: no bandages!" 34
+endif
+
+hotkey 'Play Script: uoo-scripts\Bots\PoonerBot\base'
