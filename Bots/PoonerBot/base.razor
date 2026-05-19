@@ -339,21 +339,6 @@ if not timerexists undead_Ocean_UseBeggingTimer
     settimer undead_Ocean_UseBeggingTimer undead_Ocean_UseBeggingTimerCD
 endif
 
-## Ocean: Crew Healing Timer
-if not varexist undead_Ocean_CrewHealBandages_TimerCD
-    @setvar! undead_Ocean_CrewHealBandages_TimerCD 5000
-endif
-if not timerexists undead_Ocean_CrewHealBandages_Timer
-    settimer undead_Ocean_CrewHealBandages_Timer undead_Ocean_CrewHealBandages_TimerCD
-endif
-
-## Ocean: Crew Heal VV Overhead Timer
-if not varexist undead_Ocean_CrewHealOverhead_TimerCD
-    @setvar! undead_Ocean_CrewHealOverhead_TimerCD 2000
-endif
-if not timerexists undead_Ocean_CrewHealOverheadTimer
-    settimer undead_Ocean_CrewHealOverheadTimer undead_Ocean_CrewHealOverhead_TimerCD
-endif
 
 ## Ocean: Crew Attack Timer
 if not varexist undead_Ocean_CrewAttackTimerCD
@@ -1068,10 +1053,6 @@ while not dead
             gumpclose 4267467659
         endif
     endif
-    if varexist 'CrewHeal' and timer undead_Ocean_CrewHealOverheadTimer >= undead_Ocean_CrewHealOverhead_TimerCD
-        overhead "▼▼" 63 "CrewHeal"
-        settimer undead_Ocean_CrewHealOverheadTimer 0
-    endif
 
     if not bandaging and varexist tallis_SelfBandage
         @unsetvar! tallis_SelfBandage
@@ -1083,144 +1064,6 @@ while not dead
         elseif diffhits >= jaseowns_AutoBandageHpDiffTrigger
             @setvar! tallis_SelfBandage 1
             hotkey "Bandage Self"
-        endif
-         
-        if varexist 'CrewHeal' and timer undead_Ocean_CrewHealBandages_Timer >= undead_Ocean_CrewHealBandages_TimerCD and findtype 3617 backpack as baids
-            @setvar! tallis_heal_name "-"
-            for 3
-                getlabel CrewHeal tallis_heal_name
-                if "-" in tallis_heal_name or "not found" in tallis_heal_name
-                    pause 50
-                else
-                    break
-                endif
-            endfor
-            if "[Crewmember]" in tallis_heal_name
-                if targetexists
-                    overhead "CH: cursor already open - skip" 38
-                    hotkey "Cancel Current Target"
-                    settimer undead_Ocean_CrewHealBandages_Timer undead_Ocean_CrewHealBandages_TimerCD
-                else
-                    hotkey "Cancel Current Target"
-                    clearsysmsg
-                    dclick baids
-                    wft 500
-                    if targetexists
-                        overhead "CH: cursor OK" 38
-                        target "CrewHeal"
-                        for 6
-                            if not targetexists
-                                break
-                            endif
-                            pause 25
-                        endfor
-                        if targetexists
-                            hotkey "Cancel Current Target"
-                        endif
-                        pause 200
-                        if insysmsg "too far away"
-                            overhead "▼▼" 38 "CrewHeal"
-                            if cooldown "CrewHeal_TooFarFail"
-                                @unsetvar "CrewHeal"
-                                overhead "CH: too far twice - cleared" 38
-                            else
-                                cooldown "CrewHeal_TooFarFail" 10000
-                            endif
-                            settimer undead_Ocean_CrewHealBandages_Timer undead_Ocean_CrewHealBandages_TimerCD
-                        elseif insysmsg "That being is not damaged!" or insysmsg "not damaged"
-                            overhead "CH: not damaged - skip" 38
-                            settimer undead_Ocean_CrewHealBandages_Timer undead_Ocean_CrewHealBandages_TimerCD
-                        elseif insysmsg "already being healed" or insysmsg "already bandaged"
-                            overhead "CH: already being healed" 38
-                            settimer undead_Ocean_CrewHealBandages_Timer 4000
-                        elseif insysmsg "You begin applying"
-                            overhead "CH: bandaging OK" 38
-                            settimer undead_Ocean_CrewHealBandages_Timer 0
-                            @unsetvar! tallis_SelfBandage
-                        elseif bandaging
-                            overhead "CH: bandaging OK" 38
-                            settimer undead_Ocean_CrewHealBandages_Timer 0
-                            @unsetvar! tallis_SelfBandage
-                        elseif insysmsg "must wait"
-                            overhead "CH: must wait" 38
-                            settimer undead_Ocean_CrewHealBandages_Timer 1000
-                        elseif insysmsg "That mobile" or insysmsg "invalid"
-                            overhead "CH: invalid target - cleared" 38
-                            @unsetvar "CrewHeal"
-                            settimer undead_Ocean_CrewHealBandages_Timer undead_Ocean_CrewHealBandages_TimerCD
-                        elseif insysmsg "cannot"
-                            overhead "CH: cannot" 38
-                            settimer undead_Ocean_CrewHealBandages_Timer 1000
-                        elseif insysmsg "dead"
-                            overhead "CH: target dead - cleared" 38
-                            @unsetvar "CrewHeal"
-                            settimer undead_Ocean_CrewHealBandages_Timer undead_Ocean_CrewHealBandages_TimerCD
-                        else
-                            @setvar! dbg_ch_tx 0
-                            if targetexists
-                                @setvar! dbg_ch_tx 1
-                            endif
-                            overhead "CH: unknown tx={{dbg_ch_tx}} band={{bandaging}}" 38
-                            settimer undead_Ocean_CrewHealBandages_Timer 500
-                        endif
-                    else
-                        overhead "CH: wft timeout" 38
-                        if targetexists
-                            hotkey "Cancel Current Target"
-                        endif
-                        if cooldown "CrewHeal_WftFail"
-                            @unsetvar "CrewHeal"
-                            overhead "CH: lost cursor twice - cleared" 38
-                        else
-                            cooldown "CrewHeal_WftFail" 6000
-                            overhead "CH: lost cursor 1x - retrying" 38
-                        endif
-                        settimer undead_Ocean_CrewHealBandages_Timer 0
-                    endif
-                endif
-            elseif "-" in tallis_heal_name or "not found" in tallis_heal_name
-                settimer undead_Ocean_CrewHealBandages_Timer 500
-            else
-                overhead "CH: not crewmember label={{tallis_heal_name}} - cleared" 38
-                unsetvar "CrewHeal"
-                settimer undead_Ocean_CrewHealBandages_Timer 0
-            endif
-        elseif timer undead_Ocean_CrewHealBandages_Timer >= undead_Ocean_CrewHealBandages_TimerCD
-            if gumpexists 1722920179
-                if not bandaging
-                    waitforgump 1722920179 200
-                    gumpresponse 20 1722920179
-                endif
-                if not bandaging
-                    waitforgump 1722920179 200
-                    gumpresponse 21 1722920179
-                endif
-                if not bandaging
-                    waitforgump 1722920179 200
-                    gumpresponse 22 1722920179
-                endif
-                if not bandaging
-                    waitforgump 1722920179 200
-                    gumpresponse 23 1722920179
-                endif
-                if not bandaging
-                    waitforgump 1722920179 200
-                    gumpresponse 24 1722920179
-                endif
-                if not bandaging
-                    waitforgump 1722920179 200
-                    gumpresponse 25 1722920179
-                endif
-                if not bandaging
-                    waitforgump 1722920179 200
-                    gumpresponse 26 1722920179
-                endif
-                if not bandaging
-                    waitforgump 1722920179 200
-                    gumpresponse 27 1722920179
-                endif
-            endif
-            settimer undead_Ocean_CrewHealBandages_Timer 0
         endif
     endif
 
@@ -1699,9 +1542,7 @@ while not dead
                 endif
             endif
             settimer jaseowns_CurrentBotTargetOverheadTimer 0
-            if varexist "CrewHeal"
-                overhead "▼▼" 63 "CrewHeal"
-            elseif bandaging and varexist tallis_SelfBandage
+            if bandaging and varexist tallis_SelfBandage
                 overhead "▼▼" 53
             endif
         endif

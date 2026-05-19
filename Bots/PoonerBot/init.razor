@@ -33,9 +33,6 @@ overhead "PEACE to run around" 89
 @setvar! undead_Ocean_CrewAutoAttack 0
 @setvar! undead_Ocean_CrewAutoAttack_TimerCD 30000
 
-@setvar! undead_Ocean_CrewHealBandages_TimerCD 5000
-#@setvar! undead_Ocean_CrewHealBandages_CrewGumpTimeout 300 
-#@setvar! undead_Ocean_CrewHealBandagesFar_TimerCD
 
 # Spyglass Cooldown Min: 7s, 9s is recommended
 //@setvar! undead_Ocean_Spyglass_Active 1
@@ -187,9 +184,6 @@ else
 endif
 
 
-if not timerexists undead_Ocean_CrewHealBandages_Timer
-    settimer undead_Ocean_CrewHealBandages_Timer undead_Ocean_CrewHealBandages_TimerCD
-endif
 
 while findtype 31262 backpack -1 as _p1
     dclick _p1
@@ -205,8 +199,6 @@ while findtype 30765 backpack -1 as _w1
 endwhile
 clearignore
 
-say "[AspectArmor Fortune Max"
-wait 200
 say "[AspectWeapon Holy Max"
 wait 200
 
