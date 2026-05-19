@@ -1064,23 +1064,24 @@ while not dead
         endif
          
         if varexist 'CrewHeal' and timer undead_Ocean_CrewHealBandages_Timer >= undead_Ocean_CrewHealBandages_TimerCD and findtype 3617 backpack as baids
-            getlabel CrewHeal tallis_heal_name
-            if "-" in tallis_heal_name or "not found" in tallis_heal_name
-                pause 50
+            @setvar! tallis_heal_name "-"
+            for 3
                 getlabel CrewHeal tallis_heal_name
-            endif
+                if "-" in tallis_heal_name or "not found" in tallis_heal_name
+                    pause 50
+                else
+                    break
+                endif
+            endfor
             if "[Crewmember]" in tallis_heal_name
-                if bandaging and not varexist tallis_SelfBandage
-                    overhead "CH: bandaging - skip" 38
-                    settimer undead_Ocean_CrewHealBandages_Timer 2000
-                elseif targetexists
+                if targetexists
                     overhead "CH: cursor already open - skip" 38
                     hotkey "Cancel Current Target"
                     settimer undead_Ocean_CrewHealBandages_Timer undead_Ocean_CrewHealBandages_TimerCD
                 else
                     clearsysmsg
                     dclick baids
-                    wft 300
+                    wft 500
                     if targetexists
                         overhead "CH: cursor OK" 38
                         target "CrewHeal"
@@ -1154,6 +1155,8 @@ while not dead
                         settimer undead_Ocean_CrewHealBandages_Timer 0
                     endif
                 endif
+            elseif "-" in tallis_heal_name or "not found" in tallis_heal_name
+                settimer undead_Ocean_CrewHealBandages_Timer 500
             else
                 overhead "CH: not crewmember label={{tallis_heal_name}} - cleared" 38
                 unsetvar "CrewHeal"
