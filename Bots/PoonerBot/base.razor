@@ -1633,7 +1633,13 @@ while not dead
             if dead "ManualTargetEnemy"
                 @unsetvar "ManualTargetEnemy"
             else
-                @setvar! jaseowns_CurrentBotTarget "ManualTargetEnemy"
+                getlabel "ManualTargetEnemy" tallis_mte_label
+                if "[Crewmember]" in tallis_mte_label
+                    @unsetvar "ManualTargetEnemy"
+                    overhead "MTE was crew - cleared" 38
+                else
+                    @setvar! jaseowns_CurrentBotTarget "ManualTargetEnemy"
+                endif
             endif
         endif
         // do fighting
@@ -1712,6 +1718,7 @@ while not dead
                 @setvar! jaseowns_IgnoreCurrentBotTarget 0
                 
                 if "[Crewmember]" in jaseowns_CurrentBotTargetDesc
+                    @setvar! jaseowns_IgnoreCurrentBotTarget 1
                     @setvar! jaseowns_CurrentBotTarget 0
                 elseif "(summoned" in jaseowns_CurrentBotTargetDesc or "(bonded" in jaseowns_CurrentBotTargetDesc or "(tame" in jaseowns_CurrentBotTargetDesc
                     overhead "▼ Player pet - IGNORE ▼" 77 jaseowns_CurrentBotTarget
