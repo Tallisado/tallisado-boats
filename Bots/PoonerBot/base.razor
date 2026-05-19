@@ -646,7 +646,29 @@ while not dead
             endif
         endif
 
-        if jaseowns_BOT_UseNobleSacrifice = 1 or jaseowns_BOT_UseHolyLight = 1 or jaseowns_BOT_UseCloseWounds = 1
+        @setvar! tallis_dmgbuff_ready 0
+        if jaseowns_Chiv_UseDivineFuryAutomatically = 1
+            if timerexists jaseowns_DivineFuryTimer
+                if timer jaseowns_DivineFuryTimer >= jaseowns_DivineFuryTimerCD
+                    @setvar! tallis_dmgbuff_ready 1
+                endif
+            endif
+        endif
+        if jaseowns_Chiv_UseEnemyOfOneAutomatically = 1 and tallis_dmgbuff_ready = 0
+            if timerexists jaseowns_EnemyOfOneTimer
+                if timer jaseowns_EnemyOfOneTimer >= jaseowns_EnemyOfOneTimerCD
+                    @setvar! tallis_dmgbuff_ready 1
+                endif
+            endif
+        endif
+        if jaseowns_Chiv_UseConsecrateWeaponAutomatically = 1 and tallis_dmgbuff_ready = 0
+            if timerexists jaseowns_ConsecrateWeaponTimer
+                if timer jaseowns_ConsecrateWeaponTimer >= jaseowns_ConsecrateWeaponTimerCD
+                    @setvar! tallis_dmgbuff_ready 1
+                endif
+            endif
+        endif
+        if jaseowns_BOT_UseNobleSacrifice = 1 or jaseowns_BOT_UseHolyLight = 1 or jaseowns_BOT_UseCloseWounds = 1 or tallis_dmgbuff_ready = 1
         if gumpexists 1387930325
             if cooldown PVP
                 unsetvar jaseowns_HolySymbols
@@ -1979,16 +2001,14 @@ while not dead
                     cooldown "Divine Fury" 30000
                     settimer jaseowns_DivineFuryTimer 0
                 endif
-            endif
-            if jaseowns_Chiv_UseEnemyOfOneAutomatically = 1 and 3 <= jaseowns_HolySymbols and skill "chivalry" >= 75 and timer jaseowns_EnemyOfOneTimer >= jaseowns_EnemyOfOneTimerCD
+            elseif jaseowns_Chiv_UseEnemyOfOneAutomatically = 1 and 3 <= jaseowns_HolySymbols and skill "chivalry" >= 75 and timer jaseowns_EnemyOfOneTimer >= jaseowns_EnemyOfOneTimerCD
                 say "[EnemyOfOne"
                 getlabel backpack jaseowns_PingCheck
                 if not insysmsg "another Chivalry ability"
                     cooldown "Enemy Of One" 30000
                     settimer jaseowns_EnemyOfOneTimer 0
                 endif
-            endif
-            if jaseowns_Chiv_UseConsecrateWeaponAutomatically = 1 and 2 <= jaseowns_HolySymbols and skill "chivalry" >= 65 and timer jaseowns_ConsecrateWeaponTimer >= jaseowns_ConsecrateWeaponTimerCD
+            elseif jaseowns_Chiv_UseConsecrateWeaponAutomatically = 1 and 2 <= jaseowns_HolySymbols and skill "chivalry" >= 65 and timer jaseowns_ConsecrateWeaponTimer >= jaseowns_ConsecrateWeaponTimerCD
                 say "[ConsecrateWeapon"
                 getlabel backpack jaseowns_PingCheck
                 if not insysmsg "another Chivalry ability"
