@@ -1,4 +1,4 @@
-﻿#####################################
+﻿﻿#####################################
 ### You should not have to edit this file ever.
 #####
 # 11/11/2024 stream - 1.10
@@ -1047,7 +1047,7 @@ while not dead
         endif
     endif
     if varexist 'CrewHeal' and timer undead_Ocean_CrewHealOverheadTimer >= undead_Ocean_CrewHealOverhead_TimerCD
-        overhead "VV" 63 "CrewHeal"
+        overhead "▼▼" 63 "CrewHeal"
         settimer undead_Ocean_CrewHealOverheadTimer 0
     endif
 
@@ -1093,8 +1093,9 @@ while not dead
                         if targetexists
                             hotkey "Cancel Current Target"
                         endif
+                        pause 200
                         if insysmsg "too far away"
-                            overhead "â–¼â–¼" 38 "CrewHeal"
+                            overhead "▼▼" 38 "CrewHeal"
                             if cooldown "CrewHeal_TooFarFail"
                                 @unsetvar "CrewHeal"
                                 overhead "CH: too far twice - cleared" 38
@@ -1656,9 +1657,9 @@ while not dead
                 if "[Crewmember]" in tallis_overhead_check
                     @setvar! jaseowns_CurrentBotTarget 0
                 elseif varexist "Manual Override" and find "Manual Override" ground
-                    overhead "â— â–¼â–¼ MANUAL â–¼â–¼ â—" 88 'Manual Override'
+                    overhead "â— ▼▼ MANUAL ▼▼ â—" 88 'Manual Override'
                 elseif varexist "ManualTargetEnemy"
-                    overhead "â–¼â–¼â–¼" 33 jaseowns_CurrentBotTarget
+                    overhead "▼▼▼" 33 jaseowns_CurrentBotTarget
                 else
                     foreach jaseowns_Overhead in jaseowns_CurrentBotTargetOverheadText
                         overhead jaseowns_Overhead jaseowns_CurrentBotTargetOverheadHue jaseowns_CurrentBotTarget
@@ -1667,9 +1668,9 @@ while not dead
             endif
             settimer jaseowns_CurrentBotTargetOverheadTimer 0
             if varexist "CrewHeal"
-                overhead "â–¼â–¼" 63 "CrewHeal"
+                overhead "▼▼" 63 "CrewHeal"
             elseif bandaging and varexist tallis_SelfBandage
-                overhead "â–¼â–¼" 53
+                overhead "▼▼" 53
             endif
         endif
 
@@ -1713,7 +1714,7 @@ while not dead
                 if "[Crewmember]" in jaseowns_CurrentBotTargetDesc
                     @setvar! jaseowns_CurrentBotTarget 0
                 elseif "(summoned" in jaseowns_CurrentBotTargetDesc or "(bonded" in jaseowns_CurrentBotTargetDesc or "(tame" in jaseowns_CurrentBotTargetDesc
-                    overhead "â–¼ Player pet - IGNORE â–¼" 77 jaseowns_CurrentBotTarget
+                    overhead "▼ Player pet - IGNORE ▼" 77 jaseowns_CurrentBotTarget
                     @setvar! jaseowns_IgnoreCurrentBotTarget 1
                 elseif listexists jaseowns_IgnoreMobList
                     foreach jaseowns_IgnoreMob in jaseowns_IgnoreMobList
