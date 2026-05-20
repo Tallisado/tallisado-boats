@@ -1075,7 +1075,7 @@ while not dead
         endif
     endif
 
-    if varexist CrewHeal and not bandaging and findtype 3617 backpack as baids
+    if not bandaging and gumpexists 1722920179
         @setvar! tallis_ch_rdy 0
         if timerexists tallis_crewHeal_Timer
             if timer tallis_crewHeal_Timer >= tallis_crewHeal_TimerCD
@@ -1085,12 +1085,23 @@ while not dead
             @setvar! tallis_ch_rdy 1
         endif
         if tallis_ch_rdy = 1
-            hotkey "Cancel Current Target"
-            clearsysmsg
-            dclick baids
-            wft 500
-            if targetexists
-                target "CrewHeal"
+            if not bandaging
+                gumpresponse 20 1722920179
+            endif
+            if not bandaging
+                gumpresponse 21 1722920179
+            endif
+            if not bandaging
+                gumpresponse 22 1722920179
+            endif
+            if not bandaging
+                gumpresponse 23 1722920179
+            endif
+            if not bandaging
+                gumpresponse 24 1722920179
+            endif
+            if not bandaging
+                gumpresponse 25 1722920179
             endif
             settimer tallis_crewHeal_Timer 0
         endif
@@ -1545,7 +1556,7 @@ while not dead
             hotkey "target closest non-friendly monster"
             getlabel lasttarget desc
             if "[Crewmember]" in desc
-                // own crew, skip
+                ignore lasttarget
             else
                 @setvar! jaseowns_LastBotTarget lasttarget 
                 if jaseowns_CurrentBotTarget != jaseowns_LastBotTarget
