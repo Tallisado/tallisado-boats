@@ -340,6 +340,14 @@ if not timerexists undead_Ocean_UseBeggingTimer
 endif
 
 
+## Ocean: Crew Heal Timer
+if not varexist tallis_crewHeal_TimerCD
+    @setvar! tallis_crewHeal_TimerCD 5000
+endif
+if not timerexists tallis_crewHeal_Timer
+    settimer tallis_crewHeal_Timer tallis_crewHeal_TimerCD
+endif
+
 ## Ocean: Crew Attack Timer
 if not varexist undead_Ocean_CrewAttackTimerCD
     @setvar! undead_Ocean_CrewAttackTimerCD 15000
@@ -1064,6 +1072,27 @@ while not dead
         elseif diffhits >= jaseowns_AutoBandageHpDiffTrigger
             @setvar! tallis_SelfBandage 1
             hotkey "Bandage Self"
+        endif
+    endif
+
+    if varexist CrewHeal and not bandaging and findtype 3617 backpack as baids
+        @setvar! tallis_ch_rdy 0
+        if timerexists tallis_crewHeal_Timer
+            if timer tallis_crewHeal_Timer >= tallis_crewHeal_TimerCD
+                @setvar! tallis_ch_rdy 1
+            endif
+        else
+            @setvar! tallis_ch_rdy 1
+        endif
+        if tallis_ch_rdy = 1
+            hotkey "Cancel Current Target"
+            clearsysmsg
+            dclick baids
+            wft 500
+            if targetexists
+                target "CrewHeal"
+            endif
+            settimer tallis_crewHeal_Timer 0
         endif
     endif
 

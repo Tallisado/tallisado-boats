@@ -27,7 +27,8 @@ endif
 @unsetvar! tallis_prev_lt
 getlabel lasttarget crewname
 if "[Crewmember]" in crewname
-    overhead "▼▼" 63 lasttarget
+    @setvar! CrewHeal lasttarget
+    overhead "▼▼" 63 "CrewHeal"
     clearsysmsg
     if findtype 3617 backpack as baids
         dclick baids
