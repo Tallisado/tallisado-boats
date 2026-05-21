@@ -134,3 +134,30 @@ The line after a `hotkey "Play Script: ..."` call never runs. The script halts a
 ## Warmode
 
 `attack X` alone does not reliably set warmode. Use explicit `warmode on` before `attack`. `warmode` is a built-in that cannot be string-interpolated.
+
+## `getlabel` as a server round-trip ping
+
+After sending an action to the server (e.g. `target X`) and calling `clearsysmsg`, the server's response message may not have arrived yet when `insysmsg` is checked. Use `getlabel` on any nearby object as a cheap blocking round-trip to ensure the server has had time to respond:
+
+```razor
+target self
+clearsysmsg
+getlabel backpack pingCheck   # waits one server round-trip; pingCheck is intentionally unused
+if insysmsg "you don't see"
+    ...
+endif
+```
+
+Do not remove these `getlabel` ping lines — they are load-bearing synchronisation, not dead code.
+
+## Outlands SmartHarvest — `target self` carves nearest corpse
+
+On UO:Outlands, tools with SmartHarvest (e.g. Elven SpellBlade) use `target self` to auto-carve the nearest corpse in range — you do **not** target the corpse directly. This is intentional Outlands custom behaviour, not a bug:
+
+```razor
+dclicktype "Elven Spellblade"
+wft 500
+target self    # SmartHarvest: server picks nearest corpse automatically
+```
+
+Interaction range for skinning is **2 tiles** — use `findtype "corpse" ground -1 -1 2` to match.
