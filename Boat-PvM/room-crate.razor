@@ -49,13 +49,14 @@ if findtype 3645 ground -1 -1 1 as 'shippingcrate'
         wft 2000
         if targetexists
             target 'shippingcrate'
-            wait 1500
+            dclick recycler
+            waitforgump 0 2000
             gumpresponse 7
-            wait 2500
+            waitforgump 0 3000
             gumpresponse 6
-            wait 1500
+            waitforgump 0 2000
             gumpresponse 6
-            wait 1500
+            waitforgump 0 2000
         else
             overhead 'Recycler: no cursor, skipping' 34
         endif
