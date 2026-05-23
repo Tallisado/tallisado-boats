@@ -4,54 +4,71 @@ if findtype 3645 ground -1 -1 1 as 'shippingcrate'
     overhead 'Found Shipping Crate!' 18
     dclick 'shippingcrate'
     wait 250
+
+    // 1. Deposit gold and doubloons to safe
     if findtype 'bank deposit safe' ground any any 2 as safe
         overhead 'Found Safe'
         while findtype 'gold coin' shippingcrate as goldstacks
-                overhead 'Depositing gold.'
-                @drop backpack
-                lift goldstacks 60000
-                wait 250
-                drop safe -1 -1 0
-                wait 500
+            overhead 'Depositing gold.'
+            @drop backpack
+            lift goldstacks 60000
+            wait 250
+            drop safe -1 -1 0
+            wait 500
         endwhile
         while findtype 'doubloon' shippingcrate as dubbies
-                overhead 'Depositing dubs'
-                @drop backpack
-                lift dubbies 60000
-                wait 250
-                drop safe -1 -1 0
-                wait 500
+            overhead 'Depositing dubs'
+            @drop backpack
+            lift dubbies 60000
+            wait 250
+            drop safe -1 -1 0
+            wait 500
         endwhile
-    else 
+    else
         overhead 'Did not find safe'
     endif
-    if findtype "storage shelf|gothic storage shelf|stump storage shelf" ground -1 -1 2 as shelf
-        // Crate items to shelf
-        menu shelf 0
-        waitfortarget
+
+    // 2. Stockpile pulls resources from crate
+    if findtype "resource container" ground -1 -1 2 as stockpile
+        overhead 'Stockpile: pulling from crate...' 88
+        menu stockpile 0
+        wft 500
         target 'shippingcrate'
         getlabel backpack pingCheck
+        wait 500
+    else
+        overhead 'Stockpile not found within 2 tiles' 34
     endif
-    overhead 'test1'
 
-    
-    // Crate items to stockpile
-    //menu 0x49FA6F42 0
-    //waitfortarget
-    //target 'shippingcrate'
-    //getlabel backpack pingCheck
-    //
-    // Try to Lift
-    @drop backpack
-    lift shippingcrate
-    getlabel backpack pingCheck
-    drop backpack
-    getlabel backpack pingCheck
-    dclick 'shippingcrate'
-    
-else 
-    overhead 'No shipping crate found, strange that it found this path' 28
+    // 3. Magic item recycler: dump crate in, identify, recycle, dump out
+    if findtype "ornate elven chest|magic item recycler" ground -1 -1 2 as recycler
+        overhead 'Recycler: dumping crate in...' 88
+        dclick recycler
+        wait 750
+        gumpresponse 3
+        wft 2000
+        if targetexists
+            target 'shippingcrate'
+            wait 1500
+            gumpresponse 7
+            wait 2500
+            gumpresponse 6
+            wait 1500
+            gumpresponse 6
+            wait 1500
+        else
+            overhead 'Recycler: no cursor, skipping' 34
+        endif
+        overhead 'Recycler: dumping to inventory...' 88
+        menu recycler 2
+        wait 500
+    else
+        overhead 'Recycler not found within 2 tiles' 34
+    endif
+
+else
+    overhead 'No shipping crate found' 34
 endif
 
-overhead '~~ Used shipping crate path, one last pass at main organizer now ~~' 48
+overhead '~~ Crate done, running organizer ~~' 48
 script 'inn-dropper'
