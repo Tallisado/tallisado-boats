@@ -42,23 +42,41 @@ if findtype 3645 ground -1 -1 1 as 'shippingcrate'
 
     // 3. Magic item recycler: dump crate in, identify, recycle, dump out
     if findtype "ornate elven chest|magic item recycler" ground -1 -1 2 as recycler
-        overhead 'Recycler: dumping crate in...' 88
+        overhead 'DBG: recycler found, dclicking...' 33
         dclick recycler
         wait 750
+        if gumpexists 0
+            overhead 'DBG: gump open, btn3 dump-in...' 63
+        else
+            overhead 'DBG: NO gump after dclick' 34
+        endif
         gumpresponse 3
         wft 2000
         if targetexists
+            overhead 'DBG: cursor got, targeting crate...' 63
             target 'shippingcrate'
+            overhead 'DBG: targeted, dclicking to reopen...' 33
             dclick recycler
-            waitforgump 0 2000
+            wait 1500
+            if gumpexists 0
+                overhead 'DBG: gump open, btn7 identify...' 63
+            else
+                overhead 'DBG: NO gump after 2nd dclick' 34
+            endif
             gumpresponse 7
-            waitforgump 0 3000
+            wait 3000
+            if gumpexists 0
+                overhead 'DBG: gump open after ID, btn6 recycle...' 63
+            else
+                overhead 'DBG: NO gump after identify' 34
+            endif
             gumpresponse 6
-            waitforgump 0 2000
+            wait 2000
+            overhead 'DBG: btn6 recycle 2...' 33
             gumpresponse 6
-            waitforgump 0 2000
+            wait 1500
         else
-            overhead 'Recycler: no cursor, skipping' 34
+            overhead 'DBG: no cursor after btn3' 34
         endif
         overhead 'Recycler: dumping to inventory...' 88
         menu recycler 2
