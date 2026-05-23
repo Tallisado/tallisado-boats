@@ -76,6 +76,25 @@ if findtype 3645 ground -1 -1 1 as 'shippingcrate'
         else
             overhead 'Recycler: no cursor' 34
         endif
+
+        // 4. Stockpile pulls resources from recycler
+        if findtype "resource container" ground -1 -1 2 as stockpile
+            overhead 'Stockpile: pulling from recycler...' 88
+            menu stockpile 0
+            wft 500
+            target recycler
+            getlabel backpack pingCheck
+            wait 500
+        endif
+
+        // 5. Pick up the crate
+        overhead 'Picking up crate...' 88
+        @drop backpack
+        lift 'shippingcrate' 1
+        wait 500
+        drop backpack -1 -1 0
+        wait 500
+
         overhead 'Recycler: dumping to inventory...' 88
         menu recycler 2
         wait 500
