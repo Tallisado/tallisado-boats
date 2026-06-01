@@ -1,11 +1,11 @@
-# Boating/cannon/bot-aux-lesser-passive.razor
+﻿# Boating/cannon/bot-aux-lesser-passive.razor
 # Hotkey-bindable: trigger Bottom Auxiliary lesser passive ability.
 clearsysmsg
 say '[SecondAuxiliaryAbility'
 getlabel backpack ping
 if insysmsg "you must wait" or insysmsg "not currently reloading"
     overhead "Aux Cooling..." 38
-    hotkey "Play Script: uoo-scripts\Bots\PoonerBot\base"
+    hotkey "Play Script: uoo-scripts\Bots\_utilities\goto-base"
     stop
 else
     overhead '*Bot Aux Passive*' 87
@@ -13,4 +13,7 @@ else
         cooldown "Hold Fast" 30000
     endif
 endif
-hotkey "Play Script: uoo-scripts\Bots\PoonerBot\base"
+hotkey "Play Script: uoo-scripts\Bots\_utilities\goto-base"
+
+
+

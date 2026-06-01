@@ -46,7 +46,8 @@ All hotkeys in all profiles point to `uoo-scripts\*` paths.
 |---------|---------|----------------|
 | Pooner.xml | Boating PvM (active) | `uoo-scripts\Bots\PoonerBot\init` |
 | BoatPvM.xml | Old boating bot | `uoo-scripts\Boat-PvM\Master Background` |
-| Fishing.xml | Fishing bot | `uoo-scripts\Fishing\boat-startup` |
+| Fishing.xml | Fishing bot (Tallis) | `uoo-scripts\Fishing\init` |
+| Fishing2.xml | Fishing bot (Tallis Sado) | `uoo-scripts\Fishing\init` |
 | Tallis.xml | General PvM/explore | `uoo-scripts\Dex bot\init` |
 | MagePVM.xml | Mage PvM | `uoo-scripts\Automation\Mage Bot\init` |
 | Lumbering.xml | Lumbering | `uoo-scripts\Gathering\auto-lumbering-jase` |
@@ -55,10 +56,17 @@ All hotkeys in all profiles point to `uoo-scripts\*` paths.
 | Thief.xml | Thief | `uoo-scripts\Thief\steal-last` |
 | PVP.xml | PvP | `uoo-scripts\Dex bot\hally` |
 
+## Characters
+
+| Character | Account | Role | Profile |
+|-----------|---------|------|---------|
+| Tallis | kane2 | General PvM / explorer | Tallis.xml |
+| Tallis Sado | kane2 | Harvester and fisher | Fishing2.xml — F12 runs `Fishing\init` |
+
 ## Backup
 
 Old loose scripts and folders archived at:
-`C:\Outlands\ClassicUO\Data\Plugins\Assistant\Scripts\_backup_2026_05_07\`
+`C:\Outlands\ClassicUO\Data\Plugins\Assistant\_backup_2026_05_07\`
 
 # RazorEnhanced Scripting Rules
 
@@ -149,6 +157,28 @@ endif
 ```
 
 Do not remove these `getlabel` ping lines — they are load-bearing synchronisation, not dead code.
+
+## Comment rules
+
+**No inline comments** — `//` after code on the same line breaks the parser. Comments must be on their own line.
+
+**No leading comment block** — do not open a script with a block of `//` comment lines before the first executable statement. The parser chokes on this. Start scripts directly with code (`@setvar!`, `overhead`, etc.).
+
+**Never do this:**
+```razor
+// Fishing base loop
+// Started by boat-startup
+// ...
+@setvar! MaxSelfHeal 0    // also broken inline
+```
+
+**Always do this:**
+```razor
+@setvar! MaxSelfHeal 0
+overhead 'script starting' 88
+```
+
+If you need a file description, put it at the bottom or after the first executable line.
 
 ## Outlands SmartHarvest — `target self` carves nearest corpse
 

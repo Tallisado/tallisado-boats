@@ -1,0 +1,25 @@
+// Fishing init
+// Applies Harvest aspect armor, uses crystals, then chains to boat-startup
+// Weapon aspect is NOT set here - switch manually before running
+
+@setvar! fishingMode 1
+overhead "Fisher Bot" 88
+overhead "Stand near a dockmaster" 45
+
+say "[AspectArmor Harvest Max"
+
+while findtype 31262 backpack -1 as _p1
+    dclick _p1
+    wait 200
+    ignore _p1
+endwhile
+clearignore
+
+while findtype 30765 backpack -1 as _w1
+    dclick _w1
+    wait 200
+    ignore _w1
+endwhile
+clearignore
+
+hotkey "Play Script: uoo-scripts\Fishing\boat-startup"

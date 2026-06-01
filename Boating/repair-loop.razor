@@ -1,0 +1,44 @@
+overhead "Repair loop starting..." 88
+
+@setvar! repairDone 0
+while repairDone = 0
+    if not findtype "ship repair kit" backpack
+        overhead "Out of repair kits!" 38
+        @setvar! repairDone 1
+    else
+        gumpclose 1271619955
+        clearsysmsg
+        say "[Repair" 45
+        waitforgump 1271619955 500
+        if not gumpexists 1271619955
+            overhead "Repair gump did not open..." 38
+            @setvar! repairDone 1
+        else
+            gumpresponse 4
+            getlabel backpack ping
+            if insysmsg "repaired again"
+                overhead "Cannot repair in combat!" 38
+                @setvar! repairDone 1
+            elseif insysmsg "hull"
+                overhead "Ship is in good order!" 68
+                @setvar! repairDone 1
+            else
+                if insysmsg "guns"
+                    if gumpexists 1271619955
+                        gumpresponse 3
+                        getlabel backpack ping
+                    endif
+                endif
+                if insysmsg "sails"
+                    if gumpexists 1271619955
+                        gumpresponse 2
+                        getlabel backpack ping
+                    endif
+                endif
+                wait 11000
+            endif
+        endif
+    endif
+endwhile
+
+hotkey "Play Script: uoo-scripts\Bots\_utilities\goto-base"

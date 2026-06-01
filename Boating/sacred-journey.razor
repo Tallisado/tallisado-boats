@@ -1,11 +1,13 @@
-# Boating/sacred-journey.razor
+﻿# Boating/sacred-journey.razor
 # Applies Sacred Journey chivalry buff, then embarks and starts bot.
 # Called automatically by launch.razor when tallis_Ocean_SacredJourneyOnAutoLaunch = 1.
 
 if skill "Chivalry" < 90
     overhead "No chivalry skill - skipping Sacred Journey" 38
+    say "[AspectArmor Fortune Max"
+    wait 200
     say "[Embark"
-    hotkey 'Play Script: uoo-scripts\Bots\PoonerBot\base'
+    hotkey "Play Script: uoo-scripts\Bots\_utilities\goto-base"
     stop
 endif
 
@@ -24,8 +26,10 @@ endif
 waitforgump 1482653814 500
 if not gumpexists 1482653814
     overhead "Sacred Journey gump did not open - skipping..." 38
+    say "[AspectArmor Fortune Max"
+    wait 200
     say "[Embark"
-    hotkey 'Play Script: uoo-scripts\Bots\PoonerBot\base'
+    hotkey "Play Script: uoo-scripts\Bots\_utilities\goto-base"
     stop
 endif
 gumpresponse 5
@@ -37,7 +41,9 @@ getlabel backpack ping
 if insysmsg "You have been in combat too recently to use that ability"
     overhead "Argh, I cant do that while fighting..." 45
     gumpclose 1482653814
-    hotkey 'Play Script: uoo-scripts\Bots\PoonerBot\base'
+    say "[AspectArmor Fortune Max"
+    wait 200
+    hotkey "Play Script: uoo-scripts\Bots\_utilities\goto-base"
     stop
 endif
 pause 1000
@@ -48,6 +54,9 @@ if findtype 30528 ground 2091 -1 1 as chivgate
         gumpresponse 2
     endif
 endif
+say "[AspectArmor Fortune Max"
+wait 200
 say "[Embark"
 overhead "I am charged with Holy Power!" 78
-hotkey 'Play Script: uoo-scripts\Bots\PoonerBot\base'
+hotkey "Play Script: uoo-scripts\Bots\_utilities\goto-base"
+

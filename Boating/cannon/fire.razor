@@ -1,4 +1,4 @@
-# Boating/cannon/fire.razor
+﻿# Boating/cannon/fire.razor
 # Hotkey-bindable: fire main cannonballs.
 # Tries ManualTargetEnemy -> ShipSails -> Closest Enemy -> Closest Grey -> player aim.
 # Use uoo-scripts\Boating\cannon\set-sails.razor to save a sails target.
@@ -14,13 +14,13 @@ getlabel backpack ping
 
 if insysmsg "fire its cannons again"
     overhead "Cannons Cooling..." 38
-    hotkey "Play Script: uoo-scripts\Bots\PoonerBot\base"
+    hotkey "Play Script: uoo-scripts\Bots\_utilities\goto-base"
     stop
 endif
 
 if insysmsg "cannons finish reloading"
     overhead "Cannons reloading..." 38
-    hotkey "Play Script: uoo-scripts\Bots\PoonerBot\base"
+    hotkey "Play Script: uoo-scripts\Bots\_utilities\goto-base"
     stop
 endif
 
@@ -33,4 +33,7 @@ if insysmsg "fire the cannons?"
 endif
 
 overhead "Cannons not ready..." 38
-hotkey "Play Script: uoo-scripts\Bots\PoonerBot\base"
+hotkey "Play Script: uoo-scripts\Bots\_utilities\goto-base"
+
+
+

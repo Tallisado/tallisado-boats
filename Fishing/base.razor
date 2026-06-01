@@ -1,22 +1,10 @@
-//Fishing background: spyglass, net, heal, buff, auto-cut fish, auto-loot drop
-//Expects 'shiphold' var set by boat-startup.razor
-//
-//Cooldowns needed:
-//  'Fishing Net' - 3.6s overhead trigger on phrase "Throwing Net"
-//  'Spyglass'    - no trigger needed, script manages cooldown
-//  'Holy Light'  - no trigger needed
-
-// --- Settings ---
-// MaxSelfHeal: 0=heal at 10+ diffhits, 1=heal whenever missing any hp
 @setvar! MaxSelfHeal 0
-// AutoBuffPots: 0=skip buff pots, 1=auto drink str/agi/resist
 @setvar! AutoBuffPots 1
-// AutoCutFish: 0=off, 1=auto cut exotic fish with scissors in backpack
 @setvar! AutoCutFish 1
-// CannonTargetModeGump: 0=off, 1=auto-reopen cannon targeting gump if closed
 @setvar! CannonTargetModeGump 1
+@setvar! carveCD 650
 
-overhead 'Spying and fishing'
+overhead 'Fisher base running' 88
 
 if not findtype 'Orange Potion' backpack
     overhead 'Out of cure pots' 28
@@ -25,12 +13,20 @@ if not findtype 'Yellow Potion' backpack
     overhead 'Out of heal pots' 28
 endif
 if not findtype 5365 backpack
-    overhead 'No spyglass - hope you are on land?' 28
+    overhead 'No spyglass!' 28
 endif
 
 if not timerexists oceanscan
     createtimer oceanscan
-    settimer oceanscan 5000
+    settimer oceanscan 3000
+endif
+if not timerexists carveTimer
+    createtimer carveTimer
+    settimer carveTimer carveCD
+endif
+if not timerexists netCast
+    createtimer netCast
+    settimer netCast 3600
 endif
 if not timerexists sacredjourncheck
     createtimer sacredjourncheck
@@ -84,32 +80,132 @@ while not dead
         endif
     endif
 
-    // --- Ocean scan: attack nearest enemy ---
-    if timer oceanscan >= 3000
-        hotkey 'Target Closest Grey Monster'
-        attack lasttarget
-        settimer oceanscan 0
+    // --- Skin nearby corpses (matches scavenge-loop: forensic eval → target self) ---
+    if findtype "corpse" ground -1 -1 2 as corpsy
+        if findtype 11552 backpack
+            if timer carveTimer > carveCD
+                if targetexists
+                    hotkey 'cancel current target'
+                endif
+                while not targetexists
+                    skill 'forensicevaluation'
+                    wait 50
+                endwhile
+                if targetexists
+                    if find corpsy ground -1 -1 2
+                        sysmsg "Skinning corpse.." 11
+                        target 'self'
+                        @ignore corpsy
+                        settimer carveTimer 0
+                    endif
+                endif
+            endif
+        endif
     endif
 
-    // --- Throw fishing net ---
-    if not cooldown 'Fishing Net'
-        if findtype rowboat|barrel|horn|25769|rock|foliage|mushroom|basket|18824|28933|swordfish|rocks|bedroll ground as fishingSpot
-            overhead "Throwing Net" 15
-            getlabel backpack pingCheck
-            dclick 'fishingSpot'
-            getlabel backpack pingCheck
+    // --- Attack nearest enemy ---
+    if timerexists oceanscan
+        if timer oceanscan >= 3000
+            clearsysmsg
+            hotkey 'Target Closest Grey Monster'
+            getlabel backpack ping
+            if not insysmsg "No one matching"
+                getlabel lasttarget tallis_atkDesc
+                @setvar! tallis_atkOk 0
+                if "[Crewmember]" in tallis_atkDesc
+                    // skip - crew member
+                elseif noto lasttarget = "innocent"
+                    // skip - innocent
+                elseif noto lasttarget = "friend"
+                    // skip - friend/guild
+                elseif noto lasttarget = "invulnerable"
+                    // skip - NPC
+                else
+                    @setvar! tallis_atkOk 1
+                endif
+                if tallis_atkOk = 1
+                    warmode on
+                    attack lasttarget
+                endif
+            endif
+            settimer oceanscan 0
+        endif
+    endif
+
+    // --- Disarm (warmode only, re-enable every 90s) ---
+    if warmode
+        if skill "Arms Lore" >= 80
+            if not timerexists disarmcheck
+                createtimer disarmcheck
+                settimer disarmcheck 90000
+            else
+                if timer disarmcheck >= 90000
+                    clearsysmsg
+                    for 4
+                        say "[Disarm"
+                        getlabel backpack ping
+                        if insysmsg "You will now attempt to disarm your opponents."
+                            settimer disarmcheck 0
+                            break
+                        endif
+                    endfor
+                endif
+            endif
+        endif
+    endif
+
+    // --- Throw fishing net (ignore special hues so only regular nets are used) ---
+    if timerexists netCast
+        if timer netCast >= 3600
+            if findtype 1286|18824|3530|26683|39345|29410|29230|2646|441|25769|39434|27641|3707 ground -1 -1 12
+                if findtype "fishing net" backpack 2785 as sn
+                    @ignore sn
+                endif
+                if findtype "fishing net" backpack 2851 as sn
+                    @ignore sn
+                endif
+                if findtype "fishing net" backpack 2880 as sn
+                    @ignore sn
+                endif
+                if findtype "fishing net" backpack 2963 as sn
+                    @ignore sn
+                endif
+                if findtype "fishing net" backpack 2839 as sn
+                    @ignore sn
+                endif
+                if findtype "fishing net" backpack 2871 as sn
+                    @ignore sn
+                endif
+                if findtype "fishing net" backpack 2795 as sn
+                    @ignore sn
+                endif
+                if findtype "fishing net" backpack 2814 as sn
+                    @ignore sn
+                endif
+                if findtype "fishing net" backpack 2900 as sn
+                    @ignore sn
+                endif
+                if findtype "fishing net" backpack as fnet
+                    while queued
+                        //donothing
+                    endwhile
+                    dclick fnet
+                    wft 500
+                    target fnet
+                    getlabel backpack ping
+                    settimer netCast 0
+                endif
+                clearignore
+            endif
         endif
     endif
 
     // --- Equip harpoon/trident if left hand empty ---
     if lhandempty
-        overhead 'Left hand empty'
         if findtype 31169 backpack as darpoon
-            overhead 'Equipping harpoon'
             dclick darpoon
             getlabel backpack pingCheck
         elseif findtype 31172 backpack as drident
-            overhead 'Equipping trident'
             dclick drident
             getlabel backpack pingCheck
         endif
@@ -119,7 +215,6 @@ while not dead
     if not cooldown 'Spyglass'
         if not queued
             if targetexists
-                overhead 'Skipping spyglass' 15
                 cooldown 'Spyglass' 2000
             else
                 gumpclose 2890020940
@@ -130,7 +225,6 @@ while not dead
                 elseif findtype 5365 backpack 2406 as shadowspy
                     dclicktype 5365 backpack 2406
                 else
-                    overhead "Defaulted to any spy"
                     dclicktype 5365
                 endif
                 cooldown 'Spyglass' 6300
@@ -208,7 +302,7 @@ while not dead
         endif
     endif
 
-    // --- Cure potion ---
+    // --- Cure ---
     if poisoned
         if findtype 'Orange Potion' backpack
             overhead 'Drinking cure potion' 48
@@ -257,8 +351,6 @@ while not dead
             overhead 'Drinking refresh potion'
             hotkey 'Drink Refresh'
             wait 500
-        else
-            overhead 'Out of refresh pots' 34
         endif
     endif
 
@@ -266,21 +358,18 @@ while not dead
     if AutoBuffPots = 1
         if not findbuff 'Strength'
             if findtype 'White Potion' backpack
-                overhead 'Drinking strength potion'
                 hotkey 'Drink Strength'
                 wait 500
             endif
         endif
         if not findbuff 'Agility'
             if findtype 'Blue Potion' backpack
-                overhead 'Drinking agility potion'
                 hotkey 'Drink Agility'
                 wait 500
             endif
         endif
         if not findbuff "Magic Resist Potion"
             if findtype 'Black Potion' backpack
-                overhead 'Drinking resist potion'
                 hotkey 'Drink Magic Resist'
                 wait 500
             endif
@@ -301,9 +390,9 @@ while not dead
         bomb
     endif
 
-    // --- Auto loot drop into ship hold (only when within 2 tiles of hold) ---
+    // --- Auto loot drop into ship hold (only when within 2 tiles) ---
     if find "shiphold" ground -1 -1 2
-        while findtype "chain link|29368|18660|3712|3648|3650|3708|metal chest|3649|29833|29832|20099|31303|31165|tribal ruins|electric ankh|54230|44985|glass display|20049|Pig Iron|broken shield|blackrock fragment|gargish fragment|11753|18705|49482|53694|54570|53696|53876|50612|55420|53280|53473|54831|50278|49528|55204|54684|27612|49223|54591|54601|54718|7408|19948|58325|19959|19822|49730|49729|19944|19949|47613|47612|47611|47610|3986|3966|3568|3932|3920|3938|3937|3915|3909|3934|3913|3917|3721|3719|3911|9917|3859|3862|3878|3865|3856|3873|3877|3742|3762|3740|3763|10245|3572|3573|3571|3885|7127|4225|12686|19985|19981|19984|19982|19983|19991|19989|19986|19987|19988|19994|19995|19992|19993|19990|19980|19977|19976|19978|7154|19979|43423|7708|2426|3861|24343|3821|31047|31017|31049|31019|31055|31051|31053|31025|31027|31031|31041|54717|31021|31011|31023|31029|31043|31003|31035|31033|31045|31037|31002|20006|31169|31006|30999|31012|31009|30996|7109|7107|31128|31188|20014|31014|31004|31142|31001|31000|37181|31010|30998|31172|30988|30997|31038|31141|20008|31005|31191|31008|31007|30994|30993|31182|30989|20012|31186|31178|31015|30991|20010|20016|31184|31190|30990|30995|31176|31180|30992|31130|5207|7031|7026|7034|7033|7027|7035|7029|5078|5063|5059|5105|5060|5138|5129|5201|5142|5143|5076|5106|7610|5139|5090|5103|5132|7177|5061|7181|7179|5042|5127|5117|5185|5125|3939|5177|5044|5121|3834|5056|5135|5187|5074|5089|5046|5049|7170|5146|5205|5203|5115|5204|5040|5179|5070|5182|5085|5181|7173|5131|5101|7175|7169|5112|22187" backpack as bitem
+        while findtype "chain link|29368|18660|3712|3648|3650|3708|metal chest|3649|29833|29832|20099|31303|31165|tribal ruins|electric ankh|54230|44985|glass display|20049|Pig Iron|broken shield|blackrock fragment|gargish fragment|11753|18705|49482|53694|54570|53696|53876|50612|55420|53280|53473|54831|50278|49528|55204|54684|27612|49223|54591|54601|54718|7408|19948|58325|19959|19822|49730|49729|19944|19949|47613|47612|47611|47610|3986|3966|3568|3932|3920|3938|3937|3915|3909|3934|3913|3917|3721|3719|3911|9917|3859|3862|3878|3865|3856|3873|3877|3742|3762|3740|3763|10245|3572|3573|3571|3885|7127|4225|12686|19985|19981|19984|19982|19983|19991|19989|19986|19987|19988|19994|19995|19992|19993|19990|19980|19977|19976|19978|7154|19979|43423|7708|2426|3861|24343|3821|31047|31017|31049|31019|31055|31051|31053|31025|31027|31031|31041|54717|31021|31011|31023|31029|31043|31003|31035|31033|31045|31037|31002|20006|31169|31006|30999|31012|31009|30996|7109|7107|31128|31188|20014|31014|31004|31142|31001|31000|37181|31010|30998|31172|30988|30997|31038|31141|20008|31005|31191|31008|31007|30994|30993|31182|30989|20012|31186|31178|31015|30991|20010|20016|31184|31190|30990|30995|31176|31180|30992|31130|5207|7031|7026|7034|7033|7027|7035|7029|5078|5063|5059|5105|5060|5138|5129|5201|5142|5143|5076|5106|7610|5139|5090|5103|5132|7177|5061|7181|7179|5042|5127|5117|5185|5125|3939|5177|5044|5121|5056|5135|5187|5074|5089|5046|5049|7170|5146|5205|5203|5115|5204|5040|5179|5070|5182|5085|5181|7173|5131|5101|7175|7169|5112|22187" backpack as bitem
             drop backpack
             lift bitem 60000
             drop shiphold -1 -1 0

@@ -1,0 +1,25 @@
+// Fishing reinit
+// Use when already on ship and base crashed or needs a restart
+// Resets vars, reopens ship gumps, jumps straight to base (skips launch)
+
+// Settings
+@setvar! fishingMode 1
+@setvar! MaxSelfHeal 0
+@setvar! AutoBuffPots 1
+@setvar! AutoCutFish 1
+@setvar! CannonTargetModeGump 1
+@setvar! carveCD 650
+
+overhead "Fishing Reinit..." 88
+
+if not gumpexists 1722920179
+    say "[shiphotbars"
+    waitforgump 1722920179 500
+endif
+
+if not gumpexists 3329337894
+    say "[TargetingMode"
+    waitforgump 3329337894 500
+endif
+
+hotkey "Play Script: uoo-scripts\Fishing\base"

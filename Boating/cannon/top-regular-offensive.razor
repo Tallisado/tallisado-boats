@@ -1,4 +1,4 @@
-# Boating/cannon/top-regular-offensive.razor
+﻿# Boating/cannon/top-regular-offensive.razor
 # Hotkey-bindable: fire Top row Regular offensive ability.
 clearsysmsg
 hotkey '> Interrupt'
@@ -11,7 +11,7 @@ if varexist tallis_Ocean_UsingSPK and tallis_Ocean_UsingSPK = 1
 endif
 if insysmsg "fire its cannons again" or insysmsg "you must wait"
     overhead "Cannons Cooling..." 38
-    hotkey "Play Script: uoo-scripts\Bots\PoonerBot\base"
+    hotkey "Play Script: uoo-scripts\Bots\_utilities\goto-base"
     stop
 endif
 if insysmsg "target this ability?"
@@ -21,4 +21,7 @@ if insysmsg "target this ability?"
     stop
 endif
 overhead "Ability Cooling..." 38
-hotkey "Play Script: uoo-scripts\Bots\PoonerBot\base"
+hotkey "Play Script: uoo-scripts\Bots\_utilities\goto-base"
+
+
+

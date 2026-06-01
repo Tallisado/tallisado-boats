@@ -1,0 +1,29 @@
+hotkey "Cancel Current Target"
+clearsysmsg
+overhead "Crew Attack!" 54
+say "[CrewAttack"
+wft 500
+if targetexists
+    if varexist "ManualTargetEnemy"
+        if find "ManualTargetEnemy" ground -1 -1 25
+            target "ManualTargetEnemy"
+            getlabel backpack ping
+        else
+            hotkey "Target Closest Enemy Monster"
+            hotkey "Target Closest Grey Monster"
+            hotkey "Target Closest Murderer Monster"
+            target lasttarget
+            hotkey "Cancel Current Target"
+        endif
+    else
+        hotkey "Target Closest Enemy Monster"
+        hotkey "Target Closest Grey Monster"
+        hotkey "Target Closest Murderer Monster"
+        target lasttarget
+        hotkey "Cancel Current Target"
+    endif
+else
+    overhead "No cursor" 38
+endif
+
+hotkey "Play Script: uoo-scripts\Bots\_utilities\goto-base"

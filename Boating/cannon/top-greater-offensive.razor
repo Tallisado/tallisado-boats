@@ -1,4 +1,4 @@
-# Boating/cannon/top-greater-offensive.razor
+﻿# Boating/cannon/top-greater-offensive.razor
 # Hotkey-bindable: fire Top row Greater offensive ability.
 clearsysmsg
 hotkey '> Interrupt'
@@ -7,7 +7,7 @@ say "[GreaterAbility"
 getlabel backpack ping
 if insysmsg "fire its cannons again" or insysmsg "you must wait"
     overhead "Cannons Cooling..." 38
-    hotkey "Play Script: uoo-scripts\Bots\PoonerBot\base"
+    hotkey "Play Script: uoo-scripts\Bots\_utilities\goto-base"
     stop
 endif
 if insysmsg "target this ability?"
@@ -17,4 +17,5 @@ if insysmsg "target this ability?"
     stop
 endif
 overhead "Ability Cooling..." 38
-hotkey "Play Script: uoo-scripts\Bots\PoonerBot\base"
+hotkey "Play Script: uoo-scripts\Bots\_utilities\goto-base"
+

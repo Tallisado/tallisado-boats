@@ -1,4 +1,4 @@
-# Boating/cannon/bot-regular-offensive.razor
+﻿# Boating/cannon/bot-regular-offensive.razor
 # Hotkey-bindable: fire Bottom row Regular offensive ability.
 # Delegates targeting logic to uoo-scripts\Bots\_utilities\cannon-fire-target.
 clearsysmsg
@@ -8,7 +8,7 @@ say "[SecondRegularAbility"
 getlabel backpack ping
 if insysmsg "fire its cannons again" or insysmsg "you must wait"
     overhead "Cannons Cooling..." 38
-    hotkey "Play Script: uoo-scripts\Bots\PoonerBot\base"
+    hotkey "Play Script: uoo-scripts\Bots\_utilities\goto-base"
     stop
 endif
 if insysmsg "target this ability?"
@@ -18,4 +18,7 @@ if insysmsg "target this ability?"
     stop
 endif
 overhead "Ability Cooling..." 38
-hotkey "Play Script: uoo-scripts\Bots\PoonerBot\base"
+hotkey "Play Script: uoo-scripts\Bots\_utilities\goto-base"
+
+
+
