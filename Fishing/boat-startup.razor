@@ -4,6 +4,13 @@
 clearsysmsg
 overhead 'Launch sequence initiated...' 45
 
+if cooldown 'launch' > 0
+    overhead "Launch timer active - waiting..." 38
+endif
+while cooldown 'launch' > 0
+    pause 1000
+endwhile
+
 if not findtype 5365 backpack
     overhead 'I forgot a Spyglass...' 38
     overhead 'I forgot a Spyglass...' 38
@@ -26,9 +33,6 @@ while findtype 30765 backpack -1 as _w1
     ignore _w1
 endwhile
 clearignore
-
-say "[AspectWeapon Harvest Max"
-wait 200
 
 if findtype 3763|3762|3740|3742|10245|20008|20006|20014|20016|20012|20010 backpack as instrument
     @ignore instrument
