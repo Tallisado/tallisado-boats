@@ -1,0 +1,48 @@
+while not dead and skill "poisoning" < 100
+    dclicktype "keg" backpack 363 -1 -1
+    wait 500
+
+    if not insysmsg "place it into your backpack"
+        organizer 1
+        wait 500
+    endif
+
+    if findtype "Green Potion" backpack and hp > 50
+        skill 'Poisoning'
+        wft 500 
+        targettype "Green Potion" backpack
+        wft 500 
+        if findtype "kryss" backpack
+            targettype "kryss" backpack
+        else
+            target 'select_train_weapon'
+        endif
+        wait 2000
+    endif
+
+    if findtype "Yellow Potion" backpack and hp < 50
+        hotkey 'Drink Heal'
+        wait 500
+    endif
+
+    if poisoned
+        overhead 'Posioned'
+        while poisoned
+            if findtype "Orange Potion" backpack
+                hotkey 'Drink Cure'
+                wait 500
+            else
+                overhead "Out of cures... you gonna die" 34
+                wait 1000
+            endif
+            
+            if findtype "Yellow Potion" backpack and hp < 40
+                hotkey 'Drink Heal'
+                wait 500
+            endif
+        endwhile
+        wait 4000
+    else
+        wait 4000
+    endif   
+endwhile

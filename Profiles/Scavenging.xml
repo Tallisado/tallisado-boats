@@ -13,8 +13,8 @@
 	<property name="SortCounters" type="System.Boolean">True</property>
 	<property name="QueueActions" type="System.Boolean">True</property>
 	<property name="QueueTargets" type="System.Boolean">False</property>
-	<property name="WindowX" type="System.Int32">511</property>
-	<property name="WindowY" type="System.Int32">1011</property>
+	<property name="WindowX" type="System.Int32">1124</property>
+	<property name="WindowY" type="System.Int32">1041</property>
 	<property name="CountStealthSteps" type="System.Boolean">True</property>
 	<property name="SysColor" type="System.Int32">68</property>
 	<property name="WarningColor" type="System.Int32">37</property>
@@ -27,7 +27,7 @@
 	<property name="ImageFormat" type="System.String">jpg</property>
 	<property name="UndressConflicts" type="System.Boolean">True</property>
 	<property name="Systray" type="System.Boolean">False</property>
-	<property name="RazorWidth" type="System.Int32">787</property>
+	<property name="RazorWidth" type="System.Int32">1217</property>
 	<property name="RazorHeight" type="System.Int32">411</property>
 	<property name="SellAgentMax" type="System.Int32">99</property>
 	<property name="SkillListCol" type="System.Int32">1</property>
@@ -82,7 +82,7 @@
 	<property name="StealthStepsFormat" type="System.String">Steps: {step}</property>
 	<property name="ShowFriendOverhead" type="System.Boolean">False</property>
 	<property name="DisplaySkillChangesOverhead" type="System.Boolean">False</property>
-	<property name="GrabHotBag" type="System.String">1092766464</property>
+	<property name="GrabHotBag" type="System.String">1091260293</property>
 	<property name="MacroActionDelay" type="System.Boolean">False</property>
 	<property name="DisableMacroPlayFinish" type="System.Boolean">False</property>
 	<property name="ShowBandageTimer" type="System.Boolean">True</property>
@@ -215,11 +215,17 @@
 		</list>
 	</dresslists>
 	<hotkeys>
-		<key mod="0" key="69" send="False">L:3002032</key>
+		<key mod="4" key="85" send="False">L:3002012</key>
+		<key mod="2" key="81" send="False">L:3002014</key>
+		<key mod="4" key="69" send="False">L:3002032</key>
 		<key mod="0" key="51" send="False">L:3002040</key>
 		<key mod="0" key="80" send="False">L:3002042</key>
+		<key mod="0" key="220" send="False">L:3002048</key>
 		<key mod="0" key="50" send="False">L:3002052</key>
 		<key mod="0" key="49" send="False">L:3002053</key>
+		<key mod="2" key="87" send="False">L:3002054</key>
+		<key mod="4" key="80" send="False">L:3002055</key>
+		<key mod="0" key="115" send="False">L:3002072</key>
 		<key mod="0" key="81" send="False">L:2060</key>
 		<key mod="0" key="86" send="False">L:1058</key>
 		<key mod="0" key="-5" send="False">L:1060</key>
@@ -230,18 +236,18 @@
 		<key mod="4" key="-2" send="False">L:2055</key>
 		<key mod="2" key="-2" send="False">L:2057</key>
 		<key mod="1" key="-2" send="False">L:2087</key>
-		<key mod="0" key="187" send="False">Play: BounceHome</key>
 		<key mod="4" key="48" send="False">Play: guards</key>
 		<key mod="4" key="87" send="False">Play: InvisMe</key>
 		<key mod="0" key="46" send="False">L:2101</key>
-		<key mod="0" key="115" send="False">Play Script: uoo-scripts\Harvesting\auto-harvester</key>
-		<key mod="0" key="77" send="False">Play Script: uoo-scripts\Navigation\gate</key>
-		<key mod="0" key="48" send="False">Play Script: uoo-scripts\Navigation\room</key>
-		<key mod="4" key="69" send="False">Play Script: uoo-scripts\Navigation\rope-tele</key>
-		<key mod="2" key="75" send="False">Play Script: uoo-scripts\Scavenging\society-time</key>
-		<key mod="0" key="112" send="False">Play Script: uoo-scripts\Harvesting\all-harvester</key>
 		<key mod="0" key="82" send="False">Play Script: uoo-scripts\Harvesting\scavenge-loop-button</key>
+		<key mod="0" key="112" send="False">Play Script: uoo-scripts\Harvesting\scavenge-loop</key>
 		<key mod="0" key="113" send="False">Play Script: uoo-scripts\Harvesting\scavenger-summons</key>
+		<key mod="0" key="77" send="False">Play Script: uoo-scripts\Navigation\gate</key>
+		<key mod="4" key="187" send="False">Play Script: uoo-scripts\Navigation\recall-gh</key>
+		<key mod="0" key="187" send="False">Play Script: uoo-scripts\Navigation\recall-room</key>
+		<key mod="0" key="48" send="False">Play Script: uoo-scripts\Navigation\room</key>
+			<key mod="0" key="189" send="False">Play Script: uoo-scripts\Navigation\room</key>
+		<key mod="0" key="69" send="False">Play Script: uoo-scripts\Navigation\rope-tele</key>
 		<key mod="0" key="76" send="False">Play Script: uoo-scripts\Organizers\inn-dropper</key>
 		<key mod="6" key="76" send="False">Play Script: uoo-scripts\Organizers\move-label-to-bag</key>
 		<key mod="4" key="76" send="False">Play Script: uoo-scripts\Organizers\scrap-unid-chest</key>
@@ -251,13 +257,15 @@
 		<key mod="4" key="65" send="False">L:2024</key>
 		<key mod="4" key="68" send="False">L:2027</key>
 		<key mod="4" key="81" send="False">L:1028</key>
-		<key mod="2" key="81" send="False">L:1029</key>
+		<key mod="4" key="67" send="False">L:1030</key>
 		<key mod="4" key="90" send="False">L:1031</key>
 		<key mod="4" key="88" send="False">L:1033</key>
+		<key mod="0" key="73" send="False">L:1509</key>
 		<key mod="0" key="71" send="False">L:2035</key>
 		<key mod="4" key="71" send="False">L:2036</key>
 		<key mod="0" key="84" send="False">L:2530</key>
-		<key mod="0" key="70" send="False">L:1044093</key>
+		<key mod="0" key="90" send="False">L:1044081</key>
+		<key mod="0" key="85" send="False">L:1044106</key>
 	</hotkeys>
 	<overheadmessages>
 		<overheadmessage searchtext="You may now perform taunt" message="Taunt ready!" hue="68" />
@@ -309,7 +317,7 @@
 		<scriptvariable serial="0x4EE58141" name="myFromContainer" />
 		<scriptvariable serial="0x0" name="myToBag" />
 		<scriptvariable serial="0x4ADF3CD5" name="jase_MyInny" />
-		<scriptvariable serial="0x46D94747" name="jootbag" />
+		<scriptvariable serial="0x410B4F85" name="jootbag" />
 		<scriptvariable serial="0x0" name="alchemyStockpile" />
 		<scriptvariable serial="0x0" name="inscriptionStockpile" />
 		<scriptvariable serial="0x0" name="blacksmithStockpile" />
@@ -321,8 +329,12 @@
 		<scriptvariable serial="0x1" name="waitForMe" />
 		<scriptvariable serial="0x1" name="DanStock." />
 		<scriptvariable serial="0x43C3FF08" name="lumber_runebook" />
-		<scriptvariable serial="0x489F19CE" name="MyLootBag" />
+		<scriptvariable serial="0x42B514F0" name="MyLootBag" />
 		<scriptvariable serial="0x1" name="FIRSTRUN" />
+		<scriptvariable serial="0x198F7B" name="evalTarget" />
+		<scriptvariable serial="0x613871" name="battletrainer" />
+		<scriptvariable serial="0x20BF3B" name="tameTarget" />
+		<scriptvariable serial="0x0" name="holyPoints" />
 	</scriptvariables>
 	<friends />
 	<textfilters />

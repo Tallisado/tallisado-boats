@@ -1,0 +1,14 @@
+while not dead
+    if findtype "keg" backpack 1109 -1 -1 as mKeg
+        dclick mKeg
+        wait 750
+    else 
+        overhead "no magic keg"
+    endif
+    if findtype "Black Potion" backpack as jPot
+        dclick jPot
+        wait 750
+    else
+        overhead "Cant find black pots" 34
+    endif
+endwhile

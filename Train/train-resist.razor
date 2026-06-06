@@ -1,0 +1,119 @@
+overhead 'Train Resist - starting' 88
+
+@setvar! maxwaittimeinms 650
+
+while not dead
+
+    @setvar! dbg_dh 0
+    if diffhits >= 80
+        @setvar! dbg_dh 80
+    elseif diffhits >= 60
+        @setvar! dbg_dh 60
+    elseif diffhits >= 40
+        @setvar! dbg_dh 40
+    elseif diffhits >= 20
+        @setvar! dbg_dh 20
+    elseif diffhits >= 1
+        @setvar! dbg_dh 1
+    endif
+
+    @setvar! dbg_hits 0
+    if hits >= 100
+        @setvar! dbg_hits 100
+    elseif hits >= 80
+        @setvar! dbg_hits 80
+    elseif hits >= 60
+        @setvar! dbg_hits 60
+    elseif hits >= 40
+        @setvar! dbg_hits 40
+    elseif hits >= 20
+        @setvar! dbg_hits 20
+    elseif hits >= 1
+        @setvar! dbg_hits 1
+    endif
+
+    overhead "[DBG] hits~{{dbg_hits}} diffhits~{{dbg_dh}}" 88
+
+    if diffhits >= 1
+        overhead "[DBG] damage detected - checking bandage" 68
+        if not bandaging
+            overhead "[DBG] not bandaging - looking for aids" 68
+            if findtype 'clean bandage%s%' backpack
+                overhead "[DBG] bandage found - applying" 68
+                if targetexists
+                    hotkey 'cancel current target'
+                endif
+                dclicktype 'clean bandage%s%'
+                waitfortarget maxwaittimeinms
+                target 'self'
+                wait 200
+            else
+                overhead "[DBG] NO BANDAGES FOUND" 33
+            endif
+        else
+            overhead "[DBG] already bandaging" 68
+        endif
+    endif
+
+    @setvar! stopFlag 0
+    if hits <= 30
+        @setvar! stopFlag 1
+    endif
+    overhead "[DBG] hits<=30 stopFlag={{stopFlag}}" 88
+
+    if stopFlag = 1
+        say "all stop"
+        overhead "Low HP - stopping pet" 38
+
+        while diffhits > 0
+
+            @setvar! ghealFlag 0
+            if hits <= 20
+                @setvar! ghealFlag 1
+            endif
+            overhead "[DBG] inner loop ghealFlag={{ghealFlag}}" 88
+
+            if ghealFlag = 1
+                overhead "Emergency GHeal" 33
+                cast 'Greater Heal'
+                wft 3000
+                target 'self'
+            endif
+
+            if findtype "Yellow Potion" self as hPot
+                getlabel hPot potLabel
+                overhead "[DBG] pot={{potLabel}}" 88
+                if "(" in potLabel
+                    overhead "[DBG] pot on cooldown" 33
+                else
+                    dclicktype 3852
+                    getlabel backpack xxx
+                    sysmsg "heal pot" 55
+                endif
+            else
+                overhead "[DBG] no yellow potion" 33
+            endif
+
+            if diffhits >= 1
+                if not bandaging
+                    if findtype 'clean bandage%s%' backpack
+                        overhead "[DBG] inner: applying bandage" 68
+                        if targetexists
+                            hotkey 'cancel current target'
+                        endif
+                        dclicktype 'clean bandage%s%'
+                        waitfortarget maxwaittimeinms
+                        target 'self'
+                        wait 200
+                    endif
+                endif
+            endif
+
+            wait 500
+        endwhile
+
+        overhead "Full HP - resuming" 88
+    endif
+
+    wait 250
+endwhile

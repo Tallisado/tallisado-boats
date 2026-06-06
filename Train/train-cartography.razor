@@ -1,0 +1,83 @@
+if skill 'cartography' >= 100
+    overhead 'Hit max!' 88
+    stop
+endif
+
+@setvar! mapMakerVendorId 0xAF44F
+
+if counttype 5356 backpack 2669 > 0 and counttype 5356 backpack 2955 = 0
+    overhead 'Selling to Penda the mapmaker'
+    menu mapMakerVendorId 2
+    wait 2000
+    if counttype 5356 backpack 2669 > 0
+        overhead "Make sure your sell agent is active and set to map!" 34
+        wait 2000
+        replay
+    endif
+endif
+
+gumpclose 949095101
+if counttype 5356 backpack 2955 < 10 or not findtype "pen and ink" backpack
+    restock 5
+    waitfortarget
+    hotkey 'Target Self'
+    wait 2000
+endif
+
+if not findtype "pen and ink" backpack
+    overhead "No map maker pen found!" 34
+    overhead "Make sure restock agent 5 is set as maps & pens" 88
+    wait 1000
+    replay
+endif
+
+if counttype 5356 backpack 2955 = 0
+    overhead "No blank maps" 34
+    overhead "Make sure restock agent 5 is set as maps & pens" 88
+    wait 1000
+    replay
+endif
+
+if skill 'cartography' < 50
+    overhead 'Train at vendor'
+    wait 1000
+    replay
+endif
+
+while skill 'cartography' < 75 and counttype 5356 backpack 2955 > 0 and findtype 'pen and ink' backpack
+    gumpclose 949095101
+    overhead '50-75 City Map'
+    dclicktype 'pen and ink' backpack
+    waitforgump 949095101
+    gumpresponse 100 949095101
+    waitforgump 949095101
+    gumpresponse 201 949095101
+    waitforgump 949095101
+    wait 3500
+endwhile
+
+while skill 'cartography' < 100 and counttype 5356 backpack 2955 > 0 and findtype 'pen and ink' backpack
+    gumpclose
+    overhead '75-100 Regional Map'
+    dclicktype 'pen and ink' backpack
+    waitforgump 949095101
+    gumpresponse 100 949095101
+    waitforgump 949095101
+    gumpresponse 202 949095101
+    waitforgump 949095101
+    wait 3500
+endwhile
+
+while skill 'cartography' < 120 and counttype 5356 backpack 2955 > 0 and findtype 'pen and ink' backpack
+    gumpclose
+    overhead '100-120 World Map'
+    dclicktype 'pen and ink' backpack
+    waitforgump 949095101
+    gumpresponse 100 949095101
+    waitforgump 949095101
+    gumpresponse 203 949095101
+    waitforgump 949095101
+    wait 3500
+endwhile
+
+loop

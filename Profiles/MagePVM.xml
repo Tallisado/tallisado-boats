@@ -223,7 +223,7 @@
 		<key mod="4" key="187" send="False">Play: RecallChargeGH</key>
 		<key mod="0" key="187" send="False">Play: RecallChargeRoom</key>
 		<key mod="0" key="77" send="False">Play Script: uoo-scripts\Navigation\gate</key>
-		<key mod="0" key="48" send="False">Play Script: uoo-scripts\Navigation\room</key>
+		<key mod="0" key="189" send="False">Play Script: uoo-scripts\Navigation\room</key>
 		<key mod="4" key="69" send="False">Play Script: uoo-scripts\Navigation\rope-tele</key>
 		<key mod="2" key="69" send="False">Play Script: uoo-scripts\Navigation\rope-wall</key>
 		<key mod="0" key="123" send="False">Play Script: uoo-scripts\Automation\Mage Bot\init</key>

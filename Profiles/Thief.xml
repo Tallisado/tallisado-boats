@@ -221,7 +221,7 @@
 		<key mod="2" key="50" send="False">Play Script: uoo-scripts\Combat\ebolt-combo</key>
 		<key mod="0" key="220" send="False">Play Script: uoo-scripts\Dex bot\hally</key>
 		<key mod="0" key="77" send="False">Play Script: uoo-scripts\Navigation\gate</key>
-		<key mod="0" key="187" send="False">Play Script: uoo-scripts\Navigation\recall-room</key>
+		<key mod="0" key="189" send="False">Play Script: uoo-scripts\Navigation\room</key>
 		<key mod="0" key="69" send="False">Play Script: uoo-scripts\Navigation\rope-tele</key>
 		<key mod="2" key="69" send="False">Play Script: uoo-scripts\Navigation\rope-wall</key>
 		<key mod="2" key="49" send="False">Play Script: uoo-scripts\Navigation\recall-tome\1</key>
@@ -305,6 +305,13 @@
 		<overheadmessage searchtext="has applied telekinesis to you." message="Sticky!" hue="428" />
 		<overheadmessage searchtext="You now have" message="{4} pouches remaining" hue="68" />
 		<overheadmessage searchtext="You now have 0 trapped pouches remaining." message="No Pouch!" hue="333" />
+		<overheadmessage searchtext="detected your" message="Caught!" hue="38" />
+		<overheadmessage searchtext="Stolen Goods" message="Stolen!" hue="68" />
+		<overheadmessage searchtext="You fail to steal" message="Steal failed!" hue="33" />
+		<overheadmessage searchtext="You fail to hide" message="Hide failed!" hue="33" />
+		<overheadmessage searchtext="You can't seem to hide" message="Hide failed!" hue="33" />
+		<overheadmessage searchtext="You are revealed" message="Revealed!" hue="38" />
+		<overheadmessage searchtext="is attacking you" message="ATTACKING YOU!" hue="38" />
 	</overheadmessages>
 	<containerlabels />
 	<macrovariables />

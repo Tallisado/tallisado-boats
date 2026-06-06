@@ -1,0 +1,13 @@
+if not varexist mountToken
+    overhead "Target your grizzly bear mount token" 88
+    setvar mountToken
+endif
+
+if mounted
+    dclick mountToken
+    wait 600
+endif
+
+say "all stay"
+wait 300
+smokebomb

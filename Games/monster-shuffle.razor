@@ -1,0 +1,792 @@
+setvar! msAutoResolve 1
+setvar! msShowResultDuration 1
+setvar! msAutoAddFunds 1
+setvar! msDebugMode 0
+@setvar! onlyPlayFrogs 1
+@setvar! AutoRollForJackpot 1
+
+setvar! globalWaitForServerResponse 500
+setvar! globalWaitForObjectDelay 600
+if not timerexists globalObjectDelayTimer
+    settimer globalObjectDelayTimer globalWaitForObjectDelay
+endif
+
+@clearignore
+setvar! msGumpID 1312641219
+if insysmsg "You are out of funds."
+endif
+
+while findtype 3711|20298|20299 ground -1 -1 2 as localKeg and not insysmsg! "You are out of funds."
+
+    if msDebugMode > 0
+        sysmsg "---- NEW GAME ----" 52
+        settimer msDebugTimer 0
+    endif
+
+    while find localKeg ground -1 -1 2 and not gumpexists msGumpID
+        while timer globalObjectDelayTimer < globalWaitForObjectDelay
+        endwhile
+        dclick localKeg
+        settimer globalObjectDelayTimer 0
+        waitforgump msGumpID globalWaitForServerResponse
+    endwhile
+
+    if not ingump "Roll!" 1312641219
+        while timer globalObjectDelayTimer < globalWaitForObjectDelay
+        endwhile
+        dclick localKeg
+        settimer globalObjectDelayTimer 0
+        waitforgump msGumpID globalWaitForServerResponse
+        if not ingump "Roll!" 1312641219
+            overhead "▶▶ FINISH GAME ◀◀" 1680
+            sysmsg "▶▶ FINISH GAME ◀◀" 1680
+            stop
+        endif
+    endif
+
+    //Set Jackpot
+    removelist msJackpotList
+    createlist msJackpotList
+
+    if onlyPlayFrogs = 1
+        if not ingump "3x Colossal Poison Dart Frog" 1312641219
+            overhead "It is not at max jackpot!"
+            stop
+        endif
+    endif
+
+    if ingump "3x Otyugh" 1312641219
+        pushlist msJackpotList "Otyugh"
+    elseif ingump "3x Colossal Poison Dart Frog" 1312641219
+        pushlist msJackpotList "Colossal Poison Dart Frog"
+    elseif ingump "3x Colossal Black Widow" 1312641219
+        pushlist msJackpotList "Colossal Black Widow"
+    elseif ingump "3x Wildwood Reaper" 1312641219
+        pushlist msJackpotList "Wildwood Reaper"
+    elseif ingump "3x Hellhound" 1312641219
+        pushlist msJackpotList "Hellhound"
+    elseif ingump "3x Carrion Beetle" 1312641219
+        pushlist msJackpotList "Carrion Beetle"
+    elseif ingump "3x Daemon" 1312641219
+        pushlist msJackpotList "Daemon"
+    elseif ingump "3x Ratman" 1312641219
+        pushlist msJackpotList "Ratman"
+    elseif ingump "3x Dragon" 1312641219
+        pushlist msJackpotList "Dragon"
+    elseif ingump "3x Living Earth" 1312641219
+        pushlist msJackpotList "Living Earth"
+    elseif ingump "3x Horse" 1312641219
+        pushlist msJackpotList "Horse"
+    elseif ingump "3x Fey Spirit Matron" 1312641219
+        pushlist msJackpotList "Fey Spirit Matron"
+    elseif ingump "3x Deathstalk" 1312641219
+        pushlist msJackpotList "Deathstalk"
+    elseif ingump "3x Shadowguard" 1312641219
+        pushlist msJackpotList "Shadowguard"
+    elseif ingump "3x Sand Crawler" 1312641219
+        pushlist msJackpotList "Sand Crawler"
+    elseif ingump "3x Minotaur Runesmith" 1312641219
+        pushlist msJackpotList "Minotaur Runesmith"
+    elseif ingump "3x Ettin" 1312641219
+        pushlist msJackpotList "Ettin"
+    elseif ingump "3x Ophidian Matron" 1312641219
+        pushlist msJackpotList "Ophidian Matron"
+    elseif ingump "3x Opilion Conservator" 1312641219
+        pushlist msJackpotList "Opilion Conservator"
+    elseif ingump "3x Frenzied Ostard" 1312641219
+        pushlist msJackpotList "Frenzied Ostard"
+    elseif ingump "3x Abomination" 1312641219
+        pushlist msJackpotList "Abomination"
+    elseif ingump "3x Wyvern" 1312641219
+        pushlist msJackpotList "Wyvern"
+    elseif ingump "3x Molten Idol" 1312641219
+        pushlist msJackpotList "Molten Idol"
+    elseif ingump "3x Malform" 1312641219
+        pushlist msJackpotList "Malform"
+    elseif ingump "3x Skeletal Fiend" 1312641219
+        pushlist msJackpotList "Skeletal Fiend"
+    elseif ingump "3x Corpse Purger" 1312641219
+        pushlist msJackpotList "Corpse Purger"
+    elseif ingump "3x Temple Guardian" 1312641219
+        pushlist msJackpotList "Temple Guardian"
+    elseif ingump "3x Terathan Matron" 1312641219
+        pushlist msJackpotList "Terathan Matron"
+    elseif ingump "3x Lich Magus" 1312641219
+        pushlist msJackpotList "Lich Magus"
+    elseif ingump "3x Vampire" 1312641219
+        pushlist msJackpotList "Vampire"
+    endif
+
+    //Creatures
+    removelist msCreatureList
+    createlist msCreatureList
+
+    pushlist msCreatureList "Calamity"
+    pushlist msCreatureList "Coagulator"
+    pushlist msCreatureList "Otyugh"
+    pushlist msCreatureList "Giant Frog"
+    pushlist msCreatureList "Chameleon"
+    pushlist msCreatureList "Colossal Poison Dart Frog"
+    pushlist msCreatureList "Swamp Spider"
+    pushlist msCreatureList "Giant Spider"
+    pushlist msCreatureList "Colossal Black Widow"
+    pushlist msCreatureList "Myconid"
+    pushlist msCreatureList "Wildwood Guardian"
+    pushlist msCreatureList "Wildwood Reaper"
+    pushlist msCreatureList "Wolf"
+    pushlist msCreatureList "Wolfhound"
+    pushlist msCreatureList "Hellhound"
+    pushlist msCreatureList "Giant Rat"
+    pushlist msCreatureList "Corpse Eater"
+    pushlist msCreatureList "Carrion Beetle"
+    pushlist msCreatureList "Imp"
+    pushlist msCreatureList "Gargoyle"
+    pushlist msCreatureList "Daemon"
+    pushlist msCreatureList "Headless"
+    pushlist msCreatureList "Orc"
+    pushlist msCreatureList "Ratman"
+    pushlist msCreatureList "Dragon Whelp"
+    pushlist msCreatureList "Drake"
+    pushlist msCreatureList "Dragon"
+    pushlist msCreatureList "Earth Elemental"
+    pushlist msCreatureList "Volcanite"
+    pushlist msCreatureList "Living Earth"
+    pushlist msCreatureList "Pig"
+    pushlist msCreatureList "Cow"
+    pushlist msCreatureList "Horse"
+    pushlist msCreatureList "Dryad"
+    pushlist msCreatureList "Faery"
+    pushlist msCreatureList "Fey Spirit Matron"
+    pushlist msCreatureList "Corpser"
+    pushlist msCreatureList "Noxweed"
+    pushlist msCreatureList "Deathstalk"
+    pushlist msCreatureList "Ghoul"
+    pushlist msCreatureList "Banshee"
+    pushlist msCreatureList "Shadowguard"
+    pushlist msCreatureList "Scorpion"
+    pushlist msCreatureList "Fire Ant"
+    pushlist msCreatureList "Sand Crawler"
+    pushlist msCreatureList "Minotaur"
+    pushlist msCreatureList "Minotaur Berserker"
+    pushlist msCreatureList "Minotaur Runesmith"
+    pushlist msCreatureList "Ogre"
+    pushlist msCreatureList "Troll"
+    pushlist msCreatureList "Ettin"
+    pushlist msCreatureList "Ophidian Warrior"
+    pushlist msCreatureList "Ophidian Mage"
+    pushlist msCreatureList "Ophidian Matron"
+    pushlist msCreatureList "Opilion Worker"
+    pushlist msCreatureList "Opilion Attendant"
+    pushlist msCreatureList "Opilion Conservator"
+    pushlist msCreatureList "Desert Ostard"
+    pushlist msCreatureList "Forest Ostard"
+    pushlist msCreatureList "Frenzied Ostard"
+    pushlist msCreatureList "Flesh Hound"
+    pushlist msCreatureList "Shambler"
+    pushlist msCreatureList "Abomination"
+    pushlist msCreatureList "Primordial"
+    pushlist msCreatureList "Lizardman"
+    pushlist msCreatureList "Wyvern"
+    pushlist msCreatureList "Observer"
+    pushlist msCreatureList "Overseer"
+    pushlist msCreatureList "Molten Idol"
+    pushlist msCreatureList "Garou"
+    pushlist msCreatureList "Lycanthrope"
+    pushlist msCreatureList "Malform"
+    pushlist msCreatureList "Skeleton"
+    pushlist msCreatureList "Skeletal Guardian"
+    pushlist msCreatureList "Skeletal Fiend"
+    pushlist msCreatureList "Giant Swamp Slug"
+    pushlist msCreatureList "Colossal Swamp Slug"
+    pushlist msCreatureList "Corpse Purger"
+    pushlist msCreatureList "Jaguar"
+    pushlist msCreatureList "Creeping Earth"
+    pushlist msCreatureList "Temple Guardian"
+    pushlist msCreatureList "Terathan Drone"
+    pushlist msCreatureList "Terathan Warrior"
+    pushlist msCreatureList "Terathan Matron"
+    pushlist msCreatureList "Zombie"
+    pushlist msCreatureList "Revenant"
+    pushlist msCreatureList "Lich Magus"
+    pushlist msCreatureList "Vampire Bat"
+    pushlist msCreatureList "Corpsebride"
+    pushlist msCreatureList "Vampire"
+
+    setvar! msJackpotFound 0
+    removelist msFoundCreatureList
+    createlist msFoundCreatureList
+
+    removelist msResponseList
+    createlist msResponseList
+
+    if insysmsg "You must finish your current roll before playing again."
+    endif
+
+    overhead "◈ ROLLING! ◈ " 52
+    gumpresponse 6 msGumpID
+    waitforgump msGumpID 20000
+
+    for 3
+        if not find localKeg ground -1 -1 2 or insysmsg! "You are out of funds."
+            break
+        elseif ingump "Calamity" 1312641219 and inlist msCreatureList "Calamity"
+            poplist msCreatureList "Calamity"
+            pushlist msFoundCreatureList "Calamity"
+        elseif ingump "Coagulator" 1312641219 and inlist msCreatureList "Coagulator"
+            poplist msCreatureList "Coagulator"
+            pushlist msFoundCreatureList "Coagulator"
+        elseif ingump "Otyugh" 1312641219 and inlist msCreatureList "Otyugh" and not inlist msJackpotList "Otyugh"
+            poplist msCreatureList "Otyugh"
+            pushlist msFoundCreatureList "Otyugh"
+        elseif ingump "Giant Frog" 1312641219 and inlist msCreatureList "Giant Frog"
+            poplist msCreatureList "Giant Frog"
+            pushlist msFoundCreatureList "Giant Frog"
+        elseif ingump "Chameleon" 1312641219 and inlist msCreatureList "Chameleon"
+            poplist msCreatureList "Chameleon"
+            pushlist msFoundCreatureList "Chameleon"
+        elseif ingump "Colossal Poison Dart Frog" 1312641219 and inlist msCreatureList "Colossal Poison Dart Frog" and not inlist msJackpotList "Colossal Poison Dart Frog"
+            poplist msCreatureList "Colossal Poison Dart Frog"
+            pushlist msFoundCreatureList "Colossal Poison Dart Frog"
+        elseif ingump "Swamp Spider" 1312641219 and inlist msCreatureList "Swamp Spider"
+            poplist msCreatureList "Swamp Spider"
+            pushlist msFoundCreatureList "Swamp Spider"
+        elseif ingump "Giant Spider" 1312641219 and inlist msCreatureList "Giant Spider"
+            poplist msCreatureList "Giant Spider"
+            pushlist msFoundCreatureList "Giant Spider"
+        elseif ingump "Colossal Black Widow" 1312641219 and inlist msCreatureList "Colossal Black Widow" and not inlist msJackpotList "Colossal Black Widow"
+            poplist msCreatureList "Colossal Black Widow"
+            pushlist msFoundCreatureList "Colossal Black Widow"
+        elseif ingump "Myconid" 1312641219 and inlist msCreatureList "Myconid"
+            poplist msCreatureList "Myconid"
+            pushlist msFoundCreatureList "Myconid"
+        elseif ingump "Wildwood Guardian" 1312641219 and inlist msCreatureList "Wildwood Guardian"
+            poplist msCreatureList "Wildwood Guardian"
+            pushlist msFoundCreatureList "Wildwood Guardian"
+        elseif ingump "Wildwood Reaper" 1312641219 and inlist msCreatureList "Wildwood Reaper" and not inlist msJackpotList "Wildwood Reaper"
+            poplist msCreatureList "Wildwood Reaper"
+            pushlist msFoundCreatureList "Wildwood Reaper"
+        elseif ingump "Wolf" 1312641219 and not ingump "Wolfhound" 1312641219 and inlist msCreatureList "Wolf"
+            poplist msCreatureList "Wolf"
+            pushlist msFoundCreatureList "Wolf"
+        elseif ingump "Wolfhound" 1312641219 and inlist msCreatureList "Wolfhound"
+            poplist msCreatureList "Wolfhound"
+            pushlist msFoundCreatureList "Wolfhound"
+        elseif ingump "Hellhound" 1312641219 and inlist msCreatureList "Hellhound" and not inlist msJackpotList "Hellhound"
+            poplist msCreatureList "Hellhound"
+            pushlist msFoundCreatureList "Hellhound"
+        elseif ingump "Giant Rat" 1312641219 and inlist msCreatureList "Giant Rat"
+            poplist msCreatureList "Giant Rat"
+            pushlist msFoundCreatureList "Giant Rat"
+        elseif ingump "Corpse Eater" 1312641219 and inlist msCreatureList "Corpse Eater"
+            poplist msCreatureList "Corpse Eater"
+            pushlist msFoundCreatureList "Corpse Eater"
+        elseif ingump "Carrion Beetle" 1312641219 and inlist msCreatureList "Carrion Beetle" and not inlist msJackpotList "Carrion Beetle"
+            poplist msCreatureList "Carrion Beetle"
+            pushlist msFoundCreatureList "Carrion Beetle"
+        elseif ingump "Imp" 1312641219 and inlist msCreatureList "Imp"
+            poplist msCreatureList "Imp"
+            pushlist msFoundCreatureList "Imp"
+        elseif ingump "Gargoyle" 1312641219 and inlist msCreatureList "Gargoyle"
+            poplist msCreatureList "Gargoyle"
+            pushlist msFoundCreatureList "Gargoyle"
+        elseif ingump "Daemon" 1312641219 and not ingump "Imp" 1312641219 and not ingump "Gargoyle" 1312641219 and inlist msCreatureList "Daemon" and not inlist msJackpotList "Daemon"
+            poplist msCreatureList "Daemon"
+            pushlist msFoundCreatureList "Daemon"
+        elseif ingump "Headless" 1312641219 and inlist msCreatureList "Headless"
+            poplist msCreatureList "Headless"
+            pushlist msFoundCreatureList "Headless"
+        elseif ingump "Orc" 1312641219 and inlist msCreatureList "Orc"
+            poplist msCreatureList "Orc"
+            pushlist msFoundCreatureList "Orc"
+        elseif ingump "Ratman" 1312641219 and inlist msCreatureList "Ratman" and not inlist msJackpotList "Ratman"
+            poplist msCreatureList "Ratman"
+            pushlist msFoundCreatureList "Ratman"
+        elseif ingump "Dragon Whelp" 1312641219 and inlist msCreatureList "Dragon Whelp"
+            poplist msCreatureList "Dragon Whelp"
+            pushlist msFoundCreatureList "Dragon Whelp"
+        elseif ingump "Drake" 1312641219 and inlist msCreatureList "Drake"
+            poplist msCreatureList "Drake"
+            pushlist msFoundCreatureList "Drake"
+        elseif ingump "Dragon" 1312641219 and not ingump "Dragon Whelp" 1312641219 and inlist msCreatureList "Dragon" and not inlist msJackpotList "Dragon"
+            poplist msCreatureList "Dragon"
+            pushlist msFoundCreatureList "Dragon"
+        elseif ingump "Earth Elemental" 1312641219 and inlist msCreatureList "Earth Elemental"
+            poplist msCreatureList "Earth Elemental"
+            pushlist msFoundCreatureList "Earth Elemental"
+        elseif ingump "Volcanite" 1312641219 and inlist msCreatureList "Volcanite"
+            poplist msCreatureList "Volcanite"
+            pushlist msFoundCreatureList "Volcanite"
+        elseif ingump "Living Earth" 1312641219 and inlist msCreatureList "Living Earth" and not inlist msJackpotList "Living Earth"
+            poplist msCreatureList "Living Earth"
+            pushlist msFoundCreatureList "Living Earth"
+        elseif ingump "Pig" 1312641219 and inlist msCreatureList "Pig"
+            poplist msCreatureList "Pig"
+            pushlist msFoundCreatureList "Pig"
+        elseif ingump "Cow" 1312641219 and inlist msCreatureList "Cow"
+            poplist msCreatureList "Cow"
+            pushlist msFoundCreatureList "Cow"
+        elseif ingump "Horse" 1312641219 and inlist msCreatureList "Horse" and not inlist msJackpotList "Horse"
+            poplist msCreatureList "Horse"
+            pushlist msFoundCreatureList "Horse"
+        elseif ingump "Dryad" 1312641219 and inlist msCreatureList "Dryad"
+            poplist msCreatureList "Dryad"
+            pushlist msFoundCreatureList "Dryad"
+        elseif ingump "Faery" 1312641219 and inlist msCreatureList "Faery"
+            poplist msCreatureList "Faery"
+            pushlist msFoundCreatureList "Faery"
+        elseif ingump "Fey Spirit Matron" 1312641219 and inlist msCreatureList "Fey Spirit Matron" and not inlist msJackpotList "Fey Spirit Matron"
+            poplist msCreatureList "Fey Spirit Matron"
+            pushlist msFoundCreatureList "Fey Spirit Matron"
+        elseif ingump "Corpser" 1312641219 and inlist msCreatureList "Corpser"
+            poplist msCreatureList "Corpser"
+            pushlist msFoundCreatureList "Corpser"
+        elseif ingump "Noxweed" 1312641219 and inlist msCreatureList "Noxweed"
+            poplist msCreatureList "Noxweed"
+            pushlist msFoundCreatureList "Noxweed"
+        elseif ingump "Deathstalk" 1312641219 and inlist msCreatureList "Deathstalk" and not inlist msJackpotList "Deathstalk"
+            poplist msCreatureList "Deathstalk"
+            pushlist msFoundCreatureList "Deathstalk"
+        elseif ingump "Ghoul" 1312641219 and inlist msCreatureList "Ghoul"
+            poplist msCreatureList "Ghoul"
+            pushlist msFoundCreatureList "Ghoul"
+        elseif ingump "Banshee" 1312641219 and inlist msCreatureList "Banshee"
+            poplist msCreatureList "Banshee"
+            pushlist msFoundCreatureList "Banshee"
+        elseif ingump "Shadowguard" 1312641219 and inlist msCreatureList "Shadowguard" and not inlist msJackpotList "Shadowguard"
+            poplist msCreatureList "Shadowguard"
+            pushlist msFoundCreatureList "Shadowguard"
+        elseif ingump "Scorpion" 1312641219 and inlist msCreatureList "Scorpion"
+            poplist msCreatureList "Scorpion"
+            pushlist msFoundCreatureList "Scorpion"
+        elseif ingump "Fire Ant" 1312641219 and inlist msCreatureList "Fire Ant"
+            poplist msCreatureList "Fire Ant"
+            pushlist msFoundCreatureList "Fire Ant"
+        elseif ingump "Sand Crawler" 1312641219 and inlist msCreatureList "Sand Crawler" and not inlist msJackpotList "Sand Crawler"
+            poplist msCreatureList "Sand Crawler"
+            pushlist msFoundCreatureList "Sand Crawler"
+        elseif ingump "Minotaur" 1312641219 and not ingump "Minotaur Berserker" 1312641219 and not ingump "Minotaur Runesmith" 1312641219 and inlist msCreatureList "Minotaur"
+            poplist msCreatureList "Minotaur"
+            pushlist msFoundCreatureList "Minotaur"
+        elseif ingump "Minotaur Berserker" 1312641219 and inlist msCreatureList "Minotaur Berserker"
+            poplist msCreatureList "Minotaur Berserker"
+            pushlist msFoundCreatureList "Minotaur Berserker"
+        elseif ingump "Minotaur Runesmith" 1312641219 and inlist msCreatureList "Minotaur Runesmith" and not inlist msJackpotList "Minotaur Runesmith"
+            poplist msCreatureList "Minotaur Runesmith"
+            pushlist msFoundCreatureList "Minotaur Runesmith"
+        elseif ingump "Ogre" 1312641219 and inlist msCreatureList "Ogre"
+            poplist msCreatureList "Ogre"
+            pushlist msFoundCreatureList "Ogre"
+        elseif ingump "Troll" 1312641219 and inlist msCreatureList "Troll"
+            poplist msCreatureList "Troll"
+            pushlist msFoundCreatureList "Troll"
+        elseif ingump "Ettin" 1312641219 and inlist msCreatureList "Ettin" and not inlist msJackpotList "Ettin"
+            poplist msCreatureList "Ettin"
+            pushlist msFoundCreatureList "Ettin"
+        elseif ingump "Ophidian Warrior" 1312641219 and inlist msCreatureList "Ophidian Warrior"
+            poplist msCreatureList "Ophidian Warrior"
+            pushlist msFoundCreatureList "Ophidian Warrior"
+        elseif ingump "Ophidian Mage" 1312641219 and inlist msCreatureList "Ophidian Mage"
+            poplist msCreatureList "Ophidian Mage"
+            pushlist msFoundCreatureList "Ophidian Mage"
+        elseif ingump "Ophidian Matron" 1312641219 and inlist msCreatureList "Ophidian Matron" and not inlist msJackpotList "Ophidian Matron"
+            poplist msCreatureList "Ophidian Matron"
+            pushlist msFoundCreatureList "Ophidian Matron"
+        elseif ingump "Opilion Worker" 1312641219 and inlist msCreatureList "Opilion Worker"
+            poplist msCreatureList "Opilion Worker"
+            pushlist msFoundCreatureList "Opilion Worker"
+        elseif ingump "Opilion Attendant" 1312641219 and inlist msCreatureList "Opilion Attendant"
+            poplist msCreatureList "Opilion Attendant"
+            pushlist msFoundCreatureList "Opilion Attendant"
+        elseif ingump "Opilion Conservator" 1312641219 and inlist msCreatureList "Opilion Conservator" and not inlist msJackpotList "Opilion Conservator"
+            poplist msCreatureList "Opilion Conservator"
+            pushlist msFoundCreatureList "Opilion Conservator"
+        elseif ingump "Desert Ostard" 1312641219 and inlist msCreatureList "Desert Ostard"
+            poplist msCreatureList "Desert Ostard"
+            pushlist msFoundCreatureList "Desert Ostard"
+        elseif ingump "Forest Ostard" 1312641219 and inlist msCreatureList "Forest Ostard"
+            poplist msCreatureList "Forest Ostard"
+            pushlist msFoundCreatureList "Forest Ostard"
+        elseif ingump "Frenzied Ostard" 1312641219 and inlist msCreatureList "Frenzied Ostard" and not inlist msJackpotList "Frenzied Ostard"
+            poplist msCreatureList "Frenzied Ostard"
+            pushlist msFoundCreatureList "Frenzied Ostard"
+        elseif ingump "Flesh Hound" 1312641219 and inlist msCreatureList "Flesh Hound"
+            poplist msCreatureList "Flesh Hound"
+            pushlist msFoundCreatureList "Flesh Hound"
+        elseif ingump "Shambler" 1312641219 and inlist msCreatureList "Shambler"
+            poplist msCreatureList "Shambler"
+            pushlist msFoundCreatureList "Shambler"
+        elseif ingump "Abomination" 1312641219 and inlist msCreatureList "Abomination" and not inlist msJackpotList "Abomination"
+            poplist msCreatureList "Abomination"
+            pushlist msFoundCreatureList "Abomination"
+        elseif ingump "Primordial" 1312641219 and inlist msCreatureList "Primordial"
+            poplist msCreatureList "Primordial"
+            pushlist msFoundCreatureList "Primordial"
+        elseif ingump "Lizardman" 1312641219 and inlist msCreatureList "Lizardman"
+            poplist msCreatureList "Lizardman"
+            pushlist msFoundCreatureList "Lizardman"
+        elseif ingump "Wyvern" 1312641219 and inlist msCreatureList "Wyvern" and not inlist msJackpotList "Wyvern"
+            poplist msCreatureList "Wyvern"
+            pushlist msFoundCreatureList "Wyvern"
+        elseif ingump "Observer" 1312641219 and inlist msCreatureList "Observer"
+            poplist msCreatureList "Observer"
+            pushlist msFoundCreatureList "Observer"
+        elseif ingump "Overseer" 1312641219 and inlist msCreatureList "Overseer"
+            poplist msCreatureList "Overseer"
+            pushlist msFoundCreatureList "Overseer"
+        elseif ingump "Molten Idol" 1312641219 and inlist msCreatureList "Molten Idol" and not inlist msJackpotList "Molten Idol"
+            poplist msCreatureList "Molten Idol"
+            pushlist msFoundCreatureList "Molten Idol"
+        elseif ingump "Garou" 1312641219 and inlist msCreatureList "Garou"
+            poplist msCreatureList "Garou"
+            pushlist msFoundCreatureList "Garou"
+        elseif ingump "Lycanthrope" 1312641219 and inlist msCreatureList "Lycanthrope"
+            poplist msCreatureList "Lycanthrope"
+            pushlist msFoundCreatureList "Lycanthrope"
+        elseif ingump "Malform" 1312641219 and inlist msCreatureList "Malform" and not inlist msJackpotList "Malform"
+            poplist msCreatureList "Malform"
+            pushlist msFoundCreatureList "Malform"
+        elseif ingump "Skeleton" 1312641219 and inlist msCreatureList "Skeleton"
+            poplist msCreatureList "Skeleton"
+            pushlist msFoundCreatureList "Skeleton"
+        elseif ingump "Skeletal Guardian" 1312641219 and inlist msCreatureList "Skeletal Guardian"
+            poplist msCreatureList "Skeletal Guardian"
+            pushlist msFoundCreatureList "Skeletal Guardian"
+        elseif ingump "Skeletal Fiend" 1312641219 and inlist msCreatureList "Skeletal Fiend" and not inlist msJackpotList "Skeletal Fiend"
+            poplist msCreatureList "Skeletal Fiend"
+            pushlist msFoundCreatureList "Skeletal Fiend"
+        elseif ingump "Giant Swamp Slug" 1312641219 and inlist msCreatureList "Giant Swamp Slug"
+            poplist msCreatureList "Giant Swamp Slug"
+            pushlist msFoundCreatureList "Giant Swamp Slug"
+        elseif ingump "Colossal Swamp Slug" 1312641219 and inlist msCreatureList "Colossal Swamp Slug"
+            poplist msCreatureList "Colossal Swamp Slug"
+            pushlist msFoundCreatureList "Colossal Swamp Slug"
+        elseif ingump "Corpse Purger" 1312641219 and inlist msCreatureList "Corpse Purger" and not inlist msJackpotList "Corpse Purger"
+            poplist msCreatureList "Corpse Purger"
+            pushlist msFoundCreatureList "Corpse Purger"
+        elseif ingump "Jaguar" 1312641219 and inlist msCreatureList "Jaguar"
+            poplist msCreatureList "Jaguar"
+            pushlist msFoundCreatureList "Jaguar"
+        elseif ingump "Creeping Earth" 1312641219 and inlist msCreatureList "Creeping Earth"
+            poplist msCreatureList "Creeping Earth"
+            pushlist msFoundCreatureList "Creeping Earth"
+        elseif ingump "Temple Guardian" 1312641219 and inlist msCreatureList "Temple Guardian" and not inlist msJackpotList "Temple Guardian"
+            poplist msCreatureList "Temple Guardian"
+            pushlist msFoundCreatureList "Temple Guardian"
+        elseif ingump "Terathan Drone" 1312641219 and inlist msCreatureList "Terathan Drone"
+            poplist msCreatureList "Terathan Drone"
+            pushlist msFoundCreatureList "Terathan Drone"
+        elseif ingump "Terathan Warrior" 1312641219 and inlist msCreatureList "Terathan Warrior"
+            poplist msCreatureList "Terathan Warrior"
+            pushlist msFoundCreatureList "Terathan Warrior"
+        elseif ingump "Terathan Matron" 1312641219 and inlist msCreatureList "Terathan Matron" and not inlist msJackpotList "Terathan Matron"
+            poplist msCreatureList "Terathan Matron"
+            pushlist msFoundCreatureList "Terathan Matron"
+        elseif ingump "Zombie" 1312641219 and inlist msCreatureList "Zombie"
+            poplist msCreatureList "Zombie"
+            pushlist msFoundCreatureList "Zombie"
+        elseif ingump "Revenant" 1312641219 and inlist msCreatureList "Revenant"
+            poplist msCreatureList "Revenant"
+            pushlist msFoundCreatureList "Revenant"
+        elseif ingump "Lich Magus" 1312641219 and inlist msCreatureList "Lich Magus" and not inlist msJackpotList "Lich Magus"
+            poplist msCreatureList "Lich Magus"
+            pushlist msFoundCreatureList "Lich Magus"
+        elseif ingump "Vampire Bat" 1312641219 and inlist msCreatureList "Vampire Bat"
+            poplist msCreatureList "Vampire Bat"
+            pushlist msFoundCreatureList "Vampire Bat"
+        elseif ingump "Corpsebride" 1312641219 and inlist msCreatureList "Corpsebride"
+            poplist msCreatureList "Corpsebride"
+            pushlist msFoundCreatureList "Corpsebride"
+        elseif ingump "Vampire" 1312641219 and not ingump "Vampire Bat" 1312641219 and inlist msCreatureList "Vampire" and not inlist msJackpotList "Vampire"
+            poplist msCreatureList "Vampire"
+            pushlist msFoundCreatureList "Vampire"
+        else
+            if inlist msCreatureList "Otyugh" and inlist msJackpotList "Otyugh" and ingump "Aberration" 1312641219 and ingump "Rare (5x Match Bonus)" 1312641219
+                poplist msCreatureList "Otyugh"
+                poplist msJackpotList "Otyugh"
+                pushlist msFoundCreatureList "Otyugh"
+            elseif inlist msCreatureList "Colossal Poison Dart Frog" and inlist msJackpotList "Colossal Poison Dart Frog" and ingump "Amphibian" 1312641219 and ingump "Rare (5x Match Bonus)" 1312641219
+                poplist msCreatureList "Colossal Poison Dart Frog"
+                poplist msJackpotList "Colossal Poison Dart Frog"
+                pushlist msFoundCreatureList "Colossal Poison Dart Frog"
+            elseif inlist msCreatureList "Colossal Black Widow" and inlist msJackpotList "Colossal Black Widow" and ingump "Arachnid" 1312641219 and ingump "Rare (5x Match Bonus)" 1312641219
+                poplist msCreatureList "Colossal Black Widow"
+                poplist msJackpotList "Colossal Black Widow"
+                pushlist msFoundCreatureList "Colossal Black Widow"
+            elseif inlist msCreatureList "Wildwood Reaper" and inlist msJackpotList "Wildwood Reaper" and ingump "Arboreal" 1312641219 and ingump "Rare (5x Match Bonus)" 1312641219
+                poplist msCreatureList "Wildwood Reaper"
+                poplist msJackpotList "Wildwood Reaper"
+                pushlist msFoundCreatureList "Wildwood Reaper"
+            elseif inlist msCreatureList "Hellhound" and inlist msJackpotList "Hellhound" and ingump "Canine" 1312641219 and ingump "Rare (5x Match Bonus)" 1312641219
+                poplist msCreatureList "Hellhound"
+                poplist msJackpotList "Hellhound"
+                pushlist msFoundCreatureList "Hellhound"
+            elseif inlist msCreatureList "Carrion Beetle" and inlist msJackpotList "Carrion Beetle" and ingump "Carrion" 1312641219 and ingump "Rare (5x Match Bonus)" 1312641219
+                poplist msCreatureList "Carrion Beetle"
+                poplist msJackpotList "Carrion Beetle"
+                pushlist msFoundCreatureList "Carrion Beetle"
+            elseif inlist msCreatureList "Daemon" and inlist msJackpotList "Daemon" and ingump "Daemonic" 1312641219 and ingump "Rare (5x Match Bonus)" 1312641219
+                poplist msCreatureList "Daemon"
+                poplist msJackpotList "Daemon"
+                pushlist msFoundCreatureList "Daemon"
+            elseif inlist msCreatureList "Ratman" and inlist msJackpotList "Ratman" and ingump "Demihuman" 1312641219 and ingump "Rare (5x Match Bonus)" 1312641219
+                poplist msCreatureList "Ratman"
+                poplist msJackpotList "Ratman"
+                pushlist msFoundCreatureList "Ratman"
+            elseif inlist msCreatureList "Dragon" and inlist msJackpotList "Dragon" and ingump "Draconic" 1312641219 and ingump "Rare (5x Match Bonus)" 1312641219
+                poplist msCreatureList "Dragon"
+                poplist msJackpotList "Dragon"
+                pushlist msFoundCreatureList "Dragon"
+            elseif inlist msCreatureList "Living Earth" and inlist msJackpotList "Living Earth" and ingump "Earthen" 1312641219 and ingump "Rare (5x Match Bonus)" 1312641219
+                poplist msCreatureList "Living Earth"
+                poplist msJackpotList "Living Earth"
+                pushlist msFoundCreatureList "Living Earth"
+            elseif inlist msCreatureList "Horse" and inlist msJackpotList "Horse" and ingump "Farmland" 1312641219 and ingump "Rare (5x Match Bonus)" 1312641219
+                poplist msCreatureList "Horse"
+                poplist msJackpotList "Horse"
+                pushlist msFoundCreatureList "Horse"
+            elseif inlist msCreatureList "Fey Spirit Matron" and inlist msJackpotList "Fey Spirit Matron" and ingump "Fey" 1312641219 and ingump "Rare (5x Match Bonus)" 1312641219
+                poplist msCreatureList "Fey Spirit Matron"
+                poplist msJackpotList "Fey Spirit Matron"
+                pushlist msFoundCreatureList "Fey Spirit Matron"
+            elseif inlist msCreatureList "Deathstalk" and inlist msJackpotList "Deathstalk" and ingump "Flora" 1312641219 and ingump "Rare (5x Match Bonus)" 1312641219
+                poplist msCreatureList "Deathstalk"
+                poplist msJackpotList "Deathstalk"
+                pushlist msFoundCreatureList "Deathstalk"
+            elseif inlist msCreatureList "Shadowguard" and inlist msJackpotList "Shadowguard" and ingump "Ghostly" 1312641219 and ingump "Rare (5x Match Bonus)" 1312641219
+                poplist msCreatureList "Shadowguard"
+                poplist msJackpotList "Shadowguard"
+                pushlist msFoundCreatureList "Shadowguard"
+            elseif inlist msCreatureList "Sand Crawler" and inlist msJackpotList "Sand Crawler" and ingump "Insectoid" 1312641219 and ingump "Rare (5x Match Bonus)" 1312641219
+                poplist msCreatureList "Sand Crawler"
+                poplist msJackpotList "Sand Crawler"
+                pushlist msFoundCreatureList "Sand Crawler"
+            elseif inlist msCreatureList "Minotaur Runesmith" and inlist msJackpotList "Minotaur Runesmith" and ingump "Minotaur" 1312641219 and ingump "Rare (5x Match Bonus)" 1312641219
+                poplist msCreatureList "Minotaur Runesmith"
+                poplist msJackpotList "Minotaur Runesmith"
+                pushlist msFoundCreatureList "Minotaur Runesmith"
+            elseif inlist msCreatureList "Ettin" and inlist msJackpotList "Ettin" and ingump "Ogroid" 1312641219 and ingump "Rare (5x Match Bonus)" 1312641219
+                poplist msCreatureList "Ettin"
+                poplist msJackpotList "Ettin"
+                pushlist msFoundCreatureList "Ettin"
+            elseif inlist msCreatureList "Ophidian Matron" and inlist msJackpotList "Ophidian Matron" and ingump "Ophidian" 1312641219 and ingump "Rare (5x Match Bonus)" 1312641219
+                poplist msCreatureList "Ophidian Matron"
+                poplist msJackpotList "Ophidian Matron"
+                pushlist msFoundCreatureList "Ophidian Matron"
+            elseif inlist msCreatureList "Opilion Conservator" and inlist msJackpotList "Opilion Conservator" and ingump "Opilion" 1312641219 and ingump "Rare (5x Match Bonus)" 1312641219
+                poplist msCreatureList "Opilion Conservator"
+                poplist msJackpotList "Opilion Conservator"
+                pushlist msFoundCreatureList "Opilion Conservator"
+            elseif inlist msCreatureList "Frenzied Ostard" and inlist msJackpotList "Frenzied Ostard" and ingump "Ostard" 1312641219 and ingump "Rare (5x Match Bonus)" 1312641219
+                poplist msCreatureList "Frenzied Ostard"
+                poplist msJackpotList "Frenzied Ostard"
+                pushlist msFoundCreatureList "Frenzied Ostard"
+            elseif inlist msCreatureList "Abomination" and inlist msJackpotList "Abomination" and ingump "Reanimated" 1312641219 and ingump "Rare (5x Match Bonus)" 1312641219
+                poplist msCreatureList "Abomination"
+                poplist msJackpotList "Abomination"
+                pushlist msFoundCreatureList "Abomination"
+            elseif inlist msCreatureList "Wyvern" and inlist msJackpotList "Wyvern" and ingump "Reptilian" 1312641219 and ingump "Rare (5x Match Bonus)" 1312641219
+                poplist msCreatureList "Wyvern"
+                poplist msJackpotList "Wyvern"
+                pushlist msFoundCreatureList "Wyvern"
+            elseif inlist msCreatureList "Molten Idol" and inlist msJackpotList "Molten Idol" and ingump "Sentinel" 1312641219 and ingump "Rare (5x Match Bonus)" 1312641219
+                poplist msCreatureList "Molten Idol"
+                poplist msJackpotList "Molten Idol"
+                pushlist msFoundCreatureList "Molten Idol"
+            elseif inlist msCreatureList "Malform" and inlist msJackpotList "Malform" and ingump "Shapeshifter" 1312641219 and ingump "Rare (5x Match Bonus)" 1312641219
+                poplist msCreatureList "Malform"
+                poplist msJackpotList "Malform"
+                pushlist msFoundCreatureList "Malform"
+            elseif inlist msCreatureList "Skeletal Fiend" and inlist msJackpotList "Skeletal Fiend" and ingump "Skeletal" 1312641219 and ingump "Rare (5x Match Bonus)" 1312641219
+                poplist msCreatureList "Skeletal Fiend"
+                poplist msJackpotList "Skeletal Fiend"
+                pushlist msFoundCreatureList "Skeletal Fiend"
+            elseif inlist msCreatureList "Corpse Purger" and inlist msJackpotList "Corpse Purger" and ingump "Spitter" 1312641219 and ingump "Rare (5x Match Bonus)" 1312641219
+                poplist msCreatureList "Corpse Purger"
+                poplist msJackpotList "Corpse Purger"
+                pushlist msFoundCreatureList "Corpse Purger"
+            elseif inlist msCreatureList "Temple Guardian" and inlist msJackpotList "Temple Guardian" and ingump "Stealther" 1312641219 and ingump "Rare (5x Match Bonus)" 1312641219
+                poplist msCreatureList "Temple Guardian"
+                poplist msJackpotList "Temple Guardian"
+                pushlist msFoundCreatureList "Temple Guardian"
+            elseif inlist msCreatureList "Terathan Matron" and inlist msJackpotList "Terathan Matron" and ingump "Terathan" 1312641219 and ingump "Rare (5x Match Bonus)" 1312641219
+                poplist msCreatureList "Terathan Matron"
+                poplist msJackpotList "Terathan Matron"
+                pushlist msFoundCreatureList "Terathan Matron"
+            elseif inlist msCreatureList "Lich Magus" and inlist msJackpotList "Lich Magus" and ingump "Unliving" 1312641219 and ingump "Rare (5x Match Bonus)" 1312641219
+                poplist msCreatureList "Lich Magus"
+                poplist msJackpotList "Lich Magus"
+                pushlist msFoundCreatureList "Lich Magus"
+            elseif inlist msCreatureList "Vampire" and inlist msJackpotList "Vampire" and ingump "Vampiric" 1312641219 and ingump "Rare (5x Match Bonus)" 1312641219
+                poplist msCreatureList "Vampire"
+                poplist msJackpotList "Vampire"
+                pushlist msFoundCreatureList "Vampire"
+            endif
+        endif
+
+        //Check jackpot creature gump position
+        if 0 = index and list msJackpotList = 0
+            setvar! msJackpotFound 2
+        elseif 1 = index and list msJackpotList = 0 and msJackpotFound != 2
+            setvar! msJackpotFound 3
+        elseif 2 = index and list msJackpotList = 0 and msJackpotFound != 2 and msJackpotFound != 3
+            setvar! msJackpotFound 4
+        endif
+
+        //Check outcome (jackpot-only: only checkout on 3x jackpot)
+        if 2 = index and msJackpotFound > 0 and list msFoundCreatureList = 1
+            if msDebugMode > 0
+                sysmsg "[ 3x JACKPOT! ]" 2884
+            endif
+            pushlist msResponseList 2
+            pushlist msResponseList 3
+            pushlist msResponseList 4
+        endif
+        if 2 = index and msJackpotFound > 0 and list msFoundCreatureList = 2
+            //1 jackpot found, 1 slot unidentified — could be a 2nd jackpot creature
+            overhead "▷▷ POSSIBLE 2nd FROG ◁◁" 2760
+            overhead "▷▷ HANDLE MANUALLY ◁◁" 2760
+            sysmsg "▷▷ POSSIBLE 2nd FROG - check gump and resolve manually ◁◁" 2760
+            pushlist msResponseList 0
+        endif
+
+        //Always keep a jackpot creature
+        if msJackpotFound > 0 and not inlist msResponseList msJackpotFound
+            pushlist msResponseList msJackpotFound front
+        endif
+
+        //Runspeed management
+        if 0 = index
+            while not insysmsg "You must finish your current roll before playing again." and find localKeg ground -1 -1 2 and not insysmsg! "You are out of funds."
+                gumpresponse 6 msGumpID
+                waitforgump msGumpID 20000
+            endwhile
+            wait globalWaitForServerResponse
+        elseif 1 = index
+            while timer globalObjectDelayTimer < globalWaitForObjectDelay
+            endwhile
+            dclick localKeg
+            settimer globalObjectDelayTimer 0
+            settimer globalSafetyTimer 0
+            waitforgump msGumpID 20000
+            wait globalWaitForServerResponse
+        endif
+
+    endfor
+
+    if not gumpexists msGumpID or not find localKeg ground -1 -1 2 or insysmsg! "You are out of funds."
+        break
+    endif
+
+    if msDebugMode > 0
+        foreach localCreature in msFoundCreatureList
+            if 2 < index
+                break
+            endif
+            sysmsg "... {{index}}: {{localCreature}}" 100
+            if list msFoundCreatureList = 1
+                sysmsg "... 2: {{localCreature}}" 100
+                sysmsg "... 3: {{localCreature}}" 100
+                break
+            elseif 1 = index and list msFoundCreatureList = 2
+                sysmsg "... 3: unknown" 100
+                break
+            endif
+        endfor
+        sysmsg "... 1st set: {{msDebugTimer}} ms" 100
+        if msAutoResolve > 0
+            wait msShowResultDuration
+        endif
+    endif
+
+    if msAutoResolve > 0
+        if list msResponseList > 0
+            while timer globalSafetyTimer < 2000
+            endwhile
+            getlabel backpack waitForPing
+            foreach localGumpButton in msResponseList
+                if 0 = localGumpButton
+                    overhead "▷▷ POSSIBLE 2nd FROG ◁◁" 2760
+                    overhead "▷▷ FINISHING GAME ◁◁" 2760
+                    sysmsg "▷▷ POSSIBLE 2nd FROG - finishing game and replaying ◁◁" 2760
+                    if AutoRollForJackpot = 1
+                        gumpresponse 5 msGumpID
+                        replay
+                    else
+                        stop
+                    endif
+                endif
+                gumpresponse localGumpButton msGumpID
+                waitforgump msGumpID globalWaitForServerResponse
+            endfor
+            if list msResponseList > 0 and not ingump "Keep" 1312641219
+                overhead "▶▶ GUMP ERROR ◀◀" 1680
+                overhead "▶▶ SCRIPT STOPPED ◀◀" 1680
+                sysmsg "▶▶ GUMP ERROR ◀◀" 1680
+                sysmsg "▶▶ SCRIPT STOPPED ◀◀" 1680
+            endif
+        endif
+        gumpresponse 5 msGumpID
+        waitforgump msGumpID globalWaitForServerResponse
+        dclick localKeg
+        settimer globalObjectDelayTimer 0
+        waitforgump msGumpID 20000
+    else
+        overhead "[Press -RESOLVE- to Continue]" 90
+        sysmsg "[Manual Mode: Awaiting RESOLVE Press]" 90
+    endif
+    clearlist msResponseList
+
+    //Wait for game to finish
+    settimer globalSafetyTimer 1000
+    while find localKeg ground -1 -1 2 and not ingump "Roll!" 1312641219
+        if msAutoResolve > 0 and timer globalSafetyTimer > 1000
+            gumpresponse 5 msGumpID
+            waitforgump msGumpID globalWaitForServerResponse
+            while timer globalObjectDelayTimer < globalWaitForObjectDelay
+            endwhile
+            dclick localKeg
+            settimer globalObjectDelayTimer 0
+            settimer globalSafetyTimer 0
+        elseif msAutoResolve = 0 and not ingump "Resolve" 1312641219
+            while timer globalObjectDelayTimer < globalWaitForObjectDelay
+            endwhile
+            dclick localKeg
+            settimer globalObjectDelayTimer 0
+        endif
+        waitforgump msGumpID globalWaitForServerResponse
+    endwhile
+
+    if ingump "You have won" 1312641219
+        overhead "◆◆ YOU HAVE WON! ◆◆" 2884
+        if msDebugMode > 0
+            sysmsg "... Game won: {{msDebugTimer}} ms" 2884
+        endif
+    else
+        overhead "◈◈ NO MATCHES ◈◈" 52
+        if msDebugMode > 0
+            sysmsg "... Game lost: {{msDebugTimer}} ms" 50
+        endif
+    endif
+
+    wait msShowResultDuration
+
+endwhile
+
+if not findtype 3711|20298|20299 ground -1 -1 2
+    overhead "▶▶ NO GAME FOUND ◀◀" 1680
+    sysmsg "▶▶ NO GAME FOUND ◀◀" 1680
+elseif insysmsg "You are out of funds."
+    if msAutoAddFunds > 0
+        overhead "▶▶ ADDING GOLD ◀◀" 52
+        sysmsg "▶▶ ADDING GOLD ◀◀" 52
+        gumpresponse 7 msGumpID
+        waitforgump msGumpID globalWaitForServerResponse
+        replay
+    else
+        overhead "▶▶ NO GOLD ◀◀" 1680
+        sysmsg "▶▶ NO GOLD ◀◀" 1680
+    endif
+endif
+
+overhead "▶▶ SCRIPT STOPPED ◀◀" 1680
+sysmsg "▶▶ SCRIPT STOPPED ◀◀" 1680

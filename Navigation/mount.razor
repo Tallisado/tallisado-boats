@@ -1,0 +1,9 @@
+if findtype 8417|8438|8478|8479|8480|8481|8484|8488|8501|8502|8503|9052|43320 as "mount"
+    dclick "mount"
+elseif findtype 24246 as "satchel"
+    dclick "satchel"
+    wait 500
+    if findtype 8417|8438|8478|8479|8480|8481|8484|8488|8501|8502|8503|9052|43320 as "mount"
+        dclick "mount"
+    endif
+endif

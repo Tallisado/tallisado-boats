@@ -5,6 +5,7 @@ hotkey '> Interrupt'
 hotkey "Cancel Current Target"
 say "[GreaterAbility"
 getlabel backpack ping
+cooldown "Mariners" 180000
 if insysmsg "fire its cannons again" or insysmsg "you must wait"
     overhead "Cannons Cooling..." 38
     hotkey "Play Script: uoo-scripts\Bots\_utilities\goto-base"

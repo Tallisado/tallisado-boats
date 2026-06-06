@@ -1,0 +1,46 @@
+# you need 3 pets
+# cave bear to 80
+# forest ostard to 100
+# frenzy ostard to 120
+
+# create a 'taming' cooldown in options -> cooldown
+# untick the filters in razor -> filters for snooping
+
+# u can buy them on stables in towns (by the creature broker)
+
+clearsysmsg 
+
+overhead 'select animal'
+@setvar! tameTarget 
+
+
+while not dead
+    
+    while followers = 0
+        
+        if not cooldown 'taming'
+            if find tameTarget ground -1 -1 2 as pet
+                menu tameTarget 1
+                pause 600
+                cooldown 'taming' 13000
+            else
+                overhead 'pet not found'
+                stop
+            endif
+        endif
+    endwhile
+    
+    
+    pause 300
+
+    if followers > 0
+        menu tameTarget 9
+        pause 600
+        waitforgump 2426193729
+        gumpresponse 1
+        pause 600
+    endif
+    
+endwhile
+
+loop

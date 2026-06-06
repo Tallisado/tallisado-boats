@@ -1,5 +1,10 @@
 ﻿# Boating/cannon/bot-greater-passive.razor
 # Hotkey-bindable: trigger Bottom row Greater passive ability.
+if cooldown "Ride the Waves"
+    overhead "Ride the Waves still active" 38
+    hotkey "Play Script: uoo-scripts\Bots\_utilities\goto-base"
+    stop
+endif
 clearsysmsg
 say '[SecondGreaterAbility'
 getlabel backpack ping
@@ -11,7 +16,7 @@ elseif insysmsg "currently be repaired"
     overhead "It would be no use..." 38
 else
     overhead '*Passive Greater Ability*' 87
-    cooldown "Ride the Waves" 240000
+    cooldown "Ride the Waves" 90000
 endif
 hotkey "Play Script: uoo-scripts\Bots\_utilities\goto-base"
 

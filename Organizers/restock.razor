@@ -1,0 +1,287 @@
+// OutlandMall by Sandro & Gankstar
+setvar! timeout 650
+
+if not varexist jaseowns_MyPackAnimal
+    overhead "Select your PackAnimal" 88
+    @setvar! jaseowns_MyPackAnimal
+endif
+
+// tallis sado runebook
+@setvar! runebook 0x43C3FF08
+
+# Set your Stockpile at home here
+@setvar! restockStockpile 0x569326F2
+
+# Set your Shelf at home here
+@setvar! restockShelf 0x46C219D6
+
+# Set your runebook Entry here, if its the first rune to your inn/home it is 100
+@setvar! runebookEntryHome 102
+
+# Set your runebook entry here for your RDY rune to the tome. if its the last rune of a tome it is 125
+@setvar! runebookEntryRdy 105
+
+say 'all follow me'
+wait 500
+
+overhead 'Recalling to RDY - we need to find the runetome'
+dclick runebook
+waitforgump 167090027
+gumpresponse runebookEntryRdy
+wait 2600
+
+overhead 'Starting....'
+@clearignore
+clearsysmsg
+removelist 'vendors'
+createlist 'vendors'
+removelist "runetomeSpots"
+createlist "runetomeSpots"
+
+// Add recall locations here.
+// Location 100 is the first rune in the tome. 101 is the second, and so on.
+// Currently the rdy mages book has runes to 115
+pushlist 'runetomeSpots' 100
+pushlist 'runetomeSpots' 101
+pushlist 'runetomeSpots' 102
+pushlist 'runetomeSpots' 103
+pushlist 'runetomeSpots' 104
+pushlist 'runetomeSpots' 105
+pushlist 'runetomeSpots' 106
+pushlist 'runetomeSpots' 107
+pushlist 'runetomeSpots' 108
+pushlist 'runetomeSpots' 109
+pushlist 'runetomeSpots' 110
+pushlist 'runetomeSpots' 111
+pushlist 'runetomeSpots' 112
+pushlist 'runetomeSpots' 113
+pushlist 'runetomeSpots' 114
+pushlist 'runetomeSpots' 115
+#pushlist 'runetomeSpots' 116
+#pushlist 'runetomeSpots' 117
+#pushlist 'runetomeSpots' 118
+#pushlist 'runetomeSpots' 119
+#pushlist 'runetomeSpots' 120
+#pushlist 'runetomeSpots' 121
+#pushlist 'runetomeSpots' 122
+#pushlist 'runetomeSpots' 123
+#pushlist 'runetomeSpots' 124
+#pushlist 'runetomeSpots' 125
+
+
+wait 500
+if not findbuff "food" and findtype "tray" backpack as jood
+    dclick jood
+    wait 200
+endif
+
+if mana < 40
+  useskill "meditation"
+  while mana < 60
+  endwhile
+endif
+
+if insysmsg "The world will save in"
+    while not insysmsg "World save complete."
+        pause 1000
+    endwhile
+        clearsysmsg 
+endif
+
+// CONVERT THE ID OF YOUR RUNE TOME USING  https://www.rapidtables.com/convert/number/hex-to-decimal.html
+// REPLACE THE NUMBERS BELOW WITH YOUR RUNE TOME HEX CODE, EACH BLOCK STANDS FOR 1 RUNE TOME
+// COMMENT OUT THE RUNE TOMES U DONT NEED (CURRENT SETUP USES 4 TOMES)
+// THIS SCRIPT WORKS WITH 3 CLIENTS IN PARALLEL
+removelist "OutlandMallsRuneTomes"
+if not listexists "OutlandMallsRuneTomes"
+    createlist "OutlandMallsRuneTomes"
+endif
+// RUNE TOME 1
+if not inlist "OutlandMallsRuneTomes" 1488587073
+    sysmsg "adding 1 to list" 55
+    pushlist "OutlandMallsRuneTomes" 1488587073
+endif
+
+wait 500
+@setvar! myTome 0
+while myTome = 0
+    if poplist "OutlandMallsRuneTomes" front as tome
+        pushlist "OutlandMallsRuneTomes" tome back
+        if find tome ground
+            @unsetvar! myTome
+            @setvar! myTome tome
+            getlabel tome tomeName
+            sysmsg "Using tome {{tomeName}} {{tome}}" 55
+        endif
+    else
+        overhead "LIST EMPTY" 19
+        stop
+    endif
+endwhile
+
+wait 500
+
+while not dead 
+    if not atlist 'runetomeSpots' 0
+  
+    break       
+    elseif poplist 'runetomeSpots' front as spot
+
+        if mana < 40
+          useskill "meditation"
+          while mana < 60
+          endwhile
+        endif
+
+        if insysmsg "The world will save in"
+            while not insysmsg "World save complete."
+                pause 1000
+            endwhile
+                clearsysmsg 
+        endif
+        
+        overhead 'recalling home...'
+        # Init script and recall home
+        if not position 4146 1276
+            dclick runebook
+            waitforgump 167090027
+            gumpresponse runebookEntryHome
+            wait 3000
+            
+            say 'room'
+            gumpresponse 4 2393832411
+
+        endif
+
+        // RESTOCK
+        overhead 'Restock Shelf'
+        menu restockShelf 0
+        waitfortarget
+        target self
+        wait 200
+        waitforgump 3232825965
+        overhead 'Resupply Shelf'
+        menu restockShelf 1
+        wait 200
+
+        if find jaseowns_MyPackAnimal ground -1 -1 2
+            overhead 'Restock Packhorse'
+            menu restockShelf 0
+            waitfortarget
+            target jaseowns_MyPackAnimal
+            wait 200
+        endif
+
+        overhead 'Recalling to RDY'
+        if not position 3430 3099
+            dclick runebook
+            waitforgump 167090027
+            gumpresponse runebookEntryRdy
+            wait 3000
+        endif
+        overhead 'Restock complete....'
+
+
+        sysmsg 'recalling to spot {{spot}} in {{myTome}}' 55
+        wait 1000
+        dclick myTome
+        waitforgump 167090027
+        gumpresponse spot 167090027
+        wait 3000
+    endif
+
+    if insysmsg "The world will save in"
+        while not insysmsg "World save complete."
+            pause 1000
+        endwhile
+            clearsysmsg 
+    endif
+    
+    @clearignore 
+        
+    settimer jaseTest 0
+    while findtype 400|401 ground -1 -1 18 as jaseowns_NPC
+        @setvar! jaseowns_BUY_NPC 0
+        if noto jaseowns_NPC = "invulnerable"
+            getlabel jaseowns_NPC desc
+            @setvar! jaseowns_BUY_NPC jaseowns_NPC
+            if "the mage" in desc
+                overhead "† Mage †" 82 jaseowns_NPC
+            elseif "the herbalist" in desc
+                overhead "† Herbalist †" 79 jaseowns_NPC
+            elseif "the scribe" in desc
+                overhead "† Scribe †" 81 jaseowns_NPC
+            elseif "the alchemist" in desc
+                overhead "† Alchemist †" 83 jaseowns_NPC
+            elseif "the thief" in desc
+                overhead "† Thief †" 83 jaseowns_NPC
+            elseif "the preacher" in desc
+                overhead "† Preacher †" 83 jaseowns_NPC
+            elseif "the bowyer" in desc
+                overhead "† Bowyer †" 83 jaseowns_NPC
+            elseif "the tailor" in desc
+                overhead "† Ranger †" 83 jaseowns_NPC
+            elseif "the ranger" in desc
+                overhead "† Tailor †" 83 jaseowns_NPC
+            elseif "the mapmaker" in desc
+                overhead "† Mapmaker †" 83 jaseowns_NPC
+            else
+                overhead "† {{desc}} †" 34 jaseowns_NPC
+                @setvar! jaseowns_BUY_NPC 0
+            endif
+        endif
+        @ignore jaseowns_NPC
+        if jaseowns_BUY_NPC != 0
+            menu jaseowns_BUY_NPC 1
+            getlabel jaseowns_NPC jaseowns_PingCheck
+            wait 600
+            if find jaseowns_MyPackAnimal ground -1 -1 2
+                while findtype 3989|5990 backpack -1 -1 2 as item
+                    getlabel item desc
+                    overhead "cutting: {{desc}}"
+                    if findtype 3999  backpack -1 -1 2 as schere
+                        dclick schere
+                        waitfortarget
+                        target item
+                        wait 650
+                        break
+                    endif
+                endwhile
+                while findtype 5356|7163|3903|3617|3827|3854|3963|3980|3974|3973|3981|3962|3976|3972 ground -1 -1 2 as item
+                    getlabel item desc
+                    overhead "Moving ground: {{desc}}"
+                    lift item 60000
+                    drop jaseowns_MyPackAnimal -1 -1 -1
+                    wait 650
+                    target item
+                    @ignore item
+                endwhile
+                while findtype 5356|7163|3903|3617|3827|3854|3963|3980|3974|3973|3981|3962|3976|3972 backpack -1 -1 1 as item
+                    getlabel item desc
+                    overhead "Moving Backpack: {{desc}}"
+                    lift item 60000
+                    drop jaseowns_MyPackAnimal -1 -1 -1
+                    wait 650
+                    target item
+                    @ignore item
+                endwhile
+                while findtype 3989|5990 ground -1 -1 2 as item
+                    getlabel item desc
+                    overhead "Moving ground to Backpack: {{desc}}"
+                    wait 650
+                    target self
+                endwhile
+                while findtype 5356|7163|3903|3617|3827|3854|3963|3980|3974|3973|3981|3962|3976|3972 ground -1 -1 2 as item
+                    getlabel item desc
+                    overhead "Moving ground to BP: {{desc}}"
+                    lift item 60000
+                    drop self
+                    wait 650
+                endwhile
+                getlabel jaseowns_NPC jaseowns_PingCheck
+            endif
+        endif
+    endwhile
+endwhile
+
+loop

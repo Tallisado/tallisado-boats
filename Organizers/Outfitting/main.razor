@@ -1,0 +1,16 @@
+// Dress Suite - Shelf Loadout
+// Called by Cleanup Module, sets loadout to match current echo skills
+// Loadouts and loadout conditions need to be configured to match needs
+// Use outlandsbutler.com Storage Shelf Loadouts to build scripts to use
+
+// Modify conditions to match echoes you currently use
+// Afterwards load scripts to configure shelf loadouts for them
+
+if name == "Tallis Sado" and 'Cartography' > 49
+    script "uoo-scripts\Organizers\Outfitting\fishing"
+elseif name == "Tallis Sado" and 'camping' == 120
+    overhead "Missing Scav Shelving"
+endif
+overhead "Dress Suite - Shelf Loadout completed"
+setvar! loadoutUpdated 1
+script "Dress Suite - Main"

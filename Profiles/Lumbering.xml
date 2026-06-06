@@ -209,7 +209,7 @@
 		<key mod="0" key="46" send="False">L:2101</key>
 		<key mod="0" key="115" send="False">Play Script: uoo-scripts\Harvesting\auto-harvester</key>
 		<key mod="0" key="77" send="False">Play Script: uoo-scripts\Navigation\gate</key>
-		<key mod="0" key="48" send="False">Play Script: uoo-scripts\Navigation\room</key>
+		<key mod="0" key="189" send="False">Play Script: uoo-scripts\Navigation\room</key>
 		<key mod="0" key="113" send="False">Play Script: uoo-scripts\Harvesting\scav-buffs</key>
 		<key mod="0" key="49" send="False">Play Script: uoo-scripts\Harvesting\auto-lumbering-jase</key>
 		<key mod="0" key="67" send="False">L:1371</key>

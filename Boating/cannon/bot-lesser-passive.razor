@@ -1,5 +1,10 @@
 ﻿# Boating/cannon/bot-lesser-passive.razor
 # Hotkey-bindable: trigger Bottom row Lesser passive ability.
+if cooldown "Hard to Port"
+    overhead "Hard to Port still active" 38
+    hotkey "Play Script: uoo-scripts\Bots\_utilities\goto-base"
+    stop
+endif
 clearsysmsg
 say '[SecondLesserAbility'
 getlabel backpack ping
@@ -11,7 +16,7 @@ elseif insysmsg "currently be repaired"
     overhead "It would be no use..." 38
 else
     overhead '*Passive Lesser Ability*' 87
-    cooldown "Hard to Port" 120000
+    cooldown "Hard to Port" 15000
 endif
 hotkey "Play Script: uoo-scripts\Bots\_utilities\goto-base"
 

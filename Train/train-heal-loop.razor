@@ -1,0 +1,39 @@
+//Need to be near a battle trainer
+//Tougher to get gains on battle trainers in Shelter since they do not take much damage
+//Make sure to list what healing skill you want to achieve
+
+@setvar! HealSkillNeeded 100
+overhead "Select your battle trainer to attack and heal" 88
+@setvar! battletrainer
+wait 650
+warmode on
+wft 500
+target battletrainer
+
+setskill Healing up
+
+while not dead 
+    
+    attack battletrainer
+    if not bandaging
+        if findtype "clean bandage%s%" backpack as item
+            if not targetexists
+                dclick item
+                wft 500
+            endif
+            target battletrainer
+            wait 650
+         else
+            overhead "Out of Bandies!" 34
+            wait 2000
+            break
+        endif
+    endif
+    wait 650
+    if skill "Healing" >= HealSkillNeeded
+        setskill Healing lock
+        break
+    endif
+endwhile
+
+warmode off

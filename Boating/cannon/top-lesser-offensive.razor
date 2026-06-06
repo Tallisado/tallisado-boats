@@ -1,5 +1,10 @@
 ﻿# Boating/cannon/top-lesser-offensive.razor
 # Hotkey-bindable: fire Top row Lesser offensive ability.
+if cooldown "Hard to Port"
+    overhead "Hard to Port still active" 38
+    hotkey "Play Script: uoo-scripts\Bots\_utilities\goto-base"
+    stop
+endif
 clearsysmsg
 hotkey '> Interrupt'
 hotkey "Cancel Current Target"
@@ -16,7 +21,7 @@ if insysmsg "target this ability?"
     hotkey "Play Script: uoo-scripts\Bots\_utilities\cannon-fire-target"
     stop
 endif
-cooldown "Hard to Port" 120000
+cooldown "Hard to Port" 15000
 overhead "Ability Cooling..." 38
 hotkey "Play Script: uoo-scripts\Bots\_utilities\goto-base"
 

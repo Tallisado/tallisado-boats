@@ -251,7 +251,7 @@
 		<key mod="0" key="46" send="False">L:2101</key>
 		<key mod="0" key="115" send="False">Play Script: uoo-scripts\Harvesting\auto-harvester</key>
 		<key mod="0" key="77" send="False">Play Script: uoo-scripts\Navigation\gate</key>
-		<key mod="0" key="48" send="False">Play Script: uoo-scripts\Navigation\room</key>
+		<key mod="0" key="189" send="False">Play Script: uoo-scripts\Navigation\room</key>
 		<key mod="4" key="69" send="False">Play Script: uoo-scripts\Navigation\rope-tele</key>
 		<key mod="2" key="88" send="False">Play Script: uoo-scripts\Harvesting\scav-buffs</key>
 		<key mod="0" key="112" send="False">Play Script: uoo-scripts\Harvesting\scavenge-loop</key>
