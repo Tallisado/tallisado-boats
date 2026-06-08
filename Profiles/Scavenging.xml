@@ -266,6 +266,21 @@
 		<key mod="0" key="84" send="False">L:2530</key>
 		<key mod="0" key="90" send="False">L:1044081</key>
 		<key mod="0" key="85" send="False">L:1044106</key>
+		<key mod="2" key="49" send="False">Play Script: uoo-scripts\Harvesting\scav-recall\recall-1</key>
+		<key mod="2" key="50" send="False">Play Script: uoo-scripts\Harvesting\scav-recall\recall-2</key>
+		<key mod="2" key="51" send="False">Play Script: uoo-scripts\Harvesting\scav-recall\recall-3</key>
+		<key mod="2" key="52" send="False">Play Script: uoo-scripts\Harvesting\scav-recall\recall-4</key>
+		<key mod="2" key="53" send="False">Play Script: uoo-scripts\Harvesting\scav-recall\recall-5</key>
+		<key mod="2" key="54" send="False">Play Script: uoo-scripts\Harvesting\scav-recall\recall-6</key>
+		<key mod="2" key="55" send="False">Play Script: uoo-scripts\Harvesting\scav-recall\recall-7</key>
+		<key mod="2" key="56" send="False">Play Script: uoo-scripts\Harvesting\scav-recall\recall-8</key>
+		<key mod="2" key="57" send="False">Play Script: uoo-scripts\Harvesting\scav-recall\recall-9</key>
+		<key mod="2" key="48" send="False">Play Script: uoo-scripts\Harvesting\scav-recall\recall-0</key>
+		<key mod="6" key="49" send="False">Play Script: uoo-scripts\Harvesting\scav-recall\recall-s1</key>
+		<key mod="6" key="50" send="False">Play Script: uoo-scripts\Harvesting\scav-recall\recall-s2</key>
+		<key mod="6" key="51" send="False">Play Script: uoo-scripts\Harvesting\scav-recall\recall-s3</key>
+		<key mod="6" key="52" send="False">Play Script: uoo-scripts\Harvesting\scav-recall\recall-s4</key>
+		<key mod="6" key="53" send="False">Play Script: uoo-scripts\Harvesting\scav-recall\recall-s5</key>
 	</hotkeys>
 	<overheadmessages>
 		<overheadmessage searchtext="You may now perform taunt" message="Taunt ready!" hue="68" />

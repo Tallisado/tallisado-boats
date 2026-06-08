@@ -25,6 +25,7 @@ uoo-scripts\
 ├── Dex bot\          Dex bot: init, hally
 ├── Fishing\          Fishing scripts + dump-loot-hold + crew-all-nearest
 ├── Harvesting\       Harvesting + scavenging: scavenge-loop, scavenge-loop-button, scavenger-summons, auto-harvester, etc.
+│   └── scav-recall\  Individual recall-spot scripts for Scavenging.xml (ctrl+1-0 = Regs/Witcher, shift+ctrl+1-5 = Shipwrights)
 ├── Navigation\       Recall/travel: gate, room, rope-tele, rope-wall
 ├── Organizers\       Bag management: inn-dropper, move-label-to-bag, scrap-unid-chest
 ├── Skills\           (future use)
@@ -191,3 +192,53 @@ target self    # SmartHarvest: server picks nearest corpse automatically
 ```
 
 Interaction range for skinning is **2 tiles** — use `findtype "corpse" ground -1 -1 2` to match.
+
+## Profile XML Hotkey Management
+
+When adding hotkeys to a profile XML:
+
+1. **Always read the existing `<hotkeys>` block first** to check for conflicts before inserting.
+2. **Update both files**: repo copy at `uoo-scripts\Profiles\<Name>.xml` AND live copy at `C:\Outlands\ClassicUO\Data\Plugins\Assistant\Profiles\<Name>.xml`.
+3. **Profile updates only take effect after reloading the profile in RazorEnhanced** (or restarting the client). If a change doesn't appear, the game likely overwrote the file on close — edit the live file while the game is not running or immediately after loading.
+
+### Key code reference
+
+| Key | `key=` value |
+|-----|-------------|
+| 0   | 48          |
+| 1–9 | 49–57       |
+| A–Z | 65–90 (ASCII uppercase) |
+
+### Modifier (`mod=`) values
+
+| Modifier   | Value |
+|------------|-------|
+| None       | 0     |
+| Alt        | 1     |
+| Ctrl       | 2     |
+| Shift      | 4     |
+| Ctrl+Shift | 6     |
+| Alt+Shift  | 5     |
+
+### Scavenging.xml recall spot bindings
+
+`Ctrl+1–9`, `Ctrl+0` → `Harvesting\scav-recall\recall-1` … `recall-9`, `recall-0`
+`Shift+Ctrl+1–5` → `Harvesting\scav-recall\recall-s1` … `recall-s5`
+
+| Key        | Script       | Location           |
+|------------|--------------|--------------------|
+| Ctrl+1     | recall-1     | Anchor Regs        |
+| Ctrl+2     | recall-2     | Andaria Regs       |
+| Ctrl+3     | recall-3     | Cambria Regs       |
+| Ctrl+4     | recall-4     | Horseshoe Regs     |
+| Ctrl+5     | recall-5     | Outpost Regs       |
+| Ctrl+6     | recall-6     | PrevNorth Regs     |
+| Ctrl+7     | recall-7     | PrevSouth Regs     |
+| Ctrl+8     | recall-8     | Totem Regs         |
+| Ctrl+9     | recall-9     | Terran Regs        |
+| Ctrl+0     | recall-0     | Witcher            |
+| S+Ctrl+1   | recall-s1    | Anchor Shipwright  |
+| S+Ctrl+2   | recall-s2    | Cambria Shipwright |
+| S+Ctrl+3   | recall-s3    | Andaria Shipwright |
+| S+Ctrl+4   | recall-s4    | Corpse Shipwright  |
+| S+Ctrl+5   | recall-s5    | Prev Shipwright    |
