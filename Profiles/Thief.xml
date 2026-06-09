@@ -258,6 +258,7 @@
 	<overheadmessages>
 		<overheadmessage searchtext="You may now perform taunt" message="Taunt ready!" hue="68" />
 		<overheadmessage searchtext="Now tracking" message="!! FLEE !!" hue="1645" />
+		<overheadmessage searchtext="has detected your Thieves Guild" message="!! GUILD SPOTTED !!" hue="1645" />
 		<overheadmessage searchtext="You reveal what" message="Someone is skulking!" hue="23" />
 		<overheadmessage searchtext="Being perfectly rested, you shove something invisible out of the way." message="Someone is skulking!" hue="23" />
 		<overheadmessage searchtext="absorb" message="Spell absorbed!" hue="88" />
