@@ -346,4 +346,307 @@
 	<textfilters />
 	<targetfilters />
 	<soundfilters />
+	<cooldowns>
+		<cooldownentry name="---- COMBAT ----" defaultcooldown="0" cooldownbartype="Regular" hue="1001" hidewheninactive="True" />
+		<cooldownentry name="Disarm" defaultcooldown="0" cooldownbartype="Regular" hue="43" hidewheninactive="True">
+			<trigger triggertype="SysMessage" duration="30" triggertext="Your strike disarms your target!" />
+		</cooldownentry>
+		<cooldownentry name="Disarm Fail" defaultcooldown="0" cooldownbartype="Regular" hue="43" hidewheninactive="True">
+			<trigger triggertype="SysMessage" duration="17" triggertext="You fail to disarm your opponent." />
+		</cooldownentry>
+		<cooldownentry name="Disarmed" defaultcooldown="0" cooldownbartype="Regular" hue="43" hidewheninactive="True">
+			<trigger triggertype="SysMessage" duration="5" triggertext="disarms you!" />
+		</cooldownentry>
+		<cooldownentry name="Hamstring" defaultcooldown="0" cooldownbartype="Regular" hue="53" hidewheninactive="True">
+			<trigger triggertype="SysMessage" duration="53" triggertext="Your attack hamstrings your target!" />
+		</cooldownentry>
+		<cooldownentry name="Hamstring Fail" defaultcooldown="0" cooldownbartype="Regular" hue="53" hidewheninactive="True">
+			<trigger triggertype="SysMessage" duration="17" triggertext="You fail to hamstring your opponent." />
+		</cooldownentry>
+		<cooldownentry name="Hamstrung" defaultcooldown="0" cooldownbartype="Regular" hue="53" hidewheninactive="True">
+			<trigger triggertype="SysMessage" duration="3" triggertext="Their attack hamstrings you!" />
+		</cooldownentry>
+		<cooldownentry name="Taunt" defaultcooldown="0" cooldownbartype="Regular" hue="288" hidewheninactive="True">
+			<trigger triggertype="OverheadMessage" duration="15" triggertext="*area taunt*" />
+		</cooldownentry>
+		<cooldownentry name="Heal Pot" defaultcooldown="0" cooldownbartype="Regular" hue="54" hidewheninactive="True">
+			<trigger triggertype="SysMessage" duration="10.5" triggertext="You drink a healing potion" />
+		</cooldownentry>
+		<cooldownentry name="Swing Stage 1" defaultcooldown="2.27" cooldownbartype="WeaponSwing" hue="88" hidewheninactive="True" />
+		<cooldownentry name="Swing Stage 2" defaultcooldown="3.35" cooldownbartype="WeaponSwing" hue="73" hidewheninactive="True" />
+		<cooldownentry name="Swing Stage 3" defaultcooldown="4.07" cooldownbartype="WeaponSwing" hue="53" hidewheninactive="True" />
+		<cooldownentry name="Swing Stage 4" defaultcooldown="5.69" cooldownbartype="WeaponSwing" hue="38" hidewheninactive="True" />
+		<cooldownentry name="---- STEALTH ----" defaultcooldown="0" cooldownbartype="Regular" hue="1001" hidewheninactive="True" />
+		<cooldownentry name="Stealth" defaultcooldown="0" cooldownbartype="Regular" hue="519" hidewheninactive="True">
+			<trigger triggertype="SysMessage" duration="10" triggertext="You begin to move" />
+			<trigger triggertype="SysMessage" duration="10" triggertext="You fail in your attempt to move unnoticed" />
+		</cooldownentry>
+		<cooldownentry name="Hiding" defaultcooldown="0" cooldownbartype="Regular" hue="818" hidewheninactive="True">
+			<trigger triggertype="OverheadMessage" duration="10.1" triggertext="You have hidden" />
+		</cooldownentry>
+		<cooldownentry name="Hide Fail" defaultcooldown="0" cooldownbartype="Regular" hue="998" hidewheninactive="True">
+			<trigger triggertype="OverheadMessage" duration="10" triggertext="You fail to hide" />
+		</cooldownentry>
+		<cooldownentry name="Revealed" defaultcooldown="0" cooldownbartype="Regular" hue="1001" hidewheninactive="True">
+			<trigger triggertype="SysMessage" duration="10" triggertext="You have been revealed!" />
+		</cooldownentry>
+		<cooldownentry name="Detect Hidden" defaultcooldown="0" cooldownbartype="Regular" hue="575" hidewheninactive="True">
+			<trigger triggertype="SysMessage" duration="10" triggertext="You search the home and find no one hiding within." />
+			<trigger triggertype="SysMessage" duration="10" triggertext="You search the area but find nothing hidden." />
+			<trigger triggertype="SysMessage" duration="10" triggertext="You reveal what was hidden" />
+		</cooldownentry>
+		<cooldownentry name="Snoop" defaultcooldown="0" cooldownbartype="Regular" hue="638" hidewheninactive="True">
+			<trigger triggertype="SysMessage" duration="1" triggertext="You have lost a little karma." />
+			<trigger triggertype="SysMessage" duration="1" triggertext="'Pouch1'" />
+		</cooldownentry>
+		<cooldownentry name="Stealing" defaultcooldown="0" cooldownbartype="Regular" hue="676" hidewheninactive="True">
+			<trigger triggertype="SysMessage" duration="5" triggertext="You fail to steal" />
+			<trigger triggertype="SysMessage" duration="5" triggertext="You successfully steal the item." />
+			<trigger triggertype="SysMessage" duration="5" triggertext="You steal" />
+			<trigger triggertype="SysMessage" duration="5" triggertext="You fail in your stealing attempt" />
+		</cooldownentry>
+		<cooldownentry name="Mug" defaultcooldown="0" cooldownbartype="Regular" hue="24" hidewheninactive="True">
+			<trigger triggertype="SysMessage" duration="5" triggertext="Your strike disarms your target!" />
+		</cooldownentry>
+		<cooldownentry name="Smoke Bomb" defaultcooldown="0" cooldownbartype="Regular" hue="783" hidewheninactive="True" />
+		<cooldownentry name="---- BARDING ----" defaultcooldown="0" cooldownbartype="Regular" hue="1001" hidewheninactive="True" />
+		<cooldownentry name="Song of Discord" defaultcooldown="0" cooldownbartype="Regular" hue="526" hidewheninactive="True">
+			<trigger triggertype="SysMessage" duration="11" triggertext="You are now under the effect of a Song of Discordance" />
+			<trigger triggertype="OverheadMessage" duration="0" triggertext="Your barding skill cooldowns reset" />
+		</cooldownentry>
+		<cooldownentry name="Discordance" defaultcooldown="0" cooldownbartype="Regular" hue="511" hidewheninactive="True">
+			<trigger triggertype="SysMessage" duration="5" triggertext="You play successfully, disrupting your opponent and weakening" />
+			<trigger triggertype="OverheadMessage" duration="0" triggertext="Your barding skill cooldowns reset" />
+			<trigger triggertype="SysMessage" duration="5" triggertext="You play successfully, briefly discording" />
+			<trigger triggertype="SysMessage" duration="5" triggertext="You play successfully, pacifying your target." />
+			<trigger triggertype="SysMessage" duration="5" triggertext="You play successfully, provoking" />
+			<trigger triggertype="SysMessage" duration="5" triggertext="You play successfully, briefly pacifying one or more" />
+			<trigger triggertype="SysMessage" duration="5" triggertext="You fail to discord" />
+		</cooldownentry>
+		<cooldownentry name="Peacemaking" defaultcooldown="0" cooldownbartype="Regular" hue="621" hidewheninactive="True">
+			<trigger triggertype="SysMessage" duration="11" triggertext="You play successfully, briefly pacifying one or more nearby creatures." />
+			<trigger triggertype="SysMessage" duration="11" triggertext="You play successfully, pacifying your target." />
+			<trigger triggertype="OverheadMessage" duration="0" triggertext="Your barding skill cooldowns reset" />
+			<trigger triggertype="SysMessage" duration="5" triggertext="You fail to pacify any nearby creatures." />
+			<trigger triggertype="SysMessage" duration="5" triggertext="You fail to pacify your opponent." />
+		</cooldownentry>
+		<cooldownentry name="Song of Peacemaking" defaultcooldown="0" cooldownbartype="Regular" hue="516" hidewheninactive="True">
+			<trigger triggertype="SysMessage" duration="11" triggertext="You are now under the effect of a Song of Peacemaking" />
+			<trigger triggertype="OverheadMessage" duration="0" triggertext="Your barding skill cooldowns reset" />
+		</cooldownentry>
+		<cooldownentry name="Provocation" defaultcooldown="0" cooldownbartype="Regular" hue="539" hidewheninactive="True">
+			<trigger triggertype="SysMessage" duration="11" triggertext="You play successfully, provoking" />
+			<trigger triggertype="OverheadMessage" duration="0" triggertext="Your barding skill cooldowns reset" />
+			<trigger triggertype="SysMessage" duration="5" triggertext="fail to incite" />
+		</cooldownentry>
+		<cooldownentry name="Song of Provocation" defaultcooldown="0" cooldownbartype="Regular" hue="239" hidewheninactive="True">
+			<trigger triggertype="SysMessage" duration="11" triggertext="You are now under the effect of a Song of Provocation" />
+			<trigger triggertype="OverheadMessage" duration="0" triggertext="Your barding skill cooldowns reset" />
+		</cooldownentry>
+		<cooldownentry name="Barding Reset" defaultcooldown="0" cooldownbartype="Regular" hue="530" hidewheninactive="True">
+			<trigger triggertype="OverheadMessage" duration="0.5" triggertext="Your barding skill cooldowns reset" />
+		</cooldownentry>
+		<cooldownentry name="---- MAGERY ----" defaultcooldown="0" cooldownbartype="Regular" hue="1001" hidewheninactive="True" />
+		<cooldownentry name="Magic Arrow" defaultcooldown="0" cooldownbartype="Regular" hue="148" hidewheninactive="True">
+			<trigger triggertype="SysMessage" duration="40" triggertext="Wizardry magic arrow activated." />
+		</cooldownentry>
+		<cooldownentry name="Harm" defaultcooldown="0" cooldownbartype="Regular" hue="518" hidewheninactive="True">
+			<trigger triggertype="SysMessage" duration="40" triggertext="Wizardry harm activated." />
+		</cooldownentry>
+		<cooldownentry name="Lightning" defaultcooldown="0" cooldownbartype="Regular" hue="392" hidewheninactive="True">
+			<trigger triggertype="SysMessage" duration="40" triggertext="Wizardry lightning activated." />
+		</cooldownentry>
+		<cooldownentry name="Fireball" defaultcooldown="0" cooldownbartype="Regular" hue="42" hidewheninactive="True">
+			<trigger triggertype="SysMessage" duration="60" triggertext="Wizardry fireball activated." />
+		</cooldownentry>
+		<cooldownentry name="Chain Lightning" defaultcooldown="0" cooldownbartype="Regular" hue="101" hidewheninactive="True">
+			<trigger triggertype="SysMessage" duration="20" triggertext="Wizardry chain lightning activated." />
+		</cooldownentry>
+		<cooldownentry name="Meteor Swarm" defaultcooldown="0" cooldownbartype="Regular" hue="138" hidewheninactive="True">
+			<trigger triggertype="SysMessage" duration="20" triggertext="Wizardry meteor swarm activated." />
+		</cooldownentry>
+		<cooldownentry name="Earthquake" defaultcooldown="0" cooldownbartype="Regular" hue="443" hidewheninactive="True">
+			<trigger triggertype="SysMessage" duration="60" triggertext="Wizardry earthquake activated." />
+		</cooldownentry>
+		<cooldownentry name="Mass Curse" defaultcooldown="0" cooldownbartype="Regular" hue="713" hidewheninactive="True" />
+		<cooldownentry name="Magic Untrap" defaultcooldown="0" cooldownbartype="Regular" hue="625" hidewheninactive="True">
+			<trigger triggertype="SysMessage" duration="9" triggertext="You must wait another 9s before that spell may be cast on that player again" />
+			<trigger triggertype="SysMessage" duration="8" triggertext="You must wait another 8s before that spell may be cast on that player again" />
+			<trigger triggertype="SysMessage" duration="7" triggertext="You must wait another 7s before that spell may be cast on that player again" />
+			<trigger triggertype="SysMessage" duration="6" triggertext="You must wait another 6s before that spell may be cast on that player again" />
+			<trigger triggertype="SysMessage" duration="5" triggertext="You must wait another 5s before that spell may be cast on that player again" />
+			<trigger triggertype="SysMessage" duration="4" triggertext="You must wait another 4s before that spell may be cast on that player again" />
+			<trigger triggertype="SysMessage" duration="3" triggertext="You must wait another 3s before that spell may be cast on that player again" />
+			<trigger triggertype="SysMessage" duration="2" triggertext="You must wait another 2s before that spell may be cast on that player again" />
+			<trigger triggertype="SysMessage" duration="1" triggertext="You must wait another 1s before that spell may be cast on that player again" />
+		</cooldownentry>
+		<cooldownentry name="Telekinesis" defaultcooldown="0" cooldownbartype="Regular" hue="824" hidewheninactive="True">
+			<trigger triggertype="SysMessage" duration="30" triggertext="Your next explosion potion thrown at that player" />
+		</cooldownentry>
+		<cooldownentry name="Meditation" defaultcooldown="0" cooldownbartype="Regular" hue="193" hidewheninactive="True">
+			<trigger triggertype="SysMessage" duration="10" triggertext="You enter a meditative trance." />
+		</cooldownentry>
+		<cooldownentry name="Meditation Fail" defaultcooldown="0" cooldownbartype="Regular" hue="193" hidewheninactive="True">
+			<trigger triggertype="SysMessage" duration="10" triggertext="You cannot focus your concentration." />
+		</cooldownentry>
+		<cooldownentry name="---- NECRO ----" defaultcooldown="0" cooldownbartype="Regular" hue="1001" hidewheninactive="True" />
+		<cooldownentry name="Pain Spike" defaultcooldown="0" cooldownbartype="Regular" hue="873" hidewheninactive="True" />
+		<cooldownentry name="Evil Omen" defaultcooldown="0" cooldownbartype="Regular" hue="873" hidewheninactive="True" />
+		<cooldownentry name="Vampiric Embrace" defaultcooldown="0" cooldownbartype="Regular" hue="873" hidewheninactive="True" />
+		<cooldownentry name="Corpse Skin" defaultcooldown="0" cooldownbartype="Regular" hue="873" hidewheninactive="True" />
+		<cooldownentry name="Mind Rot" defaultcooldown="0" cooldownbartype="Regular" hue="873" hidewheninactive="True" />
+		<cooldownentry name="Wither" defaultcooldown="0" cooldownbartype="Regular" hue="873" hidewheninactive="True" />
+		<cooldownentry name="Vengeful Spirit" defaultcooldown="0" cooldownbartype="Regular" hue="873" hidewheninactive="True" />
+		<cooldownentry name="Blood Oath" defaultcooldown="0" cooldownbartype="Regular" hue="873" hidewheninactive="True" />
+		<cooldownentry name="Poison Strike" defaultcooldown="0" cooldownbartype="Regular" hue="873" hidewheninactive="True" />
+		<cooldownentry name="Strangle" defaultcooldown="0" cooldownbartype="Regular" hue="873" hidewheninactive="True" />
+		<cooldownentry name="---- ASPECT ----" defaultcooldown="0" cooldownbartype="Regular" hue="1001" hidewheninactive="True" />
+		<cooldownentry name="Aspect Proc" defaultcooldown="0" cooldownbartype="Regular" hue="834" hidewheninactive="True">
+			<trigger triggertype="OverheadMessage" duration="30" triggertext="*innovation*" />
+		</cooldownentry>
+		<cooldownentry name="Aspect Armor" defaultcooldown="0" cooldownbartype="Regular" hue="594" hidewheninactive="True">
+			<trigger triggertype="OverheadMessage" duration="30" triggertext="aspect armor activated" />
+		</cooldownentry>
+		<cooldownentry name="Aspect Book" defaultcooldown="0" cooldownbartype="Regular" hue="688" hidewheninactive="True">
+			<trigger triggertype="OverheadMessage" duration="30" triggertext="aspect activated" />
+		</cooldownentry>
+		<cooldownentry name="Aspect Weapon" defaultcooldown="0" cooldownbartype="Regular" hue="693" hidewheninactive="True">
+			<trigger triggertype="OverheadMessage" duration="30" triggertext="aspect weapon activated" />
+		</cooldownentry>
+		<cooldownentry name="Void Mana" defaultcooldown="0" cooldownbartype="Regular" hue="893" hidewheninactive="True">
+			<trigger triggertype="SysMessage" duration="60" triggertext="Mana Restored (next" />
+			<trigger triggertype="OverheadMessage" duration="60" triggertext="Void aspect armor activated." />
+		</cooldownentry>
+		<cooldownentry name="Void Hits" defaultcooldown="0" cooldownbartype="Regular" hue="853" hidewheninactive="True">
+			<trigger triggertype="SysMessage" duration="20" triggertext="Hits Restored (next" />
+			<trigger triggertype="OverheadMessage" duration="20" triggertext="Void aspect armor activated." />
+		</cooldownentry>
+		<cooldownentry name="Void Stam" defaultcooldown="0" cooldownbartype="Regular" hue="828" hidewheninactive="True">
+			<trigger triggertype="SysMessage" duration="10" triggertext="Stam Restored (next" />
+			<trigger triggertype="OverheadMessage" duration="10" triggertext="Void aspect armor activated." />
+		</cooldownentry>
+		<cooldownentry name="Frost Shell" defaultcooldown="0" cooldownbartype="Regular" hue="188" hidewheninactive="True">
+			<trigger triggertype="SysMessage" duration="5" triggertext="Frost Shell activated" />
+			<trigger triggertype="SysMessage" duration="5" triggertext="Frost Shell will become" />
+		</cooldownentry>
+		<cooldownentry name="Frost Shell Reset" defaultcooldown="0" cooldownbartype="Regular" hue="288" hidewheninactive="True">
+			<trigger triggertype="SysMessage" duration="18" triggertext="Frost Shell activated" />
+		</cooldownentry>
+		<cooldownentry name="Fortune/Harvest" defaultcooldown="0" cooldownbartype="Regular" hue="53" hidewheninactive="True">
+			<trigger triggertype="SysMessage" duration="60" triggertext="Fortune loot and experience bonuses will become" />
+			<trigger triggertype="SysMessage" duration="60" triggertext="Harvest skill and yield bonuses become" />
+		</cooldownentry>
+		<cooldownentry name="---- UTILITY ----" defaultcooldown="0" cooldownbartype="Regular" hue="1001" hidewheninactive="True" />
+		<cooldownentry name="Echo Change" defaultcooldown="0" cooldownbartype="Regular" hue="90" hidewheninactive="True">
+			<trigger triggertype="OverheadMessage" duration="900" triggertext="Echo Change Complete!" />
+		</cooldownentry>
+		<cooldownentry name="Cleansing Brew" defaultcooldown="0" cooldownbartype="Regular" hue="191" hidewheninactive="True">
+			<trigger triggertype="SysMessage" duration="120" triggertext="You drink a cleansing brew" />
+		</cooldownentry>
+		<cooldownentry name="Healing Potion" defaultcooldown="0" cooldownbartype="Regular" hue="53" hidewheninactive="True" />
+		<cooldownentry name="Magic Mushroom" defaultcooldown="0" cooldownbartype="Regular" hue="288" hidewheninactive="True">
+			<trigger triggertype="SysMessage" duration="60" triggertext="You consume a magic mushroom" />
+		</cooldownentry>
+		<cooldownentry name="Bandage" defaultcooldown="0" cooldownbartype="Bandage" hue="744" hidewheninactive="True" />
+		<cooldownentry name="Panacea" defaultcooldown="0" cooldownbartype="Regular" hue="48" hidewheninactive="True">
+			<trigger triggertype="SysMessage" duration="30" triggertext="Potion codex Panacea upgrade used." />
+		</cooldownentry>
+		<cooldownentry name="Freedom" defaultcooldown="0" cooldownbartype="Regular" hue="140" hidewheninactive="True">
+			<trigger triggertype="SysMessage" duration="90" triggertext="Potion codex Freedom upgrade used." />
+		</cooldownentry>
+		<cooldownentry name="Explosion Potion" defaultcooldown="0" cooldownbartype="Regular" hue="514" hidewheninactive="True">
+			<trigger triggertype="SysMessage" duration="12" triggertext="Where should I throw this potion?" />
+		</cooldownentry>
+		<cooldownentry name="Trap" defaultcooldown="0" cooldownbartype="Regular" hue="879" hidewheninactive="True">
+			<trigger triggertype="SysMessage" duration="12" triggertext="You detonate a ground trap." />
+			<trigger triggertype="OverheadMessage" duration="0" triggertext="*killswitch triggered*" />
+		</cooldownentry>
+		<cooldownentry name="Lyric Trap" defaultcooldown="0" cooldownbartype="Regular" hue="525" hidewheninactive="True">
+			<trigger triggertype="SysMessage" duration="20" triggertext="You detonate a ground trap." />
+			<trigger triggertype="OverheadMessage" duration="0" triggertext="*killswitch triggered*" />
+		</cooldownentry>
+		<cooldownentry name="Trap/Detect" defaultcooldown="36" cooldownbartype="Regular" hue="821" hidewheninactive="True">
+			<trigger triggertype="SysMessage" duration="" triggertext="it of traps" />
+			<trigger triggertype="SysMessage" duration="" triggertext="to remove traps" />
+			<trigger triggertype="SysMessage" duration="" triggertext="the lock" />
+			<trigger triggertype="SysMessage" duration="" triggertext="You detonate a ground trap" />
+		</cooldownentry>
+		<cooldownentry name="---- SHIPS ----" defaultcooldown="0" cooldownbartype="Regular" hue="1001" hidewheninactive="True" />
+		<cooldownentry name="Spyglass" defaultcooldown="0" cooldownbartype="Regular" hue="494" hidewheninactive="True">
+			<trigger triggertype="SysMessage" duration="6" triggertext="You search with your spyglass" />
+		</cooldownentry>
+		<cooldownentry name="Cannons" defaultcooldown="0" cooldownbartype="Regular" hue="37" hidewheninactive="True" />
+		<cooldownentry name="Reloading" defaultcooldown="0" cooldownbartype="Regular" hue="577" hidewheninactive="True">
+			<trigger triggertype="OverheadMessage" duration="10.65" triggertext="*Reloading*" />
+		</cooldownentry>
+		<cooldownentry name="Boarding Party" defaultcooldown="0" cooldownbartype="Regular" hue="679" hidewheninactive="True" />
+		<cooldownentry name="Fray" defaultcooldown="0" cooldownbartype="Regular" hue="639" hidewheninactive="True">
+			<trigger triggertype="OverheadMessage" duration="65" triggertext="Fire!" />
+			<trigger triggertype="OverheadMessage" duration="65" triggertext="*Greater Ability*" />
+			<trigger triggertype="OverheadMessage" duration="65" triggertext="*Regular Ability*" />
+			<trigger triggertype="OverheadMessage" duration="65" triggertext="*Lesser Ability*" />
+			<trigger triggertype="OverheadMessage" duration="75" triggertext="Bomb!" />
+		</cooldownentry>
+		<cooldownentry name="Lesser Ability" defaultcooldown="0" cooldownbartype="Regular" hue="52" hidewheninactive="True">
+			<trigger triggertype="OverheadMessage" duration="110" triggertext="*Lesser Ability*" />
+			<trigger triggertype="OverheadMessage" duration="110" triggertext="*Passive Lesser Ability*" />
+		</cooldownentry>
+		<cooldownentry name="Regular Ability" defaultcooldown="0" cooldownbartype="Regular" hue="48" hidewheninactive="True">
+			<trigger triggertype="OverheadMessage" duration="119" triggertext="*Regular Ability*" />
+			<trigger triggertype="OverheadMessage" duration="119" triggertext="*Passive Regular Ability*" />
+		</cooldownentry>
+		<cooldownentry name="Greater Ability" defaultcooldown="0" cooldownbartype="Regular" hue="42" hidewheninactive="True">
+			<trigger triggertype="OverheadMessage" duration="203" triggertext="*Greater Ability*" />
+			<trigger triggertype="OverheadMessage" duration="203" triggertext="*Passive Greater Ability*" />
+		</cooldownentry>
+		<cooldownentry name="Auxiliary Ability" defaultcooldown="0" cooldownbartype="Regular" hue="965" hidewheninactive="True">
+			<trigger triggertype="OverheadMessage" duration="240" triggertext="*Aux Greater Ability*" />
+			<trigger triggertype="OverheadMessage" duration="240" triggertext="*Aux Greater Passive Ability*" />
+			<trigger triggertype="OverheadMessage" duration="180" triggertext="*Aux Regular Ability*" />
+			<trigger triggertype="OverheadMessage" duration="180" triggertext="*Aux Regular Passive Ability*" />
+			<trigger triggertype="OverheadMessage" duration="120" triggertext="*Aux Lesser Ability*" />
+			<trigger triggertype="OverheadMessage" duration="120" triggertext="*Aux Lesser Passive Ability*" />
+		</cooldownentry>
+		<cooldownentry name="---- CODEX ----" defaultcooldown="0" cooldownbartype="Regular" hue="1001" hidewheninactive="True" />
+		<cooldownentry name="Potion Codex Reset" defaultcooldown="0" cooldownbartype="Regular" hue="388" hidewheninactive="True" />
+		<cooldownentry name="Trap Kit Reset" defaultcooldown="0" cooldownbartype="Regular" hue="533" hidewheninactive="True" />
+		<cooldownentry name="Wizard Grimoire Reset" defaultcooldown="0" cooldownbartype="Regular" hue="498" hidewheninactive="True" />
+		<cooldownentry name="Bard Codex Reset" defaultcooldown="0" cooldownbartype="Regular" hue="525" hidewheninactive="True" />
+		<cooldownentry name="Healer Codex Reset" defaultcooldown="0" cooldownbartype="Regular" hue="1001" hidewheninactive="True" />
+		<cooldownentry name="Poison Kit Reset" defaultcooldown="0" cooldownbartype="Regular" hue="467" hidewheninactive="True" />
+		<cooldownentry name="Theif Codex Reset" defaultcooldown="0" cooldownbartype="Regular" hue="932" hidewheninactive="True" />
+		<cooldownentry name="---- GENERAL ----" defaultcooldown="0" cooldownbartype="Regular" hue="1001" hidewheninactive="True" />
+		<cooldownentry name="PvP" defaultcooldown="0" cooldownbartype="PvP" hue="38" hidewheninactive="True" />
+		<cooldownentry name="Criminal" defaultcooldown="0" cooldownbartype="Criminal" hue="997" hidewheninactive="True" />
+		<cooldownentry name="Food" defaultcooldown="0" cooldownbartype="Regular" hue="44" hidewheninactive="True">
+			<trigger triggertype="OverheadMessage" duration="3600" triggertext="The food is intensely satisfying" />
+		</cooldownentry>
+		<cooldownentry name="World Save" defaultcooldown="0" cooldownbartype="Regular" hue="501" hidewheninactive="True">
+			<trigger triggertype="SysMessage" duration="15" triggertext="The world will save in 15 seconds." />
+		</cooldownentry>
+		<cooldownentry name="Tracking" defaultcooldown="0" cooldownbartype="Regular" hue="658" hidewheninactive="True">
+			<trigger triggertype="SysMessage" duration="6.1" triggertext="What do you wish to track?" />
+		</cooldownentry>
+		<cooldownentry name="Emote" defaultcooldown="0" cooldownbartype="Regular" hue="674" hidewheninactive="True" />
+		<cooldownentry name="Chain Swap" defaultcooldown="0" cooldownbartype="Regular" hue="284" hidewheninactive="True" />
+		<cooldownentry name="Move" defaultcooldown="0.3" cooldownbartype="Walk" hue="744" hidewheninactive="True" />
+		<cooldownentry name="Harvest Resist" defaultcooldown="60" cooldownbartype="Regular" hue="574" hidewheninactive="True">
+			<trigger triggertype="SysMessage" duration="" triggertext="it of traps" />
+			<trigger triggertype="SysMessage" duration="" triggertext="to remove traps" />
+			<trigger triggertype="SysMessage" duration="" triggertext="the lock" />
+			<trigger triggertype="SysMessage" duration="" triggertext="You carve materials from the corpse" />
+			<trigger triggertype="SysMessage" duration="" triggertext="You dig" />
+			<trigger triggertype="SysMessage" duration="" triggertext="You chop" />
+			<trigger triggertype="SysMessage" duration="" triggertext="You loosen some rocks" />
+			<trigger triggertype="SysMessage" duration="" triggertext="You hack at the tree" />
+		</cooldownentry>
+		<cooldownentry name="Resource Map" defaultcooldown="0" cooldownbartype="Regular" hue="1001" hidewheninactive="True">
+			<trigger triggertype="OverheadMessage" duration="0.5" triggertext="You extract" />
+			<trigger triggertype="OverheadMessage" duration="0.5" triggertext="You gather" />
+		</cooldownentry>
+		<cooldownentry name="Winterlands Timer" defaultcooldown="0" cooldownbartype="Regular" hue="1001" hidewheninactive="True">
+			<trigger triggertype="OverheadMessage" duration="900" triggertext="You now have 15 minutes in this realm" />
+			<trigger triggertype="OverheadMessage" duration="600" triggertext="You now have 5 minutes in this realm" />
+		</cooldownentry>
+	</cooldowns>
 </profile>
